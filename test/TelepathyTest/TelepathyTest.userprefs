@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<UserCombinePreferences filename="/home/banderso/code/TelepathyTest/TelepathyTest.mds">
+  <Files>
+    <File filename="Welcome" />
+    <File filename="./Main.cs" />
+    <File filename="../telepathy-sharp/telepathy/IConnectionPresence.cs" />
+    <File filename="../telepathy-sharp/telepathy/IChannelContactSearch.cs" />
+    <File filename="../telepathy-sharp/telepathy/IConnectionManager.cs" />
+    <File filename="../telepathy-sharp/telepathy/IChannelContactList.cs" />
+    <File filename="../telepathy-sharp/telepathy/IChannel.cs" />
+    <File filename="../telepathy-sharp/telepathy/IChannelGroup.cs" />
+    <File filename="../telepathy-sharp/telepathy/IConnection.cs" />
+  </Files>
+  <Views>
+    <ViewMemento Id="MonoDevelop.Ide.Gui.Pads.ProjectPad">
+      <TreeView>
+        <Node expanded="True">
+          <Node name="TelepathyTest" expanded="True">
+            <Node name="References" expanded="True" selected="True" />
+          </Node>
+        </Node>
+      </TreeView>
+    </ViewMemento>
+    <ViewMemento Id="MonoDevelop.Ide.Gui.Pads.ClassPad">
+      <TreeView>
+        <Node expanded="True" />
+      </TreeView>
+    </ViewMemento>
+    <ViewMemento Id="MonoDevelop.NUnit.TestPad">
+      <TreeView>
+        <Node expanded="False" />
+      </TreeView>
+    </ViewMemento>
+    <ViewMemento Id="MonoQuery.DatabasePad">
+      <TreeView>
+        <Node expanded="False" />
+      </TreeView>
+    </ViewMemento>
+  </Views>
+  <Properties>
+    <Properties>
+      <Property key="ActiveConfiguration" value="Debug" />
+      <Property key="ActiveWindow" value="/home/banderso/code/TelepathyTest/Main.cs" />
+    </Properties>
+  </Properties>
+</UserCombinePreferences>

@@ -1,0 +1,85 @@
+<Project name="Banter" fileversion="2.0" language="C#" clr-version="Net_2_0" ctype="DotNetProject">
+  <Configurations active="Debug">
+    <Configuration name="Debug" ctype="DotNetProjectConfiguration">
+      <Output directory="./bin/Debug" assembly="Banter" />
+      <Build debugmode="True" target="Exe" />
+      <Execution runwithwarnings="True" consolepause="True" runtime="MsNet" clr-version="Net_2_0" />
+      <CodeGeneration compiler="Mcs" warninglevel="4" optimize="True" unsafecodeallowed="False" generateoverflowchecks="True" mainclass="" generatexmldocumentation="True" win32Icon="./" ctype="CSharpCompilerParameters" />
+    </Configuration>
+    <Configuration name="Release" ctype="DotNetProjectConfiguration">
+      <Output directory="./bin/Release" assembly="Banter" />
+      <Build debugmode="False" target="Exe" />
+      <Execution runwithwarnings="True" consolepause="True" runtime="MsNet" clr-version="Net_2_0" />
+      <CodeGeneration compiler="Mcs" warninglevel="4" optimize="True" unsafecodeallowed="False" generateoverflowchecks="True" mainclass="" generatexmldocumentation="False" win32Icon="./" ctype="CSharpCompilerParameters" />
+    </Configuration>
+  </Configurations>
+  <Contents>
+    <File name="./Banter/Application.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Banter/AssemblyInfo.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Banter/Defines.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Banter/NotificationArea.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Banter/TrayLib.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Banter/MessageStore.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Banter/Message.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Banter/AccountManagement.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Banter/Account.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Banter/Utilities.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Banter/Person.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Banter/PersonView.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Banter/PersonCard.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Banter/Conversation.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Banter/ChatWindow.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Banter/MessagesView.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Banter/MessageStyle.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Banter/MessageStyleManager.cs" subtype="Code" buildaction="Compile" />
+    <File name="./data/Themes/MessageStyles/Template.html" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="./Banter/GConfPreferencesProvider.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Banter/Preferences.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Banter/PreferencesDialog.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Banter/XmlFilePreferencesProvider.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Banter/Logger.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Banter/ActionManager.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Banter/UIManagerLayout.xml" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="./Banter/VideoWindow.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Banter/Avatar.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Banter/AvatarRequirements.cs" subtype="Code" buildaction="Compile" />
+    <File name="./data/images" subtype="Directory" buildaction="Compile" />
+    <File name="./data/images/banter-16.png" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="./data/images/banter-22.png" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="./data/images/banter-24.png" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="./data/images/banter-32.png" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="./data/images/banter-44.png" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="./Banter/GroupWindow.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Banter/WrapBox.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Banter/PersonStore.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Banter/PersonGroup.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Banter/InterruptableTimeout.cs" subtype="Code" buildaction="Compile" />
+  </Contents>
+  <References>
+    <ProjectReference type="Gac" localcopy="True" refto="System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+    <ProjectReference type="Gac" localcopy="True" refto="Mono.Posix, Version=2.0.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756" />
+    <ProjectReference type="Gac" localcopy="True" refto="System.Xml, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+    <ProjectReference type="Assembly" localcopy="True" refto="./external/db4o/6.1/Db4objects.Db4o.dll" />
+    <ProjectReference type="Gac" localcopy="True" refto="jscall, Version=0.0.2.0, Culture=neutral, PublicKeyToken=db10596f4718e9c9" />
+    <ProjectReference type="Gac" localcopy="True" refto="NDesk.DBus.GLib, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f6716e4f9b2ed099" />
+    <ProjectReference type="Gac" localcopy="True" refto="NDesk.DBus, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f6716e4f9b2ed099" />
+    <ProjectReference type="Gac" localcopy="True" refto="Gnome.Keyring, Version=0.1.0.0, Culture=neutral, PublicKeyToken=1a73e1bde00c9b66" />
+    <ProjectReference type="Gac" localcopy="True" refto="gconf-sharp, Version=2.8.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <ProjectReference type="Gac" localcopy="True" refto="gecko-sharp, Version=2.0.0.0, Culture=neutral, PublicKeyToken=ccf7d78a55e9f021" />
+    <ProjectReference type="Gac" localcopy="True" refto="glib-sharp, Version=2.8.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <ProjectReference type="Gac" localcopy="True" refto="gnome-sharp, Version=2.8.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <ProjectReference type="Gac" localcopy="True" refto="gtk-dotnet, Version=2.8.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <ProjectReference type="Project" localcopy="True" refto="tapioca-sharp" />
+    <ProjectReference type="Gac" localcopy="True" refto="gtk-sharp, Version=2.8.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <ProjectReference type="Gac" localcopy="True" refto="evolution-sharp, Version=2.0.0.0, Culture=neutral, PublicKeyToken=457eed85bd9370df" />
+  </References>
+  <MonoDevelop.Autotools.MakefileInfo IntegrationEnabled="True" RelativeMakefileName="./Makefile.am" ExecuteTargetName="run">
+    <BuildFilesVar />
+    <DeployFilesVar />
+    <ResourcesVar />
+    <OthersVar />
+    <GacRefVar />
+    <AsmRefVar />
+    <ProjectRefVar />
+  </MonoDevelop.Autotools.MakefileInfo>
+</Project>

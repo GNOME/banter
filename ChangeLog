@@ -1,0 +1,796 @@
+2007-05-04  Boyd Timothy <btimothy@gmail.com> 
+
+	* NEWS: Updated for the 0.1.1 release.
+
+2007-05-04  Calvin Gaisford <calvinrg@gmail.com> 
+
+	* configure.ac: Changed the version to 0.1.1 for the new release
+	  (should have done this earlier)
+
+2007-05-04  Boyd Timothy <btimothy@gmail.com> 
+
+	* Banter/GroupWindow.cs: Remove unnecessary debug comments.
+
+2007-05-04  Calvin Gaisford <calvinrg@gmail.com> 
+
+	* Banter/PersonCard.cs: Enabled the OnDestroy code
+	* Banter/PersonView.cs: Enabled the OnDelete code so the event handlers
+	  get disconnected
+
+2007-05-04  Calvin Gaisford <calvinrg@gmail.com> 
+
+	* Banter/PersonCard.cs, Banter/PersonView.cs: Cleaned up comments and
+	  regions in file
+
+2007-05-04  Calvin Gaisford <calvinrg@gmail.com> 
+
+	* Banter/PersonGroup.cs: Added comments where missing
+	* Banter/Person.cs: Cleaned up formatting and added FIXME messages to
+	  poorly implemented properties
+	* Banter/PersonStore.cs: Added Comments where missing
+
+2007-05-03  Boyd Timothy <btimothy@gmail.com> 
+
+	* Banter/GroupWindow.cs: Remove SaveStateTimeout on the deleted event.
+	* Banter/Preferences.cs: Fix the code so that when you do a
+	  Preferences.Get and it doesn't exist, it will attempt to use a
+	  default value.
+
+2007-05-03  Calvin Gaisford <calvinrg@gmail.com> 
+
+	* Banter/PersonGroup.cs: Added Constructor for Groups
+	* Banter/Application.cs: Changed ChatWindow Dictionary to work of Ids,
+	  not persons
+	* Banter/Person.cs: removed unneeded Constructors
+	* Banter/PersonStore.cs: Added Methods to find, add, modify, and Remove
+	  Persons and Groups
+
+2007-05-03  Boyd Timothy <btimothy@gmail.com> 
+
+	* Banter/GroupWindow.cs: Call Preferences.Unset () to remove the saved
+	  window states from GConf when the windows are closed (deleted).
+	* Banter/GConfPreferencesProvider.cs: Added code to make it so we can
+	  call GConf.Client.Unset () and GConf.Client.RecursiveUnset ().
+
+2007-05-03  Boyd Timothy <btimothy@gmail.com> 
+
+	* Banter/GroupWindow.cs: Fixed the GroupWindow so that existing windows
+	  will re-open with the proper PersonCardSize.
+
+2007-05-03  Boyd Timothy <btimothy@gmail.com> 
+
+	* data/banter.schemas.in: Rename rtc -> banter.
+	* Banter/XmlFilePreferencesProvider.cs,
+	  Banter/GConfPreferencesProvider.cs: Stubbed out Unset () and
+	  RecursiveUnset ().
+	* Banter/Application.cs: Open previously saved GroupWindows if they
+	  exist.
+	* Banter/GroupWindow.cs: Added code to save the group window states out
+	  to GConf.
+	* Banter/Preferences.cs: Added Stuff to deal with GroupWindows. 
+	  Renamed rtc -> banter.  Added Unset and RecursiveUnset to the
+	  IPreferencesProvider.
+
+2007-05-03  Calvin Gaisford <calvinrg@gmail.com> 
+
+	* Banter/Application.cs: Added code to merge the Tapioca contacts with
+	  EDS contacts in Persons
+	* Banter/Person.cs: Added code to set the JabberId and set the Tapioca
+	  Contact in a Person
+	* Banter/PersonStore.cs: Added ability to add and find persons
+	* Banter/PersonCard.cs: Fixed up the status message for Persons with no
+	  Contact
+
+2007-05-03  Calvin Gaisford <calvinrg@gmail.com> 
+
+	* Banter/PersonGroup.cs: Exposed an Id that is unique to this
+	  PersonGroup
+	* Banter/Person.cs: Exposed an Id that is unique to this Person
+
+2007-05-03  Calvin Gaisford <calvinrg@gmail.com> 
+
+	* Banter/PersonGroup.cs: Changed how the TreeModel is created and
+	  maintained to reflect edits in the List
+	* Banter/PersonStore.cs: Exposed a GetPerson call so the PersonGroup
+	  didn't have to go re-read contacts from EDS
+
+2007-05-03  Boyd Timothy <btimothy@gmail.com> 
+
+	* Banter/GroupWindow.cs: Fixed up the reference to PersonStore.Groups.
+
+2007-05-03  Boyd Timothy <btimothy@gmail.com> 
+
+	* Banter.mdp, Banter/InterruptableTimeout.cs, Banter/Makefile.am: Added
+	  InterruptableTimeout.cs.
+	* Banter/Application.cs: Save the state of GroupWindows when quitting. 
+	  This is only needed for the case when a change to an open
+	  GroupWindow was made in the last four seconds before quitting
+	  Banter.
+	* Banter/GroupWindow.cs: Stubbed-out code for saving window state.
+
+2007-05-03  Calvin Gaisford <calvinrg@gmail.com> 
+
+	* Banter/PersonGroup.cs: Added the EDSContact Property
+	* Banter/Person.cs: Updated to contain a setter on the EDSContact
+	  property
+	* Banter/PersonStore.cs: Updated to have a TreeModel for People
+	* Banter/GroupWindow.cs: Changed reference to use new static property
+
+2007-05-02  Calvin Gaisford <calvinrg@gmail.com> 
+
+	* Banter/PersonGroup.cs: Added queries to actually get people out of
+	  the group
+	* Banter/PersonStore.cs: Removed update code because the contacts need
+	  to update themselves I think
+
+2007-05-02  Boyd Timothy <btimothy@gmail.com> 
+
+	* Banter/Application.cs: Display the currently opened GroupWindows in
+	  the notification area's popup menu.
+	* Banter/GroupWindow.cs: Added SelectedGroup (a PersonGroup) to expose
+	  which group is currently selected in the GroupWindow.  It'll be
+	  null if "Everyone" is selected.
+
+2007-05-02  Boyd Timothy <btimothy@gmail.com> 
+
+	* Banter/Application.cs: Removed old commented-out code that was using
+	  the old PersonView.  Pop open the GroupWindow when the application
+	  starts up.
+	* Banter/GroupWindow.cs: Added code to call PersonView.PersonCardSize
+	  when the user moves the sizing slider.
+	* Banter/PersonCard.cs: Added PersonCardSize enum.
+	* Banter/PersonView.cs: Added a PersonCardSize property.
+
+2007-05-02  Boyd Timothy <btimothy@gmail.com> 
+
+	* Banter/GroupWindow.cs: Don't show the search entry for now.  It
+	  doesn't seem to make sense at the moment.
+	* Banter/PersonView.cs: Call personCard.ShowAll () to make the contact
+	  card show up.  For some reason, mozilla doesn't puke anymore when
+	  we launch the GroupWindow again now.  But, the capability icons
+	  aren't appearing properly anymore.
+
+2007-05-02  Boyd Timothy <btimothy@gmail.com> 
+
+	* data/images/Makefile.am: Added blank-photo-128.png and
+	  blank-photo.svg.
+	* Banter/Application.cs: Removed code that manually adds people into
+	  the GroupWindow since it's now all done with TreeModels.
+	* Banter/GroupWindow.cs: Stubbed-out the avatar/status widget.  Make
+	  PersonView use a TreeModel of Person objects.  Rearranged some
+	  methods to fit in the right #region.
+	* Banter/PersonCard.cs: Expose Person as a property.
+	* Banter/PersonView.cs: Modified PersonView to use a TreeModel of
+	  Person objects.
+	* Banter/Makefile.am: Add blank-photo as a resource.
+
+2007-05-02  Calvin Gaisford <calvinrg@gmail.com> 
+
+	* Banter/Application.cs: Changed a Console.WriteLine to a Logger.Debug
+	  (I was debugging other stuff there)
+	* Banter/PersonStore.cs: Updated ContacRemoved handler to include a bug
+	  workaround found in the Beagle project
+	* Banter/GroupWindow.cs: Boyd changed the way the GroupWindow stores
+	  paths to use the Path.Indices[0]
+
+2007-05-02  Boyd Timothy <btimothy@gmail.com> 
+
+	* Banter/PreferencesDialog.cs: Move the Accounts tab to be first.  Also
+	  remove the old "Blurby" name.
+	* Banter/WrapBox.cs: Removed unused EventBox.
+	* Banter/GroupWindow.cs: Add groups taken from Evolution based on a
+	  TreeModel.
+
+2007-05-02  Boyd Timothy <btimothy@gmail.com> 
+
+	* Banter/PersonStore.cs: Create a PersonGroup instead of a Person.
+
+2007-05-02  Calvin Gaisford <calvinrg@gmail.com> 
+
+	* Banter/PersonGroup.cs: Added TreeModel of people for the group as a
+	  placeholder, it will return all people right now, it needs to be
+	  fixed
+	* Banter/Person.cs: Removed methods that are no longer used
+	* Banter/PersonStore.cs: Starndardized the code format and exposed the
+	  Book to internal so the PersonGroup could gain access and query the
+	  contacts from EDS
+
+2007-05-02  Boyd Timothy <btimothy@gmail.com> 
+
+	* Banter/PersonStore.cs: Change the GroupTreeModel property to Groups.
+
+2007-05-01  Calvin Gaisford <calvinrg@gmail.com> 
+
+	* Banter.mdp: Removed the PersonManager class... not needed
+	* Banter/PersonStoreEDS.cs: Removed this class as it is not needed (it
+	  was renamed to PersonStore)
+	* Banter/Application.cs, Banter/Makefile.am: Removed references to the
+	  PersonManager
+	* Banter/PersonStore.cs: Changed to a static class that now returns a
+	  TreeModel
+	* Banter/PersonManager.cs: Removed, not needed as the functionality is
+	  already in PersonStore
+
+2007-05-01  Calvin Gaisford <calvinrg@gmail.com> 
+
+	Updated to handle groups for real from EDS
+
+2007-05-01  Boyd Timothy <btimothy@gmail.com>
+
+        * Banter.mdp: Removed Group.cs (non-existent file) and added
+	  PersonGroup.cs in its place.
+ 
+2007-05-01  Calvin Gaisford <calvinrg@gmail.com> 
+
+	Fixed up issues with Person and PersonManager in the array handling
+
+2007-05-01  Calvin Gaisford <calvinrg@gmail.com> 
+
+	Added PersonGroup class
+
+2007-05-01  Calvin Gaisford <calvinrg@gmail.com> 
+
+	* Banter.mdp, Banter.mds, Banter/Makefile.am: Added PersonManager and
+	  PersonStoreEDS plus Evolutions-sharp dependencies
+	* configure.ac: updated to included evolution-sharp in the dependencies
+	* Banter/PersonStoreEDS.cs: new class to interface into EDS
+	* Banter/Person.cs: Added a constructor and private member to hold an
+	  Evolution contact
+	* Banter/PersonManager.cs: New Class to manage People
+
+2007-04-30  Boyd Timothy <btimothy@gmail.com> 
+
+	* Banter.mdp: Added GroupWindow.cs and WrapBox.cs.
+	* Banter/Utilities.cs: Stubbed-out a GetIcon:Gdk.Pixbuf method (doesn't
+	  work yet).
+	* Banter/Application.cs: Open a GroupWindow instead of a PersonView
+	  (old window).
+	* Banter/WrapBox.cs: Stubbing WrapBox from Alp here.  Gonna use it
+	  later for implementing PersonView when we support multiple sizes.
+	* Banter/GroupWindow.cs: New class that has a sidebar with a list of
+	  groups and actions in addition to the view of the contacts.
+	* Banter/PersonView.cs: Changed PersonView to not be a Window anymore
+	  but be consumable inside of another window.
+	* Banter/Makefile.am: Added GroupWindow.cs and WrapBox.cs
+
+2007-04-27  Boyd Timothy <btimothy@gmail.com> 
+
+	* Banter/PersonView.cs: Use gettext for the name of the dialog.
+
+2007-04-25  Calvin Gaisford <calvinrg@gmail.com> 
+
+	* Banter.mdp, data/images/banter-44.png, data/images/banter-48.png:
+	  Removed banter-48 and added banter-44 icon
+
+2007-04-25  Calvin Gaisford <calvinrg@gmail.com> 
+
+	* Banter.mdp, data/images/banter-22.png, data/images/banter-32.png,
+	  data/images/banter-24.png, data/images/banter-16.png,
+	  data/images/banter-48.png, data/images/Makefile.am: Added new
+	  graphics
+
+2007-04-24  Brady Anderson <banderso@novell.com> 
+
+	* Banter/Application.cs: removed checks for connections
+
+2007-04-24  Brady Anderson <banderso@novell.com> 
+
+	* Banter/Application.cs: set initiated flag when text chatting
+
+2007-04-24  Boyd Timothy <btimothy@gmail.com> 
+
+	* Banter.mdp: Enabled makefile support so we can build and run from the
+	  MD.
+
+2007-04-24  Boyd Timothy <btimothy@gmail.com> 
+
+	* Makefile.am: Added a "make run" option.
+	* Banter/Makefile.am: Make sure the banter script is executable.
+
+2007-04-24  Boyd Timothy <btimothy@gmail.com> 
+
+	* data/Themes/Makefile.am: Workaround to deal with the Current symlink
+	  already existing.
+
+2007-04-24  Boyd Timothy <btimothy@gmail.com> 
+
+	* Banter/Application.cs: Rename rtc-16 -> banter-16 so the icon will
+	  appear in the notification area.
+
+2007-04-24  Boyd Timothy <btimothy@gmail.com> 
+
+	* README: Updated with info about telepathy-gabble not exiting after
+	  quitting banter.
+
+2007-04-24  Boyd Timothy <btimothy@gmail.com> 
+
+	* Banter/Logger.cs: Use ~/.banter.log as the logging file.
+	* Banter/MessageStyleManager.cs: Look for MessageThemes in
+	  ~/.banter/Themes/MessageThemes
+	* Banter/PersonCard.cs: Look for ListStyles in
+	  ~/.banter/Themes/ListStyles
+
+2007-04-24  Boyd Timothy <btimothy@gmail.com> 
+
+	* README: Added a message about the ~/.banter/Themes directory.
+
+2007-04-24  Boyd Timothy <btimothy@gmail.com> 
+
+	* data/Themes/Makefile.am: Untar the ListStyle and MessageStyle
+	  files during make install.  Also make ListStyle/Current point
+	  to ListStyle/basic.
+
+2007-04-24  Boyd Timothy <btimothy@gmail.com> 
+
+	* data/Themes/Makefile.am: Got install and dist to work with ListStyle
+	  and MessageStyle tar files.
+
+2007-04-24  Boyd Timothy <btimothy@gmail.com> 
+
+	* data/Themes/*: Changed the ListStyles and MessageStyles into
+	  tar.gz files.
+
+2007-04-24  Boyd Timothy <btimothy@gmail.com> 
+
+	* configure.ac: Added tar-ustar to the AM_INIT_AUTOMAKE to have make dist
+	  allow file paths longer than 99 characters long.
+
+2007-04-24  Boyd Timothy <btimothy@gmail.com> 
+
+	* data/Themes/Makefile.am: Attempting to get the Themes to install properly.
+	* configure.ac: Moved the tapioca-sharp/Makefile line to be in alphabetical
+	  order.
+
+2007-04-24  Boyd Timothy <btimothy@gmail.com> 
+
+	* tapioca-sharp/*makefilestuff: Removed old extra makefile stuff from
+	  old original tarball.
+
+2007-04-24  Boyd Timothy <btimothy@gmail.com> 
+
+	* tapioca-sharp/configure.ac: Remove the extra autotools stuff from the
+	  tapioca-sharp tarball
+	* configure.ac: Modified to do i18n, and gnome-autogen.sh
+	* data/banter.schemas.in: Rename from rtc.schemas
+	* data/Themes/Makefile.am: Install the Themes
+	* data/images/banter-16.png: renamed from rtc-16.png
+	* data/images/Makefile.am: New file to install images
+	* data/Makefile.am: New file
+	* Makefile.am: Build data and po and dist check stuff
+	* Banter/Makefile.am: Use banter-16.png instead of rtc-16.png
+	* autogen.sh: Use gnome-autogen.sh from gnome-common.
+	* po/ChangeLog: Initial file
+	* po/POTFILES.in: dummy file so it configures
+	* po/fi.po: dummy file so the build works
+
+2007-04-24  Calvin Gaisford <calvinrg@gmail.com>
+
+	* Banter.mdp, Banter.mds: Moved the Banter project up a directory
+
+2007-04-24  Brady Anderson <banderso@novell.com> 
+
+	* Banter/Application.cs: Added back a flag for telling if we initiated
+	  a conversation which is checked in the OnNewChannel method
+
+2007-04-24  Boyd Timothy <btimothy@gmail.com> 
+
+	* README: Added the Banter name in the file.
+	* NEWS: Updated for the initial 0.1.0 release.
+
+2007-04-24  Brady Anderson <banderso@novell.com> 
+
+	* Banter/NotificationArea.cs, Banter/PreferencesDialog.cs,
+	  Banter/AccountManagement.cs, Banter/Account.cs,
+	  Banter/Application.cs, Banter/Person.cs, Banter/ChatWindow.cs,
+	  Banter/TrayLib.cs, Banter/ActionManager.cs: removed compile
+	  warnings
+
+2007-04-24  Boyd Timothy <btimothy@gmail.com> 
+
+	* AUTHORS: Modified Brady's email address to be correct.
+	* ChangeLog: Ditto.
+
+2007-04-24  Calvin Gaisford <calvinrg@gmail.com>
+
+	* AUTHORS: Modified my email address to be correct.
+
+2007-04-24  Boyd Timothy <btimothy@gmail.com> 
+
+	* Makefile.am: Added MAINTAINERS to EXTRA_DIST.
+
+2007-04-24  Boyd Timothy <btimothy@gmail.com> 
+
+	* MAINTAINERS: New file to state who the maintainers are.
+	* ChangeLog: Updated my email address in this file.
+
+2007-04-24  Boyd Timothy <btimothy@gmail.com> 
+
+	* AUTHORS: Modified my email address to be correct.
+
+2007-04-20  Brady Anderson <brady.anderson@gmail.com> 
+
+	* RtcApplication/AccountManagement.cs, RtcApplication/Application.cs:
+	  cleanup
+	* RtcApplication/PersonCard.cs: switched back to video chat
+	* RtcApplication/Conversation.cs: continued work for audio and video
+	* tapioca-sharp/tapioca-sharp.mdp: depended on the telepathy-sharp
+	  package
+
+2007-04-19  Brady Anderson <brady.anderson@gmail.com> 
+
+	* RtcApplication/Application.cs: Advertised that we support all caps
+
+2007-04-19  Brady Anderson <brady.anderson@gmail.com> 
+
+	* tapioca-sharp/tapioca/TextChannel.cs,
+	  tapioca-sharp/tapioca/StreamChannel.cs: added a RemoteTarget
+	  property for incoming channels
+	* tapioca-sharp/tapioca/Connection.cs: debug code added
+	* tapioca-sharp/tapioca/ContactGroup.cs: debug code
+	* RtcApplication/Application.cs, RtcApplication/Conversation.cs: added
+	  code to handle a new incoming channel
+
+2007-04-19  Brady Anderson <brady.anderson@gmail.com> 
+
+	* RtcApplication/AccountManagement.cs, RtcApplication/Account.cs,
+	  RtcApplication/Application.cs, RtcApplication/ChatWindow.cs,
+	  tapioca-sharp/tapioca-sharp.mdp, RtcApplication/PersonCard.cs,
+	  RtcApplication/Person.cs, RtcApplication/Conversation.cs: more
+	  changes to work under tapioca-sharp
+	* RtcApplication/RtcApplication.mdp: changes for video support over
+	  tapioca
+
+2007-04-18  Brady Anderson <brady.anderson@gmail.com> 
+
+	* RtcApplication/VideoConversation.cs, RtcApplication/Conversation.cs,
+	  RtcApplication/Application.cs: changes for video support over
+	  tapioca
+
+2007-04-18  Brady Anderson <brady.anderson@gmail.com> 
+
+	* RtcApplication/Application.cs, RtcApplication/Person.cs,
+	  RtcApplication/ChatWindow.cs, RtcApplication/RtcApplication.mdp,
+	  RtcApplication/PersonCard.cs, RtcApplication/Conversation.cs:
+	  Changes to support the tapioca framework
+
+2007-04-18  Brady Anderson <brady.anderson@gmail.com> 
+
+	* tapioca-sharp/tapioca/Connection.cs,
+	  tapioca-sharp/tapioca/ContactListControl.cs: fixed constructor
+	  where null was passed in as the object path on a dbus get call
+	* tapioca-sharp/tapioca/ContactList.cs,
+	  tapioca-sharp/tapioca/Handle.cs: debugging information
+	* tapioca-sharp/tapioca/PrivContactList.cs: changed to use a group
+	  channel rather than a contact list channel - for some reason or
+	  another the contact list channel is not working
+	* rtc.mds: added tapioca sharp to the project
+
+2007-04-13  Brady Anderson <brady.anderson@gmail.com> 
+
+	* RtcApplication/Conversation.cs: added method to get received messages
+
+2007-04-13  Brady Anderson <brady.anderson@gmail.com> 
+
+	* RtcApplication/Connection.cs: Cleaned up the OnNewChannel call
+
+2007-04-12  Brady Anderson <brady.anderson@gmail.com> 
+
+	* RtcApplication/Connection.cs, RtcApplication/VideoConversation.cs:
+	  yep
+	
+	* RtcApplication/Application.cs: yep
+
+2007-04-12  Brady Anderson <brady.anderson@gmail.com> 
+
+	* RtcApplication/Connection.cs: changed the NewChannel code and the
+	  IncomingMedia event
+
+2007-04-12  Brady Anderson <brady.anderson@gmail.com> 
+
+	* RtcApplication/Connection.cs: removed some debug code
+	* RtcApplication/Member.cs: added better debug message
+
+2007-04-12  Brady Anderson <brady.anderson@gmail.com> 
+
+	* RtcApplication/Connection.cs: Added code to advertise my capabilities
+	* RtcApplication/Member.cs: removed bogus code that was advertising for
+	  all users
+
+2007-04-12  Brady Anderson <brady.anderson@gmail.com> 
+
+	* RtcApplication/Connection.cs: exported ConnectionInfo
+
+2007-04-12  Brady Anderson <brady.anderson@gmail.com> 
+
+	* RtcApplication/Connection.cs: more debug stuff
+
+2007-04-12  Brady Anderson <brady.anderson@gmail.com> 
+
+	
+
+2007-04-12  Brady Anderson <brady.anderson@gmail.com> 
+
+	* RtcApplication/Connection.cs: added debug messages on how the remote
+	  contact was discovered
+
+2007-04-12  Brady Anderson <brady.anderson@gmail.com> 
+
+	* RtcApplication/Connection.cs: changed to 
+
+2007-04-12  Brady Anderson <brady.anderson@gmail.com> 
+
+	* RtcApplication/Connection.cs: Added event for notifying incoming
+	  media conversation
+
+2007-04-10  Brady Anderson <brady.anderson@gmail.com> 
+
+	* RtcApplication/RtcApplication.mdp: Added AvatarRequirements and
+	  Avatar to the project
+
+2007-04-10  Brady Anderson <brady.anderson@gmail.com> 
+
+	* RtcApplication/Connection.cs: Added avatar support to the connection
+	  so you can query the avatar requirements and a handler was setup so
+	  the connection can determine when a member's avatar changes.
+
+2007-04-10  Brady Anderson <brady.anderson@gmail.com> 
+
+	* RtcApplication/AvatarRequirements.cs: initial check 
+	* RtcApplication/Avatar.cs: initial checkin
+	* RtcApplication/Member.cs: Added support to get the member's avatar
+
+2007-04-09  Brady Anderson <brady.anderson@gmail.com> 
+
+	* RtcApplication/Connection.cs: Change to initially start all members
+	  inactive
+	* RtcApplication/Message.cs, RtcApplication/Conversation.cs: general
+	  cleanup
+	* RtcApplication/RtcApplication.mdp: Removed MessageList.cs from the
+	  project
+
+2007-04-06  Brady Anderson <brady.anderson@gmail.com> 
+
+	* RtcApplication/Connection.cs: General code cleanup
+
+2007-04-06  Boyd Timothy <btimothy@gmail.com> 
+
+	Brady and Calvin approved "Stuff".
+
+2007-04-06  Brady Anderson <brady.anderson@gmail.com> 
+
+	* RtcApplication/AccountManagement.cs: took out the connect on an
+	  account
+
+2007-04-06  Brady Anderson <brady.anderson@gmail.com> 
+
+	* RtcApplication/AccountManagement.cs: added Account Name when
+	  registering
+	* RtcApplication/RtcApplication.mdp: correct references
+
+2007-04-06  Brady Anderson <brady.anderson@gmail.com> 
+
+	* RtcApplication/Application.cs: changes to reflect the changes in
+	  connection class
+
+2007-04-05  Brady Anderson <brady.anderson@gmail.com> 
+
+	* RtcApplication/Account.cs: changes to move connect and disconnect out
+	  of account
+	* RtcApplication/Connection.cs: Moved all the member list functionality
+	  into connection 
+	* RtcApplication/Application.cs: changes to reflect the changes in
+	  connection class
+
+2007-04-05  Boyd Timothy <btimothy@gmail.com> 
+
+	* RtcApplication/PreferencesDialog.cs: Return the GoogleTalkUsername
+	  and GoogleTalkPassword and also set those up when the dialog is
+	  realized.
+	* RtcApplication/AccountManagement.cs: Added code to force the
+	  preferences to show if there's no username/password.
+	* RtcApplication/Application.cs: Restart the AccountManagement when the
+	  preferences dialog closes and we've never initialized.  Also store
+	  updated username/password into Gnome Keyring.
+	* RtcApplication/Preferences.cs: Removing GoogleTalkAccountName and
+	  GoogleTalkPassword since it's not stored in GConf anymore.
+	* data/rtc.schemas: Removed google-talk/username and
+	  google-talk/password since they no longer come from GConf.  They
+	  come from GNOME Keyring now.
+
+2007-04-05  Boyd Timothy <btimothy@gmail.com> 
+
+	* RtcApplication/PreferencesDialog.cs: Implemented simple Accounts tab
+	  for a GoogleTalk account using PropertyEditors.
+	* RtcApplication/AccountManagement.cs: Moved the server, port,
+	  username, and password keys into Preferences.
+	* RtcApplication/MessageStyleManager.cs: Changed to use the updated key
+	  names in Preferences.
+	* RtcApplication/Preferences.cs: Changed MESSAGE_STYLE_NAME ->
+	  MessageStyleName and MESSAGE_STYLE_VARIANT_NAME ->
+	  MessageStyleVariantName.  Added GoogleTalk server, port, username,
+	  and password keys here.
+	* RtcApplication/MessagesView.cs: Changed MESSAGE_STYLE_VARIANT_NAME ->
+	  MessageStyleVariantName.
+
+2007-04-05  Boyd Timothy <btimothy@gmail.com> 
+
+	* data/rtc.schemas: Set the default variant to be "Blue vs Green" for
+	  the PurePlastics MessageStyle.
+
+2007-04-04  Brady Anderson <brady.anderson@gmail.com> 
+
+	* rtc.mds: removed dbus sharp
+	* RtcApplication/RtcApplication.mdp: removed dbus-sharp project
+	  reference
+	* RtcApplication/AccountManagement.cs: removed bus.iterate
+	* RtcApplication/Connection.cs: added code to get MyAlias information
+	  once the connection occurs
+	* RtcApplication/Application.cs: removed starting and stopping the
+	  persistent message store since we're not writing to it yet
+
+2007-04-04  Brady Anderson <brady.anderson@gmail.com> 
+
+	* RtcApplication/NotificationArea.cs, RtcApplication/Message.cs,
+	  RtcApplication/PersonCard.cs, RtcApplication/PersonView.cs,
+	  RtcApplication/MessageStore.cs,
+	  RtcApplication/TelepathyProviderFactory.cs,
+	  RtcApplication/MemberList.cs, RtcApplication/Application.cs,
+	  RtcApplication/Person.cs, RtcApplication/Member.cs,
+	  RtcApplication/TelepathyProvider.cs,
+	  RtcApplication/MessageEngine.cs, RtcApplication/Conversation.cs:
+	  warning message fixes
+	* RtcApplication/AccountManagement.cs: changes for reworked account and
+	  connection classes
+	* RtcApplication/Account.cs: reworked account class
+
+2007-03-30  Brady Anderson <brady.anderson@gmail.com> 
+
+	
+
+2007-03-30  Brady Anderson <brady.anderson@gmail.com> 
+
+	* RtcApplication/Account.cs: new properties
+	* RtcApplication/Connection.cs: added semi-support for incoming
+	  conversation
+	* RtcApplication/Conversation.cs: development
+	* RtcApplication/AccountManagement.cs: more test code
+
+2007-03-30  Brady Anderson <brady.anderson@gmail.com> 
+
+	* RtcApplication/Account.cs: new properties
+	* RtcApplication/Connection.cs: added semi-support for incoming
+	  conversation
+	* RtcApplication/Conversation.cs: development
+	* RtcApplication/AccountManagement.cs: more test code
+
+2007-03-30  Brady Anderson <brady.anderson@gmail.com> 
+
+	* RtcApplication/Account.cs: new properties
+	* RtcApplication/Connection.cs: added semi-support for incoming
+	  conversation
+	* RtcApplication/Conversation.cs: development
+	* RtcApplication/AccountManagement.cs: more test code
+
+2007-03-30  Boyd Timothy <btimothy@gmail.com> 
+
+	* RtcApplication/MessageStyleManager.cs: New class to manage
+	  MessageStyles found on the disk.
+	* RtcApplication/MessagesView.cs: New Widget that displays messages
+	  using AdiumMessageStyle.
+	* RtcApplication/MessageStyle.cs: New class to represent an
+	  AdiumMessageStyle.
+	* RtcApplication/ChatWindow.cs: New file to show a conversation between
+	  two or more people.
+	* RtcApplication/RtcApplication.mdp: Added ChatWindow.cs,
+	  MessageView.cs, MessageStyle.cs, and MessageStyleManager.cs to the
+	  project.
+
+2007-03-30  Brady Anderson <brady.anderson@gmail.com> 
+
+	* RtcApplication/Conversation.cs: development
+
+2007-03-29  Brady Anderson <brady.anderson@gmail.com> 
+
+	* RtcApplication/RtcApplication.mdp: added Conversation.cs
+	* RtcApplication/AccountManagement.cs: added more test code
+	* RtcApplication/MemberList.cs: exported Connection
+	* RtcApplication/MessageEngine.cs: added temporary code to create a
+	  text channel
+	* RtcApplication/Conversation.cs: initial checkin
+
+2007-03-29  Brady Anderson <brady.anderson@gmail.com> 
+
+	* RtcApplication/AccountManagement.cs: modified the test code
+	* RtcApplication/Connection.cs: more work
+	* RtcApplication/MemberList.cs: initial checkin
+	* RtcApplication/Person.cs: No longer using the Person object for
+	  accessing the providers
+	* RtcApplication/Member.cs: Member is now the object returned from
+	  providers
+
+2007-03-28  Brady Anderson <brady.anderson@gmail.com> 
+
+	* RtcApplication/AccountManagement.cs: test code changes
+
+2007-03-28  Brady Anderson <brady.anderson@gmail.com> 
+
+	* RtcApplication/RtcApplication.mdp: added Person.cs
+	* RtcApplication/AccountManagement.cs: Set google account to default
+	* RtcApplication/Account.cs: make the telepathy connection visible 
+	* RtcApplication/Person.cs: Initial checkin
+
+2007-03-27  Brady Anderson <brady.anderson@gmail.com> 
+
+	* RtcApplication/Main.cs: added call to AccountManagement.Stop()
+	* RtcApplication/RtcApplication.mdp: added Member.cs
+	* RtcApplication/AccountManagement.cs: development
+	* RtcApplication/Account.cs: Added getting member Aliases
+	* RtcApplication/Member.cs: Member class which contains nothing but a
+	  member and an alias one per account
+
+2007-03-26  Brady Anderson <brady.anderson@gmail.com> 
+
+	* RtcApplication/AccountManagement.cs, RtcApplication/Account.cs,
+	  RtcApplication/TelepathyProviderFactory.cs,
+	  RtcApplication/TelepathyProvider.cs: class refactoring
+
+2007-03-23  Brady Anderson <brady.anderson@gmail.com> 
+
+	* test/StreamObjectTest/gtk-gui/MainWindow.cs: development
+	* RtcApplication/NotificationArea.cs, RtcApplication/MessageStore.cs:
+	  removed warnings
+	* RtcApplication/RtcApplication.mdp: added TelepathyFactoryProvider.cs
+	  to the project
+	
+	  deleted TelepathyProviders from the project
+	* RtcApplication/AccountManagement.cs, RtcApplication/Account.cs:
+	  refactoring work
+	* RtcApplication/TelepathyProviders.cs: split out provider from
+	  factory/object
+	* RtcApplication/TelepathyProviderFactory.cs: changed class to a
+	  factory style clss
+	* RtcApplication/TelepathyProvider.cs: initial checkin
+
+2007-03-22  Brady Anderson <brady.anderson@gmail.com> 
+
+	* test/TelepathyTest/Main.cs: removed hard coded password
+	* RtcApplication/Utilities.cs: initial checkin - add SetProcessName
+	  call
+	* RtcApplication/Main.cs: added calls to start and stop account
+	  management
+	* RtcApplication/RtcApplication.mdp: added Utilities.cs
+	* RtcApplication/AccountManagement.cs: created a temporary google talk
+	  account 
+	* RtcApplication/Account.cs: Added authentication and disconnect
+
+2007-03-21  Brady Anderson <brady.anderson@gmail.com> 
+
+	* RtcApplication/Account.cs, RtcApplication/AccountManagement.cs: Added
+	  to the project
+	* RtcApplication/Main.cs: different sys tray icon - still temporary
+	* RtcApplication/RtcApplication.mdp: Added Account.cs and
+	  AccountManagement.cs to the project
+
+2007-03-21  Brady Anderson <brady.anderson@gmail.com> 
+
+	* RtcApplication/Defines.cs: added static for telepathy manager
+	  locations
+	* RtcApplication/TelepathyProviders.cs: initial checking - temporary
+	  for now - basically just launches Gabble
+	* RtcApplication/Main.cs: started and stopped the Telepathy Providers
+	* RtcApplication/RtcApplication.mdp: added TelepathyProviders to the
+	  project
+	* RtcApplication/MessageEngine.cs: ongoing development
+
+2007-03-20  Brady Anderson <brady.anderson@gmail.com> 
+
+	* test/StreamObjectTest/MainWindow.cs: ongoing dev
+	* rtc.mds: added Connection.cs, Message.cs and MessageEngine.cs to the
+	  project.
+	* RtcApplication/Connection.cs: Initial checkin
+	* RtcApplication/MessageStore.cs: on going development
+	* RtcApplication/Message.cs, RtcApplication/MessageEngine.cs: initial
+	  checkin
+
+
+

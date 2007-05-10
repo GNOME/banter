@@ -1,0 +1,37 @@
+High level breakdown of components 
+
+Mission Control
+Control loading and unloading of all telepathy connection managers and streaming frameworks
+Initially we need to load gabble, tp-sofiasip and the telepathy-stream-engine. Those stacks
+give us the Jabber protocol for Text IM and SIP, RTP for VOIP and VIDEO.
+
+Presence Engine
+Maintain in memory state of contact presence across all authenticated connection managers.
+Must aggregate presence from the different connection managers and present a single presence
+for each user.
+
+Account Management
+UI Component to manage accounts - initially we need Jabber and SIP
+
+Chat Window
+UI Component for Text, Voip and Video chatting.
+
+Messaging Engine
+Do we pump all messages through a common d-bus based engine which the
+logger and third party apps can hook and leverage?  For simplicity our app
+could be self contained and then later we could pump messages.
+
+Logging
+Component to handle all persistent messages in the system.  
+Is voice and video recording part of this component or separate?  The
+start and stop recording messages could contain meta data tha points to
+the actual archive of the recording.  Export d-bus api so this information is
+accessable througout the system
+
+People Presentation 
+UI Component to present and manage groups (circles) of People to collaborate with.
+Initially investigate the use of the SLAB framework
+
+Person Widget
+Person UI widget that presents contact information, capabilities, hot buttons and presence
+

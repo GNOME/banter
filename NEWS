@@ -1,0 +1,22 @@
+
+Banter NEWS
+
+Please send questions and suggestions to
+<banter-list@gnome.org>.
+
+Please report bugs using http://bugzilla.gnome.org/
+(http://bugzilla.gnome.org/enter_bug.cgi?product=Banter).
+
+Version 0.1.1
+* New icons (they need some tango love).
+* New GroupWindow which shows groups of contacts/people.
+* New EDS integration.  Contacts that appear in EDS now appear in the
+  GroupWindow regardless of whether they exist in Telepathy.  Telepathy
+  users are automatically added to EDS.
+* GroupWindow state (size, position, etc.) saved across sessions.
+
+Version 0.1.0
+* Initial develpment release.
+* Includes basic text-chat capabilities.
+* Video and audio chat capabilities are stubbed-out.
+

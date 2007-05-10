@@ -1,0 +1,66 @@
+AC_INIT(README)
+AC_CANONICAL_SYSTEM
+
+VERSION=0.13.2
+ASM_VERSION="$VERSION.*"
+AC_SUBST(VERSION)
+
+AM_INIT_AUTOMAKE(tapioca-sharp, $VERSION)
+AC_SUBST(ASM_VERSION)
+
+AM_MAINTAINER_MODE
+
+dnl -- Find pkg-config
+
+AC_PATH_PROG(PKG_CONFIG, pkg-config, no)
+if test "x$PKG_CONFIG" = "xno"; then
+  AC_MSG_ERROR([You need to install pkg-config])
+fi
+
+dnl Find pkg-config
+AC_PATH_PROG(PKG_CONFIG, pkg-config, no)
+if test "x$PKG_CONFIG" = "xno"; then
+        AC_MSG_ERROR([You need to install pkg-config])
+fi
+
+dnl Find Mono and Gmcs
+MONO_REQUIRED_VERSION=1.1.17
+PKG_CHECK_MODULES(MONO_DEPENDENCY, mono >= $MONO_REQUIRED_VERSION, has_mono=true, has_mono=false)
+
+if test "x$has_mono" = "xtrue"; then
+AC_PATH_PROG(RUNTIME, mono, no)
+AC_PATH_PROG(CSC, gmcs, no)
+if test `uname -s` = "Darwin"; then
+    LIB_PREFIX=
+    LIB_SUFFIX=.dylib
+else
+    LIB_PREFIX=.so
+    LIB_SUFFIX=
+fi
+else
+    AC_MSG_ERROR([You need to install mono-devel package])
+fi
+
+AC_SUBST(LIB_PREFIX)
+AC_SUBST(LIB_SUFFIX)
+
+dnl Find Gtk#
+PKG_CHECK_MODULES(GTK_SHARP, gtk-sharp-2.0 >= 2.10.0)
+AC_SUBST(GTK_SHARP_CFLAGS)
+AC_SUBST(GTK_SHARP_LIBS)
+
+dnl Find Telepathy#
+PKG_CHECK_MODULES(TELEPATHY_SHARP, telepathy-sharp)
+AC_SUBST(TELEPATHY_SHARP_LIBS)
+
+AC_OUTPUT([
+Makefile
+tapioca-sharp.pc
+INdT.Tapioca.dll.config
+dbus-sharp-glib/Makefile
+tapioca/AssemblyInfo.cs
+tapioca/ConfigureDefines.cs
+tapioca/Makefile
+tests/Makefile
+])
+

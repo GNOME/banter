@@ -1,0 +1,10 @@
+prefix=@prefix@
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+
+Name: Tapioca-sharp
+Description: Tapioca# - The INdT .NET convenience library for Telepathy
+Version: @VERSION@
+Cflags:
+Requires: glib-sharp-2.0 telepathy-sharp
+Libs: -r:${libdir}/tapioca-sharp/INdT.Tapioca.dll -r:${libdir}/tapioca-sharp/NDesk.DBus.GLib.dll

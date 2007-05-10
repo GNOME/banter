@@ -1,0 +1,54 @@
+<Project name="tapioca-sharp" fileversion="2.0" language="C#" clr-version="Net_2_0" ctype="DotNetProject">
+  <Configurations active="Debug">
+    <Configuration name="Debug" ctype="DotNetProjectConfiguration">
+      <Output directory="./bin/Debug" assembly="tapioca-sharp" />
+      <Build debugmode="True" target="Library" />
+      <Execution runwithwarnings="True" consolepause="True" runtime="MsNet" clr-version="Net_2_0" />
+      <CodeGeneration compiler="Csc" warninglevel="4" optimize="True" unsafecodeallowed="False" generateoverflowchecks="True" mainclass="" generatexmldocumentation="False" win32Icon="./" ctype="CSharpCompilerParameters" />
+    </Configuration>
+    <Configuration name="Release" ctype="DotNetProjectConfiguration">
+      <Output directory="./bin/Release" assembly="tapioca-sharp" />
+      <Build debugmode="False" target="Library" />
+      <Execution runwithwarnings="True" consolepause="True" runtime="MsNet" clr-version="Net_2_0" />
+      <CodeGeneration compiler="Csc" warninglevel="4" optimize="True" unsafecodeallowed="False" generateoverflowchecks="True" mainclass="" generatexmldocumentation="True" win32Icon="./" ctype="CSharpCompilerParameters" />
+    </Configuration>
+  </Configurations>
+  <Contents>
+    <File name="./tapioca/TextChannel.cs" subtype="Code" buildaction="Compile" />
+    <File name="./tapioca/Connection.cs" subtype="Code" buildaction="Compile" />
+    <File name="./tapioca/ConnectionManager.cs" subtype="Code" buildaction="Compile" />
+    <File name="./tapioca/ConnectionManagerFactory.cs" subtype="Code" buildaction="Compile" />
+    <File name="./tapioca/Contact.cs" subtype="Code" buildaction="Compile" />
+    <File name="./tapioca/ContactBase.cs" subtype="Code" buildaction="Compile" />
+    <File name="./tapioca/ContactList.cs" subtype="Code" buildaction="Compile" />
+    <File name="./tapioca/DBusProxyObject.cs" subtype="Code" buildaction="Compile" />
+    <File name="./tapioca/Enum.cs" subtype="Code" buildaction="Compile" />
+    <File name="./tapioca/Handle.cs" subtype="Code" buildaction="Compile" />
+    <File name="./tapioca/TextChannelMessage.cs" subtype="Code" buildaction="Compile" />
+    <File name="./tapioca/UserContact.cs" subtype="Code" buildaction="Compile" />
+    <File name="./tapioca/Channel.cs" subtype="Code" buildaction="Compile" />
+    <File name="./tapioca/Util/ManagerFileReader.cs" subtype="Code" buildaction="Compile" />
+    <File name="./tapioca/Util/ConfigFileReader.cs" subtype="Code" buildaction="Compile" />
+    <File name="./tapioca/ConnectionManagerParameter.cs" subtype="Code" buildaction="Compile" />
+    <File name="./tapioca/PrivContactList.cs" subtype="Code" buildaction="Compile" />
+    <File name="./tapioca/ConnectionGroup.cs" subtype="Code" buildaction="Compile" />
+    <File name="./tapioca/Avatar.cs" subtype="Code" buildaction="Compile" />
+    <File name="./tapioca/ChannelTarget.cs" subtype="Code" buildaction="Compile" />
+    <File name="./tapioca/GroupManager.cs" subtype="Code" buildaction="Compile" />
+    <File name="./tapioca/ContactListControl.cs" subtype="Code" buildaction="Compile" />
+    <File name="./tapioca/StreamChannel.cs" subtype="Code" buildaction="Compile" />
+    <File name="./tapioca/StreamObject.cs" subtype="Code" buildaction="Compile" />
+    <File name="./tapioca/StreamAudio.cs" subtype="Code" buildaction="Compile" />
+    <File name="./tapioca/StreamVideo.cs" subtype="Code" buildaction="Compile" />
+    <File name="./tapioca/ContactGroup.cs" subtype="Code" buildaction="Compile" />
+  </Contents>
+  <References>
+    <ProjectReference type="Gac" localcopy="True" refto="NDesk.DBus, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f6716e4f9b2ed099" />
+    <ProjectReference type="Gac" localcopy="True" refto="NDesk.DBus.GLib, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f6716e4f9b2ed099" />
+    <ProjectReference type="Gac" localcopy="True" refto="gtk-dotnet, Version=2.8.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <ProjectReference type="Gac" localcopy="True" refto="INdT.Telepathy, Version=0.13.2.26173, Culture=neutral, PublicKeyToken=492ed1c641a38b09" />
+  </References>
+  <DeploymentInformation strategy="File">
+    <excludeFiles />
+  </DeploymentInformation>
+</Project>

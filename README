@@ -1,0 +1,39 @@
+Welcome to Banter, the Next Generation Real Time Collaboration Client
+=====================================================================
+
+
+This project is sponsored by Novell, Inc. 
+
+
+======================================================================
+                          KNOWN ISSUES:
+======================================================================
+
+----------------------------------------------------------------------
+Gecko crashes immediately when you attempt to open the "People" window
+----------------------------------------------------------------------
+
+If gecko crashes immediately when you right-click on the "People" menu
+(found on the app icon running in the notification area), you have
+likely not created symbolic links to the theme files.
+
+You'll need to do the following before it will run properly:
+
+	cd ~
+	mkdir .banter
+	cd .banter
+	ln -s $(BANTER_INSTALL_PREFIX)/share/banter/Themes Themes
+
+This will create a symbolic link to the installed Themes to your home
+directory.  Yes, this will eventually change to where you don't have to
+do that anymore.
+
+
+----------------------------------------------------------------------
+telepathy-gabble continues to run even after you stop banter
+----------------------------------------------------------------------
+
+We haven't gotten around to cleaning up nicely (apparently) because
+telepathy-gabble will continue to run even after you quit banter.
+
+Before starting banter again, please kill the telepathy-gabble process.

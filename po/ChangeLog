@@ -1,0 +1,13 @@
+2007-04-24 Boyd Timothy <btimothy@gmail.com>
+
+	* POTFILES.in: Fixed accidental non-commented line which was
+	  causing the build (make distcheck) to not work.
+
+2007-04-24 Boyd Timothy <btimothy@gmail.com>
+
+	* fi.po: Added a non-translated version so the build would work.
+
+2007-04-24 Boyd Timothy <btimothy@gmail.com>
+
+	* POTFILES.in: Added this file so the build would work.
+

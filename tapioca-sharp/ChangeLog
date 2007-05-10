@@ -1,0 +1,15 @@
+2006-09-31  Kenneth Rohde Christiansen  <kenneth.christiansen@gmail.com>
+
+	* README: Added more info.
+	* AUTHORS: Added me.
+	* design-docs\class-design.xmi: Design documents.
+	* COPYING:
+	* LICENSE: Changed license to MIT X11 License
+
+2006-08-31  Kenneth Rohde Christiansen  <kenneth.christiansen@gmail.com>
+
+	* configure.ac:
+	* INdT.Telepathy.dll.config.in:
+
+	Renamed the dll
+

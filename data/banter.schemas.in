@@ -1,0 +1,163 @@
+
+<gconfschemafile>
+  <schemalist>
+
+    <schema>
+      <key>/schemas/apps/banter/accounts/jabber/google-talk/server</key>
+      <applyto>/apps/banter/accounts/jabber/google-talk/server</applyto>
+      <owner>banter</owner>
+      <type>string</type>
+      <default>talk.google.com</default>
+      <locale name="C">
+         <short>Server</short>
+         <long>
+		   Jabber server
+         </long>
+      </locale>
+    </schema>
+    
+    <schema>
+      <key>/schemas/apps/banter/accounts/jabber/google-talk/port</key>
+      <applyto>/apps/banter/accounts/jabber/google-talk/port</applyto>
+      <owner>banter</owner>
+      <type>string</type>
+      <default>5223</default>
+      <locale name="C">
+         <short>Server Port</short>
+         <long>
+		   Jabber server port
+         </long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/apps/banter/accounts/jabber/google-talk/tls</key>
+      <applyto>/apps/banter/accounts/jabber/google-talk/tls</applyto>
+      <owner>banter</owner>
+      <type>bool</type>
+      <default>0</default>
+      <locale name="C">
+         <short>Use TLS</short>
+         <long>
+		   Use the TLS transport
+         </long>
+      </locale>
+    </schema>
+    
+    <schema>
+      <key>/schemas/apps/banter/accounts/jabber/google-talk/old-ssl</key>
+      <applyto>/apps/banter/accounts/jabber/google-talk/old-ssl</applyto>
+      <owner>banter</owner>
+      <type>bool</type>
+      <default>1</default>
+      <locale name="C">
+         <short>Use ssl</short>
+         <long>
+		   Use old style ssl
+         </long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/apps/banter/accounts/jabber/google-talk/auto-login</key>
+      <applyto>/apps/banter/accounts/jabber/google-talk/auto-login</applyto>
+      <owner>banter</owner>
+      <type>bool</type>
+      <default>0</default>
+      <locale name="C">
+         <short>Auto Login</short>
+         <long>
+	 	Automatically login this account when rtc starts up
+         </long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/apps/banter/accounts/jabber/google-talk/im-connection-manager</key>
+      <applyto>/apps/banter/accounts/jabber/google-talk/im-connection-manager</applyto>
+      <owner>banter</owner>
+      <type>string</type>
+      <default>gabble.manager</default>
+      <locale name="C">
+         <short>Telepathy connection manager</short>
+         <long>
+	 	Telepathy connection manager with IM or Text capability for this account
+         </long>
+      </locale>
+    </schema>
+    
+    <schema>
+      <key>/schemas/apps/banter/accounts/sip/ekiga/server</key>
+      <applyto>/apps/banter/accounts/sip/ekiga/server</applyto>
+      <owner>banter</owner>
+      <type>string</type>
+      <default>ekiga.net</default>
+      <locale name="C">
+         <short>Server</short>
+         <long>
+		   SIP server
+         </long>
+      </locale>
+    </schema>
+    
+    <schema>
+      <key>/schemas/apps/banter/accounts/sip/ekiga/port</key>
+      <applyto>/apps/banter/accounts/sip/ekiga/port</applyto>
+      <owner>banter</owner>
+      <type>string</type>
+      <default>443</default>
+      <locale name="C">
+         <short>Server Port</short>
+         <long>
+		   SIP server port
+         </long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/apps/banter/message_style/name</key>
+      <applyto>/apps/banter/message_style/name</applyto>
+      <owner>banter</owner>
+      <type>string</type>
+      <default>PurePlastics</default>
+      <locale name="C">
+         <short>Selected Message Style Name</short>
+         <long>
+	 	The name of the Message Style that should be used for the chat window.
+         </long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/apps/banter/message_style/variant_name</key>
+      <applyto>/apps/banter/message_style/variant_name</applyto>
+      <owner>banter</owner>
+      <type>string</type>
+      <default>Blue vs Green</default>
+      <locale name="C">
+         <short>Selected Message Style Variant</short>
+         <long>
+	 	The name of the Message Style Variant that should be used.  Set this
+	 	to an empty string to not use a variant.  The variant name depends on
+	 	the selected message style.
+         </long>
+      </locale>
+    </schema>
+    
+    <schema>
+      <key>/schemas/apps/banter/group_windows/saved_windows</key>
+      <applyto>/apps/banter/group_windows/saved_windows</applyto>
+      <owner>banter</owner>
+      <type>list</type>
+      <default>[****Placeholder****]</default>
+      <locale name="C">
+         <short>Current saved list of Group Windows.</short>
+         <long>
+        List containing the GUIDs of the currently saved group windows.
+        Please do not remove the ****Placeholder**** item.
+         </long>
+      </locale>
+    </schema>
+
+  </schemalist>
+</gconfschemafile>
