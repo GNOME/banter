@@ -339,10 +339,18 @@ namespace Banter
 						Logger.Debug ("got contact: {0}", contact.Uri);
 						
 						// Do we already have a conversation setup with contact
-						if (ConversationManager.Exist (contact) == true)
+						ProviderUser pu = null;
+						try {
+							string key = ProviderUserManager.CreateKey (contact.Uri, sender.Protocol);
+							pu = ProviderUserManager.GetProviderUser (key);
+						} catch{}
+						
+						if (pu == null) return;
+						
+						if (ConversationManager.Exist (pu) == true)
 							return;
 						
-						Person peer = PersonStore.GetPersonByJabberId (contact.Uri);
+						Person peer = PersonStore.GetPersonByJabberId (pu.Uri);
 						Logger.Debug ("got person");
 						ChatWindow cw = null;
 						
