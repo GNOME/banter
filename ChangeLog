@@ -1,5 +1,9 @@
 2007-05-04  Boyd Timothy <btimothy@gmail.com> 
 
+	* configure.ac: Bump the version to 0.1.2.
+
+2007-05-04  Boyd Timothy <btimothy@gmail.com> 
+
 	* NEWS: Updated for the 0.1.1 release.
 
 2007-05-04  Calvin Gaisford <calvinrg@gmail.com> 
