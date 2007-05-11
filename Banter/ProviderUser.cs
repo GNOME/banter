@@ -35,6 +35,7 @@ namespace Banter
 	{
 		#region Public Static Types
 		public const string Jabber = "Jabber";
+		public const string Sip	= "SIP";
 		public const string Aol = "AOL";
 		public const string Gwim = "Gwim";
 		#endregion		

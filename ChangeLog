@@ -1,3 +1,7 @@
+2007-05-10  Brady Anderson <banderso@novell.com> 
+
+	* Banter/ProviderUser.cs: added sip
+
 2007-05-10  Calvin Gaisford <calvinrg@gmail.com> 
 
 	* Banter/ProviderUser.cs: Added const names for Protocols
