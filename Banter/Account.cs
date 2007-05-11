@@ -201,6 +201,7 @@ namespace Banter
 						// Loop through and add all of the subscribed contacts
 		 				foreach (Contact c in tapConnection.ContactList.KnownContacts) //.SubscribedContacts)
 						{
+							/*
 		                 	Logger.Debug (
 		                 		"Contact Retrieved\n\t{0}/{4} - {1}/{2} - {3}",
 		                 		c.Uri, 
@@ -208,6 +209,7 @@ namespace Banter
 		                 		c.PresenceMessage, 
 		                 		c.SubscriptionStatus, 
 		                 		c.Alias);
+		                 	*/
 		                 		
 							// FIXME:: this all needs to be take out when the PersonManager
 							// is complete - it will handle all of this
@@ -230,7 +232,6 @@ namespace Banter
 							try {
 								providerUser = ProviderUserManager.GetProviderUser (key);
 								UpdateProviderUserFromContact (providerUser, c);
-								Logger.Debug ("ProviderUser: {0} already existed", key);
 							} 
 							catch (Exception fff) {
 								Logger.Debug ("Failed to get ProviderUser {0}", key);
