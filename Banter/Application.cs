@@ -593,10 +593,6 @@ Logger.Debug ("Application.OnGroupWindowDeleted");
 				
 					Conversation conversation = 
 						Banter.ConversationManager.Create (acct, person, true);
-					
-					ChatWindow cw = new ChatWindow (conversation);
-					cw.DeleteEvent += OnChatWindowDelete;
-					cw.Present();
 				}
 				catch (Exception es)
 				{

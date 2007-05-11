@@ -1,5 +1,11 @@
 2007-05-11  Brady Anderson <banderso@novell.com> 
 
+	* Banter/Application.cs: removed the call to create a ChatWindow after
+	  creating a new conversation in InitiateChat
+	* Banter/ConversationManager.cs: debug
+
+2007-05-11  Brady Anderson <banderso@novell.com> 
+
 	* Banter/Account.cs: removed some debug code
 
 2007-05-11  Calvin Gaisford <calvinrg@gmail.com> 

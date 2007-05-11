@@ -82,6 +82,7 @@ namespace Banter
 					// FIXEME::ProviderUsers will be indexed off the person
 					// object in priority
 					
+					Logger.Debug ("Conversation with {0} doesn't exist", peer.DisplayName);
 					conversation = new Conversation (account, peer, peer.ProviderUsers[0], initiate);
 					conversations.Add (conversation);
 				}
