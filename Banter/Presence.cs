@@ -24,13 +24,68 @@ using System;
 
 namespace Banter
 {
+
+	/// <summary>
+	/// PresenceType Enum
+	/// enumeration of the types of presence that are possible
+	/// </summary>	
+	public enum PresenceType : uint
+	{
+		Offline = 1,
+		Available = 2,
+		Away = 3,
+		XA = 4,
+		Hidden = 5,
+		Busy = 6
+	}	
 	
-	
+		
+	///<summary>
+	///	Presence Class
+	/// Represents presence for a ProviderUser and Person
+	///</summary>	
 	public class Presence
 	{
-		
-		public Presence()
+		#region Private Types
+		private PresenceType presenceType;
+		private string message;
+		private int time;
+		#endregion	
+	
+
+		#region Public Properties
+		/// <summary>
+		/// The type of this Presence
+		/// </summary>		
+		public PresenceType Type
 		{
+			get { return presenceType; }
+			set { this.presenceType = value; }
 		}
+
+
+		/// <summary>
+		/// The type of this Presence
+		/// </summary>		
+		public string Message
+		{
+			get { return message; }
+			set { this.message = value; }
+		}		
+		#endregion
+
+
+		#region Constructors
+		/// <summary>
+		/// Constructs a Presence Object
+		/// </summary>	
+		public Presence(PresenceType type)
+		{
+			this.presenceType = type;
+			this.message = String.Empty;
+			this.time = 0;
+		}
+		#endregion
+
 	}
 }

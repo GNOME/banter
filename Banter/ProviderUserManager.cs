@@ -21,16 +21,109 @@
 
 
 using System;
+using System.Collections;
+using System.Collections.Generic;
+
 
 namespace Banter
 {
-	
-	
+	///<summary>
+	///	ProviderUserManager Class
+	/// ProviderUserManager is a singleton that manages all ProviderUsers in Banter.
+	///</summary>	
 	public class ProviderUserManager
 	{
+		#region Private Static Types
+		private static Banter.ProviderUserManager manager = null;
+		private static System.Object locker = new System.Object();
+		#endregion	
 		
-		public ProviderUserManager()
+		
+		#region Private Types
+		private Dictionary<string, ProviderUser> users;
+		#endregion
+		
+
+		#region Public Static Properties
+		/// <summary>
+		/// Obtain the singleton for ProviderUserManager
+		/// </summary>		
+		public static ProviderUserManager Instance
 		{
+			get
+			{
+				lock(locker) {
+					if(manager == null) {
+						lock(locker) {
+							manager = new ProviderUserManager();
+						}
+					}
+					return manager;
+				}
+			}
 		}
+		#endregion
+
+
+
+		#region Constructors
+		/// <summary>
+		/// A private constructor used when obtaining the Singleton by using the static property Instance.
+		/// </summary>			
+		private ProviderUserManager ()
+		{
+			users = new Dictionary<string, ProviderUser> ();		
+		}
+		#endregion
+
+
+		#region Public Static Methods
+		/// <summary>
+		/// Gets the ProviderUser for the specified key
+		/// The key is basically "Uri:Provider"
+		/// </summary>	
+		public static ProviderUser GetProviderUser(string key)
+		{
+			ProviderUser user = null;
+
+			lock(locker) {			
+				if(ProviderUserManager.Instance.users.ContainsKey(key))
+					user = ProviderUserManager.Instance.users[key];
+			}
+			return user;
+		}
+
+
+		/// <summary>
+		/// Gets the ProviderUser for the specified key
+		/// The key is basically "Uri:Provider"
+		/// </summary>	
+		public static void SetProviderUser(string key, ProviderUser user)
+		{
+			lock(locker) {
+				ProviderUserManager.Instance.users[key] = user;			
+			}
+		}
+		
+		
+		/// <summary>
+		/// Gets the ProviderUser for the specified key
+		/// The key is basically "Uri:Provider"
+		/// </summary>	
+		public static ProviderUser[] GetMe()
+		{
+			return null;
+		}		
+
+
+		/// <summary>
+		/// Generates a key to locate a ProviderUser
+		/// </summary>	
+		public static string CreateKey(string uri, string protocol)
+		{
+			return uri + ":" + protocol;
+		}
+		#endregion		
+		
 	}
 }

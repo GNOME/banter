@@ -1,5 +1,11 @@
 2007-05-10  Calvin Gaisford <calvinrg@gmail.com> 
 
+	* Banter/Presence.cs, Banter/ProviderUserManager.cs,
+	  Banter/ProviderUser.cs: Filled out class to give it basic
+	  functionality
+
+2007-05-10  Calvin Gaisford <calvinrg@gmail.com> 
+
 	* Banter.mdp: Added new classes Presence, ProviderUser, and
 	  ProviderUserManager
 	* Banter/Presence.cs: Added new class to represent Presence in Banter
