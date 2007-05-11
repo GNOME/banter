@@ -29,6 +29,9 @@ using Evolution;
 
 namespace Banter
 {
+
+	public delegate void PersonPresenceUpdatedHandler (Presence presence);
+
 	///<summary>
 	///	Person Class
 	/// In memory representation of a person including data from online services
@@ -44,6 +47,10 @@ namespace Banter
 		private Gdk.Pixbuf avatar;
 		private ArrayList providerUsers;
 		private Presence presence;
+		#endregion
+
+		#region Public Events
+		public event PersonPresenceUpdatedHandler PresenceUpdated;
 		#endregion
 
 
@@ -264,6 +271,7 @@ namespace Banter
 				
 				if(providerUser != null) {
 					providerUsers.Add(providerUser);
+					providerUser.PresenceUpdated += ProviderUserPresenceUpdated;
 				}
 			}
 			UpdatePresence();
@@ -278,7 +286,17 @@ namespace Banter
 			Logger.Debug("FIXME: Person.UpdatePresence should use a policy to get the right presence");
 			if(providerUsers.Count > 0)
 				presence = ((ProviderUser)providerUsers[0]).Presence;
-		}		
+				
+			if(this.PresenceUpdated != null)
+				this.PresenceUpdated(presence);
+		}
+		
+		
+		private void ProviderUserPresenceUpdated (ProviderUser user)
+		{
+			Logger.Debug("Presence updated for ProviderUser: {0}", user.Alias);
+			UpdatePresence();
+		}
 		#endregion
 		
 		

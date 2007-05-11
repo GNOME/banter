@@ -73,13 +73,7 @@ namespace Banter
 		    listStylesPath = System.IO.Path.Combine (homeDirectoryPath, ".banter/Themes/ListStyles/Current");
 		    
 
-/*		    if (person.Contact != null)
-		    	person.Contact.PresenceUpdated += OnTapiocaPresenceUpdated;
-*/
-		    /*
-		    else
-		    	person.Member.PresenceUpdated += OnPresenceUpdated;
-		    */
+			person.PresenceUpdated += OnPersonPresenceUpdated;
 
 			ReadSmallWidgetHtml();
 		}
@@ -108,11 +102,9 @@ namespace Banter
 		protected override void OnDestroyed ()
 		{
 			Logger.Debug ("PersonCard.OnDestroyed");
-/*
-			try {
-				person.Contact.PresenceUpdated -= OnTapiocaPresenceUpdated;
-			} catch {}
-*/	
+
+			person.PresenceUpdated -= OnPersonPresenceUpdated;
+	
 			Logger.Debug("FIXME: the base OnDestroy for the PersonCard is not being called");
 			// this is not being called because gtkmozembed blows the next time you try to use
 			// it if you destroy it
@@ -277,7 +269,6 @@ namespace Banter
 			
 			tmpHtml = tmpHtml.Replace("%PERSON_DISPLAY_NAME%",  person.DisplayName);
 
-			// NOTE! Tapiopca version
 			if(person.Presence.Type == PresenceType.Offline) {
 				tmpHtml = tmpHtml.Replace("%PERSON_STATUS_TEXT%", "offline");
 			}
@@ -314,20 +305,11 @@ namespace Banter
 			}
 		}
 		
-		/*
-		private void OnPresenceUpdated (Member sender, MemberPresence presence)
-		{
-			Logger.Debug("Updating presence on {0}", person.DisplayName);
-			ReadSmallWidgetHtml();
-			webControl.RenderData(widgetHtml, "file://" + listStylesPath, "text/html");
-		}
-		*/
-
 
 		///<summary>
-		///	Handles Presence Events in Tapioca
+		///	Handles Presence Events on a Person
 		///</summary>
-		private void OnPresenceUpdated (Tapioca.ContactBase sender, Tapioca.ContactPresence presence)
+		private void OnPersonPresenceUpdated (Presence presence)
 		{
 			Logger.Debug("Updating presence on {0}", person.DisplayName);
 			ReadSmallWidgetHtml();
