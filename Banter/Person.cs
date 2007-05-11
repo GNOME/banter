@@ -230,7 +230,7 @@ namespace Banter
 
 				try
 				{
-					Logger.Debug("FIXME: A Person's Cache needs to be cleaned up somewhere too");
+					//Logger.Debug("FIXME: A Person's Cache needs to be cleaned up somewhere too");
 					if(!System.IO.Directory.Exists(cachePath)) {
 						System.IO.Directory.CreateDirectory(cachePath);
 					}
@@ -258,7 +258,7 @@ namespace Banter
 		/// </summary>
 		private void UpdateProviderUsers()
 		{
-			Logger.Debug("FIXME: Person.UpdateProviderUsers should use a policy for the order");
+			//Logger.Debug("FIXME: Person.UpdateProviderUsers should use a policy for the order");
 			providerUsers.Clear();
 		
 			// Jabber values
@@ -283,9 +283,11 @@ namespace Banter
 		/// </summary>
 		private void UpdatePresence()
 		{
-			Logger.Debug("FIXME: Person.UpdatePresence should use a policy to get the right presence");
-			if(providerUsers.Count > 0)
+			// Logger.Debug("FIXME: Person.UpdatePresence should use a policy to get the right presence");
+			if(providerUsers.Count > 0) {
+				Logger.Debug("Person.UpdatePresence found a ProviderUser and is using it's presence");
 				presence = ((ProviderUser)providerUsers[0]).Presence;
+			}
 				
 			if(this.PresenceUpdated != null)
 				this.PresenceUpdated(presence);
@@ -294,7 +296,7 @@ namespace Banter
 		
 		private void ProviderUserPresenceUpdated (ProviderUser user)
 		{
-			Logger.Debug("Presence updated for ProviderUser: {0}", user.Alias);
+			//Logger.Debug("Presence updated for ProviderUser: {0}", user.Alias);
 			UpdatePresence();
 		}
 		#endregion
