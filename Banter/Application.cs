@@ -29,7 +29,6 @@ using System.Xml;
 
 using NDesk.DBus;
 using org.freedesktop.DBus;
-//using org.freedesktop.Telepathy;
 using Tapioca;
 
 using Gtk;
@@ -54,22 +53,16 @@ namespace Banter
 		private Gnome.Program program = null;
 		private Dictionary <uint, Person> persons;
 		private Dictionary <string, ChatWindow> chatWindows;
-		//private Person me;
 		private PreferencesDialog preferencesDialog;
-		//VideoConversation videoConversation;
 		private Conversation conversation = null;
 		private bool initiatedConversation = false;
 		
 		private Dictionary<GroupWindow, GroupWindow> groupWindows;
 
-		// Major temporary hack
-		//private Novell.Rtc.Connection conn = null;
-		
 		// Extend the hack to tapioca
 		//Tapioca.UserContact meContact = null;
 		Tapioca.Connection tapConnection = null;
 		ManualResetEvent connectedEvent = null;
-		
 		#endregion
 	
 		#region Public Static Properties
@@ -113,7 +106,7 @@ namespace Banter
 		#region Private Methods
 		private void Init(string[] args)
 		{
-			Console.WriteLine ("Banter.Application constructor");
+			Logger.Debug ("Banter::Application::Init - called");
 			initialized = false;
 			Gtk.Application.Init ();
 			program = 
@@ -143,7 +136,7 @@ namespace Banter
 	
 		private void SetupTrayIcon ()
 		{
-			Console.WriteLine ("Creating TrayIcon");
+			Logger.Debug ("Creating TrayIcon");
 			
 			EventBox eb = new EventBox();
 			appPixBuf = GetIcon ("banter-22", 22);
@@ -160,7 +153,7 @@ namespace Banter
 		
 		private bool InitializeIdle ()
 		{
-			Console.WriteLine ("Initialize_Idle - called");
+			Logger.Debug ("Initialize_Idle - called");
 
 			//GConfPreferencesProvider prefs = new GConfPreferencesProvider ();
 			//Preferences.Init (prefs);
@@ -200,7 +193,7 @@ namespace Banter
 		
 		private void OnAccountManagementReadyEvent ()
 		{
-			Logger.Debug("OnAccountManagementReady() called");
+			Logger.Debug ("OnAccountManagementReady() called");
 			InitializePersons();
 			initialized = true;
 			
@@ -210,27 +203,33 @@ namespace Banter
 		private bool OpenSavedGroupWindows ()
 		{
 			GroupWindow gw;
-			string[] groupWindowIds = Preferences.Get (Preferences.GroupWindows) as String[];
-			if (groupWindowIds == null) {
-				// Create a new Group Window with Everyone selected
-				gw = new GroupWindow ();
-				groupWindows [gw] = gw;
-				gw.DeleteEvent += OnGroupWindowDeleted;
-				gw.ShowAll ();
-				return false;
-			}
 			
-			foreach (string id in groupWindowIds) {
-				gw = new GroupWindow (id);
-				
-				groupWindows [gw] = gw;
-				gw.DeleteEvent += OnGroupWindowDeleted;
-				gw.ShowAll ();
+			try {
+				string[] groupWindowIds = Preferences.Get (Preferences.GroupWindows) as String[];
+				if (groupWindowIds == null) {
+					// Create a new Group Window with Everyone selected
+					gw = new GroupWindow ();
+					groupWindows [gw] = gw;
+					gw.DeleteEvent += OnGroupWindowDeleted;
+					gw.ShowAll ();
+				} else {
+					foreach (string id in groupWindowIds) {
+						gw = new GroupWindow (id);
+						
+						groupWindows [gw] = gw;
+						gw.DeleteEvent += OnGroupWindowDeleted;
+						gw.ShowAll ();
+					}
+				}
+			} catch (Exception osgw) {
+				Logger.Debug (osgw.Message);
+				Logger.Debug (osgw.StackTrace);
 			}
 			
 			return false; // Prevent GLib.Idle from calling this method again
 		}
 
+		/*
 		private void OnNewChannel (Tapioca.Connection sender, Tapioca.Channel channel)
 		{
 			Logger.Debug ("Application::OnNewChannel - called");
@@ -238,18 +237,6 @@ namespace Banter
 			if (initiatedConversation == true)
 				return;
 				
-			/*
-			Logger.Debug ("Checking for contacts");
-			Logger.Debug (
-				"# contacts in channel: {0}",
-				channel.ContactGroup.Contacts.Length);
-			foreach (Contact ct in channel.ContactGroup.Contacts)
-				Logger.Debug (ct.Uri);
-			Logger.Debug (
-				"# pending contacts in channel: {0}", 
-				channel.ContactGroup.PendingContacts.Length);
-			*/	
-		
 			try
 			{
 				Conversation conversation = null;
@@ -272,8 +259,8 @@ namespace Banter
 						else {
 							try
 							{
-								cw = new ChatWindow ();
-								cw.Conversation = conversation;
+								cw = new ChatWindow (conversation);
+								//cw.Conversation = conversation;
 								cw.DeleteEvent += OnChatWindowDelete;
 								chatWindows[peer.Id] = cw;
 								cw.Present();
@@ -316,6 +303,7 @@ namespace Banter
 			}
 			
 		}
+		*/
 
 		private void OnConnectionChanged ( 
 			Tapioca.Connection sender,
@@ -394,7 +382,7 @@ namespace Banter
 							ContactCapabilities.Video);
 		                
 		                // Setup handlers for incoming conversations
-		                sender.ChannelCreated += OnNewChannel;
+		                //sender.ChannelCreated += OnNewChannel;
 					}
 					catch (Exception on)
 					{	
@@ -429,97 +417,19 @@ namespace Banter
 					rtcAccount = account;
 					break;
 				}
+				
+				if (rtcAccount == null)
+					throw new ApplicationException ("No Available accounts to connect to");
 	
-				System.Collections.Generic.Dictionary <string, object> options =
-					rtcAccount.Options;
-			
-				ConnectionManagerFactory cmFactory = new ConnectionManagerFactory ();
-	              
-	            Logger.Debug ("user account: {0}", options["account"]);
-	              
-				System.Collections.ArrayList ps = new System.Collections.ArrayList ();
-				ps.Add (new ConnectionManagerParameter ("account", options["account"]));
-				ps.Add (new ConnectionManagerParameter ("password", options["password"]));
-				ps.Add (new ConnectionManagerParameter ("server", options["server"]));
-				//ps.Add (new ConnectionManagerParameter ("server", "talk.google.com"));
-				ps.Add (new ConnectionManagerParameter ("old-ssl", true));
-				ps.Add (new ConnectionManagerParameter ("ignore-ssl-errors", true));
-				ps.Add (new ConnectionManagerParameter ("port", (uint) 5223));
-
-				ConnectionManagerParameter[] parameters = 
-					(ConnectionManagerParameter[]) ps.ToArray (typeof (ConnectionManagerParameter));
-
-				Logger.Debug ("Creating connection");
-				ConnectionManager cm = cmFactory.GetConnectionManager ("jabber");
-				if (cm == null) {
-				       Logger.Debug ("Error geting CM");
-				       return;
-				}
-				Console.WriteLine ("Connection created");
+				rtcAccount.Connect (false);
 				
-				/*
-				Logger.Debug ("#parameters: {0}", parameters.Length);
-				foreach (ConnectionManagerParameter pm in parameters)
-					Logger.Debug ("name: {0} - value: {1}", pm.Name, pm.Value);
-				*/
-
-				tapConnection = cm.RequestConnection ("jabber", parameters);
-				if (tapConnection == null) {
-				       Logger.Debug ("Error on RequestConnection");
-				       return;
-				}
-			
-				connectedEvent = new ManualResetEvent (false);
-				tapConnection.StatusChanged += OnConnectionChanged;
-				tapConnection.Connect (Tapioca.ContactPresence.Available);
-				
-				connectedEvent.WaitOne (20000, true);
-				Thread.Sleep(2000);
-
-				if (tapConnection.Status != Tapioca.ConnectionStatus.Connected)
+				if (rtcAccount.Connected == false)
 				{
 					throw new ApplicationException (
 								String.Format ("Failed to connect \"{0}\"", 
 									rtcAccount.Username));
 									//rtcAccount.TelepathyBusName));
 				}
-				
-				Logger.Debug ("Connection Status: {0}", tapConnection.Status.ToString());
-				
-
-			
-				/*
-				foreach(Account account in AccountManagement.GetAccounts())
-				{
-					conn = new Novell.Rtc.Connection (account);
-					conn.Connect ();
-					Member me = conn.GetSelf();
-					Console.WriteLine ("Me - Name: {0}  Alias: {1}", me.ScreenName, me.Alias);
-					Person person = new Person(me);
-					person.IsSelf = true;
-					persons[me.Handle] = person;
-					this.me = person;
-					
-							
-					Member[] members = conn.GetActiveMembers();
-							
-					foreach (Member member in members)
-					{
-						if(!persons.ContainsKey(member.Handle))
-							persons[member.Handle] = new Person(member);
-						
-						Console.WriteLine (
-							"Member - Handle: {0} Name: {1}  Alias: {2} Presence: {3}", 
-							member.Handle, 
-							member.ScreenName, 
-							member.Alias,
-							member.Presence.ToString());
-					}
-					
-					conn.IncomingConversation += OnIncomingConversation;
-					conn.IncomingMediaConversation += OnIncomingMediaConversation;
-				}
-				*/
 			}
 			catch (Exception es)
 			{
@@ -536,7 +446,6 @@ namespace Banter
 			}
 		}
 
-		
 		private void OnImageClick (object o, ButtonPressEventArgs args) // handler for mouse click
 		{
 			if(!initialized)
@@ -641,25 +550,24 @@ namespace Banter
 				}
 			}
 			
-			/*
-			// Temporary disconnect from our single account			
-			if (conn != null && conn.Connected == true) {
-				conn.Disconnect ();
-				conn = null;
+			foreach (Banter.Account account in AccountManagement.GetAccounts())
+			{
+				Logger.Debug ("Disconecting account: {0}", account.Name);
+				//account.Disconnect ();
 			}
-			*/
+			
+			Logger.Debug ("Finished Disconnecting accounts");
 
+			/*
 			if (tapConnection != null)			
 				tapConnection.Disconnect ();
-
+			*/
+			
 			// Unauthenticate all accounts
 			AccountManagement.Stop ();
 			
 			// Shutdown the messaging engine
 			//MessageEngine.Stop ();
-
-			// Shutdown all the telepathy providers that were loaded
-			//TelepathyProviderFactory.Stop ();
 			
 			// Shutdown the message log store
 			//MessageStore.Stop ();
@@ -847,25 +755,32 @@ Logger.Debug ("Application.OnGroupWindowDeleted");
 			throw new ApplicationException("Fixme: The dude is not found, create real exceptions");
 		}
 		
-		public void InitiateTapiocaChat(Person person)
+		public void InitiateChat(Person person)
 		{
-			Console.WriteLine("Called to initiate chat with: " + person.DisplayName);
+			Logger.Debug ("Called to initiate chat with: " + person.DisplayName);
 			initiatedConversation = true;
 			
-			if(chatWindows.ContainsKey(person.Id))
-				chatWindows[person.Id].Present();
+			if (ChatWindow.AlreadyExist (person.Id) == true)
+				ChatWindow.PresentWindow (person.Id);
 			else
 			{
 				try
 				{
-					ChatWindow cw = new ChatWindow();
-					cw.DeleteEvent += OnChatWindowDelete;
-					chatWindows[person.Id] = cw;
-
+					// FIXEME::temporary hack
+				
+					Banter.Account acct = null;
+					foreach (Banter.Account account in AccountManagement.GetAccounts())
+					{
+						acct = account;
+						break;
+					}
+				
 					Conversation conversation = 
-						new Conversation(tapConnection, person.Contact);
+						Banter.ConversationManager.Create (acct, person.Contact, true);
 					conversation.CreateTextChannel();
-					cw.Conversation = conversation;
+					
+					ChatWindow cw = new ChatWindow (conversation);
+					cw.DeleteEvent += OnChatWindowDelete;
 					cw.Present();
 				}
 				catch (Exception es)
@@ -876,9 +791,9 @@ Logger.Debug ("Application.OnGroupWindowDeleted");
 			}
 		}
 
-		public void InitiateTapiocaVideoChat(Person person)
+		public void InitiateVideoChat(Person person)
 		{
-			Console.WriteLine("Called to initiate Video chat with: " + person.DisplayName);
+			Logger.Debug ("Called to initiate Video chat with: " + person.DisplayName);
 			initiatedConversation = true;
 			
 			VideoWindow meWindow = new VideoWindow();
@@ -897,9 +812,9 @@ Logger.Debug ("Application.OnGroupWindowDeleted");
 			}
 		}		
 
-		public void InitiateTapiocaAudioChat (Person person)
+		public void InitiateAudioChat (Person person)
 		{
-			Console.WriteLine("Called to initiate Audio chat with: " + person.DisplayName);
+			Logger.Debug ("Called to initiate Audio chat with: " + person.DisplayName);
 			initiatedConversation = true;
 			
 			if (this.conversation == null)

@@ -1,5 +1,10 @@
 2007-05-10  Brady Anderson <banderso@novell.com> 
 
+	* Banter/Application.cs: moved global tapioca connection creation and
+	  processing into account
+
+2007-05-10  Brady Anderson <banderso@novell.com> 
+
 	* Banter/ChatWindow.cs: new constructor with conversation
 
 2007-05-10  Brady Anderson <banderso@novell.com> 
