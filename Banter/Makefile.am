@@ -43,6 +43,9 @@ FILES = \
 	$(srcdir)/PersonStore.cs \
 	$(srcdir)/PersonView.cs \
 	$(srcdir)/PersonCard.cs \
+	$(srcdir)/Presence.cs \
+	$(srcdir)/ProviderUser.cs \
+	$(srcdir)/ProviderUserManager.cs \
 	$(srcdir)/Conversation.cs \
 	$(srcdir)/ConversationManager.cs \
 	$(srcdir)/ChatWindow.cs \
