@@ -40,7 +40,7 @@ namespace Banter
 
 		#region Private Static Types
 		private static Banter.PersonStore store = null;
-		private static System.Object locker = new System.Object();		
+		private static System.Object locker = new System.Object();
 		#endregion
 
 	
@@ -51,6 +51,7 @@ namespace Banter
 		private BookView bookView;
 		private Dictionary<string, Gtk.TreeIter> groupIters;
 		private Dictionary<string, Gtk.TreeIter> personIters;
+		private Person me;
 		#endregion
 
 		#region Internal Properties
@@ -109,6 +110,19 @@ namespace Banter
 				return PersonStore.Instance.personTreeStore;
 			}
 		}
+		
+		
+		/// <summary>
+		/// The Person representing the current user
+		/// </summary>
+		public static Person Me
+		{
+			get{ return PersonStore.Instance.me;}
+			set
+			{
+				PersonStore.Instance.me = value;
+			}
+		}			
 		#endregion
 
 

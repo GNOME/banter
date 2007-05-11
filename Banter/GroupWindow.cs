@@ -423,7 +423,11 @@ namespace Banter
 		{
 			HBox hbox = new HBox (false, 4);
 			
-			avatarImage = new Image (Utilities.GetIcon ("blank-photo-128", 32));
+			if( (PersonStore.Me != null) && (PersonStore.Me.Photo != null) )
+				avatarImage = new Image(PersonStore.Me.Photo.ScaleSimple(48,48,Gdk.InterpType.Bilinear));
+			else
+				avatarImage = new Image (Utilities.GetIcon ("blank-photo-128", 32));
+
 			avatarImage.Show ();
 			hbox.PackStart (avatarImage, false, false, 0);
 			

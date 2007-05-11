@@ -1,5 +1,10 @@
 2007-05-09  Calvin Gaisford <calvinrg@gmail.com> 
 
+	* Banter/PersonStore.cs: Added ability to set and get Me Person
+	* Banter/GroupWindow.cs: Added "Me" avatar if store in EDS
+
+2007-05-09  Calvin Gaisford <calvinrg@gmail.com> 
+
 	* Banter.mdp: Added a gtk-sharp reference
 	* Banter/PreferencesDialog.cs: Updated calls to AddMessage to pass null
 	  for the avatar path
