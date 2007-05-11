@@ -290,7 +290,7 @@ namespace Banter
         	Banter.JabberAccount account = 
         		new Banter.JabberAccount (
         				"Google Talk",
-        				"jabber",
+        				Banter.ProtocolName.Jabber,
         				username,
         				password,
         				server,

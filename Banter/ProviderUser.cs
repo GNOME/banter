@@ -24,6 +24,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
+using Tapioca;
 
 namespace Banter
 {
@@ -41,7 +42,9 @@ namespace Banter
 		#endregion		
 	}
 
-	
+	public delegate void ProviderUserPresenceUpdatedHandler (ProviderUser user);
+	public delegate void ProviderUserAliasChangedHandler (ProviderUser user);
+
 	///<summary>
 	///	ProviderUser Class
 	/// ProviderUser represents buddies from providers in telepathy.
@@ -55,8 +58,13 @@ namespace Banter
 		private Presence presence;
 		private string accountName;
 		private bool isMe;
+		private Tapioca.Contact contact; 
 		#endregion		
-
+		
+		#region Public Events
+		public event ProviderUserPresenceUpdatedHandler PresenceUpdated;		
+		public event ProviderUserAliasChangedHandler AliasChanged;
+		#endregion
 
 		#region Public Properties
 		/// <summary>
@@ -117,6 +125,30 @@ namespace Banter
 			get { return isMe; }
 			set { this.isMe = value; }
 		}	
+		
+
+		/// <summary>
+		/// the actual tapioca contact for this provider user
+		/// </summary>		
+		internal Tapioca.Contact Contact
+		{
+			get { return contact; }
+			set
+			{ 
+				if (this.contact != null) {
+					this.contact.AliasChanged -= OnAliasChanged;
+					this.contact.AuthorizationStatusChanged -= OnAuthorizationStatusChanged;
+					this.contact.PresenceUpdated -= OnPresenceUpdated;
+					this.contact.AvatarUpdated -= OnAvatarUpdated;
+				}
+				
+				this.contact = value;
+				this.contact.AliasChanged += OnAliasChanged;
+				this.contact.AuthorizationStatusChanged += OnAuthorizationStatusChanged;
+				this.contact.PresenceUpdated += OnPresenceUpdated;
+				this.contact.AvatarUpdated += OnAvatarUpdated;
+			}
+		}	
 		#endregion	
 		
 		
@@ -134,6 +166,73 @@ namespace Banter
 			this.protocol = String.Empty;
 		}
 		#endregion
+
+		#region Private Methods
+		private void OnAliasChanged (ContactBase sender, string newAlias)
+		{
+			this.alias = newAlias;
+			
+			// Call any registered handlers
+			if (this.AliasChanged != null)
+				this.AliasChanged (this);
+		}
 		
+		private void OnAuthorizationStatusChanged (Tapioca.Contact sender, Tapioca.ContactAuthorizationStatus status)
+		{
+		}
+		
+		private void OnAvatarUpdated (ContactBase sender, string newToken)
+		{
+			// update avatar
+		}
+		
+		private void OnPresenceUpdated (ContactBase sender, Tapioca.ContactPresence contactPresence)
+		{
+			if (this.Presence != null) {
+				this.Presence.Message = this.contact.PresenceMessage;
+
+				switch (contactPresence)
+				{
+					case Tapioca.ContactPresence.Available:
+					{
+						this.Presence.Type = Banter.PresenceType.Available;
+						break;
+					}
+				
+					case Tapioca.ContactPresence.Away:
+					{
+						this.Presence.Type = Banter.PresenceType.Away;
+						break;
+					}
+					case Tapioca.ContactPresence.Busy:
+					{
+						this.Presence.Type = Banter.PresenceType.Busy;
+						break;
+					}
+					case Tapioca.ContactPresence.Hidden:
+					{
+						this.Presence.Type = Banter.PresenceType.Hidden;
+						break;
+					}
+					case Tapioca.ContactPresence.Offline:
+					{
+						this.Presence.Type = Banter.PresenceType.Offline;
+						break;
+					}
+					
+					case Tapioca.ContactPresence.XA:
+					{
+						this.Presence.Type = Banter.PresenceType.XA;
+						break;
+					}
+				}
+			
+				// call registered handlers
+				if (this.PresenceUpdated != null)
+					this.PresenceUpdated (this); 
+			}
+		}
+		
+		#endregion		
 	}
 }
