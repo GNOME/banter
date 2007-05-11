@@ -46,12 +46,12 @@ namespace Banter
         	conversations = new List<Conversation> ();	
 		}
 		
-		static public bool Exist (Tapioca.Contact peer)
+		static public bool Exist (ProviderUser peer)
 		{
 			bool exists = false;
 			foreach (Conversation conversation in ConversationManager.conversations)
 			{
-				if (conversation.PeerContact.Uri.CompareTo (peer.Uri) == 0)
+				if (conversation.PeerUser.Uri.CompareTo (peer.Uri) == 0)
 				{
 					exists = true;
 				}

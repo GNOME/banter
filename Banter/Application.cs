@@ -646,7 +646,7 @@ Logger.Debug ("Application.OnGroupWindowDeleted");
 			ChatWindow cw = sender as ChatWindow;
 			if (chatWindows.ContainsValue (cw))
 			{
-				Person person = persons[cw.Conversation.PeerContact.Handle.Id];
+				Person person = persons[cw.Conversation.PeerUser.Contact.Handle.Id];
 				if(person != null)
 					chatWindows.Remove (person.Id);
 			}

@@ -72,7 +72,7 @@ namespace Banter
 			//lastSender = null;
 			shiftKeyPressed = false;
 
-			Person peer = PersonStore.GetPersonByJabberId (conv.PeerContact.Uri);
+			Person peer = PersonStore.GetPersonByJabberId (conv.PeerUser.Uri);
 			chatWindows[peer.Id] = this;
 			
 			Console.WriteLine ("FIXME: Set the ChatWindow title to reflect who's in the conversation");
@@ -222,13 +222,16 @@ Logger.Debug ("OnMessageReceived called: {0}", message.Text);
 			string avatarPath = null;
 Logger.Debug ("OnMessageReceived called: {0}", message.Text);
 			
-			Logger.Debug ("Peer Handle: {0}", conversation.PeerContact.Handle.Id);
-			Logger.Debug ("Peer Screenname: {0}", conversation.PeerContact.Uri);
-			Logger.Debug ("Sender: {0}", conversation.PeerContact.Alias);
+			Logger.Debug ("Peer Handle: {0}", conversation.PeerUser.Contact.Handle.Id);
+			Logger.Debug ("Peer Screenname: {0}", conversation.PeerUser.Uri);
+			Logger.Debug ("Sender: {0}", conversation.PeerUser.Alias);
+			
+			/*
 			Person person = Application.Instance.GetPersonFromContact (conversation.PeerContact);
 			if(person != null)
 				avatarPath = person.GetScaledAvatar(36);
-				
+			*/
+			
 			AddMessage (message, true, conversation.CurrentMessageSameAsLast, avatarPath);
 		}
 		
@@ -362,6 +365,8 @@ Logger.Debug ("OnMessageSent called: {0}", message.Text);
 		public Conversation Conversation
 		{
 			get { return conv; }
+			
+			/*
 			set {
 				if (conv != null) {
 					// Unregister event handlers on the old conversation
@@ -382,6 +387,7 @@ Logger.Debug ("OnMessageSent called: {0}", message.Text);
 					} catch {}
 				}
 			}
+			*/
 		}
 #endregion
 

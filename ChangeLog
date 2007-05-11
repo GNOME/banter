@@ -1,3 +1,10 @@
+2007-05-11  Brady Anderson <banderso@novell.com> 
+
+	* Banter/Application.cs: removed tapioca connection
+	* Banter/ConversationManager.cs, Banter/Conversation.cs: removing
+	  tapioca contact
+	* Banter/ChatWindow.cs: commented out avatar stuff - temporary
+
 2007-05-11  Calvin Gaisford <calvinrg@gmail.com> 
 
 	* Banter/Person.cs: Added the PresenceUpdated event.  Connected up

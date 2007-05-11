@@ -43,7 +43,7 @@ namespace Banter
 		private uint peerWindowID;
 		private ArrayList messages;
 		private Account account;
-		private Tapioca.Contact peerContact;
+		//private Tapioca.Contact peerContact;
 		private Tapioca.Connection tapConnection;
 		private Tapioca.TextChannel tapTextChannel;
 		private Tapioca.StreamChannel tapStreamChannel;
@@ -57,11 +57,6 @@ namespace Banter
 		public Tapioca.UserContact MeContact
 		{
 			get {return tapConnection.Info;}
-		}
-		
-		public Tapioca.Contact PeerContact
-		{
-			get {return peerContact;}
 		}
 		
 		public ProviderUser PeerUser
@@ -392,7 +387,7 @@ namespace Banter
 			tapTextChannel = 
 				tapConnection.CreateChannel (
 					Tapioca.ChannelType.Text,
-					peerContact) as Tapioca.TextChannel;
+					peerUser.Contact) as Tapioca.TextChannel;
 					
 			tapTextChannel.Closed += OnTextChannelClosed;
 			tapTextChannel.MessageReceived += OnTapiocaMessageReceivedHandler;
@@ -407,7 +402,7 @@ namespace Banter
 				this.tapStreamChannel =
 					tapConnection.CreateChannel (
 						Tapioca.ChannelType.StreamedMedia,
-						peerContact) as Tapioca.StreamChannel;
+						peerUser.Contact) as Tapioca.StreamChannel;
 			}
 			
 			if (this.tapAudioStream == null)
@@ -416,7 +411,7 @@ namespace Banter
 				tapAudioStream =
 					this.tapStreamChannel.RequestStream (
 						Tapioca.StreamType.Audio, 
-						this.PeerContact) as StreamAudio;
+						this.PeerUser.Contact) as StreamAudio;
 						
 				tapAudioStream.Play();
 			}
@@ -431,14 +426,14 @@ namespace Banter
 				this.tapStreamChannel =
 					tapConnection.CreateChannel (
 						Tapioca.ChannelType.StreamedMedia,
-						peerContact) as Tapioca.StreamChannel;
+						peerUser.Contact) as Tapioca.StreamChannel;
 			}
 			
 			if (this.tapVideoStream == null)
 			{
 				Logger.Debug ("tapVideoStream == null - creating");
 				StreamObject[] streams =
-					this.tapStreamChannel.RequestFullStream (this.PeerContact);
+					this.tapStreamChannel.RequestFullStream (this.PeerUser.Contact);
 				foreach (StreamObject so in streams)
 				{
 					switch (so.Type)
