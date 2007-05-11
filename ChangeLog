@@ -1,3 +1,9 @@
+2007-05-10  Brady Anderson <banderso@novell.com> 
+
+	* Banter/Account.cs: updated the provider user list when finished
+	  connecting
+	* Banter/ProviderUser.cs: added a setter on Presence
+
 2007-05-10  Calvin Gaisford <calvinrg@gmail.com> 
 
 	* Banter/ProviderUserManager.cs: Added the CreateProviderUser method to

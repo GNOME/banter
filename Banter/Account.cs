@@ -181,6 +181,22 @@ namespace Banter
 						Logger.Debug ("# Subscribed Contacts: {0}", tapConnection.ContactList.SubscribedContacts.Length);
 						Logger.Debug ("# Known Contacts: {0}", tapConnection.ContactList.KnownContacts.Length);
 
+						// Add me to the list
+						ProviderUser me;
+						string meKey = 
+							ProviderUserManager.CreateKey (tapConnection.Info.Uri, this.protocol);
+						me = ProviderUserManager.GetProviderUser (meKey);
+						if (me == null) {
+							me = new Banter.ProviderUser ();
+							me.AccountName = this.Name;
+							me.Alias = tapConnection.Info.Alias;
+							me.Protocol = this.protocol;
+							me.Uri = tapConnection.Info.Uri;
+							me.IsMe = true;
+							me.Presence = new Banter.Presence (Banter.PresenceType.Available);
+							ProviderUserManager.SetProviderUser(meKey, me);
+						}	
+
 						// Loop through and add all of the subscribed contacts
 		 				foreach (Contact c in tapConnection.ContactList.KnownContacts) //.SubscribedContacts)
 						{
@@ -200,6 +216,16 @@ namespace Banter
 							}
 								
 							person.Contact = c;
+							
+							// update the provider user objects
+							ProviderUser providerUser;
+							string key = 
+								ProviderUserManager.CreateKey (c.Uri, Banter.ProtocolName.Jabber);
+							providerUser = ProviderUserManager.GetProviderUser (key);
+							if (providerUser == null) {
+								providerUser = CreateProviderUserFromContact (c);
+								ProviderUserManager.SetProviderUser(key, providerUser);
+							}	
 		                }
 		                
 						// FIXME - For now we have all caps		                
@@ -229,6 +255,56 @@ namespace Banter
 					break;
 				}
 			}
+		}
+		
+		private ProviderUser CreateProviderUserFromContact (Tapioca.Contact contact)
+		{
+			ProviderUser pu = new ProviderUser();
+			pu.AccountName = this.Name;
+			pu.Alias = contact.Alias;
+			pu.Protocol = this.protocol;
+			pu.Uri = contact.Uri;
+			
+			switch (contact.Presence)
+			{
+				case Tapioca.ContactPresence.Available:
+				{
+					pu.Presence = new Banter.Presence (Banter.PresenceType.Available);
+					break;
+				}
+			
+				case Tapioca.ContactPresence.Away:
+				{
+					pu.Presence = new Banter.Presence (Banter.PresenceType.Away);
+					break;
+				}
+				case Tapioca.ContactPresence.Busy:
+				{
+					pu.Presence = new Banter.Presence (Banter.PresenceType.Busy);
+					break;
+				}
+				case Tapioca.ContactPresence.Hidden:
+				{
+					pu.Presence = new Banter.Presence (Banter.PresenceType.Hidden);
+					break;
+				}
+				case Tapioca.ContactPresence.Offline:
+				{
+					pu.Presence = new Banter.Presence (Banter.PresenceType.Offline);
+					break;
+				}
+				
+				case Tapioca.ContactPresence.XA:
+				{
+					pu.Presence = new Banter.Presence (Banter.PresenceType.XA);
+					break;
+				}
+			}
+			
+			if (contact.PresenceMessage != null && pu.Presence != null)
+				pu.Presence.Message = contact.PresenceMessage;
+
+			return pu;
 		}
 		
 		private void OnNewChannel (Tapioca.Connection sender, Tapioca.Channel channel)

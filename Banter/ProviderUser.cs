@@ -95,6 +95,7 @@ namespace Banter
 		public Presence Presence
 		{
 			get { return presence; }
+			set { this.presence = value; }
 		}		
 
 
