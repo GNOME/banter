@@ -74,6 +74,7 @@ namespace Banter
 		    
 
 			person.PresenceUpdated += OnPersonPresenceUpdated;
+			person.AvatarUpdated += OnPersonAvatarUpdated;
 
 			ReadSmallWidgetHtml();
 		}
@@ -104,6 +105,7 @@ namespace Banter
 			Logger.Debug ("PersonCard.OnDestroyed");
 
 			person.PresenceUpdated -= OnPersonPresenceUpdated;
+			person.AvatarUpdated -= OnPersonAvatarUpdated;			
 	
 			Logger.Debug("FIXME: the base OnDestroy for the PersonCard is not being called");
 			// this is not being called because gtkmozembed blows the next time you try to use
@@ -309,12 +311,23 @@ namespace Banter
 		///<summary>
 		///	Handles Presence Events on a Person
 		///</summary>
-		private void OnPersonPresenceUpdated (Presence presence)
+		private void OnPersonPresenceUpdated (Person person)
 		{
 			Logger.Debug("Updating presence on {0}", person.DisplayName);
 			ReadSmallWidgetHtml();
 			webControl.RenderData(widgetHtml, "file://" + listStylesPath, "text/html");
 		}
+		
+
+		///<summary>
+		///	Handles Avatar Events on a Person
+		///</summary>
+		private void OnPersonAvatarUpdated (Person person)
+		{
+			Logger.Debug("Updating presence on {0}", person.DisplayName);
+			ReadSmallWidgetHtml();
+			webControl.RenderData(widgetHtml, "file://" + listStylesPath, "text/html");
+		}		
 		#endregion
 
 	}

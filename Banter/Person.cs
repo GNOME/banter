@@ -30,7 +30,8 @@ using Evolution;
 namespace Banter
 {
 
-	public delegate void PersonPresenceUpdatedHandler (Presence presence);
+	public delegate void PersonPresenceUpdatedHandler (Person person);
+	public delegate void PersonAvatarUpdatedHandler (Person person);
 
 	///<summary>
 	///	Person Class
@@ -51,6 +52,7 @@ namespace Banter
 
 		#region Public Events
 		public event PersonPresenceUpdatedHandler PresenceUpdated;
+		public event PersonAvatarUpdatedHandler AvatarUpdated;
 		#endregion
 
 
@@ -129,7 +131,10 @@ namespace Banter
 		/// </summary>
 		public Gdk.Pixbuf Photo
 		{
-			get {return avatar;}
+			get
+			{
+				return avatar;
+			}
 		}
 
 		
@@ -289,8 +294,8 @@ namespace Banter
 				presence = ((ProviderUser)providerUsers[0]).Presence;
 			}
 				
-			if(this.PresenceUpdated != null)
-				this.PresenceUpdated(presence);
+			if(PresenceUpdated != null)
+				PresenceUpdated(this);
 		}
 		
 		
@@ -298,6 +303,37 @@ namespace Banter
 		{
 			//Logger.Debug("Presence updated for ProviderUser: {0}", user.Alias);
 			UpdatePresence();
+		}
+		
+		
+		/// <summary>
+		/// Handles notification from a ProviderUser that the Avatar Token has been updated
+		/// AvatarTokenUpdated handler
+		/// AvatarReceived
+		/// </summary>
+		private void ProviderUserAvatarTokenUpdated (ProviderUser user, string newToken)
+		{
+			// FIXME: we need to test to see if we really need to request the data
+			// FIXME: Save off the newToken for later
+			user.RequestAvatarData();
+		}
+
+
+		/// <summary>
+		/// Handles notification from a ProviderUser that the Avatar has been received
+		/// AvatarTokenUpdated handler
+		/// AvatarReceived
+		/// </summary>
+		private void ProviderUserAvatarReceived (ProviderUser user, string token, byte[] avatarData)
+		{
+			// FIXME: This needs to determine if the AvatarUpdated needs to be called depending
+			// on the avatar stored in EDS etc.
+			
+			avatar = new Gdk.Pixbuf(avatarData);
+
+			// get the new avatar and call the event
+			if(AvatarUpdated != null)
+				AvatarUpdated(this);
 		}
 		#endregion
 		
@@ -308,7 +344,7 @@ namespace Banter
 		/// </summary>
 		public string GetScaledAvatar(int size)
 		{
-			if(avatar == null)
+			if(this.Photo == null)
 				return null;
 				
 			string	avatarPath = null;
