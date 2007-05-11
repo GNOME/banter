@@ -133,6 +133,14 @@ namespace Banter
 		{
 			get
 			{
+				if(avatar == null) {
+					// if the new presence is not offline, request the avatar data
+					// FIXME: we should not just flat out request this every time
+					if(providerUsers.Count > 0) {
+						((ProviderUser)providerUsers[0]).RequestAvatarData();
+					}
+				}
+			
 				return avatar;
 			}
 		}
@@ -159,7 +167,6 @@ namespace Banter
 			get{ return edsContact; }
 			set{ edsContact = value; }
 		}
-
 		
 		/// <summary>
 		/// The Id of this Person
@@ -277,6 +284,8 @@ namespace Banter
 				if(providerUser != null) {
 					providerUsers.Add(providerUser);
 					providerUser.PresenceUpdated += ProviderUserPresenceUpdated;
+					providerUser.AvatarTokenUpdated += this.ProviderUserAvatarTokenUpdated;
+					providerUser.AvatarReceived += this.ProviderUserAvatarReceived;
 				}
 			}
 			UpdatePresence();
@@ -290,20 +299,23 @@ namespace Banter
 		{
 			// Logger.Debug("FIXME: Person.UpdatePresence should use a policy to get the right presence");
 			if(providerUsers.Count > 0) {
-				Logger.Debug("Person.UpdatePresence found a ProviderUser and is using it's presence");
 				presence = ((ProviderUser)providerUsers[0]).Presence;
 			}
-				
+
+			// Call the event on the GUI thread				
 			if(PresenceUpdated != null)
-				PresenceUpdated(this);
+			{
+				Gtk.Application.Invoke (delegate {
+					PresenceUpdated(this);
+				});			
+			}
 		}
 		
 		
 		private void ProviderUserPresenceUpdated (ProviderUser user)
 		{
-			//Logger.Debug("Presence updated for ProviderUser: {0}", user.Alias);
+			//Logger.Debug("Presence updated for ProviderUser: {0}", user.Alias);			
 			UpdatePresence();
-			user.RequestAvatarData();
 		}
 		
 		
@@ -329,15 +341,17 @@ namespace Banter
 		{
 			// FIXME: This needs to determine if the AvatarUpdated needs to be called depending
 			// on the avatar stored in EDS etc.
-			
-			Logger.Debug("******** The ProviderUser avatar is updated for: {0}", user.Alias);
-			
 			avatar = new Gdk.Pixbuf(avatarData);
 
-			// get the new avatar and call the event
+			// Call the event on the GUI thread
 			if(AvatarUpdated != null)
-				AvatarUpdated(this);
+			{
+				Gtk.Application.Invoke (delegate {
+					AvatarUpdated(this);
+				});			
+			}
 		}
+        
 		#endregion
 		
 		

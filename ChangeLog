@@ -1,3 +1,9 @@
+2007-05-11  Calvin Gaisford <calvinrg@gmail.com> 
+
+	* Banter/Person.cs: ADded all of the avatar events so avatars get
+	  updated
+	* Banter/PersonCard.cs: fixed up avatars
+
 2007-05-11  Brady Anderson <banderso@novell.com> 
 
 	* Banter/Application.cs: removed the call to create a ChatWindow after

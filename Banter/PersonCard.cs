@@ -259,9 +259,9 @@ namespace Banter
 			
 			htmlReader = new System.IO.StreamReader(System.IO.Path.Combine(listStylesPath, "person-small.html"));
 			readHtml = htmlReader.ReadToEnd();
-			
+
 			string avatar = person.GetScaledAvatar(16);
-			
+
 			if(avatar != null) {
 				tmpHtml = readHtml.Replace("%PERSON_PHOTO%", "file://" + avatar);
 			}
