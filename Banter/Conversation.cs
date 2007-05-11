@@ -43,7 +43,6 @@ namespace Banter
 		private uint peerWindowID;
 		private ArrayList messages;
 		private Account account;
-		//private Tapioca.Contact peerContact;
 		private Tapioca.Connection tapConnection;
 		private Tapioca.TextChannel tapTextChannel;
 		private Tapioca.StreamChannel tapStreamChannel;
@@ -70,40 +69,10 @@ namespace Banter
 		}
 	
 		#region Constructors	
-		/*
-		internal Conversation (Tapioca.Connection tapiocaConnection, Contact tapiocaPeerContact)
-		{
-			// TODO
-			// Verify these members are from the same connection and valid
-			
-			this.tapConnection = tapiocaConnection;
-			this.peerContact = tapiocaPeerContact;
-			this.messages = new ArrayList ();
-			last = 999;
-		}
-		*/
-		
-		/*
-		internal Conversation (Account account, Contact tapiocaPeerContact)
-		{
-			// TODO
-			// Verify these members are from the same connection and valid
-			
-			this.tapConnection = account.TapiocaConnection;
-			this.peerContact = tapiocaPeerContact;
-			this.messages = new ArrayList ();
-			last = 999;
-		}
-		*/
-		
 		internal Conversation (Account account, Person peer, ProviderUser peerUser, bool initiate)
 		{
-			// TODO
-			// Verify these members are from the same connection and valid
-			
 			this.account = account;
 			this.tapConnection = account.TapiocaConnection;
-			//this.peerContact = tapiocaPeerContact;
 			this.peerUser = peerUser;
 			this.messages = new ArrayList ();
 			last = 999;
@@ -128,7 +97,7 @@ namespace Banter
 			Tapioca.TextChannel sender,
 			Tapioca.TextChannelMessage message)
 		{
-			Logger.Debug ("Conversation::OnTextChannelClosed - called");
+			Logger.Debug ("Conversation::OnTapiocaMessageReceiveHandler - called");
 		
 			TextMessage txtMessage = new TextMessage (message.Contents);
 			txtMessage.From = this.peerUser.Uri;

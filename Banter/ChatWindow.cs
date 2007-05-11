@@ -75,15 +75,9 @@ namespace Banter
 			Person peer = PersonStore.GetPersonByJabberId (conv.PeerUser.Uri);
 			chatWindows[peer.Id] = this;
 			
-			Console.WriteLine ("FIXME: Set the ChatWindow title to reflect who's in the conversation");
-			
-			//Title = Catalog.GetString ("Rockin' Chat Window!");
-			
 			// Update the window title
-			try {
+			if (peer.DisplayName != null)
 				Title = string.Format ("Chat with {0}", peer.DisplayName);
-			} catch {}
-			
 			
 			this.DefaultSize = new Gdk.Size (400, 800); 
 			
