@@ -98,10 +98,15 @@ namespace Banter
 		/// Gets the ProviderUser for the specified key
 		/// The key is basically "Uri:Provider"
 		/// </summary>	
-		public static void SetProviderUser(string key, ProviderUser user)
+		public static void AddProviderUser(string key, ProviderUser user)
 		{
 			lock(locker) {
-				ProviderUserManager.Instance.users[key] = user;			
+				if(!ProviderUserManager.Instance.users.ContainsKey(key)) {
+					ProviderUserManager.Instance.users[key] = user;
+				}
+				else {
+					throw new ApplicationException("key already exists");
+				}
 			}
 		}
 		

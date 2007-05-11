@@ -1,3 +1,9 @@
+2007-05-10  Calvin Gaisford <calvinrg@gmail.com> 
+
+	* Banter/ProviderUserManager.cs: Changed Set to AddProviderUser and
+	  made it check for a key and throw an exception if it's there before
+	  adding it
+
 2007-05-10  Brady Anderson <banderso@novell.com> 
 
 	* Banter/ProviderUser.cs: added sip
