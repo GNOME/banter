@@ -303,6 +303,7 @@ namespace Banter
 		{
 			//Logger.Debug("Presence updated for ProviderUser: {0}", user.Alias);
 			UpdatePresence();
+			user.RequestAvatarData();
 		}
 		
 		
@@ -328,6 +329,8 @@ namespace Banter
 		{
 			// FIXME: This needs to determine if the AvatarUpdated needs to be called depending
 			// on the avatar stored in EDS etc.
+			
+			Logger.Debug("******** The ProviderUser avatar is updated for: {0}", user.Alias);
 			
 			avatar = new Gdk.Pixbuf(avatarData);
 

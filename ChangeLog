@@ -1,5 +1,10 @@
 2007-05-11  Calvin Gaisford <calvinrg@gmail.com> 
 
+	* Banter/Person.cs: updated person to request the avatar data when the
+	  presence is updateed
+
+2007-05-11  Calvin Gaisford <calvinrg@gmail.com> 
+
 	* Banter/Person.cs: ADded avatar events from ProviderUser
 	* Banter/PersonCard.cs: Added event handlers from person for avatar
 	  changes
