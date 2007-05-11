@@ -1,5 +1,9 @@
 2007-05-10  Brady Anderson <banderso@novell.com> 
 
+	* Banter.mdp: added ConversationManager
+
+2007-05-10  Brady Anderson <banderso@novell.com> 
+
 	* Banter.mdp, Banter/Makefile.am: added ConversationManager
 	* Banter/Account.cs: moved tapioca connection processing into account
 	* Banter/Application.cs: moved tapioca connection creation and
