@@ -44,6 +44,8 @@ namespace Banter
 
 	public delegate void ProviderUserPresenceUpdatedHandler (ProviderUser user);
 	public delegate void ProviderUserAliasChangedHandler (ProviderUser user);
+	public delegate void ProviderUserAvatarUpdatedHandler (ProviderUser user, string newToken);
+	public delegate void ProviderUserAvatarReceivedHandler (ProviderUser user, string token, byte[] avatarData);
 
 	///<summary>
 	///	ProviderUser Class
@@ -64,9 +66,26 @@ namespace Banter
 		#region Public Events
 		public event ProviderUserPresenceUpdatedHandler PresenceUpdated;		
 		public event ProviderUserAliasChangedHandler AliasChanged;
+		public event ProviderUserAvatarUpdatedHandler AvatarTokenUpdated;
+		public event ProviderUserAvatarReceivedHandler AvatarReceived;
 		#endregion
 
 		#region Public Properties
+		
+		/// <summary>
+		/// Opaque token for detecting changes in the avatar
+		/// </summary>		
+		public string AvatarToken
+		{
+			get
+			{ 
+				if (this.contact != null)
+					return this.contact.CurrentAvatarToken;
+					
+				return String.Empty;
+			}
+		}
+		
 		/// <summary>
 		/// The Uri of the ProviderUser from telepathy
 		/// </summary>		
@@ -140,6 +159,7 @@ namespace Banter
 					this.contact.AuthorizationStatusChanged -= OnAuthorizationStatusChanged;
 					this.contact.PresenceUpdated -= OnPresenceUpdated;
 					this.contact.AvatarUpdated -= OnAvatarUpdated;
+					this.contact.AvatarReceived -= OnAvatarReceived;
 				}
 				
 				this.contact = value;
@@ -147,6 +167,7 @@ namespace Banter
 				this.contact.AuthorizationStatusChanged += OnAuthorizationStatusChanged;
 				this.contact.PresenceUpdated += OnPresenceUpdated;
 				this.contact.AvatarUpdated += OnAvatarUpdated;
+				this.contact.AvatarReceived += OnAvatarReceived;
 			}
 		}	
 		#endregion	
@@ -183,7 +204,14 @@ namespace Banter
 		
 		private void OnAvatarUpdated (ContactBase sender, string newToken)
 		{
-			// update avatar
+			if (this.AvatarTokenUpdated != null)
+				this.AvatarTokenUpdated (this, newToken);
+		}
+		
+		private void OnAvatarReceived (ContactBase sender, Tapioca.Avatar avatar)
+		{
+			if (this.AvatarReceived != null)
+				this.AvatarReceived (this, avatar.Token, avatar.Data);
 		}
 		
 		private void OnPresenceUpdated (ContactBase sender, Tapioca.ContactPresence contactPresence)
@@ -234,5 +262,13 @@ namespace Banter
 		}
 		
 		#endregion		
+		
+		#region Public Methods
+		public void RequestAvatarData ()
+		{
+			if (this.contact != null) 
+				this.contact.RequestAvatar();
+		}
+		#endregion
 	}
 }

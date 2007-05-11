@@ -1,5 +1,9 @@
 2007-05-11  Brady Anderson <banderso@novell.com> 
 
+	* Banter/ProviderUser.cs: added delegate and events for avatars
+
+2007-05-11  Brady Anderson <banderso@novell.com> 
+
 	* Banter/Account.cs: fixed the presence problem.  no more creating new
 	  presence objects.
 
