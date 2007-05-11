@@ -95,7 +95,7 @@ namespace Banter
 
 
 		/// <summary>
-		/// Gets the ProviderUser for the specified key
+		/// Adds the ProviderUser for the given key
 		/// The key is basically "Uri:Provider"
 		/// </summary>	
 		public static void AddProviderUser(string key, ProviderUser user)
@@ -109,6 +109,27 @@ namespace Banter
 				}
 			}
 		}
+
+
+		/// <summary>
+		/// Creates a new ProviderUser and adds them in one atomic operation
+		/// </summary>	
+		public static ProviderUser CreateProviderUser(string uri, string protocol)
+		{
+			lock(locker) {
+				string key = CreateKey(uri, protocol);
+				
+				if(!ProviderUserManager.Instance.users.ContainsKey(key)) {
+					ProviderUser user = new ProviderUser();
+					user.Uri = uri;
+					user.Protocol = protocol;
+					ProviderUserManager.Instance.users[key] = user;
+					return user;
+				}
+				else
+					throw new ApplicationException("key already exists");
+			}
+		}		
 		
 		
 		/// <summary>
