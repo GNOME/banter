@@ -35,7 +35,7 @@ namespace Banter
 	public static class ProtocolName
 	{
 		#region Public Static Types
-		public const string Jabber = "Jabber";
+		public const string Jabber = "jabber";
 		public const string Sip	= "SIP";
 		public const string Aol = "AOL";
 		public const string Gwim = "Gwim";

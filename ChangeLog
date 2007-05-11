@@ -1,5 +1,10 @@
 2007-05-11  Brady Anderson <banderso@novell.com> 
 
+	* Banter/ProviderUser.cs: changed Jabber string to jabber for telepathy
+	  compliance
+
+2007-05-11  Brady Anderson <banderso@novell.com> 
+
 	* Banter/Account.cs: changes to set the tapioca contact in the provider
 	  user object
 	* Banter/ProviderUser.cs: added internal Contact property; setup events
