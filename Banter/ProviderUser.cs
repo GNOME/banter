@@ -28,6 +28,20 @@ using System.Collections.Generic;
 namespace Banter
 {
 	///<summary>
+	///	ProtocolName
+	/// Class that holds const names for protocols used in ProviderUser
+	///</summary>
+	public static class ProtocolName
+	{
+		#region Public Static Types
+		public const string Jabber = "Jabber";
+		public const string Aol = "AOL";
+		public const string Gwim = "Gwim";
+		#endregion		
+	}
+
+	
+	///<summary>
 	///	ProviderUser Class
 	/// ProviderUser represents buddies from providers in telepathy.
 	///</summary>
