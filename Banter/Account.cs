@@ -182,20 +182,19 @@ namespace Banter
 						Logger.Debug ("# Known Contacts: {0}", tapConnection.ContactList.KnownContacts.Length);
 
 						// Add me to the list
-						ProviderUser me;
-						string meKey = 
-							ProviderUserManager.CreateKey (tapConnection.Info.Uri, this.protocol);
-						me = ProviderUserManager.GetProviderUser (meKey);
-						if (me == null) {
-							me = new Banter.ProviderUser ();
+							
+						try {
+							string meKey = 
+								ProviderUserManager.CreateKey (tapConnection.Info.Uri, this.protocol);
+							ProviderUser me = new Banter.ProviderUser ();
 							me.AccountName = this.Name;
 							me.Alias = tapConnection.Info.Alias;
 							me.Protocol = this.protocol;
 							me.Uri = tapConnection.Info.Uri;
 							me.IsMe = true;
 							me.Presence = new Banter.Presence (Banter.PresenceType.Available);
-							ProviderUserManager.SetProviderUser(meKey, me);
-						}	
+							ProviderUserManager.AddProviderUser (meKey, me);
+						} catch{}
 
 						// Loop through and add all of the subscribed contacts
 		 				foreach (Contact c in tapConnection.ContactList.KnownContacts) //.SubscribedContacts)
@@ -208,6 +207,8 @@ namespace Banter
 		                 		c.SubscriptionStatus, 
 		                 		c.Alias);
 
+							// FIXME:: this all needs to be take out when the PersonManager
+							// is complete - it will handle all of this
 							Person person = PersonStore.GetPersonByJabberId(c.Handle.Name);
 							if(person == null) {
 								person = new Person(c.Alias);
@@ -216,16 +217,16 @@ namespace Banter
 							}
 								
 							person.Contact = c;
+							// END OF FIXME
 							
 							// update the provider user objects
-							ProviderUser providerUser;
 							string key = 
 								ProviderUserManager.CreateKey (c.Uri, Banter.ProtocolName.Jabber);
-							providerUser = ProviderUserManager.GetProviderUser (key);
-							if (providerUser == null) {
-								providerUser = CreateProviderUserFromContact (c);
-								ProviderUserManager.SetProviderUser(key, providerUser);
-							}	
+							ProviderUser providerUser =	CreateProviderUserFromContact (c);
+							
+							try {
+								ProviderUserManager.AddProviderUser (key, providerUser);
+							} catch{}
 		                }
 		                
 						// FIXME - For now we have all caps		                
