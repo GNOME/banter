@@ -226,11 +226,13 @@ Logger.Debug ("OnMessageReceived called: {0}", message.Text);
 			Logger.Debug ("Peer Screenname: {0}", conversation.PeerUser.Uri);
 			Logger.Debug ("Sender: {0}", conversation.PeerUser.Alias);
 			
-			/*
-			Person person = Application.Instance.GetPersonFromContact (conversation.PeerContact);
+			Person person = null;
+			try {
+				person = PersonStore.GetPerson (conversation.PeerUser);
+			} catch{}
+			
 			if(person != null)
 				avatarPath = person.GetScaledAvatar(36);
-			*/
 			
 			AddMessage (message, true, conversation.CurrentMessageSameAsLast, avatarPath);
 		}
