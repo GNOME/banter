@@ -232,8 +232,6 @@ namespace Banter
 			providerUsers = new ArrayList();
 			presence = new Presence(PresenceType.Offline);
 
-			UpdateProviderUsers();
-
 			// first check to see if this is a real edsContact
 			if(edsContact.Id != null) {
 				string homeDirectoryPath = Environment.GetFolderPath (Environment.SpecialFolder.Personal);
@@ -265,33 +263,6 @@ namespace Banter
 		}
 
 		
-		/// <summary>
-		/// Ensures that we have ProviderUsers for eds Provider values
-		/// </summary>
-		private void UpdateProviderUsers()
-		{
-			//Logger.Debug("FIXME: Person.UpdateProviderUsers should use a policy for the order");
-			providerUsers.Clear();
-		
-			// Jabber values
-			foreach(string uri in edsContact.ImJabber) {
-				string key = ProviderUserManager.CreateKey(uri, ProtocolName.Jabber);
-				ProviderUser providerUser = ProviderUserManager.GetProviderUser(key);
-				if(providerUser == null) {
-					providerUser = ProviderUserManager.CreateProviderUser(uri, ProtocolName.Jabber);
-				}
-				
-				if(providerUser != null) {
-					providerUsers.Add(providerUser);
-					providerUser.PresenceUpdated += ProviderUserPresenceUpdated;
-					providerUser.AvatarTokenUpdated += this.ProviderUserAvatarTokenUpdated;
-					providerUser.AvatarReceived += this.ProviderUserAvatarReceived;
-				}
-			}
-			UpdatePresence();
-		}
-		
-
 		/// <summary>
 		/// Updates the persons presence to be the most present of his ProviderUsers
 		/// </summary>
@@ -414,6 +385,34 @@ namespace Banter
 
 			return avatarPath;
 		}
+
+
+		/// <summary>
+		/// Ensures that we have ProviderUsers for eds Provider values
+		/// </summary>
+		public void UpdateProviderUsers()
+		{
+			//Logger.Debug("FIXME: Person.UpdateProviderUsers should use a policy for the order");
+			providerUsers.Clear();
+		
+			// Jabber values
+			foreach(string uri in edsContact.ImJabber) {
+				string key = ProviderUserManager.CreateKey(uri, ProtocolName.Jabber);
+				ProviderUser providerUser = ProviderUserManager.GetProviderUser(key);
+				if(providerUser == null) {
+					providerUser = ProviderUserManager.CreateProviderUser(uri, ProtocolName.Jabber);
+				}
+				
+				if(providerUser != null) {
+					providerUsers.Add(providerUser);
+					providerUser.PresenceUpdated += ProviderUserPresenceUpdated;
+					providerUser.AvatarTokenUpdated += this.ProviderUserAvatarTokenUpdated;
+					providerUser.AvatarReceived += this.ProviderUserAvatarReceived;
+				}
+			}
+			UpdatePresence();
+		}
+		
 		#endregion
 		
 	}	

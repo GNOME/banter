@@ -49,8 +49,7 @@ namespace Banter
 		/// </summary>			
 		public void Start()
 		{
-			
-		
+			ProviderUserManager.ProviderUserAdded += ProviderUserAdded;
 		}
 		
 		
@@ -59,9 +58,23 @@ namespace Banter
 		/// </summary>			
 		public void Stop()
 		{
-		
+			ProviderUserManager.ProviderUserAdded -= ProviderUserAdded;		
 		}
 		#endregion
 		
+		
+		#region Private Methods
+		public void ProviderUserAdded (ProviderUser user)
+		{
+			Person person = PersonStore.GetPerson(user);
+			if(person == null) {
+				Logger.Debug("PersonSync.ProviderUserAdded: Adding new Contact in EDS: {0}", user.Alias);
+				person = new Person(user.Alias);
+				person.JabberId = user.Uri;
+				PersonStore.AddPerson(person);
+			}
+		}
+		#endregion
+	
 	}
 }

@@ -1,3 +1,13 @@
+2007-05-11  Calvin Gaisford <calvinrg@gmail.com> 
+
+	* Banter/Person.cs: Moved updateproviderusers to be public so the
+	  PersonStore can call it after creating persons
+	* Banter/PersonStore.cs: Updated creation of persons so the
+	  updateProviderUsers is called
+	* Banter/ProviderUserManager.cs: Added an event that is fired when new
+	  users are added
+	* Banter/PersonSync.cs: Added code to sync ProviderUsers into EDS
+
 2007-05-11  Brady Anderson <banderso@novell.com> 
 
 	* Banter/AccountManagement.cs: Hack to disconnect tapioca connections

@@ -203,7 +203,8 @@ namespace Banter
 					else {
 						Person person = new Person(contact);
 						Gtk.TreeIter iter = personTreeStore.AppendValues(person);
-						personIters[contact.Id] = iter;					
+						personIters[contact.Id] = iter;
+						person.UpdateProviderUsers();
 						Logger.Debug ("PersonStore.OnContactsAdded - Added Person: {0}", person.DisplayName);
 					}
 				}
@@ -245,7 +246,8 @@ namespace Banter
 					else {
 						Person person = new Person(contact);
 						Gtk.TreeIter iter = personTreeStore.AppendValues(person);
-						personIters[contact.Id] = iter;					
+						personIters[contact.Id] = iter;
+						person.UpdateProviderUsers();						
 						Logger.Debug ("PersonStore.OnContactsChanged - Added Person: {0}", person.DisplayName);
 					}
 				}
@@ -298,6 +300,8 @@ namespace Banter
 					Gtk.TreeIter iter = personIters[contact.Id];
 					person = (Person) personTreeStore.GetValue(iter, 0);
 				}
+				else
+					Logger.Debug("EDS Contact was found, but wasn't in the list: {0}", contact.FileAs);
 			}
 			return person;
 		}

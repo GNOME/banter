@@ -27,6 +27,9 @@ using System.Collections.Generic;
 
 namespace Banter
 {
+
+	public delegate void ProviderUserAddedHandler (ProviderUser user);
+	
 	///<summary>
 	///	ProviderUserManager Class
 	/// ProviderUserManager is a singleton that manages all ProviderUsers in Banter.
@@ -41,6 +44,11 @@ namespace Banter
 		
 		#region Private Types
 		private Dictionary<string, ProviderUser> users;
+		#endregion
+
+
+		#region Public Events
+		public static event ProviderUserAddedHandler ProviderUserAdded;
 		#endregion
 		
 
@@ -103,6 +111,8 @@ namespace Banter
 			lock(locker) {
 				if(!ProviderUserManager.Instance.users.ContainsKey(key)) {
 					ProviderUserManager.Instance.users[key] = user;
+					if(ProviderUserAdded != null)
+						ProviderUserAdded(user);
 				}
 				else {
 					throw new ApplicationException("key already exists");
@@ -124,6 +134,8 @@ namespace Banter
 					user.Uri = uri;
 					user.Protocol = protocol;
 					ProviderUserManager.Instance.users[key] = user;
+					if(ProviderUserAdded != null)
+						ProviderUserAdded(user);					
 					return user;
 				}
 				else
