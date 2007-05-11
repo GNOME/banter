@@ -44,6 +44,8 @@ namespace Banter
 		private Evolution.Contact edsContact;
 		private string cachePath;
 		private Gdk.Pixbuf avatar;
+		private ArrayList providerUsers;
+		private Presence presence;
 		#endregion
 
 
@@ -80,6 +82,30 @@ namespace Banter
 
 
 		/// <summary>
+		/// Current Presence Status
+		/// </summary>
+		public Presence Presence
+		{
+			get
+			{
+				return null;
+			}
+		}
+
+
+		/// <summary>
+		/// Online status message
+		/// </summary>
+		public string PresenceMessage
+		{
+			get 
+			{			
+				return string.Empty;
+			}
+		}		
+
+
+		/// <summary>
 		/// Online capabilities
 		/// </summary>
 		public Tapioca.ContactCapabilities TapiocaCapabilities
@@ -88,30 +114,6 @@ namespace Banter
 			{
 				Logger.Debug("FIXME: Capabilities should be done using a presence engine");			
 				return tapiocaContact.Capabilities;
-			}
-		}
-
-		
-		/// <summary>
-		/// Online status message
-		/// </summary>
-		public string PresenceMessage
-		{
-			get
-			{
-				Logger.Debug("FIXME: Presence messages should be done using a presence engine");
-				string message = String.Empty;
-			
-				/*
-				if (member != null)
-					message = member.PresenceMessage;
-				else if (tapiocaContact != null)
-					message = tapiocaContact.PresenceMessage;
-				*/
-				if (tapiocaContact != null)
-					message = tapiocaContact.PresenceMessage;
-				
-				return message;
 			}
 		}
 
@@ -217,6 +219,15 @@ namespace Banter
 		{
 			get{ return edsContact.Id;}
 		}		
+
+
+		/// <summary>
+		/// The ProviderUsers for this Person
+		/// </summary>
+		public ProviderUser[] ProviderUsers
+		{
+			get{ return (ProviderUser[]) providerUsers.ToArray(typeof(ProviderUser)); }
+		}		
 		#endregion
 
 		
@@ -239,7 +250,7 @@ namespace Banter
 		{
 			this.isSelf = false;
 			this.edsContact = edsContact;
-			this.isSelf = self;
+			this.isSelf = self;			
 			Init();
 		}
 
@@ -257,9 +268,16 @@ namespace Banter
 		#endregion
 		
 
-		#region Private Methods
+		#region Private Methods		
 		private void Init()
 		{
+		
+			// init internal types
+			providerUsers = new ArrayList();
+			presence = new Presence(PresenceType.Offline);
+
+			UpdateProviderUsers();
+
 			// first check to see if this is a real edsContact
 			if(edsContact.Id != null) {
 				string homeDirectoryPath = Environment.GetFolderPath (Environment.SpecialFolder.Personal);
@@ -289,6 +307,41 @@ namespace Banter
 				}
 			}
 		}
+
+		
+		/// <summary>
+		/// Ensures that we have ProviderUsers for eds Provider values
+		/// </summary>
+		private void UpdateProviderUsers()
+		{
+			Logger.Debug("FIXME: Person.UpdateProviderUsers should use a policy for the order");
+			providerUsers.Clear();
+		
+			// Jabber values
+			foreach(string uri in edsContact.ImJabber) {
+				string key = ProviderUserManager.CreateKey(uri, ProtocolName.Jabber);
+				ProviderUser providerUser = ProviderUserManager.GetProviderUser(key);
+				if(providerUser == null) {
+					providerUser = ProviderUserManager.CreateProviderUser(uri, ProtocolName.Jabber);
+				}
+				
+				if(providerUser != null) {
+					providerUsers.Add(providerUser);
+				}
+			}
+			UpdatePresence();
+		}
+		
+
+		/// <summary>
+		/// Updates the persons presence to be the most present of his ProviderUsers
+		/// </summary>
+		private void UpdatePresence()
+		{
+			Logger.Debug("FIXME: Person.UpdatePresence should use a policy to get the right presence");
+			if(providerUsers.Count > 0)
+				presence = ((ProviderUser)providerUsers[0]).Presence;
+		}		
 		#endregion
 		
 		

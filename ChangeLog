@@ -1,3 +1,8 @@
+2007-05-10  Calvin Gaisford <calvinrg@gmail.com> 
+
+	* Banter/Person.cs: Added ProviderUsers to Person and code to update
+	  them based on EDS properties
+
 2007-05-10  Brady Anderson <banderso@novell.com> 
 
 	* Banter/Account.cs: updated the provider user list when finished
