@@ -1,3 +1,18 @@
+2007-05-09  Calvin Gaisford <calvinrg@gmail.com> 
+
+	* Banter.mdp: Added a gtk-sharp reference
+	* Banter/PreferencesDialog.cs: Updated calls to AddMessage to pass null
+	  for the avatar path
+	* Banter/Application.cs: Added code to create a Person for Me
+	* Banter/Person.cs: Added a cachePath and stored off the avatar from
+	  EDS
+	* Banter/ChatWindow.cs: Changed the AddMessage method to send an avatar
+	  path if available
+	* Banter/PersonCard.cs: Updated to use the avatar created in the Person
+	  object
+	* Banter/MessagesView.cs: changed AddMessage to take an avatarPath but
+	  ignore it if it's null
+
 2007-05-04  Boyd Timothy <btimothy@gmail.com> 
 
 	* configure.ac: Bump the version to 0.1.2.

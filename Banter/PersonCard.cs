@@ -222,9 +222,11 @@ namespace Banter
 			
 			htmlReader = new System.IO.StreamReader(System.IO.Path.Combine(listStylesPath, "person.html"));
 			readHtml = htmlReader.ReadToEnd();
+
+			string avatar = person.GetScaledAvatar(48);
 			
-			if(person.PhotoFile != null)
-				tmpHtml = readHtml.Replace("%PERSON_PHOTO%", "file://" + person.PhotoFile);
+			if(avatar != null)
+				tmpHtml = readHtml.Replace("%PERSON_PHOTO%", "file://" + avatar);
 			else
 				tmpHtml = readHtml.Replace("%PERSON_PHOTO%", "file://" + System.IO.Path.Combine(listStylesPath, "blankhead.png"));
 			
@@ -261,12 +263,15 @@ namespace Banter
 			htmlReader = new System.IO.StreamReader(System.IO.Path.Combine(listStylesPath, "person-small.html"));
 			readHtml = htmlReader.ReadToEnd();
 			
-//			For now just do the blankhead thing
-//			if(person.PhotoFile != null)
-//				tmpHtml = readHtml.Replace("%PERSON_PHOTO%", "file://" + person.PhotoFile);
-//			else
+			string avatar = person.GetScaledAvatar(16);
+			
+			if(avatar != null) {
+				tmpHtml = readHtml.Replace("%PERSON_PHOTO%", "file://" + avatar);
+			}
+			else {
 				tmpHtml = readHtml.Replace("%PERSON_PHOTO%", "file://" + System.IO.Path.Combine(listStylesPath, "blankhead.png"));
-
+			}
+			
 			tmpHtml = tmpHtml.Replace("%PERSON_DISPLAY_NAME%",  person.DisplayName);
 
 			// NOTE! Tapiopca version
@@ -289,7 +294,7 @@ namespace Banter
 			}
 			else
 			{
-				tmpHtml = tmpHtml.Replace("%PERSON_STATUS_TEXT%", "offline");
+				tmpHtml = tmpHtml.Replace("%PERSON_STATUS_TEXT%", "");
 			}
 			/*
 			else

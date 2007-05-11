@@ -413,52 +413,52 @@ namespace Banter
 			TextMessage tm = new TextMessage (Catalog.GetString (
 					"So a priest, a rabbi, and a chicken walk into a bar."));
 			tm.From = "Evan";
-			messagesView.AddMessage (tm, true, false);
+			messagesView.AddMessage (tm, true, false, null);
 			
 			// Jeff
 			tm = new TextMessage (Catalog.GetString (
 					"I'm pretty sure I've heard this one before"));
 			tm.From = "Jeff";
-			messagesView.AddMessage (tm, false, false);
+			messagesView.AddMessage (tm, false, false, null);
 			tm = new TextMessage (Catalog.GetString (
 					"So what happens next?"));
 			tm.From = "Jeff";
-			messagesView.AddMessage (tm, false, true);
+			messagesView.AddMessage (tm, false, true, null);
 
 			tm = new TextMessage (Catalog.GetString (
 					"If I remember correctly, they explode outward at the speed" +
 					"of light."));
 			tm.From = "Evan";
-			messagesView.AddMessage (tm, true, false);
+			messagesView.AddMessage (tm, true, false, null);
 			tm = new TextMessage (Catalog.GetString (
 					"But that might be if you cross the streams..."));
 			tm.From = "Evan";
-			messagesView.AddMessage (tm, true, true);
+			messagesView.AddMessage (tm, true, true, null);
 			
 			tm = new TextMessage (Catalog.GetString (
 					"...thus negating all existence!"));
 			tm.From = "Jeff";
-			messagesView.AddMessage (tm, false, false);
+			messagesView.AddMessage (tm, false, false, null);
 			
 			EmailMessage em = new EmailMessage ("More Jokes");
 			em.From = "Evan";
-			messagesView.AddMessage (em, true, false);
+			messagesView.AddMessage (em, true, false, null);
 			
 			tm = new TextMessage (Catalog.GetString (
 					"Precisely!  It's a risk one takes whenever one walks into" +
 					"a bar, I'm afraid, especially if one is a chicken."));
 			tm.From = "Evan";
-			messagesView.AddMessage (tm, true, false);
+			messagesView.AddMessage (tm, true, false, null);
 			
 			StatusMessage sm = new StatusMessage (Catalog.GetString (
 					"Jeff went away"));
 			tm.From = "Jeff";
-			messagesView.AddMessage (sm, true, false);
+			messagesView.AddMessage (sm, true, false, null);
 			
 			tm = new TextMessage (Catalog.GetString (
 					"Gotta run; catch ya later ;)"));
 			tm.From = "Evan";
-			messagesView.AddMessage (tm, true, false);
+			messagesView.AddMessage (tm, true, false, null);
 			
 			return false;
 		}

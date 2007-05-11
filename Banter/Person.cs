@@ -42,6 +42,8 @@ namespace Banter
 		private bool isSelf;
 		private string photoFile = String.Empty;
 		private Evolution.Contact edsContact;
+		private string cachePath;
+		private Gdk.Pixbuf avatar;
 		#endregion
 
 
@@ -164,13 +166,14 @@ namespace Banter
 			}
 		}
 
-		
+
+
 		/// <summary>
-		/// Path to person's photo
+		/// Returns the stored avatar
 		/// </summary>
-		public string PhotoFile
+		public Gdk.Pixbuf Photo
 		{
-			get {return photoFile;}
+			get {return avatar;}
 		}
 
 		
@@ -225,6 +228,7 @@ namespace Banter
 		{
 			this.isSelf = false;
 			this.edsContact = edsContact;
+			Init();
 		}
 
 		
@@ -236,6 +240,7 @@ namespace Banter
 			this.isSelf = false;
 			this.edsContact = edsContact;
 			this.isSelf = self;
+			Init();
 		}
 
 		
@@ -247,7 +252,106 @@ namespace Banter
 			this.isSelf = false;
 			this.edsContact = new Contact();
 			edsContact.FileAs = displayName;
+			Init();
 		}
 		#endregion
+		
+
+		#region Private Methods
+		private void Init()
+		{
+			// first check to see if this is a real edsContact
+			if(edsContact.Id != null) {
+				string homeDirectoryPath = Environment.GetFolderPath (Environment.SpecialFolder.Personal);
+				cachePath = System.IO.Path.Combine (homeDirectoryPath, ".banter/Cache");
+				cachePath = System.IO.Path.Combine (cachePath, this.Id);
+
+				try
+				{
+					Logger.Debug("FIXME: A Person's Cache needs to be cleaned up somewhere too");
+					if(!System.IO.Directory.Exists(cachePath)) {
+						System.IO.Directory.CreateDirectory(cachePath);
+					}
+				}
+				catch(Exception e)
+				{
+					Logger.Debug(e.Message);
+				}
+				
+				// Read the contact's Avatar from EDS if it's there
+				ContactPhoto photo = edsContact.Photo;
+				if(photo.PhotoType == ContactPhotoType.Inlined) {  // the photo is stored in EDS
+					avatar = new Gdk.Pixbuf(photo.Data);
+				}
+				else if(photo.PhotoType == ContactPhotoType.Uri) {				
+					// not sure how to handle a Uri based photo
+					Logger.Debug("FIXME: handle Uri based photo");
+				}
+			}
+		}
+		#endregion
+		
+		
+		#region Public Methods
+		/// <summary>
+		/// Return the path to the photo size requested
+		/// </summary>
+		public string GetScaledAvatar(int size)
+		{
+			if(avatar == null)
+				return null;
+				
+			string	avatarPath = null;
+			bool	scalePhoto = false;
+			
+			switch(size) {
+				case 16:
+					avatarPath = Path.Combine(cachePath, "16x16");
+					scalePhoto = true;
+					break;
+				case 24:
+					avatarPath = Path.Combine(cachePath, "24x24");
+					scalePhoto = true;
+					break;
+				case 36:
+					avatarPath = Path.Combine(cachePath, "36x36");
+					scalePhoto = true;
+					break;
+				case 48:
+					avatarPath = Path.Combine(cachePath, "48x48");
+					scalePhoto = true;
+					break;
+				default:
+					avatarPath = Path.Combine(cachePath, "actual");
+					break;
+			}
+
+			try
+			{
+				if(!System.IO.File.Exists(avatarPath)) {
+					byte[] data;
+					
+					System.IO.FileStream fStream = new FileStream(avatarPath, FileMode.Create);
+					if(scalePhoto) {
+						Gdk.Pixbuf scaled = avatar.ScaleSimple(size, size, Gdk.InterpType.Bilinear);
+						data = scaled.SaveToBuffer("png");
+					}
+					else {
+						data = avatar.SaveToBuffer("png");
+					}
+					
+					fStream.Write(data, 0, data.Length);
+					fStream.Close();
+				}
+			}
+			catch(Exception e)
+			{
+				Logger.Debug(e.Message);
+			}
+
+			return avatarPath;
+		}
+		#endregion
+		
 	}	
 }

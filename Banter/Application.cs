@@ -342,7 +342,16 @@ namespace Banter
 						Logger.Debug ("ME - alias: {0}", tapConnection.Info.Alias);
 						Logger.Debug ("ME - caps: {0}", tapConnection.Info.Capabilities.ToString());
 						Logger.Debug ("ME - avatar token: {0}", tapConnection.Info.CurrentAvatarToken);
+
+						Person mePerson = PersonStore.GetPersonByJabberId(tapConnection.Info.Uri);
+						if(mePerson == null) {
+							mePerson = new Person(tapConnection.Info.Alias);
+							mePerson.JabberId = tapConnection.Info.Uri;
+							PersonStore.AddPerson(mePerson);
+						}
 						
+						Logger.Debug ("FIXME: We should find the real me and set IsSelf");
+						mePerson.IsSelf = true;							
 						/*
 						Person person = new Person(tapConnection.Info, true);
 						persons[tapConnection.Info.Handle.Id] = person;

@@ -101,7 +101,7 @@ namespace Banter
 #endregion
 
 #region Public Methods
-		public void AddMessage (Message message, bool incoming, bool contentIsSimilar)
+		public void AddMessage (Message message, bool incoming, bool contentIsSimilar, string avatarPath)
 		{
 			Dictionary<string, string> keywords = new Dictionary<string,string> ();
 			
@@ -114,9 +114,9 @@ namespace Banter
 			Console.WriteLine ("FIXME: Message should include either Member/Person object to get a display name from");
 			keywords [MessageStyle.SENDER_KEYWORD] = message.From;
 			Console.WriteLine ("FIXME: Get the path to the buddy icon");
-//			keywords [MessageStyle.USER_ICON_PATH_KEYWORD] =
-//				string.Format ("../../../../../BuddyIcons/{0}",
-//					message.Sender.BuddyIconName);
+			if(avatarPath != null) {
+				keywords [MessageStyle.USER_ICON_PATH_KEYWORD] = avatarPath;
+			}
 			
 			string rawHtml = null;
 			if (message is TextMessage) {

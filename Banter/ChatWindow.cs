@@ -200,21 +200,30 @@ Logger.Debug ("OnMessageReceived called: {0}", message.Text);
 		// window should changes so that it blinks/etc. as desired.
 		void OnTapiocaMessageReceived (Conversation conversation, Message message)
 		{
+			string avatarPath = null;
 Logger.Debug ("OnMessageReceived called: {0}", message.Text);
 			
 			Logger.Debug ("Peer Handle: {0}", conversation.PeerContact.Handle.Id);
 			Logger.Debug ("Peer Screenname: {0}", conversation.PeerContact.Uri);
 			Logger.Debug ("Sender: {0}", conversation.PeerContact.Alias);
-			
-			AddMessage (message, true, conversation.CurrentMessageSameAsLast);
+			Person person = Application.Instance.GetPersonFromContact (conversation.PeerContact);
+			if(person != null)
+				avatarPath = person.GetScaledAvatar(36);
+				
+			AddMessage (message, true, conversation.CurrentMessageSameAsLast, avatarPath);
 		}
 		
 
 
 		void OnTapiocaMessageSent (Conversation conversation, Message message)
 		{
+			string avatarPath = null;
 Logger.Debug ("OnMessageSent called: {0}", message.Text);
-			AddMessage (message, false, conversation.CurrentMessageSameAsLast);
+
+			Person person = PersonStore.GetPersonByJabberId(conversation.MeContact.Uri);
+			if(person != null)
+				avatarPath = person.GetScaledAvatar(36);
+			AddMessage (message, false, conversation.CurrentMessageSameAsLast, avatarPath);
 		}
 		
 		/*
@@ -237,9 +246,9 @@ Logger.Debug ("OnMessageSent called: {0}", message.Text);
 		}
 		*/
 		
-		void AddMessage (Message message, bool incoming, bool contentIsSimilar)
+		void AddMessage (Message message, bool incoming, bool contentIsSimilar, string avatarPath)
 		{
-			messagesView.AddMessage (message, incoming, contentIsSimilar);
+			messagesView.AddMessage (message, incoming, contentIsSimilar, avatarPath);
 		}
 
 		[GLib.ConnectBeforeAttribute]
