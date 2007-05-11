@@ -63,16 +63,17 @@ namespace Banter
 		static public Conversation Create (Account account, Person peer, bool initiate)
 		{
 			Conversation conversation = null;
-			Tapioca.Contact contact = peer.Contact;
 			lock (lckr)
 			{
 				// Check if a conversation already exists
 				foreach (Conversation c in ConversationManager.conversations)
 				{
-					if (c.PeerContact.Uri.CompareTo (contact.Uri) == 0)
-					{
-						conversation = c;
-						break;
+					foreach (ProviderUser pu in peer.ProviderUsers) {
+						if (pu.Uri.CompareTo (c.PeerUser.Uri) == 0)
+						{
+							conversation = c;
+							break;
+						}
 					}
 				}
 
@@ -81,7 +82,7 @@ namespace Banter
 					// FIXEME::ProviderUsers will be indexed off the person
 					// object in priority
 					
-					conversation = new Conversation (account, peer, contact, initiate);
+					conversation = new Conversation (account, peer, peer.ProviderUsers[0], initiate);
 					conversations.Add (conversation);
 				}
 			}

@@ -1,3 +1,8 @@
+2007-05-11  Brady Anderson <banderso@novell.com> 
+
+	* Banter/ConversationManager.cs: removed tapioca contact comparisons 
+	* Banter/Conversation.cs: removed Tapioca contact from conversation
+
 2007-05-11  Calvin Gaisford <calvinrg@gmail.com> 
 
 	* Banter/Account.cs: Removed code that added the contact into the

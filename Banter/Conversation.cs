@@ -49,6 +49,7 @@ namespace Banter
 		private Tapioca.StreamChannel tapStreamChannel;
 		private Tapioca.StreamAudio tapAudioStream;
 		private Tapioca.StreamVideo tapVideoStream;
+		private ProviderUser peerUser;
 		
 		private uint current;
 		private uint last;
@@ -61,6 +62,11 @@ namespace Banter
 		public Tapioca.Contact PeerContact
 		{
 			get {return peerContact;}
+		}
+		
+		public ProviderUser PeerUser
+		{
+			get {return peerUser;}
 		}
 		
 		public bool CurrentMessageSameAsLast
@@ -82,6 +88,7 @@ namespace Banter
 		}
 		*/
 		
+		/*
 		internal Conversation (Account account, Contact tapiocaPeerContact)
 		{
 			// TODO
@@ -92,15 +99,17 @@ namespace Banter
 			this.messages = new ArrayList ();
 			last = 999;
 		}
+		*/
 		
-		internal Conversation (Account account, Person peer, Contact tapiocaPeerContact, bool initiate)
+		internal Conversation (Account account, Person peer, ProviderUser peerUser, bool initiate)
 		{
 			// TODO
 			// Verify these members are from the same connection and valid
 			
 			this.account = account;
 			this.tapConnection = account.TapiocaConnection;
-			this.peerContact = tapiocaPeerContact;
+			//this.peerContact = tapiocaPeerContact;
+			this.peerUser = peerUser;
 			this.messages = new ArrayList ();
 			last = 999;
 			
@@ -127,13 +136,13 @@ namespace Banter
 			Logger.Debug ("Conversation::OnTextChannelClosed - called");
 		
 			TextMessage txtMessage = new TextMessage (message.Contents);
-			txtMessage.From = this.peerContact.Uri;
+			txtMessage.From = this.peerUser.Uri;
 			txtMessage.To = this.tapConnection.Info.Uri;
 			messages.Add (txtMessage);
 			
 			if (current != 0)
 				last = current;
-			current = this.peerContact.Handle.Id;
+			current = this.peerUser.Contact.Handle.Id;
 			
 			// Indicate the message to registered handlers
 			if (MessageReceived != null){
