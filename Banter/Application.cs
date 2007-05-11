@@ -48,6 +48,7 @@ namespace Banter
 		#region Private Types
 		private bool initialized = false;
 		private ActionManager actionManager;
+		private PersonSync personSync;
 		//private NotificationArea tray;
 		private Gdk.Pixbuf appPixBuf;
 		private Gnome.Program program = null;
@@ -111,6 +112,10 @@ namespace Banter
 
 			// Call Init before anything so the people objects are in place
 			PersonStore.Instance.Init();
+			
+			// Create and start up the Person Sync
+			personSync = new PersonSync();
+			personSync.Start();
 			
 			actionManager = new ActionManager ();
 			actionManager.LoadInterface ();
@@ -352,6 +357,9 @@ namespace Banter
 		private void OnQuit (object o, System.EventArgs args)
 		{
 			actionManager ["QuitAction"].Activate ();
+
+			// stop the personSync
+			personSync.Stop();
 		}
 		
 		private void OnQuitAction (object sender, EventArgs args)

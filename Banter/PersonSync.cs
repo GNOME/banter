@@ -42,5 +42,26 @@ namespace Banter
 		#endregion
 		
 		
+		#region Public Methods
+		/// <summary>
+		/// This should perform an initial sync of telepathy contacts and EDS contacts then listen to
+		/// events on both sides and keep things in sync
+		/// </summary>			
+		public void Start()
+		{
+			
+		
+		}
+		
+		
+		/// <summary>
+		/// This should deregister from all events and clean up
+		/// </summary>			
+		public void Stop()
+		{
+		
+		}
+		#endregion
+		
 	}
 }

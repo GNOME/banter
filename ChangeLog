@@ -1,5 +1,12 @@
 2007-05-11  Calvin Gaisford <calvinrg@gmail.com> 
 
+	* Banter/Application.cs: Added the PersonSync in startup and shutdown
+	  of the application
+	* Banter/PersonSync.cs: Stubbed out the Start Stop methods to place it
+	  in Application
+
+2007-05-11  Calvin Gaisford <calvinrg@gmail.com> 
+
 	* Banter.mdp, Banter/Makefile.am: Added PersonSync.cs to project
 	* Banter/PersonSync.cs: Created the person sync class.  This class will
 	  be in charge of the sync between Telepathy and EDS.
