@@ -20,6 +20,7 @@
 // **********************************************************************
 
 using System;
+using System.Collections.Generic;
 using Gtk;
 using Mono.Unix;
 
@@ -49,22 +50,40 @@ namespace Banter
 		ScrolledWindow typingScrolledWindow;
 		TextView typingTextView;
 		
+		static private Dictionary <string, ChatWindow> chatWindows;
+		
+		static ChatWindow()
+		{
+			Logger.Debug ("ChatWindow::ChatWindow - static constructor called");
+			chatWindows = new Dictionary<string,ChatWindow> ();
+		}
+		
 //		public ChatWindow(Conversation conversation) :
-		public ChatWindow() :
+		public ChatWindow (Conversation conversation) :
 			base (WindowType.Toplevel)
 		{
 			//app = Application.Instance;
 			
-//			conv = conversation;
-//			conv.MessageReceived += OnMessageReceived;
-//			conv.MessageSent += OnMessageSent;
+			conv = conversation;
+			conv.MessageReceived += OnTapiocaMessageReceived;
+			conv.MessageSent += OnTapiocaMessageSent;
+			
 			everShown = false;
 			//lastSender = null;
 			shiftKeyPressed = false;
+
+			Person peer = PersonStore.GetPersonByJabberId (conv.PeerContact.Uri);
+			chatWindows[peer.Id] = this;
 			
 			Console.WriteLine ("FIXME: Set the ChatWindow title to reflect who's in the conversation");
 			
-			Title = Catalog.GetString ("Rockin' Chat Window!");
+			//Title = Catalog.GetString ("Rockin' Chat Window!");
+			
+			// Update the window title
+			try {
+				Title = string.Format ("Chat with {0}", peer.DisplayName);
+			} catch {}
+			
 			
 			this.DefaultSize = new Gdk.Size (400, 800); 
 			
@@ -364,6 +383,27 @@ Logger.Debug ("OnMessageSent called: {0}", message.Text);
 				}
 			}
 		}
+#endregion
+
+#region Static Public Properties
+
+		static public bool AlreadyExist (string peerId)
+		{
+			Logger.Debug ("ChatWindow::AlreadyExists - called");
+			if (ChatWindow.chatWindows.ContainsKey (peerId)) return true;
+			return false;
+		}
+
+		static public bool PresentWindow (string peerId)
+		{
+			if (chatWindows.ContainsKey (peerId)) {
+				chatWindows[peerId].Present ();
+				return true;
+			}
+			
+			return false;
+		}
+		
 #endregion
 	}
 }

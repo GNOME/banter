@@ -199,10 +199,10 @@ namespace Banter
 		private void WebControlOpenUriHandler(object o, OpenUriArgs args)
 		{
 			if(args.AURI.StartsWith("rtc://TEXT_CHAT")) {
-				Application.Instance.InitiateTapiocaChat(person);
+				Application.Instance.InitiateChat(person);
 			}
 			else if(args.AURI.StartsWith("rtc://VIDEO_CHAT")) {
-				Application.Instance.InitiateTapiocaVideoChat(person);
+				Application.Instance.InitiateVideoChat(person);
 			}
 
 			// set return to true so the web control doesn't attempt to handle the URI

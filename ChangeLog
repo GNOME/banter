@@ -1,5 +1,9 @@
 2007-05-10  Brady Anderson <banderso@novell.com> 
 
+	* Banter/ChatWindow.cs: new constructor with conversation
+
+2007-05-10  Brady Anderson <banderso@novell.com> 
+
 	* Banter.mdp: added ConversationManager
 
 2007-05-10  Brady Anderson <banderso@novell.com> 
