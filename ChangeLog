@@ -1,3 +1,12 @@
+2007-05-10  Brady Anderson <banderso@novell.com> 
+
+	* Banter.mdp, Banter/Makefile.am: added ConversationManager
+	* Banter/Account.cs: moved tapioca connection processing into account
+	* Banter/Application.cs: moved tapioca connection creation and
+	  processing into account
+	* Banter/ConversationManager.cs: initial checkin
+	* Banter/Conversation.cs: new constructor
+
 2007-05-09  Calvin Gaisford <calvinrg@gmail.com> 
 
 	* Banter/PersonStore.cs: Added ability to set and get Me Person

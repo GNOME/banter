@@ -78,6 +78,18 @@ namespace Banter
 			this.messages = new ArrayList ();
 			last = 999;
 		}
+		
+		public Conversation (Account account, Contact tapiocaPeerContact)
+		{
+			// TODO
+			// Verify these members are from the same connection and valid
+			
+			this.tapConnection = account.TapiocaConnection;
+			this.peerContact = tapiocaPeerContact;
+			this.messages = new ArrayList ();
+			last = 999;
+		}
+		
 		#endregion
 		
 		#region Private Methods

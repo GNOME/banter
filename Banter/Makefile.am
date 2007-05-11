@@ -44,6 +44,7 @@ FILES = \
 	$(srcdir)/PersonView.cs \
 	$(srcdir)/PersonCard.cs \
 	$(srcdir)/Conversation.cs \
+	$(srcdir)/ConversationManager.cs \
 	$(srcdir)/ChatWindow.cs \
 	$(srcdir)/MessagesView.cs \
 	$(srcdir)/MessageStyle.cs \
