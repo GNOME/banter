@@ -1,3 +1,13 @@
+2007-05-10  Calvin Gaisford <calvinrg@gmail.com> 
+
+	* Banter.mdp: Added new classes Presence, ProviderUser, and
+	  ProviderUserManager
+	* Banter/Presence.cs: Added new class to represent Presence in Banter
+	* Banter/ProviderUserManager.cs: Added new class to manage the
+	  ProviderUsers in Banter
+	* Banter/ProviderUser.cs: Added new class to represent a user account
+	  in Banter
+
 2007-05-10  Brady Anderson <banderso@novell.com> 
 
 	* Banter/Application.cs: moved global tapioca connection creation and

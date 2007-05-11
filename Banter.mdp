@@ -55,6 +55,9 @@
     <File name="./Banter/PersonGroup.cs" subtype="Code" buildaction="Compile" />
     <File name="./Banter/InterruptableTimeout.cs" subtype="Code" buildaction="Compile" />
     <File name="./Banter/ConversationManager.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Banter/ProviderUserManager.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Banter/ProviderUser.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Banter/Presence.cs" subtype="Code" buildaction="Compile" />
   </Contents>
   <References>
     <ProjectReference type="Gac" localcopy="True" refto="System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
