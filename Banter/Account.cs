@@ -151,7 +151,9 @@ namespace Banter
 		}
 		#endregion
 		
-		
+		/// <summary>
+		/// Callback from Tapioca when connection status changes
+		/// </summary>
 		protected void OnConnectionChanged ( 
 			Tapioca.Connection sender,
 			Tapioca.ConnectionStatus status,
@@ -206,10 +208,10 @@ namespace Banter
 		                 		c.PresenceMessage, 
 		                 		c.SubscriptionStatus, 
 		                 		c.Alias);
-
+		                 		
 							// FIXME:: this all needs to be take out when the PersonManager
 							// is complete - it will handle all of this
-							Person person = PersonStore.GetPersonByJabberId(c.Handle.Name);
+/*							Person person = PersonStore.GetPersonByJabberId(c.Handle.Name);
 							if(person == null) {
 								person = new Person(c.Alias);
 								person.JabberId = c.Handle.Name;
@@ -217,6 +219,7 @@ namespace Banter
 							}
 								
 							person.Contact = c;
+*/
 							// END OF FIXME
 							
 							// update the provider user objects
@@ -257,7 +260,11 @@ namespace Banter
 				}
 			}
 		}
-		
+
+		/// <summary>
+		/// method to create a provider user object from a 
+		/// tapioca contact object
+		/// </summary>
 		private ProviderUser CreateProviderUserFromContact (Tapioca.Contact contact)
 		{
 			ProviderUser pu = new ProviderUser();
@@ -265,6 +272,7 @@ namespace Banter
 			pu.Alias = contact.Alias;
 			pu.Protocol = this.protocol;
 			pu.Uri = contact.Uri;
+			pu.Contact = contact;
 			
 			switch (contact.Presence)
 			{
@@ -308,6 +316,9 @@ namespace Banter
 			return pu;
 		}
 		
+		/// <summary>
+		/// Tapioca callback when a new channel is created on a connection
+		/// </summary>
 		private void OnNewChannel (Tapioca.Connection sender, Tapioca.Channel channel)
 		{
 			Logger.Debug ("Account::OnNewChannel - called");
@@ -315,18 +326,6 @@ namespace Banter
 			Logger.Debug ("  incoming channel");
 			Logger.Debug ("  type: {0}", channel.Type.ToString());
 				
-			/*
-			Logger.Debug ("Checking for contacts");
-			Logger.Debug (
-				"# contacts in channel: {0}",
-				channel.ContactGroup.Contacts.Length);
-			foreach (Contact ct in channel.ContactGroup.Contacts)
-				Logger.Debug (ct.Uri);
-			Logger.Debug (
-				"# pending contacts in channel: {0}", 
-				channel.ContactGroup.PendingContacts.Length);
-			*/	
-		
 			try
 			{
 				Conversation conversation = null;
@@ -404,19 +403,6 @@ namespace Banter
 				Logger.Debug (onc.StackTrace);
 			}
 		}
-		
-		
-		/*
-		public virtual Member[] GetMembers ()
-		{
-			return null;
-		}
-		
-		public virtual Member[] GetBannedMembers ()
-		{
-			return null;
-		}
-		*/
 		
 		/// <summary>
 		///	Method to connect this account

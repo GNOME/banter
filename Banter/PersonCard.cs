@@ -72,8 +72,10 @@ namespace Banter
 		    string homeDirectoryPath = Environment.GetFolderPath (Environment.SpecialFolder.Personal);
 		    listStylesPath = System.IO.Path.Combine (homeDirectoryPath, ".banter/Themes/ListStyles/Current");
 		    
-		    if (person.Contact != null)
+
+/*		    if (person.Contact != null)
 		    	person.Contact.PresenceUpdated += OnTapiocaPresenceUpdated;
+*/
 		    /*
 		    else
 		    	person.Member.PresenceUpdated += OnPresenceUpdated;
@@ -106,10 +108,11 @@ namespace Banter
 		protected override void OnDestroyed ()
 		{
 			Logger.Debug ("PersonCard.OnDestroyed");
+/*
 			try {
 				person.Contact.PresenceUpdated -= OnTapiocaPresenceUpdated;
 			} catch {}
-	
+*/	
 			Logger.Debug("FIXME: the base OnDestroy for the PersonCard is not being called");
 			// this is not being called because gtkmozembed blows the next time you try to use
 			// it if you destroy it
@@ -275,95 +278,40 @@ namespace Banter
 			tmpHtml = tmpHtml.Replace("%PERSON_DISPLAY_NAME%",  person.DisplayName);
 
 			// NOTE! Tapiopca version
-			if (person.Contact != null) {
-				if(person.Contact.Presence == Tapioca.ContactPresence.Offline) {
-					tmpHtml = tmpHtml.Replace("%PERSON_STATUS_TEXT%", "offline");
-				}
-				else if (person.PresenceMessage.Length > 0) {
-					tmpHtml = tmpHtml.Replace("%PERSON_STATUS_TEXT%", person.PresenceMessage);
-				}
-				else if(person.Contact.Presence == Tapioca.ContactPresence.Busy) {
-					tmpHtml = tmpHtml.Replace("%PERSON_STATUS_TEXT%", "busy");
-				}
-				else if(person.Contact.Presence == Tapioca.ContactPresence.Away) {
-					tmpHtml = tmpHtml.Replace("%PERSON_STATUS_TEXT%", "away");
-				}
-				else {
-					tmpHtml = tmpHtml.Replace("%PERSON_STATUS_TEXT%", "online");
-				}
+			if(person.Presence.Type == PresenceType.Offline) {
+				tmpHtml = tmpHtml.Replace("%PERSON_STATUS_TEXT%", "offline");
 			}
-			else
-			{
-				tmpHtml = tmpHtml.Replace("%PERSON_STATUS_TEXT%", "");
+			else if (person.PresenceMessage.Length > 0) {
+				tmpHtml = tmpHtml.Replace("%PERSON_STATUS_TEXT%", person.PresenceMessage);
 			}
-			/*
-			else
-			{
-				if(person.Member.Presence == MemberPresence.Offline)
-				{
-					tmpHtml = tmpHtml.Replace("%PERSON_STATUS_TEXT%", "offline");
-				}
-				else if(person.PresenceMessage.Length > 0)
-				{
-					tmpHtml = tmpHtml.Replace("%PERSON_STATUS_TEXT%", person.PresenceMessage);
-				}
-				else if(person.Member.Presence == MemberPresence.Busy)
-				{
-					tmpHtml = tmpHtml.Replace("%PERSON_STATUS_TEXT%", "busy");
-				}
-				else if(person.Member.Presence == MemberPresence.Away)
-				{
-					tmpHtml = tmpHtml.Replace("%PERSON_STATUS_TEXT%", "away");
-				}
-				else
-				{
-					tmpHtml = tmpHtml.Replace("%PERSON_STATUS_TEXT%", "online");
-				}
+			else if(person.Presence.Type == PresenceType.Busy) {
+				tmpHtml = tmpHtml.Replace("%PERSON_STATUS_TEXT%", "busy");
 			}
-			*/
+			else if(person.Presence.Type == PresenceType.Away) {
+				tmpHtml = tmpHtml.Replace("%PERSON_STATUS_TEXT%", "away");
+			}
+			else {
+				tmpHtml = tmpHtml.Replace("%PERSON_STATUS_TEXT%", "online");
+			}
 			
 			widgetHtml = tmpHtml;
 
 			// change this later to show their capabilities when we actually have them
-			if (person.Contact != null) {
-				if(person.Contact.Presence != Tapioca.ContactPresence.Offline) {
-					htmlReader = new System.IO.StreamReader(System.IO.Path.Combine(listStylesPath, "action-small.html"));
-					readHtml = htmlReader.ReadToEnd();
-					tmpHtml = readHtml.Replace("%ACTION_HREF%", "rtc://TEXT_CHAT");
-					tmpHtml = tmpHtml.Replace("%ACTION_IMAGE%", "file://" + System.IO.Path.Combine(listStylesPath, "text-chat-small.png"));
-					actionHtml = tmpHtml;
-					
-					htmlReader = new System.IO.StreamReader(System.IO.Path.Combine(listStylesPath, "action.html"));
-					readHtml = htmlReader.ReadToEnd();
-					tmpHtml = readHtml.Replace("%ACTION_HREF%", "rtc://VIDEO_CHAT");
-					tmpHtml = tmpHtml.Replace("%ACTION_IMAGE%", "file://" + System.IO.Path.Combine(listStylesPath, "video-chat-small.png"));
-					actionHtml += tmpHtml;
-	
-					widgetHtml = widgetHtml.Replace("<!--ACTION_DATA-->", actionHtml);
-				}
+			if(person.Presence.Type != PresenceType.Offline) {
+				htmlReader = new System.IO.StreamReader(System.IO.Path.Combine(listStylesPath, "action-small.html"));
+				readHtml = htmlReader.ReadToEnd();
+				tmpHtml = readHtml.Replace("%ACTION_HREF%", "rtc://TEXT_CHAT");
+				tmpHtml = tmpHtml.Replace("%ACTION_IMAGE%", "file://" + System.IO.Path.Combine(listStylesPath, "text-chat-small.png"));
+				actionHtml = tmpHtml;
+				
+				htmlReader = new System.IO.StreamReader(System.IO.Path.Combine(listStylesPath, "action.html"));
+				readHtml = htmlReader.ReadToEnd();
+				tmpHtml = readHtml.Replace("%ACTION_HREF%", "rtc://VIDEO_CHAT");
+				tmpHtml = tmpHtml.Replace("%ACTION_IMAGE%", "file://" + System.IO.Path.Combine(listStylesPath, "video-chat-small.png"));
+				actionHtml += tmpHtml;
+
+				widgetHtml = widgetHtml.Replace("<!--ACTION_DATA-->", actionHtml);
 			}
-			/*
-			else
-			{	
-				// FIXME::Lame but ok for now
-				if(person.Member.Presence != MemberPresence.Offline)
-				{
-					htmlReader = new System.IO.StreamReader(System.IO.Path.Combine(listStylesPath, "action-small.html"));
-					readHtml = htmlReader.ReadToEnd();
-					tmpHtml = readHtml.Replace("%ACTION_HREF%", "rtc://TEXT_CHAT");
-					tmpHtml = tmpHtml.Replace("%ACTION_IMAGE%", "file://" + System.IO.Path.Combine(listStylesPath, "text-chat-small.png"));
-					actionHtml = tmpHtml;
-					
-					htmlReader = new System.IO.StreamReader(System.IO.Path.Combine(listStylesPath, "action.html"));
-					readHtml = htmlReader.ReadToEnd();
-					tmpHtml = readHtml.Replace("%ACTION_HREF%", "rtc://VIDEO_CHAT");
-					tmpHtml = tmpHtml.Replace("%ACTION_IMAGE%", "file://" + System.IO.Path.Combine(listStylesPath, "video-chat-small.png"));
-					actionHtml += tmpHtml;
-	
-					widgetHtml = widgetHtml.Replace("<!--ACTION_DATA-->", actionHtml);
-				}
-			}
-			*/
 		}
 		
 		/*
@@ -379,7 +327,7 @@ namespace Banter
 		///<summary>
 		///	Handles Presence Events in Tapioca
 		///</summary>
-		private void OnTapiocaPresenceUpdated (Tapioca.ContactBase sender, Tapioca.ContactPresence presence)
+		private void OnPresenceUpdated (Tapioca.ContactBase sender, Tapioca.ContactPresence presence)
 		{
 			Logger.Debug("Updating presence on {0}", person.DisplayName);
 			ReadSmallWidgetHtml();

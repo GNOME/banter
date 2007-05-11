@@ -37,8 +37,6 @@ namespace Banter
 	public class Person
 	{
 		#region Private Types
-		//private Member member;
-		private Tapioca.Contact tapiocaContact;
 		private bool isSelf;
 		private string photoFile = String.Empty;
 		private Evolution.Contact edsContact;
@@ -53,42 +51,11 @@ namespace Banter
 		/// <summary>
 		/// Current Presence Status
 		/// </summary>
-		public Tapioca.ContactPresence TapiocaPresence
-		{
-			get
-			{
-				Logger.Debug("FIXME: Presence should be done using a presence engine");
-				return Tapioca.ContactPresence.Available;
-			}
-			set
-			{
-				if (this.isSelf == false)
-					throw new ApplicationException ("Invalid to set presence on friends");
-			}
-		}
-
-
-		/// <summary>
-		/// Online status message
-		/// </summary>
-		public string TapiocaPresenceMessage
-		{
-			get 
-			{
-				Logger.Debug("FIXME: Presence messages should be done using a presence engine");			
-				return tapiocaContact.PresenceMessage;
-			}
-		}
-
-
-		/// <summary>
-		/// Current Presence Status
-		/// </summary>
 		public Presence Presence
 		{
 			get
 			{
-				return null;
+				return presence;
 			}
 		}
 
@@ -100,22 +67,9 @@ namespace Banter
 		{
 			get 
 			{			
-				return string.Empty;
+				return presence.Message;
 			}
 		}		
-
-
-		/// <summary>
-		/// Online capabilities
-		/// </summary>
-		public Tapioca.ContactCapabilities TapiocaCapabilities
-		{
-			get
-			{
-				Logger.Debug("FIXME: Capabilities should be done using a presence engine");			
-				return tapiocaContact.Capabilities;
-			}
-		}
 
 		
 		/// <summary>
@@ -132,13 +86,6 @@ namespace Banter
 						displayName = edsContact.FileAs;
 						return displayName;
 					}
-				} 
-
-				if (tapiocaContact != null) {
-					if ((tapiocaContact.Alias != null) && (tapiocaContact.Alias.Length > 0))
-						displayName = tapiocaContact.Alias;
-					else
-						displayName = tapiocaContact.Uri;
 				}
 				
 				return displayName;
@@ -189,16 +136,6 @@ namespace Banter
 			{
 				isSelf = value;
 			}
-		}
-
-		
-		/// <summary>
-		/// The internal Member class
-		/// </summary>
-		public Tapioca.Contact Contact
-		{
-			get{ return tapiocaContact; }
-			set{ tapiocaContact = value; }
 		}
 
 		

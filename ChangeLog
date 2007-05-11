@@ -1,3 +1,11 @@
+2007-05-11  Calvin Gaisford <calvinrg@gmail.com> 
+
+	* Banter/Account.cs: Removed code that added the contact into the
+	  Person, it's not needed now because the ProviderUser will handle
+	  this
+	* Banter/Person.cs: Removed references to TapiocaContact (most of them)
+	* Banter/PersonCard.cs: Removed references to TapiocaContact
+
 2007-05-11  Brady Anderson <banderso@novell.com> 
 
 	* Banter/ProviderUser.cs: changed Jabber string to jabber for telepathy
