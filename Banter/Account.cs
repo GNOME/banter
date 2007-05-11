@@ -224,14 +224,18 @@ namespace Banter
 							
 							// update the provider user objects
 							string key = 
-								ProviderUserManager.CreateKey (c.Uri, Banter.ProtocolName.Jabber);
+								ProviderUserManager.CreateKey (c.Uri, this.Protocol);
 								
 							ProviderUser providerUser = null;
 							try {
 								providerUser = ProviderUserManager.GetProviderUser (key);
 								UpdateProviderUserFromContact (providerUser, c);
-			
-							} catch{}
+								Logger.Debug ("ProviderUser: {0} already existed", key);
+							} 
+							catch (Exception fff) {
+								Logger.Debug ("Failed to get ProviderUser {0}", key);
+								Logger.Debug (fff.Message);
+							}
 							
 							if (providerUser == null) {
 								try {
@@ -284,34 +288,34 @@ namespace Banter
 			{
 				case Tapioca.ContactPresence.Available:
 				{
-					pu.Presence = new Banter.Presence (Banter.PresenceType.Available);
+					pu.Presence.Type = Banter.PresenceType.Available;
 					break;
 				}
 			
 				case Tapioca.ContactPresence.Away:
 				{
-					pu.Presence = new Banter.Presence (Banter.PresenceType.Away);
+					pu.Presence.Type = Banter.PresenceType.Away;
 					break;
 				}
 				case Tapioca.ContactPresence.Busy:
 				{
-					pu.Presence = new Banter.Presence (Banter.PresenceType.Busy);
+					pu.Presence.Type = Banter.PresenceType.Busy;
 					break;
 				}
 				case Tapioca.ContactPresence.Hidden:
 				{
-					pu.Presence = new Banter.Presence (Banter.PresenceType.Hidden);
+					pu.Presence.Type = Banter.PresenceType.Hidden;
 					break;
 				}
 				case Tapioca.ContactPresence.Offline:
 				{
-					pu.Presence = new Banter.Presence (Banter.PresenceType.Offline);
+					pu.Presence.Type = Banter.PresenceType.Offline;
 					break;
 				}
 				
 				case Tapioca.ContactPresence.XA:
 				{
-					pu.Presence = new Banter.Presence (Banter.PresenceType.XA);
+					pu.Presence.Type = Banter.PresenceType.XA;
 					break;
 				}
 			}
