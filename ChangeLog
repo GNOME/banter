@@ -1,5 +1,9 @@
 2007-05-11  Brady Anderson <banderso@novell.com> 
 
+	* Banter/Account.cs: fixes for adding to ProviderUserManager
+
+2007-05-11  Brady Anderson <banderso@novell.com> 
+
 	* Banter/ChatWindow.cs: added avatar support back
 
 2007-05-11  Calvin Gaisford <calvinrg@gmail.com> 

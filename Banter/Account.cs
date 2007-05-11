@@ -225,11 +225,21 @@ namespace Banter
 							// update the provider user objects
 							string key = 
 								ProviderUserManager.CreateKey (c.Uri, Banter.ProtocolName.Jabber);
-							ProviderUser providerUser =	CreateProviderUserFromContact (c);
-							
+								
+							ProviderUser providerUser = null;
 							try {
-								ProviderUserManager.AddProviderUser (key, providerUser);
+								providerUser = ProviderUserManager.GetProviderUser (key);
 							} catch{}
+							
+							if (providerUser == null) {
+								try {
+									providerUser = CreateProviderUserFromContact (c);
+									ProviderUserManager.AddProviderUser (key, providerUser);
+									
+								} catch{}
+							}
+							
+							providerUser.Contact = c;
 		                }
 		                
 						// FIXME - For now we have all caps		                
@@ -272,7 +282,6 @@ namespace Banter
 			pu.Alias = contact.Alias;
 			pu.Protocol = this.protocol;
 			pu.Uri = contact.Uri;
-			pu.Contact = contact;
 			
 			switch (contact.Presence)
 			{
