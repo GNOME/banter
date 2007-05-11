@@ -316,6 +316,22 @@ namespace Banter
 			return PersonStore.Instance.FindPerson(q);
 		}
 
+
+		/// <summary>
+		/// Gets the Person object for a given Jabber ID
+		/// </summary>	
+		public static Person GetPerson(ProviderUser user)
+		{
+			if(user.Protocol.CompareTo(ProtocolName.Jabber) == 0) {
+				Evolution.BookQuery q = Evolution.BookQuery.FieldTest(	ContactField.ImJabber, 
+																		BookQueryTest.Is, 
+																		user.Uri );
+				return PersonStore.Instance.FindPerson(q);
+			}
+			else
+				throw new ApplicationException("Can't do that");
+		}
+
 		
 		/// <summary>
 		/// Gets the Person object for a given Id
