@@ -229,6 +229,8 @@ namespace Banter
 							ProviderUser providerUser = null;
 							try {
 								providerUser = ProviderUserManager.GetProviderUser (key);
+								UpdateProviderUserFromContact (providerUser, c);
+			
 							} catch{}
 							
 							if (providerUser == null) {
@@ -271,13 +273,8 @@ namespace Banter
 			}
 		}
 
-		/// <summary>
-		/// method to create a provider user object from a 
-		/// tapioca contact object
-		/// </summary>
-		private ProviderUser CreateProviderUserFromContact (Tapioca.Contact contact)
+		private void UpdateProviderUserFromContact (ProviderUser pu, Tapioca.Contact contact)
 		{
-			ProviderUser pu = new ProviderUser();
 			pu.AccountName = this.Name;
 			pu.Alias = contact.Alias;
 			pu.Protocol = this.protocol;
@@ -321,7 +318,16 @@ namespace Banter
 			
 			if (contact.PresenceMessage != null && pu.Presence != null)
 				pu.Presence.Message = contact.PresenceMessage;
-
+		}
+		
+		/// <summary>
+		/// method to create a provider user object from a 
+		/// tapioca contact object
+		/// </summary>
+		private ProviderUser CreateProviderUserFromContact (Tapioca.Contact contact)
+		{
+			ProviderUser pu = new ProviderUser();
+			UpdateProviderUserFromContact (pu, contact);
 			return pu;
 		}
 		
