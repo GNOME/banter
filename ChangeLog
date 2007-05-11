@@ -1,5 +1,11 @@
 2007-05-11  Brady Anderson <banderso@novell.com> 
 
+	* Banter/AccountManagement.cs: Hack to disconnect tapioca connections
+	* Banter/Application.cs: Change to call Account Management to cleanup
+	  connections
+
+2007-05-11  Brady Anderson <banderso@novell.com> 
+
 	* Banter/ChatWindow.cs: remove debug
 	* Banter/Conversation.cs: ???
 

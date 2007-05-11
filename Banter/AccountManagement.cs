@@ -55,6 +55,7 @@ namespace Banter
 		static private System.Object locker;
 		static private bool initialized = false;
 		static private Thread startThread = null;
+		static private Thread shutdownThread = null;
 		static private IList <Account> accounts = null;
 		static public IAmUpHandler IAmUpEvent;
 
@@ -115,6 +116,57 @@ namespace Banter
 				throw e;
 			}
         }
+        
+		/// <summary>
+		/// Internal method for shutting down and cleaning up 
+		/// all account objects
+		/// </summary>
+        static internal void Shutdown ()
+        {
+        	if (initialized == false) return;
+        	
+        	Logger.Debug ("AccountManagement::Shutdown - called");
+        	
+			try
+			{
+				if (shutdownThread == null) {
+					lock (locker)
+					{
+						if (shutdownThread == null)
+						{
+							AccountManagement.shutdownThread = 
+								new Thread (new ThreadStart (AccountManagement.ShutdownThread));
+							shutdownThread.IsBackground = true;
+							shutdownThread.Priority = ThreadPriority.Normal;
+							shutdownThread.Start();
+							
+							Logger.Debug ("Waiting for accounts to cleanup");
+							Thread.Sleep (5000);
+							
+							Logger.Debug ("Aborting shutdown thread");
+							shutdownThread.Abort ();
+						}
+					}
+				}
+			}
+			catch (Exception e)
+			{
+				Logger.Debug (e.Message);
+				Logger.Debug (e.StackTrace);
+				throw e;
+			}
+        }
+        
+		/// <summary>
+		/// Account Management Shutdown Thread.
+		/// </summary>
+		static private void ShutdownThread()
+		{
+			foreach (Banter.Account account in AccountManagement.GetAccounts())
+			{
+				account.Disconnect();
+			}
+		}
 
 		/// <summary>
 		/// Account Management Startup Thread.

@@ -374,12 +374,7 @@ namespace Banter
 				}
 			}
 			
-			foreach (Banter.Account account in AccountManagement.GetAccounts())
-			{
-				Logger.Debug ("Disconecting account: {0}", account.Name);
-				//account.Disconnect ();
-			}
-			
+			AccountManagement.Shutdown();
 			Logger.Debug ("Finished Disconnecting accounts");
 
 			// Shutdown the messaging engine
