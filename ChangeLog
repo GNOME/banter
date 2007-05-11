@@ -1,3 +1,9 @@
+2007-05-10  Brady Anderson <banderso@novell.com> 
+
+	* Banter/AccountManagement.cs: Changed start/stop paradigm to just
+	  initialize
+	* Banter/Application.cs: General cleanup and warning removal
+
 2007-05-10  Calvin Gaisford <calvinrg@gmail.com> 
 
 	* Banter/Presence.cs, Banter/ProviderUserManager.cs,

@@ -63,7 +63,6 @@ namespace Banter
 		protected ManualResetEvent connectedEvent = null;
 		protected Dictionary<string, object> options;	
 		
-		private bool initiatedConversation = false;
 		private bool autoLogin = false;
 		private bool remember = false;
 		private bool primary = false;
@@ -282,7 +281,7 @@ namespace Banter
 							try
 							{
 								Logger.Debug ("creating conversation object");
-								conversation = ConversationManager.Create (this, contact, false);
+								conversation = ConversationManager.Create (this, peer, false);
 								conversation.SetTextChannel (txtChannel);
 								Logger.Debug ("created new conversation object");
 							
@@ -310,11 +309,13 @@ namespace Banter
 						
 						StreamChannel strmChannel =	channel as StreamChannel;
 
+						/*
 						conversation = 
 							new Conversation (sender, strmChannel.RemoteTarget as Contact);
 					
 						conversation.SetVideoWindows (meWindow.WindowId, youWindow.WindowId);
 						conversation.SetStreamedMediaChannel (strmChannel);
+						*/
 						break;
 					}
 				}

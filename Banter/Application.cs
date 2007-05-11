@@ -54,15 +54,8 @@ namespace Banter
 		private Dictionary <uint, Person> persons;
 		private Dictionary <string, ChatWindow> chatWindows;
 		private PreferencesDialog preferencesDialog;
-		private Conversation conversation = null;
-		private bool initiatedConversation = false;
 		
 		private Dictionary<GroupWindow, GroupWindow> groupWindows;
-
-		// Extend the hack to tapioca
-		//Tapioca.UserContact meContact = null;
-		Tapioca.Connection tapConnection = null;
-		ManualResetEvent connectedEvent = null;
 		#endregion
 	
 		#region Public Static Properties
@@ -171,7 +164,7 @@ namespace Banter
 			
 			// Start account management and authenticate to any auto-login accounts
 			AccountManagement.IAmUpEvent += OnAccountManagementReadyEvent;
-			AccountManagement.Start ();
+			AccountManagement.Initialize ();
 			
 			/*
 			if ((bool) Preferences.Get (Preferences.ENABLE_TRAY_ICON))
@@ -229,186 +222,13 @@ namespace Banter
 			return false; // Prevent GLib.Idle from calling this method again
 		}
 
-		/*
-		private void OnNewChannel (Tapioca.Connection sender, Tapioca.Channel channel)
-		{
-			Logger.Debug ("Application::OnNewChannel - called");
-			
-			if (initiatedConversation == true)
-				return;
-				
-			try
-			{
-				Conversation conversation = null;
-				
-				switch (channel.Type)
-				{
-					case Tapioca.ChannelType.Text:
-					{
-						TextChannel txtChannel = channel as TextChannel;
-						conversation = 
-							new Conversation (sender, txtChannel.RemoteTarget as Contact);
-						conversation.SetTextChannel (txtChannel);
-
-						Person peer = GetPersonFromContact (txtChannel.RemoteTarget as Contact);
-						ChatWindow cw = null;
-						
-						if (chatWindows.ContainsKey (peer.Id)) {
-							chatWindows[peer.Id].Present();
-						}
-						else {
-							try
-							{
-								cw = new ChatWindow (conversation);
-								//cw.Conversation = conversation;
-								cw.DeleteEvent += OnChatWindowDelete;
-								chatWindows[peer.Id] = cw;
-								cw.Present();
-							}
-							catch (Exception es)
-							{
-								Console.WriteLine (es.Message);
-								Console.WriteLine (es.StackTrace);
-							}
-						}
-						break;
-					}
-					
-					case Tapioca.ChannelType.StreamedMedia:
-					{
-						VideoWindow meWindow = new VideoWindow();
-						meWindow.Title = "Me";
-						meWindow.Show();
-				
-						VideoWindow youWindow = new VideoWindow();
-						youWindow.Title = "You";
-						youWindow.Show();
-						
-						StreamChannel strmChannel =	channel as StreamChannel;
-
-						conversation = 
-							new Conversation (sender, strmChannel.RemoteTarget as Contact);
-					
-						conversation.SetVideoWindows (meWindow.WindowId, youWindow.WindowId);
-						conversation.SetStreamedMediaChannel (strmChannel);
-						break;
-					}
-				}
-			
-			}
-			catch (Exception onc)
-			{
-				Logger.Debug (onc.Message);
-				Logger.Debug (onc.StackTrace);
-			}
-			
-		}
-		*/
-
-		private void OnConnectionChanged ( 
-			Tapioca.Connection sender,
-			Tapioca.ConnectionStatus status,
-			Tapioca.ConnectionStatusReason reason)
-		{
-			Logger.Debug ("OnConnectionChanged - called");
-			Logger.Debug ("  {0}", status.ToString());
-			
-			switch (status)
-			{
-				case Tapioca.ConnectionStatus.Connecting:
-				{
-					break;
-				}
-				
-				case Tapioca.ConnectionStatus.Connected:
-				{
-					Logger.Debug ("  in connected");
-					
-					try
-					{
-						Logger.Debug ("ME - uri: {0}", tapConnection.Info.Uri);
-						Logger.Debug ("ME - alias: {0}", tapConnection.Info.Alias);
-						Logger.Debug ("ME - caps: {0}", tapConnection.Info.Capabilities.ToString());
-						Logger.Debug ("ME - avatar token: {0}", tapConnection.Info.CurrentAvatarToken);
-
-						Person mePerson = PersonStore.GetPersonByJabberId(tapConnection.Info.Uri);
-						if(mePerson == null) {
-							mePerson = new Person(tapConnection.Info.Alias);
-							mePerson.JabberId = tapConnection.Info.Uri;
-							PersonStore.AddPerson(mePerson);
-						}
-						
-						Logger.Debug ("FIXME: We should find the real me and set IsSelf");
-						mePerson.IsSelf = true;							
-						/*
-						Person person = new Person(tapConnection.Info, true);
-						persons[tapConnection.Info.Handle.Id] = person;
-						this.me = person;
-						*/
-						
-						Logger.Debug ("# Subscribed Contacts: {0}", tapConnection.ContactList.SubscribedContacts.Length);
-						Logger.Debug ("# Known Contacts: {0}", tapConnection.ContactList.KnownContacts.Length);
-
-						Logger.Debug ("Connection jabber requested");
-						
-						// Loop through and add all of the subscribed contacts
-		 				foreach (Contact c in tapConnection.ContactList.KnownContacts) //.SubscribedContacts)
-						{
-		                 	Logger.Debug (
-		                 		"Contact Retrieved\n\t{0}/{4} - {1}/{2} - {3}",
-		                 		c.Uri, 
-		                 		c.Presence, 
-		                 		c.PresenceMessage, 
-		                 		c.SubscriptionStatus, 
-		                 		c.Alias);
-
-							if(!persons.ContainsKey (c.Handle.Id)) {
-								Person person = PersonStore.GetPersonByJabberId(c.Handle.Name);
-								if(person == null) {
-									person = new Person(c.Alias);
-									person.JabberId = c.Handle.Name;
-									PersonStore.AddPerson(person);
-								}
-								
-								person.Contact = c;
-								persons[c.Handle.Id] = person;
-							}
-		                }
-		                
-						// FIXME - For now we have all caps		                
-						tapConnection.Info.SetCapabilities (
-							ContactCapabilities.Text |
-							ContactCapabilities.Audio |
-							ContactCapabilities.Video);
-		                
-		                // Setup handlers for incoming conversations
-		                //sender.ChannelCreated += OnNewChannel;
-					}
-					catch (Exception on)
-					{	
-						Logger.Debug (on.Message);
-						Logger.Debug (on.StackTrace);
-					}
-					
-					if (this.connectedEvent != null)
-						this.connectedEvent.Set();
-						
-					break;
-				}
-				
-				case Tapioca.ConnectionStatus.Disconnected:
-				{
-					break;
-				}
-			}
-		}
-		
 		private void InitializePersons()
 		{
 			Logger.Debug("InitializePersons called");
 
 			persons = new Dictionary<uint,Person> ();
 
+			/*
 			try
 			{
 				Banter.Account rtcAccount = null;
@@ -438,12 +258,8 @@ namespace Banter
 			}
 			finally
 			{
-					/*
-					if (friends != null)
-						foreach (Person friend in friends)
-							friend.Dispose();
-					*/
 			}
+			*/
 		}
 
 		private void OnImageClick (object o, ButtonPressEventArgs args) // handler for mouse click
@@ -558,14 +374,6 @@ namespace Banter
 			
 			Logger.Debug ("Finished Disconnecting accounts");
 
-			/*
-			if (tapConnection != null)			
-				tapConnection.Disconnect ();
-			*/
-			
-			// Unauthenticate all accounts
-			AccountManagement.Stop ();
-			
 			// Shutdown the messaging engine
 			//MessageEngine.Stop ();
 			
@@ -611,8 +419,9 @@ namespace Banter
 			}
 
 			// FIXME: Remove this eventually.  It's a hack to retry starting the AccountManager assuming the user entered credentials
-			if (!initialized) {
-				AccountManagement.Start ();
+			if (!initialized && AccountManagement.InitializedFinished() == false)
+			{
+				AccountManagement.Initialize ();
 			}
 		}
 		
@@ -758,7 +567,6 @@ Logger.Debug ("Application.OnGroupWindowDeleted");
 		public void InitiateChat(Person person)
 		{
 			Logger.Debug ("Called to initiate chat with: " + person.DisplayName);
-			initiatedConversation = true;
 			
 			if (ChatWindow.AlreadyExist (person.Id) == true)
 				ChatWindow.PresentWindow (person.Id);
@@ -776,8 +584,7 @@ Logger.Debug ("Application.OnGroupWindowDeleted");
 					}
 				
 					Conversation conversation = 
-						Banter.ConversationManager.Create (acct, person.Contact, true);
-					conversation.CreateTextChannel();
+						Banter.ConversationManager.Create (acct, person, true);
 					
 					ChatWindow cw = new ChatWindow (conversation);
 					cw.DeleteEvent += OnChatWindowDelete;
@@ -794,7 +601,6 @@ Logger.Debug ("Application.OnGroupWindowDeleted");
 		public void InitiateVideoChat(Person person)
 		{
 			Logger.Debug ("Called to initiate Video chat with: " + person.DisplayName);
-			initiatedConversation = true;
 			
 			VideoWindow meWindow = new VideoWindow();
 			meWindow.Title = "Me";
@@ -804,24 +610,27 @@ Logger.Debug ("Application.OnGroupWindowDeleted");
 			youWindow.Title = "You";
 			youWindow.Show();
 			
+			/*
 			if (this.conversation == null)
 			{
-				this.conversation = new Conversation (tapConnection, person.Contact);
+				this.conversation = new Conversation (tapConnection, person);
 				this.conversation.SetVideoWindows (meWindow.WindowId, youWindow.WindowId);
 				this.conversation.StartVideoChat ();
 			}
+			*/
 		}		
 
 		public void InitiateAudioChat (Person person)
 		{
 			Logger.Debug ("Called to initiate Audio chat with: " + person.DisplayName);
-			initiatedConversation = true;
-			
+
+			/*			
 			if (this.conversation == null)
 			{
-				this.conversation = new Conversation (tapConnection, person.Contact);
+				this.conversation = new Conversation (tapConnection, person);
 				this.conversation.StartAudioChat ();
 			}
+			*/
 		}		
 		
 		private void OnChatWindowDelete (object sender, DeleteEventArgs args)

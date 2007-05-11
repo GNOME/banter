@@ -36,65 +36,69 @@ using Gnome.Keyring;
 
 namespace Banter
 {
+
+	public delegate void AccountInitializing (Account account);
+	public delegate void AccountConnecting (Account account);
+	public delegate void AccountConnected (Account account);
+	public delegate void AccountDisconnected (Account account);
+	
+	public delegate void IAmUpHandler ();
+	
 	/// NOTE: This code is temporary - For now we're just going
 	/// to gather credentials and authenticate to GoogleTalk
 	///
 	/// <summary>
 	///	Class to manage provider accounts such as Jabber and SIP
 	/// </summary>
-	public delegate void IAmUpHandler ();
-	internal class AccountManagement
+	public class AccountManagement
 	{
-		static private string locker = "lckr";
-		static private bool started = false;
-		static private bool stop = false;
+		static private System.Object locker;
+		static private bool initialized = false;
 		static private Thread startThread = null;
-		static private AutoResetEvent stopEvent;
 		static private IList <Account> accounts = null;
 		static public IAmUpHandler IAmUpEvent;
-		
 
-	   	// BUGBUG Temporary code
-	   // static private string GoogleTalkTls = "/apps/rtc/accounts/jabber/google-talk/tls";
-	   // static private string GoogleTalkOldSsl = "/apps/rtc/accounts/jabber/google-talk/old-ssl";
-	   // static private string GoogleTalkAutoLogin = "/apps/rtc/accounts/jabber/google-talk/auto-login";
-	   // static private string GoogleTalkTPPath = "/apps/rtc/accounts/jabber/google-talk/tp-path";
-	   	
+	   	static AccountManagement()
+	   	{
+	   		locker = new System.Object ();
+        	accounts = new List<Account> ();	
+	   	}
 	   	
 	   	static internal IList <Account> GetAccounts ()
 	   	{
 	   		return accounts;
 	   	}
 	   	
+	   	static internal bool InitializedFinished ()
+	   	{
+	   		return initialized;
+	   	}
+	   	
 		/// <summary>
-		/// Internal method for starting up account management
+		/// Internal method for starting up and initializing any
+		/// current configured accounts.
 		/// Any preconfigured accounts that contain full credential sets
-		/// and are marked for automatic login with authenticate
+		/// and are marked for automatic login with connect and authenticate.
 		/// </summary>
-        static internal void Start ()
+        static internal void Initialize ()
         {
+        	if (initialized == true) return;
+        	
         	if (!AccountInformationFilled ()) {
-        		Logger.Debug ("Aborting AccountManagement.Start() because the server, port, username, and port aren't all set.");
+        		Logger.Debug ("Aborting AccountManagement.Initialize() because the server, port, username, and port aren't all set.");
         		Application.ActionManager ["ShowPreferencesAction"].Activate ();
         		return;
         	}
-        	Console.WriteLine ("AccountManagement starting up");
         	
-        	/*
-        	if (TelepathyProviderFactory.Providers.Count == 0) {
-        		Console.WriteLine (  "No Telepathy Providers are installed - exiting");
-        		return;
-        	}
-        	*/
+        	Logger.Debug ("AccountManagement initializing");
         	
 			try
 			{
-				if (started == false) {
+				if (startThread == null) {
 					lock (locker)
 					{
-						if (started == false)
+						if (startThread == null)
 						{
-							stopEvent = new AutoResetEvent (false);
 							AccountManagement.startThread = 
 								new Thread (new ThreadStart (AccountManagement.StartupThread));
 							startThread.IsBackground = true;
@@ -106,81 +110,26 @@ namespace Banter
 			}
 			catch (Exception e)
 			{
-				Console.WriteLine (e.Message);
+				Logger.Debug (e.Message);
+				Logger.Debug (e.StackTrace);
 				throw e;
 			}
         }
 
 		/// <summary>
-		/// Internal method to shutdown and logout all accounts
-		/// </summary>
-        static internal void Stop ()
-        {
-        	Console.WriteLine ("Account Management shutting down");
-        	
-        	AccountManagement.stop = true;
-        	AccountManagement.stopEvent.Set();
-        }
-        
-		/// <summary>
 		/// Account Management Startup Thread.
 		/// </summary>
 		static private void StartupThread()
 		{
-			string username = null;
-			string password = null;
-			string server;
-			string port;
+			Logger.Debug ("AccountManagement::StartupThread - running");
 			
-			Console.WriteLine ("AccountManagement::StartupThread - running");
-			
-        	// List of accounts
-        	accounts = new List<Account> ();	
-        	
-        	// FIXME: Temporary - read our hard coded Google Talk settings
-			if (!GetGoogleTalkCredentialsHack (out username, out password)) {
-				Logger.Error ("Could not retrieve GoogleTalk account information from Gnome.Keyring.  Probably gonna crash!");
-			} else {
-				Logger.Info ("Successfully retrieved GoogleTalk credentials from Gnome.Keyring for {0}.", username);
-			}
-			server = Preferences.Get (Preferences.GoogleTalkServer) as string;
-			port = Preferences.Get (Preferences.GoogleTalkPort) as string;
-
-        	Banter.JabberAccount account = 
-        		new Banter.JabberAccount (
-        				"Google Talk",
-        				"jabber",
-        				username,
-        				password,
-        				server,
-        				port,
-        				false,
-        				true,
-        				false);
-			account.Default = true;
-				
-			try
-			{
-				accounts.Add (account);
-				started = true;
-			} catch (Exception es){
-				Console.WriteLine (es.Message);
-				Console.WriteLine (es.StackTrace);
-			} finally {
-			
-			}
+			// For now just instantiate our one default account
+			AccountManagement.CreateAccountObject ("Google Talk", true);
 			
 			if (IAmUpEvent != null)
 				IAmUpEvent();
 			
-			Console.WriteLine ("AccountManagement::StartupThread waiting for shutdown");			
-			while (AccountManagement.stop == false) {
-				AccountManagement.stopEvent.WaitOne (30000, false);
-			}
-	
-			AccountManagement.started = false;
-			AccountManagement.stopEvent.Close();
-			AccountManagement.stopEvent = null;
+			AccountManagement.initialized = true;	
 		}
 		
 		// <summary>
@@ -224,20 +173,6 @@ namespace Banter
 			return true;
 		}
 		
-		/*
-		static private void OnIncomingConversation (Conversation conversation)
-		{
-			Console.WriteLine ("OnIncomingConversation - called");
-			conversation.MessageReceived += OnIncomingMessage;
-		}
-		
-		static private void OnIncomingMessage (Conversation conversation, Message message)
-		{
-			TextMessage txtMessage = (TextMessage) message;
-			Console.WriteLine ("Message: {0}", txtMessage.Text);
-		}
-		*/
-
 		private static bool GetCredentialsHack (string type, out string username, out string password)
 		{
 			username = null;
@@ -323,6 +258,61 @@ namespace Banter
 		public static void SetSipCredentialsHack (string username, string password)
 		{
 			SetCredentialsHack ("RtcEkigaSipAccountName", username, password);
+		}
+		
+		/// <summary>
+		/// Method to instantiate and possibly connect/authenticate if
+		/// all the credentials are available
+		/// <summary>
+		public static void CreateAccountObject (string accountname, bool connect)
+		{
+			string username = null;
+			string password = null;
+			string server;
+			string port;
+			
+			// hack - for now we support "Google Talk"
+			if (accountname.ToLower() != "google talk")
+			{
+				throw new ApplicationException (String.Format ("{0} account is not configured", accountname));
+			}
+			
+        	// FIXME: Temporary - read our hard coded Google Talk settings
+			if (!GetGoogleTalkCredentialsHack (out username, out password)) {
+				Logger.Error ("Could not retrieve GoogleTalk account information from Gnome.Keyring.  Probably gonna crash!");
+			} else {
+				Logger.Info ("Successfully retrieved GoogleTalk credentials from Gnome.Keyring for {0}.", username);
+			}
+			
+			server = Preferences.Get (Preferences.GoogleTalkServer) as string;
+			port = Preferences.Get (Preferences.GoogleTalkPort) as string;
+
+        	Banter.JabberAccount account = 
+        		new Banter.JabberAccount (
+        				"Google Talk",
+        				"jabber",
+        				username,
+        				password,
+        				server,
+        				port,
+        				false,
+        				true,
+        				false);
+			account.Default = true;
+				
+			try
+			{
+				accounts.Add (account);
+				
+				if (connect == true)
+					account.Connect (true);
+					
+			} catch (Exception es){
+				Console.WriteLine (es.Message);
+				Console.WriteLine (es.StackTrace);
+			} finally {
+			
+			}
 		}
 #endregion
  	}

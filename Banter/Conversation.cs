@@ -42,6 +42,7 @@ namespace Banter
 		private uint previewWindowID;
 		private uint peerWindowID;
 		private ArrayList messages;
+		private Account account;
 		private Tapioca.Contact peerContact;
 		private Tapioca.Connection tapConnection;
 		private Tapioca.TextChannel tapTextChannel;
@@ -67,8 +68,9 @@ namespace Banter
 			get { return (current == last) ? true : false;}
 		}
 	
-		#region Constructors		
-		public Conversation (Tapioca.Connection tapiocaConnection, Contact tapiocaPeerContact)
+		#region Constructors	
+		/*
+		internal Conversation (Tapioca.Connection tapiocaConnection, Contact tapiocaPeerContact)
 		{
 			// TODO
 			// Verify these members are from the same connection and valid
@@ -78,8 +80,9 @@ namespace Banter
 			this.messages = new ArrayList ();
 			last = 999;
 		}
+		*/
 		
-		public Conversation (Account account, Contact tapiocaPeerContact)
+		internal Conversation (Account account, Contact tapiocaPeerContact)
 		{
 			// TODO
 			// Verify these members are from the same connection and valid
@@ -90,6 +93,20 @@ namespace Banter
 			last = 999;
 		}
 		
+		internal Conversation (Account account, Person peer, Contact tapiocaPeerContact, bool initiate)
+		{
+			// TODO
+			// Verify these members are from the same connection and valid
+			
+			this.account = account;
+			this.tapConnection = account.TapiocaConnection;
+			this.peerContact = tapiocaPeerContact;
+			this.messages = new ArrayList ();
+			last = 999;
+			
+			if (initiate == true)
+				this.CreateTextChannel();
+		}
 		#endregion
 		
 		#region Private Methods
@@ -359,7 +376,7 @@ namespace Banter
 			tapStreamChannel.NewStream += OnNewStream;
 		}
 		
-		public void CreateTextChannel()
+		private void CreateTextChannel()
 		{
 			if (tapTextChannel != null) return;
 			
