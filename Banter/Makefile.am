@@ -41,6 +41,7 @@ FILES = \
 	$(srcdir)/Person.cs \
 	$(srcdir)/PersonGroup.cs \
 	$(srcdir)/PersonStore.cs \
+	$(srcdir)/PersonSync.cs \
 	$(srcdir)/PersonView.cs \
 	$(srcdir)/PersonCard.cs \
 	$(srcdir)/Presence.cs \
