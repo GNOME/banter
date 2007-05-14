@@ -1,3 +1,9 @@
+2007-05-14  Boyd Timothy <btimothy@gmail.com> 
+
+	* Makefile.am: Use the correct Makefile.am for the top-level
+	  directory.  This should allow anyone checking out the code
+	  to build.
+
 2007-05-14  Daniel Nylander <po@danielnylander.se>
 
 	* configure.ac: Added 'sv' to ALL_LINGUAS.
