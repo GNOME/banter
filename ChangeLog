@@ -1,3 +1,7 @@
+2007-05-14  Daniel Nylander <po@danielnylander.se>
+
+	* configure.ac: Added 'sv' to ALL_LINGUAS.
+
 2007-05-14  Calvin Gaisford <calvinrg@gmail.com>
 
 	* NEWS: Updated for 0.1.2.
