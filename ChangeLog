@@ -1,3 +1,7 @@
+2007-05-14  Calvin Gaisford <calvinrg@gmail.com>
+
+	* NEWS: Updated for 0.1.2.
+
 2007-05-11  Calvin Gaisford <calvinrg@gmail.com> 
 
 	* Banter/Person.cs: Moved updateproviderusers to be public so the
