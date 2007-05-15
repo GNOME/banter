@@ -103,20 +103,6 @@ namespace Banter
 #endregion
 		
 #region Public Methods
-		public static ThemeManager GetInstance ()
-		{
-			lock (locker) {
-				if (instance == null) {
-					lock (locker) {
-						instance = new ThemeManager ();
-						instance.Init ();
-					}
-				}
-			}
-			
-			return instance;
-		}
-		
 		public void AddMessageStyle (MessageStyle style)
 		{
 			// FIXME: Check for a duplicate
@@ -129,15 +115,30 @@ namespace Banter
 #endregion
 		
 #region Public Properties
+		public static ThemeManager Instance
+		{
+			get {
+				lock (locker) {
+					if (instance == null) {
+						lock (locker) {
+							instance = new ThemeManager ();
+							instance.Init ();
+						}
+					}
+				}
+				
+				return instance;
+			}
+		}
 		
 		public static MessageStyle SelectedMessageStyle
 		{
 			get {
-				ThemeManager mgr = ThemeManager.GetInstance ();
+				ThemeManager mgr = ThemeManager.Instance;
 				return mgr.selectedStyle;
 			}
 			set {
-				ThemeManager mgr = ThemeManager.GetInstance ();
+				ThemeManager mgr = ThemeManager.Instance;
 				mgr.selectedStyle = value;
 				Preferences.Set (Preferences.MessageStyleName, value.Name);
 			}
@@ -147,7 +148,7 @@ namespace Banter
 		{
 			get {
 				Console.WriteLine ("FIXME: ThemeManager.SelectedMessageStyleIter: We really should store the TreeIters in a dictionary, but for now, just loop through the ListStore");
-				ThemeManager mgr = ThemeManager.GetInstance ();
+				ThemeManager mgr = ThemeManager.Instance;
 				TreeIter iter;
 				if (mgr.messageStyles.GetIterFirst (out iter)) {
 					do {
@@ -167,7 +168,7 @@ namespace Banter
 		public static ListStore MessageStyles
 		{
 			get {
-				ThemeManager mgr = ThemeManager.GetInstance ();
+				ThemeManager mgr = ThemeManager.Instance;
 				return mgr.messageStyles;
 			}
 		}

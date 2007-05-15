@@ -1,3 +1,8 @@
+2007-05-15  Boyd Timothy <btimothy@gmail.com> 
+
+	* Banter/ThemeManager.cs: Changed ThemeManager.GetInstance () to be a
+	  property instead named "Instance".
+
 2007-05-15  Calvin Gaisford <calvinrg@gmail.com> 
 
 	* Banter/banter.in: Fixed up the libdir path that was being set
