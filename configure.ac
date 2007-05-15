@@ -27,7 +27,7 @@ fi
 # Setup GETTEXT
 #
 
-ALL_LINGUAS="fi sv"
+ALL_LINGUAS="en_GB fi sv"
 
 GETTEXT_PACKAGE=banter
 AC_SUBST(GETTEXT_PACKAGE)
