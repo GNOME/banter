@@ -2,7 +2,7 @@
 
 prefix="@prefix@"
 exec_prefix="@exec_prefix@"
-libdir="@pkglibdir@"
+libdir="@libdir@/@PACKAGE@"
 
 #Taken from the monodevelop startup script which works to run Banter
 if test -n "$MOZILLA_FIVE_HOME"; then
