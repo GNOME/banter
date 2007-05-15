@@ -1,5 +1,11 @@
 2007-05-15 Boyd Timothy <btimothy@gmail.com>
 
+        * en_GB.po, fi.po, sv.po: Ran `make update-po` and newer
+	files were generated.  Also stubbed-out en_GB.po since
+	David forgot it.
+
+2007-05-15 Boyd Timothy <btimothy@gmail.com>
+
 	* fi.po: Fixed the charset.
 
 2007-05-15  David Lodge <dave@cirt.net>
