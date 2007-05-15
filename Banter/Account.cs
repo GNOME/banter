@@ -533,7 +533,7 @@ namespace Banter
               
             Logger.Debug ("user account: {0}", options["account"]);
               
-			System.Collections.ArrayList ps = new System.Collections.ArrayList ();
+			List<ConnectionManagerParameter> ps = new List<ConnectionManagerParameter> ();
 			ps.Add (new ConnectionManagerParameter ("account", options["account"]));
 			ps.Add (new ConnectionManagerParameter ("password", options["password"]));
 			ps.Add (new ConnectionManagerParameter ("server", options["server"]));
@@ -541,8 +541,7 @@ namespace Banter
 			ps.Add (new ConnectionManagerParameter ("ignore-ssl-errors", true));
 			ps.Add (new ConnectionManagerParameter ("port", (uint) 5223));
 
-			ConnectionManagerParameter[] parameters = 
-				(ConnectionManagerParameter[]) ps.ToArray (typeof (ConnectionManagerParameter));
+			ConnectionManagerParameter[] parameters = ps.ToArray ();
 
 			Logger.Debug ("Creating connection");
 			ConnectionManager cm = cmFactory.GetConnectionManager (this.protocol);

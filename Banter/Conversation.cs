@@ -21,6 +21,7 @@
 
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Net;
 using System.Text;
 
@@ -41,7 +42,7 @@ namespace Banter
 		
 		private uint previewWindowID;
 		private uint peerWindowID;
-		private ArrayList messages;
+		private List<Message> messages;
 		private Account account;
 		private Tapioca.Connection tapConnection;
 		private Tapioca.TextChannel tapTextChannel;
@@ -74,7 +75,7 @@ namespace Banter
 			this.account = account;
 			this.tapConnection = account.TapiocaConnection;
 			this.peerUser = peerUser;
-			this.messages = new ArrayList ();
+			this.messages = new List<Message> ();
 			last = 999;
 			
 			if (initiate == true)
@@ -301,7 +302,7 @@ namespace Banter
 			if (messages.Count == 0)
 				return null;
 			
-			return messages.ToArray (typeof (Message)) as Message[];
+			return messages.ToArray();
 		}
 		
 		public void SendTapiocaMessage (Message message)

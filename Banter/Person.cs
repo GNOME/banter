@@ -46,7 +46,7 @@ namespace Banter
 		private Evolution.Contact edsContact;
 		private string cachePath;
 		private Gdk.Pixbuf avatar;
-		private ArrayList providerUsers;
+		private List<ProviderUser> providerUsers;
 		private Presence presence;
 		#endregion
 
@@ -137,7 +137,7 @@ namespace Banter
 					// if the new presence is not offline, request the avatar data
 					// FIXME: we should not just flat out request this every time
 					if(providerUsers.Count > 0) {
-						((ProviderUser)providerUsers[0]).RequestAvatarData();
+						providerUsers[0].RequestAvatarData();
 					}
 				}
 			
@@ -182,7 +182,7 @@ namespace Banter
 		/// </summary>
 		public ProviderUser[] ProviderUsers
 		{
-			get{ return (ProviderUser[]) providerUsers.ToArray(typeof(ProviderUser)); }
+			get{ return providerUsers.ToArray(); }
 		}		
 		#endregion
 
@@ -229,7 +229,7 @@ namespace Banter
 		{
 		
 			// init internal types
-			providerUsers = new ArrayList();
+			providerUsers = new List<ProviderUser> ();
 			presence = new Presence(PresenceType.Offline);
 
 			// first check to see if this is a real edsContact
@@ -270,7 +270,7 @@ namespace Banter
 		{
 			// Logger.Debug("FIXME: Person.UpdatePresence should use a policy to get the right presence");
 			if(providerUsers.Count > 0) {
-				presence = ((ProviderUser)providerUsers[0]).Presence;
+				presence = providerUsers[0].Presence;
 			}
 
 			// Call the event on the GUI thread				
