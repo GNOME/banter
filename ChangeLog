@@ -4,7 +4,7 @@
 	* po/LINGUAS: New file to allow translators to add a new language
 	  without having to modify trunk/configure.ac directly.
 
-2007-05-14  Calvin Gaisford <calvinrg@gmail.com> 
+2007-05-15  Calvin Gaisford <calvinrg@gmail.com> 
 
         * Banter/Account.cs, Banter/Person.cs, Banter/Conversation.cs: Changed
           the ArrayList to a new and modern List using generics
@@ -14,7 +14,7 @@
           Banter/TelepathyProvider.cs: Deleted the file and removed from svn.
           It's no longer used.
 
-2007-05-14  Boyd Timothy <btimothy@gmail.com> 
+2007-05-15  Boyd Timothy <btimothy@gmail.com> 
 
 	* configure.ac: Bump the version to 0.1.3.
 
