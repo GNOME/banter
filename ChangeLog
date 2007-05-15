@@ -1,3 +1,11 @@
+2007-05-15  Calvin Gaisford <calvinrg@gmail.com> 
+
+	* Banter.mdp: Added AppStyle.cs and ContactStyle.cs stubbed files to
+	  project
+	* Banter/ContactStyle.cs: Stubbed out the ContactStyle class
+	* Banter/AppStyle.cs: Stubbed out the AppStyle class
+	* Banter/Makefile.am: Added the files AppStyle.cs and ContactStyle.cs
+
 2007-05-15 Boyd Timothy <btimothy@gmail.com>
 
         * configure.ac: Add support for po/LINGUAS file.

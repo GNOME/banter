@@ -29,6 +29,7 @@ all: $(ASSEMBLY)
 
 FILES = \
 	$(srcdir)/Application.cs \
+	$(srcdir)/AppStyle.cs \
 	$(srcdir)/AssemblyInfo.cs \
 	$(srcdir)/Defines.cs \
 	$(srcdir)/NotificationArea.cs \
@@ -50,6 +51,7 @@ FILES = \
 	$(srcdir)/Conversation.cs \
 	$(srcdir)/ConversationManager.cs \
 	$(srcdir)/ChatWindow.cs \
+	$(srcdir)/ContactStyle.cs \
 	$(srcdir)/MessagesView.cs \
 	$(srcdir)/MessageStyle.cs \
 	$(srcdir)/MessageStyleManager.cs \
