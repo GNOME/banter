@@ -1,37 +1,27 @@
 
-# Warning: This is an automatically generated file, do not edit!
+CSC = gmcs
+
+TARGET = Banter.exe
+WRAPPER = banter
+
+DB4O_DLL = \
+	-r:$(top_srcdir)/external/db4o/6.1/Db4objects.Db4o.dll
 
 if ENABLE_DEBUG
-ASSEMBLY_COMPILER_COMMAND = gmcs
-ASSEMBLY_COMPILER_FLAGS =  -noconfig -codepage:utf8 -warn:4 -debug -d:DEBUG
-ASSEMBLY = ./bin/Debug/Banter.exe
-COMPILE_TARGET = exe
-ASSEMBLY_WRAPPER = banter
-ASSEMBLY_WRAPPER_IN = banter.in
-PROJECT_REFERENCES =  \
-	$(top_builddir)/tapioca-sharp/bin/Debug/tapioca-sharp.dll
-BUILD_DIR = ./bin/Debug
+CSFLAGS =  -noconfig -codepage:utf8 -warn:4 -debug -d:DEBUG
+TAPIOCA_DLL =  \
+	-r:$(top_builddir)/tapioca-sharp/bin/Debug/tapioca-sharp.dll
 endif
 if ENABLE_RELEASE
-ASSEMBLY_COMPILER_COMMAND = gmcs
-ASSEMBLY_COMPILER_FLAGS =  -noconfig -codepage:utf8 -warn:4
-ASSEMBLY = ./bin/Release/Banter.exe
-COMPILE_TARGET = exe
-ASSEMBLY_WRAPPER = banter
-ASSEMBLY_WRAPPER_IN = banter.in
-PROJECT_REFERENCES =  \
-	$(top_builddir)/tapioca-sharp/bin/Release/tapioca-sharp.dll
-BUILD_DIR = ./bin/Release
+CSFLAGS =  -noconfig -codepage:utf8 -warn:4
+TAPIOCA_DLL =  \
+	-r:$(top_builddir)/tapioca-sharp/bin/Release/tapioca-sharp.dll
 endif
 
-	
-all: $(ASSEMBLY)
-
-FILES = \
+CSFILES = \
 	$(srcdir)/Application.cs \
 	$(srcdir)/AppStyle.cs \
 	$(srcdir)/AssemblyInfo.cs \
-	$(srcdir)/Defines.cs \
 	$(srcdir)/NotificationArea.cs \
 	$(srcdir)/TrayLib.cs \
 	$(srcdir)/MessageStore.cs \
@@ -54,7 +44,7 @@ FILES = \
 	$(srcdir)/ContactStyle.cs \
 	$(srcdir)/MessagesView.cs \
 	$(srcdir)/MessageStyle.cs \
-	$(srcdir)/MessageStyleManager.cs \
+	$(srcdir)/ThemeManager.cs \
 	$(srcdir)/GConfPreferencesProvider.cs \
 	$(srcdir)/Preferences.cs \
 	$(srcdir)/PreferencesDialog.cs \
@@ -68,22 +58,18 @@ FILES = \
 	$(srcdir)/WrapBox.cs \
 	$(srcdir)/InterruptableTimeout.cs
 
-DATA_FILES = 
-
 RESOURCES = \
-	$(top_srcdir)/data/images/banter-16.png \
-	$(top_srcdir)/data/images/banter-22.png \
-	$(top_srcdir)/data/images/banter-24.png \
-	$(top_srcdir)/data/images/banter-32.png \
-	$(top_srcdir)/data/images/banter-44.png \
-	$(top_srcdir)/data/images/blank-photo-128.png \
-	$(top_srcdir)/data/images/blank-photo.svg \
-	$(top_srcdir)/data/Themes/MessageStyles/Template.html \
-	$(srcdir)/UIManagerLayout.xml 
+	-resource:$(top_srcdir)/data/images/banter-16.png \
+	-resource:$(top_srcdir)/data/images/banter-22.png \
+	-resource:$(top_srcdir)/data/images/banter-24.png \
+	-resource:$(top_srcdir)/data/images/banter-32.png \
+	-resource:$(top_srcdir)/data/images/banter-44.png \
+	-resource:$(top_srcdir)/data/images/blank-photo-128.png \
+	-resource:$(top_srcdir)/data/images/blank-photo.svg \
+	-resource:$(top_srcdir)/data/Themes/MessageStyles/Template.html \
+	-resource:$(srcdir)/UIManagerLayout.xml 
 
-EXTRAS = 
-
-REFERENCES =  \
+ASSEMBLIES =  \
 	-r:System \
 	-r:Mono.Posix \
 	-r:System.Xml \
@@ -96,20 +82,43 @@ REFERENCES =  \
 	$(GLIB_SHARP_20_LIBS) \
 	$(GNOME_SHARP_20_LIBS) \
 	$(GTK_DOTNET_20_LIBS) \
-	$(EVOLUTION_SHARP_LIBS)
+	$(EVOLUTION_SHARP_LIBS) \
+	$(TAPIOCA_DLL) \
+	$(DB4O_DLL)
 
-DLL_REFERENCES =  \
-	$(BUILD_DIR)/Db4objects.Db4o.dll
+$(TARGET): $(CSFILES) Defines.cs
+	$(CSC) -out:$@ $(CSFLAGS) $^ $(ASSEMBLIES) $(RESOURCES)
 
-$(ASSEMBLY) $(ASSEMBLY).mdb: $(build_sources) $(build_resources) $(build_datafiles) 
-	mkdir -p $(dir $(ASSEMBLY))		
-	cp -f $(top_srcdir)/external/db4o/6.1/Db4objects.Db4o.dll $(BUILD_DIR)/Db4objects.Db4o.dll
+banterlibdir = $(pkglibdir)
+banterlib_DATA = $(TARGET)	
 
-	$(ASSEMBLY_COMPILER_COMMAND) $(ASSEMBLY_COMPILER_FLAGS) -out:$@ -target:$(COMPILE_TARGET) $(build_sources) $(build_resources_embed) $(build_references_ref)
+bin_SCRIPTS = $(WRAPPER)
 
-bin_SCRIPTS = banter
+$(WRAPPER): $(srcdir)/$(WRAPPER).in Makefile
+	sed -e "s|\@prefix\@|$(prefix)|g"               \
+		-e "s|\@exec_prefix\@|$(bindir)|g"			\
+		-e "s|\@libdir\@|$(libdir)|g"				\
+		-e "s|\@pkglibdir\@|$(pkglibdir)|g"         \
+		-e "s|\@bindir\@|$(bindir)|g"               \
+		-e "s|\@target\@|$(TARGET)|g"               \
+		-e "s|\@wrapper\@|$(WRAPPER)|g"             \
+		-e "s|\@srcdir\@|$(PWD)|g"  \
+		< $< > $@
+	chmod +x $(WRAPPER)
 
-banter: $(srcdir)/banter.in Makefile
-	chmod +x banter
+Defines.cs: $(srcdir)/Defines.cs.in Makefile
+	sed -e "s|\@version\@|$(VERSION)|"     \
+		-e "s|\@datadir\@|$(datadir)|"     \
+		-e "s|\@pkglibdir\@|$(pkglibdir)|" \
+		< $< > $@
 
-include $(top_srcdir)/Makefile.include
+EXTRA_DIST = \
+	$(CSFILES)					\
+	$(WRAPPER).in				\
+	$(srcdir)/Defines.cs.in
+
+CLEAN_FILES = \
+	$(TARGET)					\
+	$(TARGET).mdb				\
+	$(WRAPPER)					\
+	Defines.cs

@@ -31,7 +31,7 @@
     <File name="./Banter/ChatWindow.cs" subtype="Code" buildaction="Compile" />
     <File name="./Banter/MessagesView.cs" subtype="Code" buildaction="Compile" />
     <File name="./Banter/MessageStyle.cs" subtype="Code" buildaction="Compile" />
-    <File name="./Banter/MessageStyleManager.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Banter/ThemeManager.cs" subtype="Code" buildaction="Compile" />
     <File name="./data/Themes/MessageStyles/Template.html" subtype="Code" buildaction="EmbedAsResource" />
     <File name="./Banter/GConfPreferencesProvider.cs" subtype="Code" buildaction="Compile" />
     <File name="./Banter/Preferences.cs" subtype="Code" buildaction="Compile" />

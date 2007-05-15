@@ -1,3 +1,19 @@
+2007-05-15  Boyd Timothy <btimothy@gmail.com> 
+
+	* Banter.mdp: Rename MessageStyleManager.cs -> ThemeManager.cs.
+	* Banter/banter.in: Use @pkglibdir@ instead of @libdir@/@PACKAGE@.
+	* Banter/Defines.cs: Renamed this to Defines.cs.in
+	* Banter/PreferencesDialog.cs, Banter/MessagesView.cs: Use ThemeManager
+	  instead of MessageStyleManager.
+	* Banter/Defines.cs.in: Process this file in Makefile.am to create
+	  Defines.cs
+	* Banter/ThemeManager.cs: This is the new ThemeManager that will
+	  control MessageStyles, AppStyles, and ContactStyles.
+	* Banter/MessageStyleManager.cs: Renamed to ThemeManager.cs
+	* Banter/Makefile.am: Removed all the automatically generated stuff
+	  from MonoDevelop and control things ourselves.  Also, generate
+	  Defines.cs and the banter script ourselves.
+
 2007-05-15  Calvin Gaisford <calvinrg@gmail.com> 
 
 	* Banter.mdp: Added AppStyle.cs and ContactStyle.cs stubbed files to

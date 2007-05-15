@@ -36,7 +36,7 @@ namespace Banter
 		public MessagesView() : base ()
 		{
 			string variant = Preferences.Get (Preferences.MessageStyleVariantName) as String;
-			Init (MessageStyleManager.SelectedMessageStyle, variant); 
+			Init (ThemeManager.SelectedMessageStyle, variant); 
 		}
 		
 		public MessagesView (MessageStyle messageStyle, string messageStyleVariant) : base ()

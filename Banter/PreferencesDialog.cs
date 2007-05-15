@@ -110,7 +110,7 @@ namespace Banter
 
 			VBox vbox = new VBox (false, 0);
 			string variant = Preferences.Get (Preferences.MessageStyleVariantName) as String;
-			messagesView = new MessagesView (MessageStyleManager.SelectedMessageStyle, variant);
+			messagesView = new MessagesView (ThemeManager.SelectedMessageStyle, variant);
 			vbox.PackStart (messagesView);
 			
 			Table table = new Table (10, 3, false);
@@ -471,7 +471,7 @@ namespace Banter
 			
 			MessageStyle style = messageStyleComboBox.Model.GetValue (iter, 0) as MessageStyle;
 			if (style != null) {
-				MessageStyleManager.SelectedMessageStyle = style;
+				ThemeManager.SelectedMessageStyle = style;
 				
 				if (variantComboBox.GetActiveIter (out iter)) {
 					string variant = variantComboBox.Model.GetValue (iter, 0) as string;
@@ -517,17 +517,17 @@ namespace Banter
 		void DialogRealized (object sender, EventArgs args)
 		{
 			// Load the stored preferences
-			messageStyleComboBox.Model = MessageStyleManager.MessageStyles;
+			messageStyleComboBox.Model = ThemeManager.MessageStyles;
 			
-			TreeIter selectedIter = MessageStyleManager.SelectedMessageStyleIter;
+			TreeIter selectedIter = ThemeManager.SelectedMessageStyleIter;
 
-			if (MessageStyleManager.MessageStyles.IterIsValid (selectedIter)) {
-				messageStyleComboBox.SetActiveIter (MessageStyleManager.SelectedMessageStyleIter);
+			if (ThemeManager.MessageStyles.IterIsValid (selectedIter)) {
+				messageStyleComboBox.SetActiveIter (ThemeManager.SelectedMessageStyleIter);
 			}
 			
 			messageStyleComboBox.Changed += OnMessageStyleComboBoxChanged;
 			
-			PopulateVariantComboBox (MessageStyleManager.SelectedMessageStyle);
+			PopulateVariantComboBox (ThemeManager.SelectedMessageStyle);
 			
 			// Select the proper variant
 			string savedVariant = Preferences.Get (Preferences.MessageStyleVariantName) as String;
@@ -578,7 +578,7 @@ namespace Banter
 			
 			// Save the new preference (null out the variant)
 			MessageStyle style = messageStyleComboBox.Model.GetValue (iter, 0) as MessageStyle;
-			MessageStyleManager.SelectedMessageStyle = style;
+			ThemeManager.SelectedMessageStyle = style;
 			Preferences.Set (Preferences.MessageStyleVariantName, String.Empty);
 			
 			// Populate variantComboBox

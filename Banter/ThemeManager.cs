@@ -1,5 +1,5 @@
 //***********************************************************************
-// *  $RCSfile$ - MessageStyleManager.cs
+// *  $RCSfile$ - ThemeManager.cs
 // *
 // *  Copyright (C) 2007 Novell, Inc.
 // *
@@ -25,11 +25,12 @@ using Gtk;
 
 namespace Banter
 {
-	
-	
-	public class MessageStyleManager
+	// <summary>
+	// ThemeManager manages themes, message styles, person styles, and app styles.
+	// </summary>
+	public class ThemeManager
 	{
-		private static MessageStyleManager instance = null;
+		private static ThemeManager instance = null;
 		private static object locker = new object ();
 		
 		ListStore messageStyles;
@@ -41,7 +42,7 @@ namespace Banter
 		// Path where user styles are stored
 		string userStylesPath;
 		
-		private MessageStyleManager()
+		private ThemeManager()
 		{
 			messageStyles = new ListStore (typeof (MessageStyle));
 			
@@ -91,7 +92,7 @@ namespace Banter
 						}
 					} while (messageStyles.IterNext (ref iter));
 				} else {
-					Logger.Warn ("The MessageStyleManager was unable to load any MessageStyles from ~/.banter/Themes/MessageStyles.  Strange things may happen.");
+					Logger.Warn ("The ThemeManager was unable to load any MessageStyles from ~/.banter/Themes/MessageStyles.  Strange things may happen.");
 				}
 			}
 			
@@ -102,12 +103,12 @@ namespace Banter
 #endregion
 		
 #region Public Methods
-		public static MessageStyleManager GetInstance ()
+		public static ThemeManager GetInstance ()
 		{
 			lock (locker) {
 				if (instance == null) {
 					lock (locker) {
-						instance = new MessageStyleManager ();
+						instance = new ThemeManager ();
 						instance.Init ();
 					}
 				}
@@ -132,11 +133,11 @@ namespace Banter
 		public static MessageStyle SelectedMessageStyle
 		{
 			get {
-				MessageStyleManager mgr = MessageStyleManager.GetInstance ();
+				ThemeManager mgr = ThemeManager.GetInstance ();
 				return mgr.selectedStyle;
 			}
 			set {
-				MessageStyleManager mgr = MessageStyleManager.GetInstance ();
+				ThemeManager mgr = ThemeManager.GetInstance ();
 				mgr.selectedStyle = value;
 				Preferences.Set (Preferences.MessageStyleName, value.Name);
 			}
@@ -145,20 +146,20 @@ namespace Banter
 		public static TreeIter SelectedMessageStyleIter
 		{
 			get {
-				Console.WriteLine ("FIXME: MessageStyleManager.SelectedMessageStyleIter: We really should store the TreeIters in a dictionary, but for now, just loop through the ListStore");
-				MessageStyleManager mgr = MessageStyleManager.GetInstance ();
+				Console.WriteLine ("FIXME: ThemeManager.SelectedMessageStyleIter: We really should store the TreeIters in a dictionary, but for now, just loop through the ListStore");
+				ThemeManager mgr = ThemeManager.GetInstance ();
 				TreeIter iter;
 				if (mgr.messageStyles.GetIterFirst (out iter)) {
 					do {
 						MessageStyle style = mgr.messageStyles.GetValue (iter, 0) as MessageStyle;
 						if (style == mgr.selectedStyle) {
-							Logger.Debug ("MessageStyleManager.SelectedMessageStyleIter/Get found selected style");
+							Logger.Debug ("ThemeManager.SelectedMessageStyleIter/Get found selected style");
 							return iter;
 						}
 					} while (mgr.messageStyles.IterNext (ref iter));
 				}
 				
-				Logger.Debug ("MessageStyleManager.SelectedMessageStyleIter/Get did NOT find anything.");
+				Logger.Debug ("ThemeManager.SelectedMessageStyleIter/Get did NOT find anything.");
 				return TreeIter.Zero;
 			}
 		}
@@ -166,7 +167,7 @@ namespace Banter
 		public static ListStore MessageStyles
 		{
 			get {
-				MessageStyleManager mgr = MessageStyleManager.GetInstance ();
+				ThemeManager mgr = ThemeManager.GetInstance ();
 				return mgr.messageStyles;
 			}
 		}
