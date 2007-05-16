@@ -22,6 +22,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading;
 using Gtk;
 
 namespace Banter
@@ -31,6 +32,10 @@ namespace Banter
 	// </summary>
 	public class ThemeManager
 	{
+		const string AppStylesSubdir = "AppStyles";
+		const string ContactStylesSubdir = "ContactStyles";
+		const string MessageStylesSubdir = "MessageStyles";
+		
 		private static ThemeManager instance = null;
 		private static object locker = new object ();
 		
@@ -61,6 +66,8 @@ namespace Banter
 		// Path where user themes are stored
 		string userThemePath;
 		
+		Thread updateThread;
+
 		private ThemeManager()
 		{
 			themes = new ListStore (typeof (ThemeInfo));
@@ -83,6 +90,10 @@ namespace Banter
 		}
 
 #region Private Methods
+		/// <summary>
+		/// Load as much information from GConf about themes and styles as
+		/// as quickly as possible so we don't slow down the main application.
+		/// </summary>
 		private void LoadFromGConf ()
 		{
 			LoadThemesFromGConf ();
@@ -135,14 +146,59 @@ namespace Banter
 					selectedMessageStyleIter = iter;
 					try {
 						messageStyle = new MessageStyle (messageStyleInfo);
-					} catch {}
+					} catch (Exception e) {
+						Logger.Warn ("Couldn't load the default MessageStyle: {0}\n{1}", e.Message, e.StackTrace);
+					}
 				}
 			}
 		}
 		
-		private void LaunchUpdateThread ()
+		private void UpdateThread ()
 		{
-			Logger.Debug ("FIXME: Implement ThemeManager.LaunchUpdateThread");
+			// Make sure the user theme and style paths exist
+			Utilities.CreateDirectoryIfNeeded (userThemePath);
+			Utilities.CreateDirectoryIfNeeded (UserAppStylesPath);
+			Utilities.CreateDirectoryIfNeeded (UserContactStylesPath);
+			Utilities.CreateDirectoryIfNeeded (UserMessageStylesPath);
+
+			UpdateThemes (systemThemePath);
+			UpdateThemes (userThemePath);
+			
+			UpdateAppStyles (SystemAppStylesPath);
+			UpdateAppStyles (UserAppStylesPath);
+			
+			UpdateContactStyles (SystemContactStylesPath);
+			UpdateContactStyles (UserContactStylesPath);
+			
+			UpdateMessageStyles (SystemMessageStylesPath);
+			UpdateMessageStyles (UserMessageStylesPath);
+		}
+		
+		private void UpdateThemes (string path)
+		{
+			Logger.Debug ("FIXME: Implement ThemeManager.UpdateThemes ()");
+			if (Directory.Exists (path) == false)
+				return;
+		}
+		
+		private void UpdateAppStyles (string path)
+		{
+			Logger.Debug ("FIXME: Implement ThemeManager.UpdateAppStyles ()");
+			if (Directory.Exists (path) == false)
+				return;
+		}
+		
+		private void UpdateContactStyles (string path)
+		{
+			Logger.Debug ("FIXME: Implement ThemeManager.UpdateContactStyles ()");
+			if (Directory.Exists (path) == false)
+				return;
+		}
+		
+		private void UpdateMessageStyles (string path)
+		{
+			if (Directory.Exists (path) == false)
+				return;
 		}
 
 /*		
@@ -206,8 +262,19 @@ namespace Banter
 				// things can move right along.
 				themeManager.LoadFromGConf ();
 				
-				// Spawn a thread to update installed styles.
-				themeManager.LaunchUpdateThread ();
+				// Launch a thread to update the list of existing themes and
+				// styles in the background.
+				try {
+					themeManager.updateThread =
+						new Thread (new ThreadStart (themeManager.UpdateThread));
+					themeManager.updateThread.IsBackground = true;
+					themeManager.updateThread.Priority = ThreadPriority.BelowNormal;
+					themeManager.updateThread.Start ();
+				} catch (Exception e) {
+					Logger.Warn ("Could not start the ThemeManager.UpdateThread: {0}\n{1}",
+							e.Message, e.StackTrace);
+				}
+
 				} catch (Exception e) {
 					Logger.Debug ("Exception in ThemeManager.Init: {0}\n{1}", e.Message, e.StackTrace);
 				}
@@ -241,7 +308,7 @@ namespace Banter
 			}
 		}
 		
-		public static string SystemThemePath
+		public static string SystemThemesPath
 		{
 			get {
 				ThemeManager mgr = ThemeManager.Instance;
@@ -249,11 +316,59 @@ namespace Banter
 			}
 		}
 		
-		public static string UserThemePath
+		public static string UserThemesPath
 		{
 			get {
 				ThemeManager mgr = ThemeManager.Instance;
 				return mgr.userThemePath;
+			}
+		}
+		
+		public static string SystemAppStylesPath
+		{
+			get {
+				ThemeManager mgr = ThemeManager.Instance;
+				return Path.Combine (mgr.systemThemePath, AppStylesSubdir);
+			}
+		}
+		
+		public static string UserAppStylesPath
+		{
+			get {
+				ThemeManager mgr = ThemeManager.Instance;
+				return Path.Combine (mgr.userThemePath, AppStylesSubdir);
+			}
+		}
+		
+		public static string SystemContactStylesPath
+		{
+			get {
+				ThemeManager mgr = ThemeManager.Instance;
+				return Path.Combine (mgr.systemThemePath, ContactStylesSubdir);
+			}
+		}
+		
+		public static string UserContactStylesPath
+		{
+			get {
+				ThemeManager mgr = ThemeManager.Instance;
+				return Path.Combine (mgr.userThemePath, ContactStylesSubdir);
+			}
+		}
+		
+		public static string SystemMessageStylesPath
+		{
+			get {
+				ThemeManager mgr = ThemeManager.Instance;
+				return Path.Combine (mgr.systemThemePath, MessageStylesSubdir);
+			}
+		}
+		
+		public static string UserMessageStylesPath
+		{
+			get {
+				ThemeManager mgr = ThemeManager.Instance;
+				return Path.Combine (mgr.userThemePath, MessageStylesSubdir);
 			}
 		}
 		

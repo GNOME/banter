@@ -1,5 +1,13 @@
 2007-05-16  Boyd Timothy <btimothy@gmail.com> 
 
+	* Banter/Utilities.cs: Added CreateDirectoryIfNeeded ().
+	* Banter/ThemeManager.cs: Stubbed out starting the update thread and
+	  also exposed the paths to the themes and styles.
+	* Banter/MessageStyle.cs: Updated the reference to
+	  ThemeManager.SystemThemesPath.
+
+2007-05-16  Boyd Timothy <btimothy@gmail.com> 
+
 	* Banter/ThemeManager.cs: Split out the loading of themes, app styles,
 	  and contact styles into separate methods.
 

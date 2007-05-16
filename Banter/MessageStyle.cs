@@ -124,7 +124,7 @@ namespace Banter
 			string tmpPath = info.Path;
 			
 			if (tmpPath.StartsWith (Path.PathSeparator.ToString ()) == false)
-				tmpPath = Path.Combine (ThemeManager.SystemThemePath, tmpPath); 
+				tmpPath = Path.Combine (ThemeManager.SystemThemesPath, tmpPath); 
 			
 			if (!Directory.Exists (tmpPath))
 				throw new System.IO.FileNotFoundException (

@@ -117,5 +117,20 @@ namespace Banter
 			
 			return true;
 		}
+
+		/// <summary>
+		/// Create the specified path if needed
+		/// <param name="path">The path to create if it does not exist</param>
+		/// </summary>
+		public static void CreateDirectoryIfNeeded (string path)
+		{
+			if (System.IO.Directory.Exists (path) == false) {
+				try {
+					System.IO.Directory.CreateDirectory (path);
+				} catch {
+					Logger.Warn ("Couldn't create the directory: {0}", path);
+				}
+			}
+		}
 	}
 }
