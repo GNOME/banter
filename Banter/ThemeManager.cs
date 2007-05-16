@@ -161,7 +161,8 @@ namespace Banter
 			Utilities.CreateDirectoryIfNeeded (UserAppStylesPath);
 			Utilities.CreateDirectoryIfNeeded (UserContactStylesPath);
 			Utilities.CreateDirectoryIfNeeded (UserMessageStylesPath);
-
+			
+			// Update the Themes/Styles
 			UpdateThemes (systemThemePath);
 			UpdateThemes (userThemePath);
 			
@@ -173,6 +174,12 @@ namespace Banter
 			
 			UpdateMessageStyles (SystemMessageStylesPath);
 			UpdateMessageStyles (UserMessageStylesPath);
+			
+			// Update GConf so it knows about the valid Themes/Styles
+			Logger.Debug ("FIXME: Add code to save off the valid Themes, AppStyles, and ContactStyles");
+			
+			List<string> pairs = new List<string> (messageStyleIters.Keys);
+			Preferences.Set (Preferences.ValidMessageStyles, pairs.ToArray ());
 		}
 		
 		private void UpdateThemes (string path)

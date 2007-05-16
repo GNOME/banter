@@ -1,5 +1,10 @@
 2007-05-16  Boyd Timothy <btimothy@gmail.com> 
 
+	* Banter/ThemeManager.cs: Added code to update the valid_message_styles
+	  gconf entry after they're all updated.
+
+2007-05-16  Boyd Timothy <btimothy@gmail.com> 
+
 	* Banter/MessageStyleInfo.cs: Added a debug msg. so we can tell when
 	  MessageStyleInfo.IsValid is called.
 	* Banter/ThemeManager.cs: Fixed userThemePath.  Also implemented
