@@ -1,3 +1,10 @@
+2007-05-16  Calvin Gaisford <calvinrg@gmail.com> 
+
+	* Banter/ContactStyle.cs: Added code to read the themes and render the
+	  html string when requested
+	* Banter/PersonCard.cs: Removed the code to read the themes and now use
+	  the ContactStyle object to render the html
+
 2007-05-15  Boyd Timothy <btimothy@gmail.com> 
 
 	* Banter/ThemeManager.cs: Changed ThemeManager.GetInstance () to be a

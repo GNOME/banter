@@ -46,12 +46,13 @@ namespace Banter
 		#region Private Types	
 		private Widget child;
 		private WebControl webControl;
-		private int widgetHeight;
+		private bool updateNeeded;
 		private int webControlHeight;
 		private bool widgetRendered;
 		private string widgetHtml;
 		private Person person;
-		private string listStylesPath;
+		private ContactStyle contactStyle;
+		private PersonCardSize cardSize;
 		#endregion
 
 
@@ -62,21 +63,23 @@ namespace Banter
 		public PersonCard(Person person)
 		{
 			this.person = person;
+			this.cardSize = PersonCardSize.Small;
 			webControl = new WebControl();
 			webControl.Realized += WebControlRealizedHandler;
 			webControl.OpenUri += WebControlOpenUriHandler;
 			this.Add(webControl);
-			widgetHeight = 0;
+			updateNeeded = true;			
 			widgetRendered = false;
 
+			Logger.Debug("FIXME: get the Contact Style from the ThemeManager to speed this up");
+			
 		    string homeDirectoryPath = Environment.GetFolderPath (Environment.SpecialFolder.Personal);
-		    listStylesPath = System.IO.Path.Combine (homeDirectoryPath, ".banter/Themes/ListStyles/Current");
-		    
+			string stylePath = System.IO.Path.Combine (homeDirectoryPath, ".banter/Themes/ListStyles/Current");
+			
+			contactStyle = new ContactStyle(stylePath);
 
 			person.PresenceUpdated += OnPersonPresenceUpdated;
 			person.AvatarUpdated += OnPersonAvatarUpdated;
-
-			ReadSmallWidgetHtml();
 		}
 		#endregion
 
@@ -93,6 +96,17 @@ namespace Banter
 				// person = value;
 			}
 		}
+		
+		
+		///<summary>
+		///	The size of the card to be rendered
+		///</summary>			
+		public PersonCardSize Size
+		{
+			get { return this.cardSize; }
+			set { this.cardSize = value; }
+		}
+		
 		#endregion
 
 
@@ -145,37 +159,8 @@ namespace Banter
 			{
 				child.SizeAllocate(allocation);
 			}
-			SizeHeaderIfNeeded(allocation);
-		}
-
-
-		///<summary>
-		///	Sizes the header of widget if the size is large enough
-		///</summary>
-		protected void SizeHeaderIfNeeded(Rectangle allocation)
-		{
-			if((widgetRendered) && (widgetHeight != allocation.Height))
-			{
-//				Console.WriteLine("Size is: " + allocation.Width + "x" + allocation.Height);
-				if(allocation.Height < 90)
-				{
-					if(webControlHeight != 16)
-					{
-						webControlHeight = 16;
-						ReadSmallWidgetHtml();
-						webControl.RenderData(widgetHtml, "file://" + listStylesPath, "text/html");
-					}
-				}
-				else
-				{
-					if(webControlHeight != 90)
-					{
-						ReadWidgetHtml();
-						webControlHeight = 90;
-						webControl.RenderData(widgetHtml, "file://" + listStylesPath, "text/html");
-					}
-				}
-			}
+			
+			RenderWidget();
 		}
 		#endregion
 		
@@ -208,114 +193,13 @@ namespace Banter
 
 
 		///<summary>
-		///	Builds the Html for a normal sized Widget
-		///</summary>	
-		private void ReadWidgetHtml()
-		{
-			string readHtml;
-			string tmpHtml;
-			string actionHtml;
-			System.IO.StreamReader htmlReader;
-			
-			htmlReader = new System.IO.StreamReader(System.IO.Path.Combine(listStylesPath, "person.html"));
-			readHtml = htmlReader.ReadToEnd();
-
-			string avatar = person.GetScaledAvatar(48);
-			
-			if(avatar != null)
-				tmpHtml = readHtml.Replace("%PERSON_PHOTO%", "file://" + avatar);
-			else
-				tmpHtml = readHtml.Replace("%PERSON_PHOTO%", "file://" + System.IO.Path.Combine(listStylesPath, "blankhead.png"));
-			
-			tmpHtml = tmpHtml.Replace("%PERSON_DISPLAY_NAME%", person.DisplayName);
-			tmpHtml = tmpHtml.Replace("%PERSON_STATUS_TEXT%", person.PresenceMessage);
-			widgetHtml = tmpHtml;
-
-			htmlReader = new System.IO.StreamReader(System.IO.Path.Combine(listStylesPath, "action.html"));
-			readHtml = htmlReader.ReadToEnd();
-			tmpHtml = readHtml.Replace("%ACTION_HREF%", "rtc://TEXT_CHAT");
-			tmpHtml = tmpHtml.Replace("%ACTION_IMAGE%", "file://" + System.IO.Path.Combine(listStylesPath, "text-chat.png"));
-			actionHtml = tmpHtml;
-			
-			htmlReader = new System.IO.StreamReader(System.IO.Path.Combine(listStylesPath, "action.html"));
-			readHtml = htmlReader.ReadToEnd();
-			tmpHtml = readHtml.Replace("%ACTION_HREF%", "rtc://VIDEO_CHAT");
-			tmpHtml = tmpHtml.Replace("%ACTION_IMAGE%", "file://" + System.IO.Path.Combine(listStylesPath, "text-chat.png"));
-			actionHtml += tmpHtml;
-
-			widgetHtml = widgetHtml.Replace("<!--ACTION_DATA-->", actionHtml);
-		}
-
-
-		///<summary>
-		///	Builds the Html for a small sized Widget
-		///</summary>
-		private void ReadSmallWidgetHtml()
-		{
-			string readHtml;
-			string tmpHtml;
-			string actionHtml;
-			System.IO.StreamReader htmlReader;
-			
-			htmlReader = new System.IO.StreamReader(System.IO.Path.Combine(listStylesPath, "person-small.html"));
-			readHtml = htmlReader.ReadToEnd();
-
-			string avatar = person.GetScaledAvatar(16);
-
-			if(avatar != null) {
-				tmpHtml = readHtml.Replace("%PERSON_PHOTO%", "file://" + avatar);
-			}
-			else {
-				tmpHtml = readHtml.Replace("%PERSON_PHOTO%", "file://" + System.IO.Path.Combine(listStylesPath, "blankhead.png"));
-			}
-			
-			tmpHtml = tmpHtml.Replace("%PERSON_DISPLAY_NAME%",  person.DisplayName);
-
-			if(person.Presence.Type == PresenceType.Offline) {
-				tmpHtml = tmpHtml.Replace("%PERSON_STATUS_TEXT%", "offline");
-			}
-			else if (person.PresenceMessage.Length > 0) {
-				tmpHtml = tmpHtml.Replace("%PERSON_STATUS_TEXT%", person.PresenceMessage);
-			}
-			else if(person.Presence.Type == PresenceType.Busy) {
-				tmpHtml = tmpHtml.Replace("%PERSON_STATUS_TEXT%", "busy");
-			}
-			else if(person.Presence.Type == PresenceType.Away) {
-				tmpHtml = tmpHtml.Replace("%PERSON_STATUS_TEXT%", "away");
-			}
-			else {
-				tmpHtml = tmpHtml.Replace("%PERSON_STATUS_TEXT%", "online");
-			}
-			
-			widgetHtml = tmpHtml;
-
-			// change this later to show their capabilities when we actually have them
-			if(person.Presence.Type != PresenceType.Offline) {
-				htmlReader = new System.IO.StreamReader(System.IO.Path.Combine(listStylesPath, "action-small.html"));
-				readHtml = htmlReader.ReadToEnd();
-				tmpHtml = readHtml.Replace("%ACTION_HREF%", "rtc://TEXT_CHAT");
-				tmpHtml = tmpHtml.Replace("%ACTION_IMAGE%", "file://" + System.IO.Path.Combine(listStylesPath, "text-chat-small.png"));
-				actionHtml = tmpHtml;
-				
-				htmlReader = new System.IO.StreamReader(System.IO.Path.Combine(listStylesPath, "action.html"));
-				readHtml = htmlReader.ReadToEnd();
-				tmpHtml = readHtml.Replace("%ACTION_HREF%", "rtc://VIDEO_CHAT");
-				tmpHtml = tmpHtml.Replace("%ACTION_IMAGE%", "file://" + System.IO.Path.Combine(listStylesPath, "video-chat-small.png"));
-				actionHtml += tmpHtml;
-
-				widgetHtml = widgetHtml.Replace("<!--ACTION_DATA-->", actionHtml);
-			}
-		}
-		
-
-		///<summary>
 		///	Handles Presence Events on a Person
 		///</summary>
 		private void OnPersonPresenceUpdated (Person person)
 		{
 			Logger.Debug("Updating presence on {0}", person.DisplayName);
-			ReadSmallWidgetHtml();
-			webControl.RenderData(widgetHtml, "file://" + listStylesPath, "text/html");
+			updateNeeded = true;
+			RenderWidget();
 		}
 		
 
@@ -325,9 +209,22 @@ namespace Banter
 		private void OnPersonAvatarUpdated (Person person)
 		{
 			Logger.Debug("Updating presence on {0}", person.DisplayName);
-			ReadSmallWidgetHtml();
-			webControl.RenderData(widgetHtml, "file://" + listStylesPath, "text/html");
-		}		
+			updateNeeded = true;
+			RenderWidget();
+		}
+
+
+		///<summary>
+		///	Handles Avatar Events on a Person
+		///</summary>
+		private void RenderWidget()
+		{
+			if(widgetRendered && updateNeeded) {
+				string widgetHtml = contactStyle.RenderWidgetHtml(person, cardSize);
+				webControl.RenderData(widgetHtml, "file://" + contactStyle.Path, "text/html");
+				updateNeeded = false;
+			}
+		}
 		#endregion
 
 	}
