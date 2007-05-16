@@ -83,23 +83,30 @@ namespace Banter
 		}
 
 #region Private Methods
-//		private void Init ()
-//		{
-//			LoadMessageStylesFromPath (userStylesPath);
-//		}
-		
 		private void LoadFromGConf ()
+		{
+			LoadThemesFromGConf ();
+			LoadAppStylesFromGConf ();
+			LoadContactStylesFromGConf ();
+			LoadMessageStylesFromGConf ();
+		}
+		
+		private void LoadThemesFromGConf ()
 		{
 			string selectedThemePath = Preferences.Get (Preferences.SelectedTheme) as string;
 			string [] validThemePaths = Preferences.Get (Preferences.ValidThemes) as string [];
-			
+		}
+
+		private void LoadAppStylesFromGConf ()
+		{
 			string selectedAppStylePath = Preferences.Get (Preferences.SelectedAppStyle) as string;
 			string [] validAppStyleStrings = Preferences.Get (Preferences.ValidAppStyles) as string [];
-			
+		}
+
+		private void LoadContactStylesFromGConf ()
+		{
 			string selectedContactStyleString = Preferences.Get (Preferences.SelectedContactStyle) as string;
 			string [] validContactStyleStrings = Preferences.Get (Preferences.ValidContactStyles) as string [];
-			
-			LoadMessageStylesFromGConf ();
 		}
 		
 		private void LoadMessageStylesFromGConf ()

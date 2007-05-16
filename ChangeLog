@@ -1,5 +1,10 @@
 2007-05-16  Boyd Timothy <btimothy@gmail.com> 
 
+	* Banter/ThemeManager.cs: Split out the loading of themes, app styles,
+	  and contact styles into separate methods.
+
+2007-05-16  Boyd Timothy <btimothy@gmail.com> 
+
 	* Banter.mdp: Added Theme.cs, ThemeInfo.cs, AppStyleInfo.cs,
 	  ContactStyleInfo.cs, and MessageStyleInfo.cs.
 	* data/banter.schemas.in: Added defaults and descriptions for theming.
