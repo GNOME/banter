@@ -86,7 +86,7 @@ namespace Banter
 			
 			string homeDirectoryPath =
 				Environment.GetFolderPath (Environment.SpecialFolder.MyDocuments);
-			userThemePath = Path.Combine (homeDirectoryPath, ".banter/Themes/MessageStyles");
+			userThemePath = Path.Combine (homeDirectoryPath, ".banter/Themes");
 		}
 
 #region Private Methods
@@ -142,13 +142,14 @@ namespace Banter
 				messageStyleIters [messageStyleInfo.ToString ()] = iter;
 				
 				if (string.Compare (messageStylePair, selectedMessageStyleString) == 0) {
-					selectedMessageStyle = messageStyleInfo;
-					selectedMessageStyleIter = iter;
-					try {
-						messageStyle = new MessageStyle (messageStyleInfo);
-					} catch (Exception e) {
-						Logger.Warn ("Couldn't load the default MessageStyle: {0}\n{1}", e.Message, e.StackTrace);
-					}
+					SelectedMessageStyle = messageStyleInfo;
+//					selectedMessageStyle = messageStyleInfo;
+//					selectedMessageStyleIter = iter;
+//					try {
+//						messageStyle = new MessageStyle (messageStyleInfo);
+//					} catch (Exception e) {
+//						Logger.Warn ("Couldn't load the default MessageStyle: {0}\n{1}", e.Message, e.StackTrace);
+//					}
 				}
 			}
 		}
@@ -199,51 +200,44 @@ namespace Banter
 		{
 			if (Directory.Exists (path) == false)
 				return;
-		}
 
-/*		
-		private void LoadMessageStylesFromPath (string path)
-		{
-			if (!Directory.Exists (path)) {
-				Console.WriteLine ("{0} does not exist");
-				return;
-			}
-			
-			foreach (string stylePath in Directory.GetDirectories (path, "*.AdiumMessageStyle")) {
-				MessageStyle style;
-				
-				try {
-					Console.WriteLine ("About to load: {0}", stylePath);
-					style = new MessageStyle (stylePath);
-					AddMessageStyle (style);
-				} catch (Exception e) {
-					Console.WriteLine ("Error loading style: {0}", e.Message);
+Logger.Debug ("ThemeManager.UpdateMessageStyles (\"{0}\")", path);
+			string selectedMessageStyleString = Preferences.Get (Preferences.SelectedMessageStyle) as string;
+
+			foreach (string stylePath in
+					Directory.GetDirectories (path, "*.AdiumMessageStyle")) {
+				if (MessageStyleInfo.IsValid (stylePath)) {
+					MessageStyleInfo styleInfo = null;
+					try {
+						styleInfo = new MessageStyleInfo (stylePath);
+					} catch {}
+					
+					if (styleInfo == null)
+						continue;
+					
+					// Check to see if this MessageStyle already exists.  If it
+					// does, override it
+					TreeIter iter;
+					string messageStylePair = styleInfo.ToString ();
+					if (messageStyleIters.ContainsKey (messageStylePair)) {
+						iter = messageStyleIters [messageStylePair];
+					} else {
+						iter = messageStyles.Append ();
+					}
+					
+					messageStyles.SetValue (iter, 0, styleInfo);
+					messageStyleIters [messageStylePair] = iter;
+					
+					// If this matches the currently selected style, replace it on
+					// the main thread so any attached UI will be able to update correctly
+					if (string.Compare (messageStylePair, selectedMessageStyleString) == 0) {
+						Gtk.Application.Invoke (delegate {
+							SelectedMessageStyle = styleInfo;
+						});
+					}
 				}
-			}
-			
-			// Set the selectedStyle based on what is found in the preferences
-			string selectedStyleName = Preferences.Get (Preferences.MessageStyleName) as String;
-			if (selectedStyleName != null) {
-				TreeIter iter;
-				if (messageStyles.GetIterFirst (out iter)) {
-					do {
-						MessageStyle style = messageStyles.GetValue (iter, 0) as MessageStyle;
-						if (String.Compare (style.Name, selectedStyleName) == 0) {
-							selectedStyle = style;
-							Logger.Info ("Selected MessageStyle is {0}.", style.Name);
-							break;
-						}
-					} while (messageStyles.IterNext (ref iter));
-				} else {
-					Logger.Warn ("The ThemeManager was unable to load any MessageStyles from ~/.banter/Themes/MessageStyles.  Strange things may happen.");
-				}
-			}
-			
-			if (selectedStyle == null) {
-				Logger.Warn ("Unable to load/set a selected MessageStyle in LoadMessageStylesFromPath.");
 			}
 		}
-*/
 #endregion
 		
 #region Public Methods
@@ -417,6 +411,7 @@ namespace Banter
 					Preferences.Set (Preferences.SelectedMessageStyle,
 							string.Empty);
 					mgr.selectedMessageStyleIter = TreeIter.Zero;
+					mgr.messageStyle = null;
 				} else {
 					string pair = value.ToString ();
 					Preferences.Set (Preferences.SelectedMessageStyle, pair);
@@ -424,6 +419,14 @@ namespace Banter
 						mgr.selectedMessageStyleIter = mgr.messageStyleIters [pair];
 					else
 						mgr.selectedMessageStyleIter = TreeIter.Zero;
+					
+					// Load a MessageStyle so it's ready for any UI that needs it.
+					try {
+						mgr.messageStyle = new MessageStyle (value);
+					} catch (Exception e) {
+						Logger.Warn ("Couldn't set the MessageStyle ({0}): {1}\n{2}",
+								value.ToString (), e.Message, e.StackTrace);
+					}
 				}
 			}
 		}

@@ -90,6 +90,7 @@ Logger.Debug ("MessageStyleInfo (\"{0}\", \"{1}\")", name, path);
 		/// </summary>
 		public static bool IsValid (string path)
 		{
+Logger.Debug ("MessageStyleinfo.IsValid (\"{0}\")", path);
 			// Attempt to load and create a MessageStyle
 			MessageStyleInfo messageStyleInfo;
 			MessageStyle messageStyle;
