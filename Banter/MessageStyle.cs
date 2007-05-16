@@ -48,6 +48,7 @@ namespace Banter
 		
 //		int styleVersion;
 		string stylePath;
+		MessageStyleInfo messageStyleInfo;
 		
 		// Templates
 		string headerHtml;
@@ -114,9 +115,23 @@ namespace Banter
 		// Loads and validates the MessageStyle.  Throws an exception if
 		// anything is found bad.
 		// </summary>
-		private MessageStyle(string stylePath)
+		public MessageStyle(MessageStyleInfo info)
 		{
-			this.stylePath = stylePath;
+			if (info == null)
+				throw new ArgumentException ("Exception creating a MessageStyle because a null MessageStyleInfo was passed into the constructor.");
+			this.messageStyleInfo = info;
+
+			string tmpPath = info.Path;
+			
+			if (tmpPath.StartsWith (Path.PathSeparator.ToString ()) == false)
+				tmpPath = Path.Combine (ThemeManager.SystemThemePath, tmpPath); 
+			
+			if (!Directory.Exists (tmpPath))
+				throw new System.IO.FileNotFoundException (
+						"The Adium Message Style directory does not exist",
+						tmpPath);
+			
+			this.stylePath = tmpPath;
 			
 			LoadStyle ();
 			
@@ -225,49 +240,6 @@ namespace Banter
 			return variants;
 		}
 		
-		string GetPlistStringValue (XmlDocument doc, string keyName)
-		{
-			XmlNode node = GetPlistValueNode (doc, keyName, "string");
-			if (node != null)
-				return node.InnerText;
-			
-			return null;
-		}
-		
-		int GetPlistIntValue (XmlDocument doc, string keyName)
-		{
-			int val = 0;
-			XmlNode node = GetPlistValueNode (doc, keyName, "integer");
-			if (node != null)
-				val = Int32.Parse (node.InnerText);
-			
-			return val;
-		}
-		
-		bool GetPlistBoolValue (XmlDocument doc, string keyName)
-		{
-			bool val = false;
-			XmlNode node = GetPlistValueNode (doc, keyName, "true");
-			if (node != null)
-				val = true;
-			
-			return val;
-		}
-		
-		XmlNode GetPlistValueNode (XmlDocument doc, string keyName, string valueType)
-		{
-			XmlNode node = null;
-			
-			string xPathExpression = string.Format (
-					"//{0}[preceding-sibling::key[.='{1}']]",
-					valueType,
-					keyName);
-			
-			node = doc.SelectSingleNode (xPathExpression);
-			
-			return node;
-		}
-		
 		string LoadHtmlFromTemplate (string templatePath, bool suppressNewlines)
 		{
 			string filePath = Path.Combine (stylePath, templatePath);
@@ -318,20 +290,6 @@ namespace Banter
 		
 		
 #region Public Methods
-		public static MessageStyle CreateFromPath (string stylePath)
-		{
-			MessageStyle style = null;
-			
-			if (!Directory.Exists (stylePath))
-				throw new System.IO.FileNotFoundException (
-						"The Adium Message Style directory does not exist",
-						stylePath);
-			
-			style = new MessageStyle (stylePath);
-			
-			return style;
-		}
-		
 		public override string ToString ()
 		{
 			string variantsStr = String.Empty;
@@ -393,12 +351,60 @@ namespace Banter
 						variantName));
 		}
 
+		public static string GetPlistStringValue (XmlDocument doc, string keyName)
+		{
+			XmlNode node = GetPlistValueNode (doc, keyName, "string");
+			if (node != null)
+				return node.InnerText;
+			
+			return null;
+		}
+		
+		public static int GetPlistIntValue (XmlDocument doc, string keyName)
+		{
+			int val = 0;
+			XmlNode node = GetPlistValueNode (doc, keyName, "integer");
+			if (node != null)
+				val = Int32.Parse (node.InnerText);
+			
+			return val;
+		}
+		
+		public static bool GetPlistBoolValue (XmlDocument doc, string keyName)
+		{
+			bool val = false;
+			XmlNode node = GetPlistValueNode (doc, keyName, "true");
+			if (node != null)
+				val = true;
+			
+			return val;
+		}
+		
+		public static XmlNode GetPlistValueNode (XmlDocument doc, string keyName, string valueType)
+		{
+			XmlNode node = null;
+			
+			string xPathExpression = string.Format (
+					"//{0}[preceding-sibling::key[.='{1}']]",
+					valueType,
+					keyName);
+			
+			node = doc.SelectSingleNode (xPathExpression);
+			
+			return node;
+		}
+		
 #endregion
 		
 #region Public Properties
+		public MessageStyleInfo MessageStyleInfo
+		{
+			get { return messageStyleInfo; }
+		}
+		
 		public string Name
 		{
-			get { return name; }
+			get { return messageStyleInfo.Name; }
 		}
 		
 		public string StylePath

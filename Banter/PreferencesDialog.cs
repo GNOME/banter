@@ -109,8 +109,8 @@ namespace Banter
 			//PropertyEditorBool peditorBool;
 
 			VBox vbox = new VBox (false, 0);
-			string variant = Preferences.Get (Preferences.MessageStyleVariantName) as String;
-			messagesView = new MessagesView (ThemeManager.SelectedMessageStyle, variant);
+			string variant = Preferences.Get (Preferences.SelectedMessageStyleVariant) as String;
+			messagesView = new MessagesView (ThemeManager.MessageStyle, variant);
 			vbox.PackStart (messagesView);
 			
 			Table table = new Table (10, 3, false);
@@ -384,9 +384,9 @@ namespace Banter
 					CellLayout cellLayout, CellRenderer cell,
 					TreeModel treeModel, TreeIter iter)
 		{
-			MessageStyle style = treeModel.GetValue (iter, 0) as MessageStyle;
-			if (style != null)
-				(cell as CellRendererText).Text = style.Name;
+			MessageStyleInfo styleInfo = treeModel.GetValue (iter, 0) as MessageStyleInfo;
+			if (styleInfo != null)
+				(cell as CellRendererText).Text = styleInfo.Name;
 			else
 				(cell as CellRendererText).Text = Catalog.GetString ("<Unknown Style>");
 		}
@@ -469,15 +469,15 @@ namespace Banter
 			if (!messageStyleComboBox.GetActiveIter (out iter))
 				return;
 			
-			MessageStyle style = messageStyleComboBox.Model.GetValue (iter, 0) as MessageStyle;
-			if (style != null) {
-				ThemeManager.SelectedMessageStyle = style;
+			MessageStyleInfo styleInfo = messageStyleComboBox.Model.GetValue (iter, 0) as MessageStyleInfo;
+			if (styleInfo != null) {
+				ThemeManager.SelectedMessageStyle = styleInfo;
 				
 				if (variantComboBox.GetActiveIter (out iter)) {
 					string variant = variantComboBox.Model.GetValue (iter, 0) as string;
-					messagesView.SetMessageStyle (style, variant);
+					messagesView.SetMessageStyle (ThemeManager.MessageStyle, variant);
 				} else {
-					messagesView.SetMessageStyle (style, string.Empty);
+					messagesView.SetMessageStyle (ThemeManager.MessageStyle, string.Empty);
 				}
 
 				GLib.Timeout.Add (1000, SimulateConversation);
@@ -527,10 +527,10 @@ namespace Banter
 			
 			messageStyleComboBox.Changed += OnMessageStyleComboBoxChanged;
 			
-			PopulateVariantComboBox (ThemeManager.SelectedMessageStyle);
+			PopulateVariantComboBox (ThemeManager.MessageStyle);
 			
 			// Select the proper variant
-			string savedVariant = Preferences.Get (Preferences.MessageStyleVariantName) as String;
+			string savedVariant = Preferences.Get (Preferences.SelectedMessageStyleVariant) as String;
 			if (savedVariant != null && savedVariant != String.Empty) {
 				TreeIter iter;
 				if (variantComboBox.Model.GetIterFirst (out iter)) {
@@ -577,13 +577,13 @@ namespace Banter
 			}
 			
 			// Save the new preference (null out the variant)
-			MessageStyle style = messageStyleComboBox.Model.GetValue (iter, 0) as MessageStyle;
-			ThemeManager.SelectedMessageStyle = style;
-			Preferences.Set (Preferences.MessageStyleVariantName, String.Empty);
+			MessageStyleInfo styleInfo = messageStyleComboBox.Model.GetValue (iter, 0) as MessageStyleInfo;
+			ThemeManager.SelectedMessageStyle = styleInfo;
+			Preferences.Set (Preferences.SelectedMessageStyleVariant, String.Empty);
 			
 			// Populate variantComboBox
 			variantComboBox.Changed -= OnVariantComboBoxChanged;
-			PopulateVariantComboBox (style);
+			PopulateVariantComboBox (ThemeManager.MessageStyle);
 			variantComboBox.Changed += OnVariantComboBoxChanged;
 			
 			ReloadMessageStylePreview ();
@@ -599,7 +599,7 @@ namespace Banter
 			}
 			
 			string variant = variantComboBox.Model.GetValue (iter, 0) as string;
-			Preferences.Set (Preferences.MessageStyleVariantName, variant);
+			Preferences.Set (Preferences.SelectedMessageStyleVariant, variant);
 
 			ReloadMessageStylePreview ();
 		}

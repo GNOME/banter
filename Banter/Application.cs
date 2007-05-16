@@ -120,6 +120,9 @@ namespace Banter
 			actionManager = new ActionManager ();
 			actionManager.LoadInterface ();
 			SetUpGlobalActions ();
+			
+			// Initialize the Theme Manager
+			ThemeManager.Init ();
 
 			//tray = new NotificationArea("RtcApplication");
 			SetupTrayIcon();

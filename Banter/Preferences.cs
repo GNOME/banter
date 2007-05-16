@@ -35,8 +35,21 @@ namespace Banter
 			"****Placeholder****"
 		};
 		
-		public const string MessageStyleName = "/apps/banter/message_style/name";
-		public const string MessageStyleVariantName = "/apps/banter/message_style/variant_name";
+		static readonly string[] DefaultThemes = {
+			"Banter=Banter.theme"
+		};
+		
+		static readonly string[] DefaultAppStyles = {
+			"Banter=AppStyles/Banter"
+		};
+		
+		static readonly string[] DefaultContactStyles = {
+			"Banter=ContactStyles/Banter"
+		};
+		
+		static readonly string[] DefaultMessageStyles = {
+			"PurePlastics=MessageStyles/PurePlastics.AdiumMessageStyle"
+		};
 		
 		public const string GroupWindows = "/apps/banter/group_windows/saved_windows";
 		public const string GroupWindowPrefix = "/apps/banter/group_windows";
@@ -46,6 +59,20 @@ namespace Banter
 	   	public const string GoogleTalkPort = "/apps/banter/accounts/jabber/google-talk/port";
 	   	public const string SipServer = "/apps/banter/accounts/sip/ekiga/server";
 	   	public const string SipPort = "/apps/banter/accounts/sip/ekiga/port";
+	   	
+	   	// Theme Preferences
+	   	public const string SelectedTheme = "/apps/banter/themes/selected_theme";
+	   	public const string ValidThemes = "/apps/banter/themes/valid_themes";
+	   	
+	   	public const string SelectedAppStyle = "/apps/banter/themes/selected_app_style";
+	   	public const string ValidAppStyles = "/apps/banter/themes/valid_app_styles";
+	   	
+	   	public const string SelectedContactStyle = "/apps/banter/themes/selected_contact_style";
+	   	public const string ValidContactStyles = "/apps/banter/themes/valid_contact_styles";
+	   	
+	   	public const string SelectedMessageStyle = "/apps/banter/themes/selected_message_style";
+	   	public const string SelectedMessageStyleVariant = "/apps/banter/themes/selected_message_style_variant";
+	   	public const string ValidMessageStyles = "/apps/banter/themes/valid_message_styles";
 
 		static Preferences ()
 		{
@@ -75,9 +102,27 @@ namespace Banter
 		public static object GetDefault (string key)
 		{
 			switch (key) {
-			case MessageStyleName:
-				return "PurePlastics";
-			case MessageStyleVariantName:
+			case SelectedTheme:
+				return "Banter=Banter.theme";
+			case ValidThemes:
+				return DefaultThemes;
+			
+			case SelectedAppStyle:
+				return "Banter=AppStyles/Banter";
+			case ValidAppStyles:
+				return DefaultAppStyles;
+			
+			case SelectedContactStyle:
+				return "Banter=ContactStyles/Banter";
+			case ValidContactStyles:
+				return DefaultContactStyles;
+			
+			case SelectedMessageStyle:
+				return "PurePlastics=MessageStyles/PurePlastics.AdiumMessageStyle";
+			case ValidMessageStyles:
+				return DefaultMessageStyles;
+			
+			case SelectedMessageStyleVariant:
 				return "Blue vs Green";
 			case GoogleTalkServer:
 				return "talk.google.com";

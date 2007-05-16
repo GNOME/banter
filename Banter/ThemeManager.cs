@@ -20,6 +20,7 @@
 // **********************************************************************
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using Gtk;
 
@@ -33,32 +34,111 @@ namespace Banter
 		private static ThemeManager instance = null;
 		private static object locker = new object ();
 		
+		ListStore themes;
+		ThemeInfo selectedTheme;
+		TreeIter selectedThemeIter;
+		Dictionary<string, TreeIter> themeIters;
+		
+		ListStore appStyles;
+		AppStyleInfo selectedAppStyle;
+		TreeIter selectedAppStyleIter;
+		Dictionary<string, TreeIter> appStyleIters;
+		
+		ListStore contactStyles;
+		ContactStyleInfo selectedContactStyle;
+		TreeIter selectedContactStyleIter;
+		Dictionary<string, TreeIter> contactStyleIters;
+		
 		ListStore messageStyles;
-		MessageStyle selectedStyle;
+		MessageStyleInfo selectedMessageStyle;
+		TreeIter selectedMessageStyleIter;
+		Dictionary<string, TreeIter> messageStyleIters;
+		MessageStyle messageStyle;
 		
-		// Path where the default/system styles are stored
-		//string systemStylesPath;
+		// Path where the system themes are stored
+		string systemThemePath;
 		
-		// Path where user styles are stored
-		string userStylesPath;
+		// Path where user themes are stored
+		string userThemePath;
 		
 		private ThemeManager()
 		{
-			messageStyles = new ListStore (typeof (MessageStyle));
-			
-			// FIXME: Set up the systemStylePath
+			themes = new ListStore (typeof (ThemeInfo));
+			themeIters = new Dictionary<string, TreeIter> ();
+		
+			appStyles = new ListStore (typeof (AppStyleInfo));
+			appStyleIters = new Dictionary<string, TreeIter> ();
+
+			contactStyles = new ListStore (typeof (ContactStyleInfo));
+			contactStyleIters = new Dictionary<string, TreeIter> ();
+
+			messageStyles = new ListStore (typeof (MessageStyleInfo));
+			messageStyleIters = new Dictionary<string, TreeIter> ();
+
+			systemThemePath = Defines.ThemeDir;
 			
 			string homeDirectoryPath =
 				Environment.GetFolderPath (Environment.SpecialFolder.MyDocuments);
-			userStylesPath = Path.Combine (homeDirectoryPath, ".banter/Themes/MessageStyles");
+			userThemePath = Path.Combine (homeDirectoryPath, ".banter/Themes/MessageStyles");
 		}
 
 #region Private Methods
-		private void Init ()
+//		private void Init ()
+//		{
+//			LoadMessageStylesFromPath (userStylesPath);
+//		}
+		
+		private void LoadFromGConf ()
 		{
-			LoadMessageStylesFromPath (userStylesPath);
+			string selectedThemePath = Preferences.Get (Preferences.SelectedTheme) as string;
+			string [] validThemePaths = Preferences.Get (Preferences.ValidThemes) as string [];
+			
+			string selectedAppStylePath = Preferences.Get (Preferences.SelectedAppStyle) as string;
+			string [] validAppStyleStrings = Preferences.Get (Preferences.ValidAppStyles) as string [];
+			
+			string selectedContactStyleString = Preferences.Get (Preferences.SelectedContactStyle) as string;
+			string [] validContactStyleStrings = Preferences.Get (Preferences.ValidContactStyles) as string [];
+			
+			LoadMessageStylesFromGConf ();
 		}
 		
+		private void LoadMessageStylesFromGConf ()
+		{
+			TreeIter iter;
+			
+			string selectedMessageStyleString = Preferences.Get (Preferences.SelectedMessageStyle) as string;
+			string [] validMessageStyleStrings = Preferences.Get (Preferences.ValidMessageStyles) as string [];
+			
+			foreach (string messageStylePair in validMessageStyleStrings) {
+				string name;
+				string path;
+				
+				if (Utilities.ParseNameValuePair (messageStylePair, out name, out path) == false)
+					continue;
+				
+				MessageStyleInfo messageStyleInfo = new MessageStyleInfo (name, path);
+				
+				iter = messageStyles.Append ();
+				messageStyles.SetValue (iter, 0, messageStyleInfo);
+				
+				messageStyleIters [messageStyleInfo.ToString ()] = iter;
+				
+				if (string.Compare (messageStylePair, selectedMessageStyleString) == 0) {
+					selectedMessageStyle = messageStyleInfo;
+					selectedMessageStyleIter = iter;
+					try {
+						messageStyle = new MessageStyle (messageStyleInfo);
+					} catch {}
+				}
+			}
+		}
+		
+		private void LaunchUpdateThread ()
+		{
+			Logger.Debug ("FIXME: Implement ThemeManager.LaunchUpdateThread");
+		}
+
+/*		
 		private void LoadMessageStylesFromPath (string path)
 		{
 			if (!Directory.Exists (path)) {
@@ -71,7 +151,7 @@ namespace Banter
 				
 				try {
 					Console.WriteLine ("About to load: {0}", stylePath);
-					style = MessageStyle.CreateFromPath (stylePath);
+					style = new MessageStyle (stylePath);
 					AddMessageStyle (style);
 				} catch (Exception e) {
 					Console.WriteLine ("Error loading style: {0}", e.Message);
@@ -100,18 +180,42 @@ namespace Banter
 				Logger.Warn ("Unable to load/set a selected MessageStyle in LoadMessageStylesFromPath.");
 			}
 		}
+*/
 #endregion
 		
 #region Public Methods
-		public void AddMessageStyle (MessageStyle style)
+		/// <summary>
+		/// This method should be called almost as soon as possible when the
+		/// application is started.  It will start loading and validating all
+		/// of the themes.
+		/// </summary>
+		public static void Init ()
 		{
-			// FIXME: Check for a duplicate
-			
-			// FIXME: If this style is not already installed into the
-			// user's area, load it up.
-			TreeIter iter = messageStyles.Append ();
-			messageStyles.SetValue (iter, 0, style);
+			ThemeManager themeManager = ThemeManager.Instance;
+			lock (locker) {
+				try {
+				// Load cached information about installed styles from GConf
+				// so that we don't block the main application process and
+				// things can move right along.
+				themeManager.LoadFromGConf ();
+				
+				// Spawn a thread to update installed styles.
+				themeManager.LaunchUpdateThread ();
+				} catch (Exception e) {
+					Logger.Debug ("Exception in ThemeManager.Init: {0}\n{1}", e.Message, e.StackTrace);
+				}
+			}
 		}
+		
+//		public void AddMessageStyle (MessageStyle style)
+//		{
+//			// FIXME: Check for a duplicate
+//			
+//			// FIXME: If this style is not already installed into the
+//			// user's area, load it up.
+//			TreeIter iter = messageStyles.Append ();
+//			messageStyles.SetValue (iter, 0, style);
+//		}
 #endregion
 		
 #region Public Properties
@@ -122,7 +226,6 @@ namespace Banter
 					if (instance == null) {
 						lock (locker) {
 							instance = new ThemeManager ();
-							instance.Init ();
 						}
 					}
 				}
@@ -131,37 +234,43 @@ namespace Banter
 			}
 		}
 		
-		public static MessageStyle SelectedMessageStyle
+		public static string SystemThemePath
 		{
 			get {
 				ThemeManager mgr = ThemeManager.Instance;
-				return mgr.selectedStyle;
-			}
-			set {
-				ThemeManager mgr = ThemeManager.Instance;
-				mgr.selectedStyle = value;
-				Preferences.Set (Preferences.MessageStyleName, value.Name);
+				return mgr.systemThemePath;
 			}
 		}
 		
-		public static TreeIter SelectedMessageStyleIter
+		public static string UserThemePath
 		{
 			get {
-				Console.WriteLine ("FIXME: ThemeManager.SelectedMessageStyleIter: We really should store the TreeIters in a dictionary, but for now, just loop through the ListStore");
 				ThemeManager mgr = ThemeManager.Instance;
-				TreeIter iter;
-				if (mgr.messageStyles.GetIterFirst (out iter)) {
-					do {
-						MessageStyle style = mgr.messageStyles.GetValue (iter, 0) as MessageStyle;
-						if (style == mgr.selectedStyle) {
-							Logger.Debug ("ThemeManager.SelectedMessageStyleIter/Get found selected style");
-							return iter;
-						}
-					} while (mgr.messageStyles.IterNext (ref iter));
-				}
-				
-				Logger.Debug ("ThemeManager.SelectedMessageStyleIter/Get did NOT find anything.");
-				return TreeIter.Zero;
+				return mgr.userThemePath;
+			}
+		}
+		
+		public static ListStore Themes
+		{
+			get {
+				ThemeManager mgr = ThemeManager.Instance;
+				return mgr.themes;
+			}
+		}
+		
+		public static ListStore AppStyles
+		{
+			get {
+				ThemeManager mgr = ThemeManager.Instance;
+				return mgr.appStyles;
+			}
+		}
+		
+		public static ListStore ContactStyles
+		{
+			get {
+				ThemeManager mgr = ThemeManager.Instance;
+				return mgr.contactStyles;
 			}
 		}
 		
@@ -170,6 +279,46 @@ namespace Banter
 			get {
 				ThemeManager mgr = ThemeManager.Instance;
 				return mgr.messageStyles;
+			}
+		}
+
+		public static MessageStyleInfo SelectedMessageStyle
+		{
+			get {
+				ThemeManager mgr = ThemeManager.Instance;
+				return mgr.selectedMessageStyle;
+			}
+			set {
+				ThemeManager mgr = ThemeManager.Instance;
+				mgr.selectedMessageStyle = value;
+				if (value == null) {
+					Preferences.Set (Preferences.SelectedMessageStyle,
+							string.Empty);
+					mgr.selectedMessageStyleIter = TreeIter.Zero;
+				} else {
+					string pair = value.ToString ();
+					Preferences.Set (Preferences.SelectedMessageStyle, pair);
+					if (mgr.messageStyleIters.ContainsKey (pair))
+						mgr.selectedMessageStyleIter = mgr.messageStyleIters [pair];
+					else
+						mgr.selectedMessageStyleIter = TreeIter.Zero;
+				}
+			}
+		}
+		
+		public static TreeIter SelectedMessageStyleIter
+		{
+			get {
+				ThemeManager mgr = ThemeManager.Instance;
+				return mgr.selectedMessageStyleIter;
+			}
+		}
+		
+		public static MessageStyle MessageStyle
+		{
+			get {
+				ThemeManager mgr = ThemeManager.Instance;
+				return mgr.messageStyle;
 			}
 		}
 #endregion

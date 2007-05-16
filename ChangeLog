@@ -1,3 +1,33 @@
+2007-05-16  Boyd Timothy <btimothy@gmail.com> 
+
+	* Banter.mdp: Added Theme.cs, ThemeInfo.cs, AppStyleInfo.cs,
+	  ContactStyleInfo.cs, and MessageStyleInfo.cs.
+	* data/banter.schemas.in: Added defaults and descriptions for theming.
+	* Banter/Utilities.cs: Added ParseNameValuePair for use in storing
+	  styles/themes in GConf.
+	* Banter/banter.in: Use @pkglibdir@ to make the startup script function
+	  correctly.
+	* Banter/ThemeInfo.cs, Banter/ContactStyleInfo.cs, Banter/Theme.cs,
+	  Banter/AppStyleInfo.cs: Stub.
+	* Banter/PreferencesDialog.cs: Use MessageStyleInfo objects instead of
+	  full-on MessageStyles and hook up with the ThemeManager.
+	* Banter/Application.cs: Initialize the ThemeManager near application
+	  startup.
+	* Banter/MessageStyleInfo.cs: Store the name and path of a
+	  MessageStyle.
+	* Banter/Defines.cs.in: Added ThemeDir.
+	* Banter/ThemeManager.cs: Functional for default MessageStyle
+	  (PurePlastics).  Need to fix up the other style types.
+	* Banter/Preferences.cs: Added preferences and defaults for theming.
+	* Banter/MessagesView.cs: Use ThemeManager and the updated variables in
+	  Preferences.
+	* Banter/MessageStyle.cs: Use MessageStyleInfo to construct a
+	  MessageStyle.  Also expose the Plist parsing methods as public
+	  static.
+	* Banter/Makefile.am: Added AppStyleInfo.cs, ContactStyleInfo.cs,
+	  MessageStyleInfo.cs, Theme.cs, and ThemeInfo.cs.
+	* Banter/ActionManager.cs: Renamed "Blurby" -> "Banter"
+
 2007-05-16  Calvin Gaisford <calvinrg@gmail.com> 
 
 	* Banter/ContactStyle.cs: Added code to read the themes and render the

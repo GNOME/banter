@@ -95,5 +95,27 @@ namespace Banter
 			Logger.Debug ("Unable to load icon '{0}'.", iconName);
 			return null;
 		}
+		
+		public static bool ParseNameValuePair (string pair, out string name, out string nameValue)
+		{
+			name = null;
+			nameValue = null;
+			if (pair == null || pair.Trim ().Length == 0 || pair.IndexOf ("=") <= 0)
+//				throw new ArgumentException ("The pair passed in does not contain a valid name/value");
+				return false;
+			
+			int equalsPos = pair.IndexOf ("=");
+			name = pair.Substring (0, equalsPos);
+			
+			if (pair.Length <= equalsPos)
+				return false; // Not enough room for a value to exist
+			
+			nameValue = pair.Substring (equalsPos + 1);
+			
+			if (name == null || name.Length < 1 || nameValue == null || nameValue.Length < 1)
+				return false;
+			
+			return true;
+		}
 	}
 }

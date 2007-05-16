@@ -61,6 +61,11 @@
     <File name="./Banter/PersonSync.cs" subtype="Code" buildaction="Compile" />
     <File name="./Banter/ContactStyle.cs" subtype="Code" buildaction="Compile" />
     <File name="./Banter/AppStyle.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Banter/Theme.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Banter/MessageStyleInfo.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Banter/AppStyleInfo.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Banter/ContactStyleInfo.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Banter/ThemeInfo.cs" subtype="Code" buildaction="Compile" />
   </Contents>
   <References>
     <ProjectReference type="Gac" localcopy="True" refto="System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />

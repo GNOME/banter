@@ -64,25 +64,25 @@ namespace Banter
 
 				new Gtk.ActionEntry ("QuitAction", Gtk.Stock.Quit,
 					Catalog.GetString ("_Quit"), "<Control>Q",
-					Catalog.GetString ("Quit Blurby"), null),
+					Catalog.GetString ("Quit Banter"), null),
 				
 				new Gtk.ActionEntry ("EditMenuAction", null,
 					Catalog.GetString ("_Edit"), null, null, null),
 					
 				new Gtk.ActionEntry ("ShowPreferencesAction", Gtk.Stock.Preferences,
 					Catalog.GetString ("_Preferences"), null,
-					Catalog.GetString ("Blurby Preferences"), null),
+					Catalog.GetString ("Banter Preferences"), null),
 				
 				new Gtk.ActionEntry ("HelpMenuAction", null,
 					Catalog.GetString ("_Help"), null, null, null),
 					
 				new Gtk.ActionEntry ("ShowHelpAction", Gtk.Stock.Help,
 					Catalog.GetString ("_Contents"), "F1",
-					Catalog.GetString ("Blurby Help"), null),
+					Catalog.GetString ("Banter Help"), null),
 					
 				new Gtk.ActionEntry ("ShowAboutAction", Gtk.Stock.About,
 					Catalog.GetString ("_About"), null,
-					Catalog.GetString ("About Blurby"), null) //,
+					Catalog.GetString ("About Banter"), null) //,
 				
 //				new Gtk.ActionEntry ("TrayIconMenuAction", null,
 //					Catalog.GetString ("TrayIcon"), null, null, null)

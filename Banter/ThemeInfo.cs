@@ -1,5 +1,5 @@
 //***********************************************************************
-// *  $RCSfile$ - Defines.cs
+// *  $RCSfile$ - ThemeInfo.cs
 // *
 // *  Copyright (C) 2007 Novell, Inc.
 // *
@@ -23,14 +23,12 @@ using System;
 
 namespace Banter
 {
-	public class Defines
+	
+	
+	public class ThemeInfo
 	{
-		public const string Version          	= "@version@";
-		public const string DataDir          	= "@datadir@";
-		public const string GnomeLocaleDir		= "@datadir@/locale";
-		public const string GnomeHelDir			= "@datadir@/gnome/help/rtc";
-		public const string ThemeDir			= "@datadir@/banter/Themes";
-		
-		static public string[] TelepathyManagerLocations = {"/usr/share/telepathy/managers", "/usr/local/share/telepathy/managera"};
+		public ThemeInfo()
+		{
+		}
 	}
 }

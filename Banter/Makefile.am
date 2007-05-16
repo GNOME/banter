@@ -21,6 +21,7 @@ endif
 CSFILES = \
 	$(srcdir)/Application.cs \
 	$(srcdir)/AppStyle.cs \
+	$(srcdir)/AppStyleInfo.cs \
 	$(srcdir)/AssemblyInfo.cs \
 	$(srcdir)/NotificationArea.cs \
 	$(srcdir)/TrayLib.cs \
@@ -42,9 +43,13 @@ CSFILES = \
 	$(srcdir)/ConversationManager.cs \
 	$(srcdir)/ChatWindow.cs \
 	$(srcdir)/ContactStyle.cs \
+	$(srcdir)/ContactStyleInfo.cs \
 	$(srcdir)/MessagesView.cs \
 	$(srcdir)/MessageStyle.cs \
+	$(srcdir)/MessageStyleInfo.cs \
 	$(srcdir)/ThemeManager.cs \
+	$(srcdir)/Theme.cs \
+	$(srcdir)/ThemeInfo.cs \
 	$(srcdir)/GConfPreferencesProvider.cs \
 	$(srcdir)/Preferences.cs \
 	$(srcdir)/PreferencesDialog.cs \
