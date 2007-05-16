@@ -224,7 +224,7 @@
       <applyto>/apps/banter/themes/selected_contact_style</applyto>
       <owner>banter</owner>
       <type>string</type>
-      <default>Banter=ContactStyles/Banter</default>
+      <default>basic=ContactStyles/basic</default>
       <locale name="C">
          <short>Selected Contact Style</short>
          <long>
@@ -238,7 +238,7 @@
       <applyto>/apps/banter/themes/valid_app_styles</applyto>
       <owner>banter</owner>
       <type>list</type>
-      <default>[Banter=ContactStyles/Banter]</default>
+      <default>[basic=ContactStyles/basic,basic-black=ContactStyles/basic-black]</default>
       <locale name="C">
          <short>List of valid contact styles</short>
          <long>

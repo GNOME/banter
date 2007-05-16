@@ -53,6 +53,7 @@ namespace Banter
 		ContactStyleInfo selectedContactStyle;
 		TreeIter selectedContactStyleIter;
 		Dictionary<string, TreeIter> contactStyleIters;
+		ContactStyle contactStyle;
 		
 		ListStore messageStyles;
 		MessageStyleInfo selectedMessageStyle;
@@ -116,8 +117,29 @@ namespace Banter
 
 		private void LoadContactStylesFromGConf ()
 		{
+			TreeIter iter;
+			
 			string selectedContactStyleString = Preferences.Get (Preferences.SelectedContactStyle) as string;
 			string [] validContactStyleStrings = Preferences.Get (Preferences.ValidContactStyles) as string [];
+			
+			foreach (string contactStylePair in validContactStyleStrings) {
+				string name;
+				string path;
+				
+				if (Utilities.ParseNameValuePair (contactStylePair, out name, out path) == false)
+					continue;
+				
+				ContactStyleInfo contactStyleInfo = new ContactStyleInfo (name, path);
+				
+				iter = contactStyles.Append ();
+				contactStyles.SetValue (iter, 0, contactStyleInfo);
+				
+				contactStyleIters [contactStyleInfo.ToString ()] = iter;
+				
+				if (string.Compare (contactStylePair, selectedContactStyleString) == 0) {
+					SelectedContactStyle = contactStyleInfo;
+				}
+			}
 		}
 		
 		private void LoadMessageStylesFromGConf ()
@@ -143,13 +165,6 @@ namespace Banter
 				
 				if (string.Compare (messageStylePair, selectedMessageStyleString) == 0) {
 					SelectedMessageStyle = messageStyleInfo;
-//					selectedMessageStyle = messageStyleInfo;
-//					selectedMessageStyleIter = iter;
-//					try {
-//						messageStyle = new MessageStyle (messageStyleInfo);
-//					} catch (Exception e) {
-//						Logger.Warn ("Couldn't load the default MessageStyle: {0}\n{1}", e.Message, e.StackTrace);
-//					}
 				}
 			}
 		}
@@ -169,16 +184,21 @@ namespace Banter
 			UpdateAppStyles (SystemAppStylesPath);
 			UpdateAppStyles (UserAppStylesPath);
 			
-			UpdateContactStyles (SystemContactStylesPath);
-			UpdateContactStyles (UserContactStylesPath);
+			UpdateContactStyles (SystemContactStylesPath, true);
+			UpdateContactStyles (UserContactStylesPath, false);
 			
-			UpdateMessageStyles (SystemMessageStylesPath);
-			UpdateMessageStyles (UserMessageStylesPath);
+			UpdateMessageStyles (SystemMessageStylesPath, true);
+			UpdateMessageStyles (UserMessageStylesPath, false);
 			
 			// Update GConf so it knows about the valid Themes/Styles
-			Logger.Debug ("FIXME: Add code to save off the valid Themes, AppStyles, and ContactStyles");
+			Logger.Debug ("FIXME: Add code to save off the valid Themes and AppStyles");
 			
-			List<string> pairs = new List<string> (messageStyleIters.Keys);
+			List<string> pairs;
+			
+			pairs = new List<string> (contactStyleIters.Keys);
+			Preferences.Set (Preferences.ValidContactStyles, pairs.ToArray ());
+			
+			pairs = new List<string> (messageStyleIters.Keys);
 			Preferences.Set (Preferences.ValidMessageStyles, pairs.ToArray ());
 		}
 		
@@ -196,14 +216,50 @@ namespace Banter
 				return;
 		}
 		
-		private void UpdateContactStyles (string path)
+		private void UpdateContactStyles (string path, bool systemStyle)
 		{
-			Logger.Debug ("FIXME: Implement ThemeManager.UpdateContactStyles ()");
 			if (Directory.Exists (path) == false)
 				return;
+
+Logger.Debug ("ThemeManager.UpdateContactStyles (\"{0}\")", path);
+			string selectedContactStyleString = Preferences.Get (Preferences.SelectedContactStyle) as string;
+
+			foreach (string stylePath in
+					Directory.GetDirectories (path)) {
+				if (ContactStyleInfo.IsValid (stylePath)) {
+					ContactStyleInfo styleInfo = null;
+					try {
+						styleInfo = new ContactStyleInfo (stylePath, systemStyle);
+					} catch {}
+					
+					if (styleInfo == null)
+						continue;
+					
+					// Check to see if this style already exists.  If it
+					// does, override it
+					TreeIter iter;
+					string stylePair = styleInfo.ToString ();
+					if (contactStyleIters.ContainsKey (stylePair)) {
+						iter = contactStyleIters [stylePair];
+					} else {
+						iter = contactStyles.Append ();
+					}
+					
+					contactStyles.SetValue (iter, 0, styleInfo);
+					contactStyleIters [stylePair] = iter;
+					
+					// If this matches the currently selected style, replace it on
+					// the main thread so any attached UI will be able to update correctly
+					if (string.Compare (stylePair, selectedContactStyleString) == 0) {
+						Gtk.Application.Invoke (delegate {
+							SelectedContactStyle = styleInfo;
+						});
+					}
+				}
+			}
 		}
 		
-		private void UpdateMessageStyles (string path)
+		private void UpdateMessageStyles (string path, bool systemStyle)
 		{
 			if (Directory.Exists (path) == false)
 				return;
@@ -213,35 +269,36 @@ Logger.Debug ("ThemeManager.UpdateMessageStyles (\"{0}\")", path);
 
 			foreach (string stylePath in
 					Directory.GetDirectories (path, "*.AdiumMessageStyle")) {
-				if (MessageStyleInfo.IsValid (stylePath)) {
-					MessageStyleInfo styleInfo = null;
-					try {
-						styleInfo = new MessageStyleInfo (stylePath);
-					} catch {}
-					
-					if (styleInfo == null)
-						continue;
-					
-					// Check to see if this MessageStyle already exists.  If it
-					// does, override it
-					TreeIter iter;
-					string messageStylePair = styleInfo.ToString ();
-					if (messageStyleIters.ContainsKey (messageStylePair)) {
-						iter = messageStyleIters [messageStylePair];
-					} else {
-						iter = messageStyles.Append ();
-					}
-					
-					messageStyles.SetValue (iter, 0, styleInfo);
-					messageStyleIters [messageStylePair] = iter;
-					
-					// If this matches the currently selected style, replace it on
-					// the main thread so any attached UI will be able to update correctly
-					if (string.Compare (messageStylePair, selectedMessageStyleString) == 0) {
-						Gtk.Application.Invoke (delegate {
-							SelectedMessageStyle = styleInfo;
-						});
-					}
+				if (MessageStyleInfo.IsValid (stylePath) == false)
+					continue;
+				
+				MessageStyleInfo styleInfo = null;
+				try {
+					styleInfo = new MessageStyleInfo (stylePath, systemStyle);
+				} catch {}
+				
+				if (styleInfo == null)
+					continue;
+				
+				// Check to see if this MessageStyle already exists.  If it
+				// does, override it
+				TreeIter iter;
+				string messageStylePair = styleInfo.ToString ();
+				if (messageStyleIters.ContainsKey (messageStylePair)) {
+					iter = messageStyleIters [messageStylePair];
+				} else {
+					iter = messageStyles.Append ();
+				}
+				
+				messageStyles.SetValue (iter, 0, styleInfo);
+				messageStyleIters [messageStylePair] = iter;
+				
+				// If this matches the currently selected style, replace it on
+				// the main thread so any attached UI will be able to update correctly
+				if (string.Compare (messageStylePair, selectedMessageStyleString) == 0) {
+					Gtk.Application.Invoke (delegate {
+						SelectedMessageStyle = styleInfo;
+					});
 				}
 			}
 		}
@@ -396,6 +453,46 @@ Logger.Debug ("ThemeManager.UpdateMessageStyles (\"{0}\")", path);
 				return mgr.contactStyles;
 			}
 		}
+		public static ContactStyleInfo SelectedContactStyle
+		{
+			get {
+				ThemeManager mgr = ThemeManager.Instance;
+				return mgr.selectedContactStyle;
+			}
+			set {
+				ThemeManager mgr = ThemeManager.Instance;
+				mgr.selectedContactStyle = value;
+				if (value == null) {
+					Preferences.Set (Preferences.SelectedContactStyle,
+							string.Empty);
+					mgr.selectedContactStyleIter = TreeIter.Zero;
+					mgr.contactStyle = null;
+				} else {
+					string pair = value.ToString ();
+					Preferences.Set (Preferences.SelectedContactStyle, pair);
+					if (mgr.contactStyleIters.ContainsKey (pair))
+						mgr.selectedContactStyleIter = mgr.contactStyleIters [pair];
+					else
+						mgr.selectedContactStyleIter = TreeIter.Zero;
+					
+					// Load a ContactStyle so it's ready for any UI that needs it.
+					try {
+						mgr.contactStyle = new ContactStyle (value);
+					} catch (Exception e) {
+						Logger.Warn ("Couldn't set the ContactStyle ({0}): {1}\n{2}",
+								value.ToString (), e.Message, e.StackTrace);
+					}
+				}
+			}
+		}
+		
+		public static TreeIter SelectedContactStyleIter
+		{
+			get {
+				ThemeManager mgr = ThemeManager.Instance;
+				return mgr.selectedContactStyleIter;
+			}
+		}
 		
 		public static ListStore MessageStyles
 		{
@@ -446,6 +543,22 @@ Logger.Debug ("ThemeManager.UpdateMessageStyles (\"{0}\")", path);
 			}
 		}
 		
+		/// <summary>
+		/// Gets the ready-to-go ContactStyle object representing the currently
+		/// selected MessageStyle.
+		/// </summary>
+		public static ContactStyle ContactStyle
+		{
+			get {
+				ThemeManager mgr = ThemeManager.Instance;
+				return mgr.contactStyle;
+			}
+		}
+		
+		/// <summary>
+		/// Gets the ready-to-go MessageStyle object representing the currently
+		/// selected MessageStyle.
+		/// </summary>
 		public static MessageStyle MessageStyle
 		{
 			get {

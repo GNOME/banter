@@ -44,7 +44,8 @@ namespace Banter
 		};
 		
 		static readonly string[] DefaultContactStyles = {
-			"Banter=ContactStyles/Banter"
+			"basic=ContactStyles/basic",
+			"basic-black=ContactStyles/basic-black"
 		};
 		
 		static readonly string[] DefaultMessageStyles = {
@@ -113,7 +114,7 @@ namespace Banter
 				return DefaultAppStyles;
 			
 			case SelectedContactStyle:
-				return "Banter=ContactStyles/Banter";
+				return "basic=ContactStyles/basic";
 			case ValidContactStyles:
 				return DefaultContactStyles;
 			

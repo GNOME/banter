@@ -1,5 +1,22 @@
 2007-05-16  Boyd Timothy <btimothy@gmail.com> 
 
+	* data/banter.schemas.in, Banter/Preferences.cs: Use the proper
+	  defaults for ContactStyles.
+	* data/Themes/ListStyles, data/Themes/ListStyles/basic-black.tar.gz,
+	  data/Themes/ListStyles/basic.tar.gz, data/Themes/ContactStyles,
+	  data/Themes/ContactStyles/basic-black.tar.gz,
+	  data/Themes/ContactStyles/basic.tar.gz, data/Themes/Makefile.am:
+	  Renamed ListStyles -> ContactStyles.
+	* Banter/ContactStyleInfo.cs: Implemented this class so ThemeManager
+	  will work.
+	* Banter/ContactStyle.cs: Use ContactStyleInfo.
+	* Banter/MessageStyleInfo.cs: Modified this so it knows whether it's a
+	  system style or not.  This prevents duplicate styles.
+	* Banter/ThemeManager.cs: Set up ContactStyles correctly.
+	* Banter/PersonCard.cs: Use ThemeManager.ContactStyle.
+
+2007-05-16  Boyd Timothy <btimothy@gmail.com> 
+
 	* Banter/ThemeManager.cs: Added code to update the valid_message_styles
 	  gconf entry after they're all updated.
 

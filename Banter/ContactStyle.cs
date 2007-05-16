@@ -33,8 +33,8 @@ namespace Banter
 	public class ContactStyle
 	{
 		#region Private Types
+		private ContactStyleInfo styleInfo;
 		private string stylePath;
-		private string name;
 		private string normalPersonHtml;
 		private string normalActionHtml;
 		private string smallPersonHtml;
@@ -48,7 +48,7 @@ namespace Banter
 		///</summary>			
 		public string Name
 		{
-			get { return name; }
+			get { return styleInfo.Name; }
 		}
 		
 		///<summary>
@@ -58,6 +58,11 @@ namespace Banter
 		{
 			get { return stylePath; }
 		}
+		
+		public ContactStyleInfo ContactStyleInfo
+		{
+			get { return styleInfo; }
+		}
 		#endregion
 
 
@@ -65,9 +70,24 @@ namespace Banter
 		///<summary>
 		///	Constructs a ContactStyle from a path
 		///</summary>			
-		public ContactStyle(string path)
+		public ContactStyle(ContactStyleInfo info)
 		{
-			this.stylePath = path;
+			if (info == null)
+				throw new ArgumentException ("Exception creating a ContactStyle because a null ContactStyleInfo was passed into the constructor.");
+			this.styleInfo = info;
+
+			string tmpPath = info.Path;
+			
+			if (tmpPath.StartsWith (System.IO.Path.PathSeparator.ToString ()) == false)
+				tmpPath = System.IO.Path.Combine (ThemeManager.SystemThemesPath, tmpPath); 
+			
+			if (!Directory.Exists (tmpPath))
+				throw new System.IO.FileNotFoundException (
+						"The Contact Style directory does not exist",
+						tmpPath);
+			
+			this.stylePath = tmpPath;
+
 			ReadNormalHtml();
 			ReadSmallHtml();		
 		}
@@ -78,15 +98,15 @@ namespace Banter
 		/// <summary>
 		/// Determines if the path passed in is a valid Contact Style
 		/// </summary>	
-		public static bool IsValid(string path)
-		{
-			try {
-				ContactStyle cs = new ContactStyle(path);
-			} catch (Exception e) {
-				return false;
-			}
-			return true;
-		}
+//		public static bool IsValid(string path)
+//		{
+//			try {
+//				ContactStyle cs = new ContactStyle(path);
+//			} catch (Exception e) {
+//				return false;
+//			}
+//			return true;
+//		}
 		#endregion
 
 

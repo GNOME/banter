@@ -70,13 +70,8 @@ namespace Banter
 			this.Add(webControl);
 			updateNeeded = true;			
 			widgetRendered = false;
-
-			Logger.Debug("FIXME: get the Contact Style from the ThemeManager to speed this up");
 			
-		    string homeDirectoryPath = Environment.GetFolderPath (Environment.SpecialFolder.Personal);
-			string stylePath = System.IO.Path.Combine (homeDirectoryPath, ".banter/Themes/ListStyles/Current");
-			
-			contactStyle = new ContactStyle(stylePath);
+			contactStyle = ThemeManager.ContactStyle;
 
 			person.PresenceUpdated += OnPersonPresenceUpdated;
 			person.AvatarUpdated += OnPersonAvatarUpdated;

@@ -32,6 +32,8 @@ namespace Banter
 	public class MessageStyleInfo
 	{
 		#region Private Types
+		private bool systemStyle;
+		private string systemPath;
 		private string name;
 		private string path;
 		#endregion
@@ -53,15 +55,17 @@ namespace Banter
 			
 Logger.Debug ("MessageStyleInfo (\"{0}\", \"{1}\")", name, path);
 			
-			this.name = name;
+			this.systemStyle = true;
+			this.systemPath = path;
 			this.path = path;
+			this.name = name;
 		}
 		
 		/// <summary>
 		/// MessageFileInfo constructor
 		/// <param name="path">Directory path to a MessageStyle</param>
 		/// </summary>
-		public MessageStyleInfo(string path)
+		public MessageStyleInfo(string path, bool systemStyle)
 		{
 			if (path == null || path.Trim ().Length == 0 ||
 					System.IO.Directory.Exists (path) == false)
@@ -79,6 +83,13 @@ Logger.Debug ("MessageStyleInfo (\"{0}\", \"{1}\")", name, path);
 			if (name == null || name.Trim ().Length == 0)
 				throw new Exception ("MessageStyle does not have a valid name");
 			
+			this.systemStyle = systemStyle;
+			if (systemStyle) {
+				string sysThemePath = ThemeManager.SystemThemesPath;
+				int len = sysThemePath.Length + 1;
+				
+				this.systemPath = path.Substring (len);
+			}
 			this.path = path;
 		}
 		#endregion
@@ -95,7 +106,7 @@ Logger.Debug ("MessageStyleinfo.IsValid (\"{0}\")", path);
 			MessageStyleInfo messageStyleInfo;
 			MessageStyle messageStyle;
 			try {
-				messageStyleInfo = new MessageStyleInfo (path);
+				messageStyleInfo = new MessageStyleInfo (path, false);
 			} catch (Exception e) {
 				Logger.Debug ("Exception in MessageStyleInfo (\"{0}\"): {1}", path, e.Message);
 				return false;
@@ -156,7 +167,8 @@ Logger.Debug ("MessageStyleinfo.IsValid (\"{0}\")", path);
 		
 		public override string ToString ()
 		{
-			return string.Format ("{0}={1}", name, path);
+			return string.Format ("{0}={1}", name,
+					systemStyle ? systemPath : path);
 		}
 
 		#endregion
