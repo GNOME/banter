@@ -1,6 +1,10 @@
+2007-05-16  David Lodge <dave@cirt.net>
+
+	* en_GB.po: Updated British English translation; well actually added it as I forgot to do an svn add last time...
+
 2007-05-15 Boyd Timothy <btimothy@gmail.com>
 
-        * en_GB.po, fi.po, sv.po: Ran `make update-po` and newer
+	* en_GB.po, fi.po, sv.po: Ran `make update-po` and newer
 	files were generated.  Also stubbed-out en_GB.po since
 	David forgot it.
 
