@@ -1,3 +1,10 @@
+2007-05-17  Calvin Gaisford <calvinrg@gmail.com> 
+
+	* data/banter.desktop.in: Added a desktop file for the banter
+	  application
+	* data/Makefile.am: updated the Makefile to handle the
+	  banter.application file
+
 2007-05-17  Boyd Timothy <btimothy@gmail.com> 
 
 	* Banter/HIGMessageDialog.cs: Modified so that the ExtraWidget gets

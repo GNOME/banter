@@ -1,13 +1,13 @@
 
 SUBDIRS = images Themes
 
-#@INTLTOOL_DESKTOP_RULE@
+@INTLTOOL_DESKTOP_RULE@
 
-#desktop_in_files = banter.desktop.in
-#desktop_files    = $(desktop_in_files:.desktop.in=.desktop)
+desktop_in_files = banter.desktop.in
+desktop_files    = $(desktop_in_files:.desktop.in=.desktop)
 
-#desktopdir   = $(datadir)/applications
-#desktop_DATA = $(desktop_files)
+desktopdir   = $(datadir)/applications
+desktop_DATA = $(desktop_files)
 
 schemasdir	 = $(GCONF_SCHEMA_FILE_DIR)
 schemas_in_files = banter.schemas.in
