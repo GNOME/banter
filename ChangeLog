@@ -1,3 +1,7 @@
+2007-05-17  Boyd Timothy <btimothy@gmail.com> 
+
+	* Banter/banter.in: Reverted back to r62 to fix the libdir variable.
+
 2007-05-16  Boyd Timothy <btimothy@gmail.com> 
 
 	* data/banter.schemas.in, Banter/Preferences.cs: Use the proper
