@@ -1,5 +1,11 @@
 2007-05-17  Boyd Timothy <btimothy@gmail.com> 
 
+	* Banter/Preferences.cs: Don't attempt to set an empty array of
+	  saved_windows if the key doesn't exist.  This prevents the ugly
+	  error message in the output.
+
+2007-05-17  Boyd Timothy <btimothy@gmail.com> 
+
 	* Banter/Preferences.cs: Added a semi-colon.
 
 2007-05-17  Calvin Gaisford <calvinrg@gmail.com> 

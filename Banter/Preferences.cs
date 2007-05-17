@@ -129,8 +129,8 @@ namespace Banter
 				return "5223";
 			case SipServer:
 				return "ekiga.net";
-			case GroupWindows:
-				return DefaultGroupWindows;
+//			case GroupWindows:
+//				return DefaultGroupWindows;
 			}
 			
 			return null;
