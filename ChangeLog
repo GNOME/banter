@@ -1,3 +1,8 @@
+2007-05-17  Calvin Gaisford <calvinrg@gmail.com> 
+
+	* Banter/PersonGroup.cs: Added new methods to add persons to groups
+	  even though there are problems with the evolution-sharp libraries
+
 2007-05-17  Boyd Timothy <btimothy@gmail.com> 
 
 	Fix for #439181.

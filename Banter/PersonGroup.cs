@@ -161,7 +161,58 @@ namespace Banter
 				}
 			}
 		}
+		
+
+		/// <summary>
+		/// Adds a person to a group and stores it in EDS
+		/// </summary>			
+		public bool IsPersonInGroup(Person person)
+		{
+			Gtk.TreeIter iter;
+			
+			if(personTreeStore.GetIterFirst(out iter)) {
+				do {
+					Person iterPerson = (Person) personTreeStore.GetValue(iter, 0);
+					if(person.Id.CompareTo(iterPerson.Id) == 0)
+						return true;
+				} while(personTreeStore.IterNext(ref iter));
+			}
+			return false;
+		}
 		#endregion
 
+
+		#region Public Methods
+		/// <summary>
+		/// Adds a person to a group and stores it in EDS
+		/// </summary>			
+		public void AddPerson(Person person)
+		{
+			if( (person.Id == null) || (person.Id.Length == 0) )
+				throw new ApplicationException("Invalid Person object.  Person must be added to the PersonStore before adding them to a group");
+				
+			if(IsPersonInGroup(person))
+				return;
+			
+			VCardAttribute attr = new VCardAttribute("", "EMAIL");
+			VCardAttributeParam param = new VCardAttributeParam("X-EVOLUTION-DEST-CONTACT-UID");
+			param.AddValue(person.Id);
+			attr.AddParam(param);
+			param = new VCardAttributeParam("X-EVOLUTION-DEST-NAME");
+			param.AddValue(person.DisplayName);
+			attr.AddParam(param);
+//			param = new VCardAttributeParam("X-EVOLUTION-DEST-EMAIL");
+//			param.AddValue(person..DisplayName);
+//			attr.AddParam(param);
+			param = new VCardAttributeParam("X-EVOLUTION-DEST-HTML-MAIL");
+			param.AddValue("FALSE");
+			attr.AddParam(param);
+
+			attr.AddValue(person.DisplayName);
+
+			edsContact.AddAttribute(attr);
+		}		
+
+		#endregion
 	}
 }
