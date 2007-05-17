@@ -71,6 +71,7 @@ namespace Banter
 		//
 		private Widget sidebar;
 		private Image avatarImage;
+		private Label myDisplayName;
 		private ComboBoxEntry statusComboBoxEntry;
 		
 		private Entry searchEntry;
@@ -435,14 +436,39 @@ namespace Banter
 			vbox.Show ();
 			hbox.PackStart (vbox, true, true, 0);
 			
-			vbox.PackStart (new Label (), true, true, 0);
+			myDisplayName = new Label ();
+			myDisplayName.Xalign = 0;
+			myDisplayName.UseUnderline = false;
+			myDisplayName.UseMarkup = true;
+			myDisplayName.Show ();
+			vbox.PackStart (myDisplayName, true, true, 0);
 			
-			statusComboBoxEntry = new ComboBoxEntry ();
+			statusComboBoxEntry = ComboBoxEntry.NewText ();
+			statusComboBoxEntry.KeyPressEvent += OnStatusComboKeyPress;
+			statusComboBoxEntry.Changed += OnStatusComboChanged;
+			
 			statusComboBoxEntry.Show ();
 			vbox.PackStart (statusComboBoxEntry, false, false, 0);
 			
 			hbox.Show ();
 			return hbox;
+		}
+		
+		private void OnStatusComboKeyPress (object sender, KeyPressEventArgs args)
+		{
+			if (args.Event.Key == Gdk.Key.Return) {
+				if (PersonStore.Me != null) {
+					Logger.Debug ("FIXME: Set \"my\" status to: {0}",
+							statusComboBoxEntry.ActiveText);
+					PersonStore.Me.Presence.Message =
+							statusComboBoxEntry.ActiveText;
+				}
+			}
+		}
+		
+		private void OnStatusComboChanged (object sender, EventArgs args)
+		{
+			Logger.Debug ("OnStatusComboChanged");
 		}
 		
 		private Widget CreateSidebarSearchEntry ()
@@ -685,6 +711,9 @@ Logger.Debug ("GroupWindow.BuildGroupButtonsView adding {0} groups",
 		#region method overrides
 		protected override bool OnDeleteEvent (Gdk.Event evnt)
 		{
+			if (PersonStore.Me != null)
+				PersonStore.Me.PresenceUpdated -= OnMyPresenceUpdated;
+			
 			groupTreeModel.RowInserted -= OnGroupRowInserted;
 			groupTreeModel.RowDeleted -= OnGroupRowDeleted;
 			groupTreeModel.RowChanged -= OnGroupRowChanged;
@@ -701,6 +730,20 @@ Logger.Debug ("GroupWindow.BuildGroupButtonsView adding {0} groups",
 		#region event handlers
 		private void OnRealizeWidget (object sender, EventArgs args)
 		{
+			// Set "my" display name
+			Person me = PersonStore.Me;
+			if (me != null) {
+				myDisplayName.Markup =
+					string.Format (
+						"<span weight=\"bold\" size=\"small\">{0}</span>",
+						me.DisplayName);
+				
+				// Set "my" status
+				statusComboBoxEntry.AppendText (me.Presence.Message);
+				
+				me.PresenceUpdated += OnMyPresenceUpdated;
+			}
+			
 			// Fill out the existing groups
 			BuildGroupButtonsView ();
 			
@@ -855,6 +898,11 @@ Logger.Debug ("GroupWindow.BuildGroupButtonsView adding {0} groups",
 				personView.PersonCardSize = newValue;
 				QueueSaveState ();
 			}
+		}
+		
+		private void OnMyPresenceUpdated (Person me)
+		{
+			statusComboBoxEntry.AppendText (me.Presence.Message);
 		}
 		
 		private void OnGroupRowInserted (object sender, RowInsertedArgs args)
