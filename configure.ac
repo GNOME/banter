@@ -92,7 +92,6 @@ fi
 
 AC_CONFIG_FILES([
 ./Makefile
-./Banter/banter
 ./Banter/Makefile
 ./data/Makefile
 ./data/images/Makefile
