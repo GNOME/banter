@@ -1,3 +1,9 @@
-#List of source files containing translatable strings.
+# List of source files containing translatable strings.
 # Please keep this file sorted alphabetically.
+Banter/ActionManager.cs
+Banter/Application.cs
+Banter/ChatWindow.cs
+Banter/GroupWindow.cs
+Banter/PreferencesDialog.cs
 data/banter.schemas.in
+test/StreamObjectTest/gtk-gui/MainWindow.cs
