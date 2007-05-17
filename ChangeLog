@@ -1,5 +1,10 @@
 2007-05-17  Boyd Timothy <btimothy@gmail.com> 
 
+	* Banter.mdp, Banter/HIGMessageDialog.cs, Banter/Makefile.am: Added
+	  HIGMessageDialog.cs from the tomboy project.
+
+2007-05-17  Boyd Timothy <btimothy@gmail.com> 
+
 	* Banter/Preferences.cs: Don't attempt to set an empty array of
 	  saved_windows if the key doesn't exist.  This prevents the ugly
 	  error message in the output.

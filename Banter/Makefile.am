@@ -61,7 +61,8 @@ CSFILES = \
 	$(srcdir)/AvatarRequirements.cs \
 	$(srcdir)/GroupWindow.cs \
 	$(srcdir)/WrapBox.cs \
-	$(srcdir)/InterruptableTimeout.cs
+	$(srcdir)/InterruptableTimeout.cs \
+	$(srcdir)/HIGMessageDialog.cs
 
 RESOURCES = \
 	-resource:$(top_srcdir)/data/images/banter-16.png \
