@@ -756,22 +756,44 @@ Logger.Debug ("GroupWindow.BuildGroupButtonsView adding {0} groups",
 		
 		private void OnEveryoneClicked (object sender, EventArgs args)
 		{
-			Logger.Debug ("FIXME: Implement GroupWindow.OnEveryoneClicked ()");
-			
-//			if (Everyone isn't already selected) {
-
-			Title = Catalog.GetString ("Everyone - Banter");
-			selectedGroup = null;
-			
-			personView.Model = PersonStore.People;
-			
-			QueueSaveState ();
-//			}
+			if (selectedGroup != null) { // Everyone isn't already selected
+				Title = Catalog.GetString ("Everyone - Banter");
+				selectedGroup = null;
+				
+				personView.Model = PersonStore.People;
+				
+				QueueSaveState ();
+			}
 		}
 		
 		private void OnNewGroupClicked (object sender, EventArgs args)
 		{
-			Logger.Debug ("FIXME: Implement GroupWindow.OnNewGroupClicked ()");
+			HIGMessageDialog dialog =
+				new HIGMessageDialog (this, Gtk.DialogFlags.DestroyWithParent,
+					Gtk.MessageType.Question,
+					Gtk.ButtonsType.OkCancel,
+					Catalog.GetString ("New group window"),
+					Catalog.GetString ("Enter the name of the new group you'd like to create."));
+			
+			Gtk.Entry groupNameEntry = new Entry ();
+			dialog.ExtraWidget = groupNameEntry;
+			
+			int returnCode = dialog.Run ();
+			
+			if (returnCode == (int) Gtk.ResponseType.Ok) {
+				string groupName = groupNameEntry.Text.Trim ();
+				if (groupName.Length > 0) {
+					try {
+						PersonGroup group = new PersonGroup (groupName);
+						PersonStore.AddGroup (group);
+					} catch (Exception e) {
+						Logger.Debug ("Couldn't create a group: {0}\n{1}\n{2}",
+								groupName, e.Message, e.StackTrace);
+					}
+				}
+			}
+			
+			dialog.Destroy ();
 		}
 		
 		private void OnSettingsClicked (object sender, EventArgs args)

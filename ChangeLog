@@ -1,5 +1,13 @@
 2007-05-17  Boyd Timothy <btimothy@gmail.com> 
 
+	* Banter/GroupWindow.cs: Started the code to add a new group.  The new
+	  group is being added, but for some reason it's crashing.
+	* Banter/HIGMessageDialog.cs: Allow an extra widget to be placed in the
+	  dialog.  This still needs to be cleaned up so it aligns to the
+	  right of the dialog image.  It's at least "functional" though.
+
+2007-05-17  Boyd Timothy <btimothy@gmail.com> 
+
 	* configure.ac: Remove Banter/banter from the AC_CONFIG_FILES since the
 	  Banter/Makefile.am takes care of building the script.
 	* Banter/banter.in: Changed the libdir to use @pkglibdir@ now that the

@@ -8,6 +8,7 @@ namespace Banter
 	public class HIGMessageDialog : Gtk.Dialog
 	{
 		Gtk.AccelGroup accel_group;
+		Widget extraWidget;
 
 		public HIGMessageDialog (Gtk.Window parent,
 					 Gtk.DialogFlags flags,
@@ -131,6 +132,28 @@ namespace Banter
 						       (uint) Gdk.Key.Escape, 
 						       0,
 						       Gtk.AccelFlags.Visible);
+			}
+		}
+		
+		/// <summary>
+		/// Allows the consumer of this dialog to add an extra widget.
+		/// </summary>
+		public Gtk.Widget ExtraWidget
+		{
+			get { return extraWidget; }
+			set {
+				if (extraWidget != null) {
+					VBox.Remove (extraWidget);
+					if (extraWidget != value)
+						extraWidget.Destroy ();
+				}
+				
+				extraWidget = value;
+				
+				if (extraWidget != null) {
+					VBox.PackStart (extraWidget, true, true, 0);
+					extraWidget.ShowAll ();
+				}
 			}
 		}
 	}
