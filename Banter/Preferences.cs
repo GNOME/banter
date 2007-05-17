@@ -31,9 +31,7 @@ namespace Banter
 		
 		// This is needed because of a bug in GConf that doesn't allow
 		// an empty list.
-		static readonly string[] DefaultGroupWindows = {
-			"****Placeholder****"
-		};
+		static readonly string[] DefaultGroupWindows = {}
 		
 		static readonly string[] DefaultThemes = {
 			"Banter=Banter.theme"

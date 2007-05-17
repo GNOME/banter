@@ -206,8 +206,12 @@ namespace Banter
 			GroupWindow gw;
 			
 			try {
-				string[] groupWindowIds = Preferences.Get (Preferences.GroupWindows) as String[];
-				if (groupWindowIds == null) {
+				string[] groupWindowIds = null;
+				try {
+					// Use a try/catch here because gconf can puke on zero-length string[] settings.
+					groupWindowIds = Preferences.Get (Preferences.GroupWindows) as String[];
+				} catch {}
+				if (groupWindowIds == null || groupWindowIds.Length == 0) {
 					// Create a new Group Window with Everyone selected
 					gw = new GroupWindow ();
 					groupWindows [gw] = gw;

@@ -1,5 +1,13 @@
 2007-05-17  Boyd Timothy <btimothy@gmail.com> 
 
+	Fix for #439181.
+	
+	* data/banter.schemas.in, Banter/Preferences.cs: Don't use a
+	  placeholder for saved windows.
+	* Banter/Application.cs: Deal with there being no saved group windows.
+
+2007-05-17  Boyd Timothy <btimothy@gmail.com> 
+
 	* Banter/banter.in: Reverted back to r62 to fix the libdir variable.
 
 2007-05-16  Boyd Timothy <btimothy@gmail.com> 

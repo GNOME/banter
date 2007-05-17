@@ -151,12 +151,11 @@
       <applyto>/apps/banter/group_windows/saved_windows</applyto>
       <owner>banter</owner>
       <type>list</type>
-      <default>[****Placeholder****]</default>
+      <default>[]</default>
       <locale name="C">
          <short>Current saved list of Group Windows.</short>
          <long>
         List containing the GUIDs of the currently saved group windows.
-        Please do not remove the ****Placeholder**** item.
          </long>
       </locale>
     </schema>
