@@ -1,3 +1,8 @@
+2007-05-17  Boyd Timothy <btimothy@gmail.com> 
+
+	* Banter/GroupWindow.cs: Added code to allow the user to delete a
+	  group.
+
 2007-05-17  Calvin Gaisford <calvinrg@gmail.com> 
 
 	* data/banter.desktop.in: Added a desktop file for the banter
