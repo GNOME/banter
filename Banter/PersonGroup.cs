@@ -184,7 +184,7 @@ namespace Banter
 
 		#region Public Methods
 		/// <summary>
-		/// Adds a person to a group and stores it in EDS
+		/// Adds a person to a group.  You must call PersonStore CommitGroup with this group to save it to EDS
 		/// </summary>			
 		public void AddPerson(Person person)
 		{
@@ -211,7 +211,42 @@ namespace Banter
 			attr.AddValue(person.DisplayName);
 
 			edsContact.AddAttribute(attr);
+		}
+		
+
+		/// <summary>
+		/// Removes a person from a group.  You must call PersonStore CommitGroup with this group to save it to EDS
+		/// </summary>			
+		public void RemovePerson(Person person)
+		{
+			if( (person.Id == null) || (person.Id.Length == 0) )
+				throw new ApplicationException("Invalid Person object.  Person must be added to the PersonStore before adding them to a group");
+
+			if(edsContact == null)
+				return;
+				
+			GLib.List attributeList = edsContact.GetAttributes(ContactField.Email);
+			GLib.List attrList = new GLib.List (attributeList.Handle, typeof (VCardAttribute));
+			foreach(VCardAttribute attr in attrList) {
+				GLib.List paramList = new GLib.List (attr.Params.Handle, typeof (VCardAttributeParam));
+				foreach(Evolution.VCardAttributeParam param in paramList)
+				{
+				
+					if(param.Name.CompareTo("X-EVOLUTION-DEST-CONTACT-UID") == 0) {
+						GLib.List valueList = new GLib.List (param.Values.Handle, typeof (string));					
+
+						foreach(String valStr in valueList) {
+							//Logger.Debug("  Value: {0}", valStr);
+							if(person.Id.CompareTo(valStr) == 0) {
+								edsContact.RemoveAttribute(attr);
+								return;
+							}
+						}
+					}
+				}
+			}
 		}		
+		
 
 		#endregion
 	}
