@@ -99,6 +99,8 @@ namespace Banter
 		public PersonGroup(string groupName)
 		{
 			this.edsContact = new Contact();
+			locker = new System.Object();
+			personTreeStore = new Gtk.TreeStore(typeof(Person));
 			edsContact.FileAs = groupName;
 			edsContact.List = true;
 		}

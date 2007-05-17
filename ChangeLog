@@ -1,5 +1,11 @@
 2007-05-17  Boyd Timothy <btimothy@gmail.com> 
 
+	* Banter/PersonGroup.cs: Create a TreeStore even in the case where the
+	  group is created w/o a real EDS Contact so that UpdateModel doesn't
+	  blow chunks when a user creates a new group.
+
+2007-05-17  Boyd Timothy <btimothy@gmail.com> 
+
 	* Banter/GroupWindow.cs: Added code to allow the user to delete a
 	  group.
 
