@@ -8,6 +8,7 @@ namespace Banter
 	public class HIGMessageDialog : Gtk.Dialog
 	{
 		Gtk.AccelGroup accel_group;
+		Gtk.VBox label_vbox;
 		Widget extraWidget;
 
 		public HIGMessageDialog (Gtk.Window parent,
@@ -59,7 +60,7 @@ namespace Banter
 			image.Yalign = 0;
 			hbox.PackStart (image, false, false, 0);
 			
-			Gtk.VBox label_vbox = new Gtk.VBox (false, 0);
+			label_vbox = new Gtk.VBox (false, 8);
 			label_vbox.Show ();
 			hbox.PackStart (label_vbox, true, true, 0);
 
@@ -143,7 +144,7 @@ namespace Banter
 			get { return extraWidget; }
 			set {
 				if (extraWidget != null) {
-					VBox.Remove (extraWidget);
+					label_vbox.Remove (extraWidget);
 					if (extraWidget != value)
 						extraWidget.Destroy ();
 				}
@@ -151,7 +152,7 @@ namespace Banter
 				extraWidget = value;
 				
 				if (extraWidget != null) {
-					VBox.PackStart (extraWidget, true, true, 0);
+					label_vbox.PackStart (extraWidget, true, true, 0);
 					extraWidget.ShowAll ();
 				}
 			}

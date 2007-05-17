@@ -1,5 +1,10 @@
 2007-05-17  Boyd Timothy <btimothy@gmail.com> 
 
+	* Banter/HIGMessageDialog.cs: Modified so that the ExtraWidget gets
+	  placed in-line with the message text.
+
+2007-05-17  Boyd Timothy <btimothy@gmail.com> 
+
 	* Banter/GroupWindow.cs: Started the code to add a new group.  The new
 	  group is being added, but for some reason it's crashing.
 	* Banter/HIGMessageDialog.cs: Allow an extra widget to be placed in the
