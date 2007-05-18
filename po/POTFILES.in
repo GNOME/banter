@@ -6,4 +6,3 @@ Banter/ChatWindow.cs
 Banter/GroupWindow.cs
 Banter/PreferencesDialog.cs
 data/banter.schemas.in
-test/StreamObjectTest/gtk-gui/MainWindow.cs

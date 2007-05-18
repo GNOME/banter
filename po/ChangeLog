@@ -1,3 +1,7 @@
+2007-05-18  Calvin Gaisford <calvinrg@gmail.com>
+
+	* POTFILES.in: Removed the test code files
+
 2007-05-17  Daniel Nylander <po@danielnylander.se>
 
 	* sv.po: Updated Swedish translation.
