@@ -7,6 +7,14 @@ Please send questions and suggestions to
 Please report bugs using http://bugzilla.gnome.org/
 (http://bugzilla.gnome.org/enter_bug.cgi?product=Banter).
 
+Version 0.1.3
+
+* Groups can now be created/deleted from group windows.
+* Themes/Styles now loaded from $prefix/share/banter/Themes and ~/.banter/Themes.
+* Initial work for adding people to groups via evolution.
+* New work so Banter can be packaged as an RPM complete. 
+* Translations can now use po/LINGUAS file to add new translations. 
+
 Version 0.1.2
 * Initial Avatar support from Telepathy and EDS
 * Internal object model for Banter was cleaned up.  The presence engine

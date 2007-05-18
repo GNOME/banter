@@ -34,6 +34,6 @@ telepathy-gabble continues to run even after you stop banter
 ----------------------------------------------------------------------
 
 We haven't gotten around to cleaning up nicely (apparently) because
-telepathy-gabble will continue to run even after you quit banter.
+telepathy-gabble will continue to run if Banter ever crashes.
 
 Before starting banter again, please kill the telepathy-gabble process.
