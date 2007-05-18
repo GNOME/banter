@@ -682,7 +682,7 @@ Logger.Debug ("GroupWindow.BuildGroupButtonsView adding {0} groups",
 			Logger.Debug ("Adding group button: {0}", button.PersonGroup.DisplayName);
 			button.Show ();
 			button.Clicked += OnGroupButtonClicked;
-			button.DeleteClicked += OnGroupButtonDeleteClicked;
+			button.RightClicked += OnGroupButtonRightClicked;
 			groupButtonsVBox.PackStart (button, false, false, 0);
 			groupButtonMap [path.Indices [0]] = button;
 		}
@@ -979,7 +979,7 @@ Logger.Debug ("GroupWindow.BuildGroupButtonsView adding {0} groups",
 			QueueSaveState ();
 		}
 		
-		private void OnGroupButtonDeleteClicked (GroupButton sender, PersonGroup group)
+		private void OnGroupButtonRightClicked (GroupButton sender, PersonGroup group)
 		{
 			HIGMessageDialog dialog = new HIGMessageDialog (
 				this, DialogFlags.DestroyWithParent,
@@ -1016,13 +1016,10 @@ Logger.Debug ("GroupWindow.BuildGroupButtonsView adding {0} groups",
 
 	public delegate void GroupButtonClickedHandler (GroupButton sender, PersonGroup group); 
 
-	public class GroupButton : HBox
+	public class GroupButton : Button
 	{
 		private PersonGroup group;
 		private Label label;
-		private Button button;
-		private Button deleteButton;
-		private Image deleteImage;
 		
 		public GroupButton (PersonGroup personGroup)
 		{
@@ -1037,22 +1034,8 @@ Logger.Debug ("GroupWindow.BuildGroupButtonsView adding {0} groups",
 			label.UseMarkup = true;
 			label.Show ();
 			hbox.PackStart (label, false, false, 4);
-			button = new Button (hbox);
-			button.Relief = ReliefStyle.None;
-			button.Show ();
-			button.Clicked += OnButtonClicked;
-			PackStart (button, true, true, 0);
-			
-			deleteImage = new Image (Stock.Delete, IconSize.Menu);
-			deleteImage.NoShowAll = true;
-			deleteButton = new Button (deleteImage);
-			deleteButton.Relief = ReliefStyle.None;
-			deleteButton.Show ();
-			deleteButton.Clicked += OnDeleteButtonClicked;
-			deleteButton.Entered += OnDeleteButtonMouseEnter;
-			deleteButton.Left += OnDeleteButtonMouseLeft;
-			
-			PackStart (deleteButton, false, false, 0);
+			this.Relief = ReliefStyle.None;
+			Add (hbox);
 		}
 		
 		public new void Show ()
@@ -1061,7 +1044,7 @@ Logger.Debug ("GroupWindow.BuildGroupButtonsView adding {0} groups",
 		}
 		
 		public event GroupButtonClickedHandler Clicked;
-		public event GroupButtonClickedHandler DeleteClicked;
+		public event GroupButtonClickedHandler RightClicked;
 		
 		public PersonGroup PersonGroup
 		{
@@ -1076,28 +1059,20 @@ Logger.Debug ("GroupWindow.BuildGroupButtonsView adding {0} groups",
 			}
 		}
 		
-		private void OnButtonClicked (object sender, EventArgs args)
+		protected override bool OnButtonPressEvent (Gdk.EventButton evnt)
 		{
-			if (Clicked != null)
-				Clicked (this, group);
-		}
-		
-		private void OnDeleteButtonClicked (object sender, EventArgs args)
-		{
-			if (DeleteClicked != null)
-				DeleteClicked (this, group);
-		}
-		
-		private void OnDeleteButtonMouseEnter (object sender, EventArgs args)
-		{
-			Logger.Debug ("OnDeleteButtonMouseEnter");
-			deleteImage.Show ();
-		}
-		
-		private void OnDeleteButtonMouseLeft (object sender, EventArgs args)
-		{
-			Logger.Debug ("OnDeleteButtonMouseLeft");
-			deleteImage.Hide ();
+			switch (evnt.Button) {
+			case 1: // left-click
+				if (Clicked != null)
+					Clicked (this, group);
+				break;
+			case 3: // right-click
+				if (RightClicked != null)
+					RightClicked (this, group);
+				break;
+			}
+			
+			return true;
 		}
 	}
 }

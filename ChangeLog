@@ -1,3 +1,10 @@
+2007-05-18  Boyd Timothy <btimothy@gmail.com> 
+
+	* Banter/GroupWindow.cs: Changed the hidden delete button to just allow
+	  a right-click on the group button.  Still need to implement a
+	  little popup menu, but for now, you can delete a group by
+	  right-clicking on it.
+
 2007-05-18  Calvin Gaisford <calvinrg@gmail.com> 
 
 	* configure.ac: bumped the version to 0.1.4 for the next iteration
