@@ -22,7 +22,8 @@ uninstall-local:
 
 EXTRA_DIST = \
 	$(CONTACT_STYLE_FILES) \
-	$(MESSAGE_STYLE_FILES)
+	$(MESSAGE_STYLE_FILES) \
+	$(srcdir)/MessageStyles/Template.html
 
 #dist-hook:
 #	mkdir -p $(distdir)

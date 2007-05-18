@@ -121,10 +121,17 @@ Defines.cs: $(srcdir)/Defines.cs.in Makefile
 EXTRA_DIST = \
 	$(CSFILES)					\
 	$(WRAPPER).in				\
-	$(srcdir)/Defines.cs.in
+	$(srcdir)/Defines.cs.in		\
+	$(srcdir)/UIManagerLayout.xml 
 
 CLEAN_FILES = \
 	$(TARGET)					\
 	$(TARGET).mdb				\
 	$(WRAPPER)					\
 	Defines.cs
+
+DISTCLEANFILES =                        \
+        $(WRAPPER)			\
+		$(TARGET)			\
+		$(TARGET).mdb		\
+		Defines.cs			

@@ -1,3 +1,8 @@
+2007-05-18  Calvin Gaisford <calvinrg@gmail.com> 
+
+	* data/Themes/Makefile.am: Added missing extra dist files
+	* Banter/Makefile.am: Added missing Extra dist files
+
 2007-05-17  Boyd Timothy <btimothy@gmail.com> 
 
 	* Banter/GroupWindow.cs: Stubbed out some code for getting/setting our
