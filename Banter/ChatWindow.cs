@@ -81,13 +81,13 @@ namespace Banter
 			
 			this.DefaultSize = new Gdk.Size (400, 800); 
 			
-			SetUpWidgets ();
+			SetUpWidgets (peer);
 			Realized += WindowRealized;
 			DeleteEvent += WindowDeleted;
 		}
 		
 #region Private Methods
-		void SetUpWidgets ()
+		void SetUpWidgets (Person peer)
 		{
 			hpaned = new HPaned ();
 			hpaned.CanFocus = true;
@@ -110,10 +110,11 @@ namespace Banter
 			personControlVBox.Show ();
 			rightPaneVBox.PackStart (personControlVBox, false, false, 0);
 			
-			Label label = new Label (Catalog.GetString ("Person Widget Placeholder"));
-			label.Xalign = 0;
-			label.Show ();
-			personControlVBox.PackStart (label, false, false, 0);
+			PersonCard card = new PersonCard(peer);
+			card.Size = PersonCardSize.Medium;
+			// Not sure why but we need to call ShowAll on the PersonCard for it to display
+			card.ShowAll();
+			personControlVBox.PackStart (card, true, true, 0);
 			
 			HBox hbox = new HBox (false, 0);
 			hbox.Show ();
