@@ -77,8 +77,9 @@ namespace Banter
 		{
 			get { return personCardSize; }
 			set {
-				Logger.Debug ("FIXME: Implement PersonView.PersonCardSize [set] to update the size of the cards shown: {0}", value);
+				Logger.Debug ("FIXME: PersonView should handle card sizing better: {0}", value);
 				personCardSize = value;
+				PopulatePersonView();
 			}
 		}
 		#endregion
@@ -149,7 +150,9 @@ Logger.Debug ("PersonView.PopulatePersonView adding {0} people",
 						continue;
 					
 					TreePath path = model.GetPath (iter);
-					AddPersonCard (path.Indices [0], new PersonCard (person));
+					PersonCard card = new PersonCard(person);
+					card.Size = personCardSize;
+					AddPersonCard (path.Indices [0], card);
 				} while (model.IterNext (ref iter));
 			}
 		}
@@ -223,7 +226,9 @@ Logger.Debug ("PersonView.PopulatePersonView adding {0} people",
 				return;
 			
 			TreePath path = model.GetPath (args.Iter);
-			AddPersonCard (path.Indices [0], new PersonCard (person));
+			PersonCard card = new PersonCard(person);
+			card.Size = personCardSize;
+			AddPersonCard (path.Indices [0], card);
 		}
 		
 		private void OnPersonRowDeleted (object sender, RowDeletedArgs args)
@@ -254,7 +259,9 @@ Logger.Debug ("PersonView.PopulatePersonView adding {0} people",
 
 			if (personCardMap.ContainsKey (args.Path.Indices [0]) == false) {
 				Logger.Debug ("PersonView.OnPersonRowDeleted () called on a path we don't know about, adding it now.");
-				AddPersonCard (args.Path.Indices [0], new PersonCard (person));
+				PersonCard card = new PersonCard(person);
+				card.Size = personCardSize;
+				AddPersonCard (args.Path.Indices [0], card);
 				return;
 			}
 			

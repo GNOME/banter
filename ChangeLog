@@ -1,5 +1,10 @@
 2007-05-22  Calvin Gaisford <calvinrg@gmail.com> 
 
+	* Banter/PersonView.cs: Fixed up the way PersonCards are created so the
+	  size is set accoring to the size control
+
+2007-05-22  Calvin Gaisford <calvinrg@gmail.com> 
+
 	* data/Themes/ContactStyles/basic.tar.gz: Updated ContactStyleBasic to
 	  support Medium Contacts Size
 	* Banter/ContactStyle.cs: Added code to really load ContactSytles in
