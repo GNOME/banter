@@ -51,7 +51,6 @@ namespace Banter
 		private bool widgetRendered;
 		private string widgetHtml;
 		private Person person;
-		private ContactStyle contactStyle;
 		private PersonCardSize cardSize;
 		#endregion
 
@@ -70,8 +69,6 @@ namespace Banter
 			this.Add(webControl);
 			updateNeeded = true;			
 			widgetRendered = false;
-			
-			contactStyle = ThemeManager.ContactStyle;
 
 			person.PresenceUpdated += OnPersonPresenceUpdated;
 			person.AvatarUpdated += OnPersonAvatarUpdated;
@@ -111,8 +108,6 @@ namespace Banter
 		///</summary>
 		protected override void OnDestroyed ()
 		{
-			Logger.Debug ("PersonCard.OnDestroyed");
-
 			person.PresenceUpdated -= OnPersonPresenceUpdated;
 			person.AvatarUpdated -= OnPersonAvatarUpdated;			
 	
@@ -192,7 +187,7 @@ namespace Banter
 		///</summary>
 		private void OnPersonPresenceUpdated (Person person)
 		{
-			Logger.Debug("Updating presence on {0}", person.DisplayName);
+			// Logger.Debug("Updating presence on {0}", person.DisplayName);
 			updateNeeded = true;
 			RenderWidget();
 		}
@@ -203,7 +198,7 @@ namespace Banter
 		///</summary>
 		private void OnPersonAvatarUpdated (Person person)
 		{
-			Logger.Debug("Updating presence on {0}", person.DisplayName);
+			// Logger.Debug("Updating presence on {0}", person.DisplayName);
 			updateNeeded = true;
 			RenderWidget();
 		}
@@ -213,11 +208,16 @@ namespace Banter
 		///	Handles Avatar Events on a Person
 		///</summary>
 		private void RenderWidget()
-		{
+		{		
 			if(widgetRendered && updateNeeded) {
-				string widgetHtml = contactStyle.RenderWidgetHtml(person, cardSize);
-				webControl.RenderData(widgetHtml, "file://" + contactStyle.Path, "text/html");
-				updateNeeded = false;
+				if(ThemeManager.ContactStyle != null) {
+					string widgetHtml = ThemeManager.ContactStyle.RenderWidgetHtml(person, cardSize);
+					webControl.RenderData(widgetHtml, "file://" + ThemeManager.ContactStyle.Path, "text/html");
+					updateNeeded = false;
+				}
+				else {
+					Logger.Debug("PersonCard: ThemeManager.ContactStyle is null, unable to render widget");
+				}
 			}
 		}
 		#endregion

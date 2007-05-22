@@ -1,3 +1,10 @@
+2007-05-22  Calvin Gaisford <calvinrg@gmail.com> 
+
+	* Banter/ThemeManager.cs: Changed the SelectedContactStyle to try to
+	  load if it is null
+	* Banter/PersonCard.cs: Changed the contactStyle to be retrieved when
+	  needed so an old null copy wasn't kept around
+
 2007-05-18  Boyd Timothy <btimothy@gmail.com> 
 
 	* Banter/GroupWindow.cs: Changed the hidden delete button to just allow

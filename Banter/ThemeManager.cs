@@ -551,6 +551,18 @@ Logger.Debug ("ThemeManager.UpdateMessageStyles (\"{0}\")", path);
 		{
 			get {
 				ThemeManager mgr = ThemeManager.Instance;
+				
+				if(mgr.contactStyle == null) {
+					if(mgr.selectedContactStyle != null) {
+						try {
+							mgr.contactStyle = new ContactStyle(mgr.selectedContactStyle);
+						} catch (Exception e) {
+							Logger.Warn ("Couldn't load selected ContactStyle ({0}): {1}\n{2}",
+									mgr.selectedContactStyle.ToString (), e.Message, e.StackTrace);
+						}						
+					}
+				}
+
 				return mgr.contactStyle;
 			}
 		}
