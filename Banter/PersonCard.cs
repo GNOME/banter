@@ -143,7 +143,7 @@ namespace Banter
 					break;
 				case PersonCardSize.Medium:
 				case PersonCardSize.Large:
-					requisition.Height = 64;
+					requisition.Height = 50;
 					requisition.Width = 75;
 					break;
 			}
