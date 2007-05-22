@@ -1,5 +1,10 @@
 2007-05-22  Calvin Gaisford <calvinrg@gmail.com> 
 
+	* Banter/GroupWindow.cs: Changed the way the initial Everyone Group is
+	  selected so it works for the init and when selected.
+
+2007-05-22  Calvin Gaisford <calvinrg@gmail.com> 
+
 	* Banter/ThemeManager.cs: Changed the SelectedContactStyle to try to
 	  load if it is null
 	* Banter/PersonCard.cs: Changed the contactStyle to be retrieved when

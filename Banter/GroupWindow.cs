@@ -761,7 +761,7 @@ Logger.Debug ("GroupWindow.BuildGroupButtonsView adding {0} groups",
 			// Set the view to the proper group
 
 			if (string.Compare (initialGroupId, "0") == 0) {
-				OnEveryoneClicked (this, EventArgs.Empty);
+				SelectEveryoneGroup();
 			} else {
 				foreach (GroupButton groupButton in groupButtonMap.Values) {
 					PersonGroup group = groupButton.PersonGroup;
@@ -801,13 +801,18 @@ Logger.Debug ("GroupWindow.BuildGroupButtonsView adding {0} groups",
 		private void OnEveryoneClicked (object sender, EventArgs args)
 		{
 			if (selectedGroup != null) { // Everyone isn't already selected
-				Title = Catalog.GetString ("Everyone - Banter");
-				selectedGroup = null;
-				
-				personView.Model = PersonStore.People;
-				
-				QueueSaveState ();
+				SelectEveryoneGroup();
 			}
+		}
+		
+		private void SelectEveryoneGroup()
+		{
+			Title = Catalog.GetString ("Everyone - Banter");
+			selectedGroup = null;
+			
+			personView.Model = PersonStore.People;
+			
+			QueueSaveState ();
 		}
 		
 		private void OnNewGroupClicked (object sender, EventArgs args)
