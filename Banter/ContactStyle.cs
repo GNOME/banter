@@ -35,6 +35,14 @@ namespace Banter
 		#region Private Types
 		private ContactStyleInfo styleInfo;
 		private string stylePath;
+		private string largePersonHtml;
+		private string largeActionHtml;
+		private string largeDataSectionHtml;
+		private string largeSingleDataEntryHtml;
+		private string largeTitleDataEntryHtml;
+		private string largeTextGraphic;
+		private string largeVideoGraphic;
+		private string largeBlankHead;
 		private string mediumPersonHtml;
 		private string mediumActionHtml;
 		private string mediumTextGraphic;
@@ -94,6 +102,7 @@ namespace Banter
 			
 			this.stylePath = tmpPath;
 
+ 			ReadLargeHtml();
 			ReadMediumHtml();
 			ReadSmallHtml();		
 		}
@@ -128,6 +137,9 @@ namespace Banter
 			string blankHeadPng;
 			string personHtml;
 			string actionHtml;
+			string dataHtml;
+			string titleDataHtml;
+			string singleDataHtml;				
 			int avatarSize = 0;
 			string tmpHtml;
 
@@ -139,6 +151,9 @@ namespace Banter
 					blankHeadPng = smallBlankHead;
 					personHtml = smallPersonHtml;
 					actionHtml = smallActionHtml;
+					dataHtml = null;
+					titleDataHtml = null;
+					singleDataHtml = null;						
 					avatarSize = 16;
 					break;
 				case PersonCardSize.Medium:
@@ -147,15 +162,21 @@ namespace Banter
 					blankHeadPng = mediumBlankHead;
 					personHtml = mediumPersonHtml;
 					actionHtml = mediumActionHtml;
+					dataHtml = null;
+					titleDataHtml = null;
+					singleDataHtml = null;					
 					avatarSize = 48;
 					break;
 				// Haven't created any Large, just use Medium
 				case PersonCardSize.Large:
-					textChatPng = mediumTextGraphic;
-					videoChatPng = mediumVideoGraphic;
-					blankHeadPng = mediumBlankHead;
-					personHtml = mediumPersonHtml;
-					actionHtml = mediumActionHtml;
+					textChatPng = largeTextGraphic;
+					videoChatPng = largeVideoGraphic;
+					blankHeadPng = largeBlankHead;
+					personHtml = largePersonHtml;
+					actionHtml = largeActionHtml;
+					dataHtml = largeDataSectionHtml;
+					titleDataHtml = largeTitleDataEntryHtml;
+					singleDataHtml = largeSingleDataEntryHtml;
 					avatarSize = 48;					
 					break;
 			}
@@ -191,7 +212,7 @@ namespace Banter
 
 			// change this later to show their capabilities when we actually have them
 			if(person.Presence.Type != PresenceType.Offline) {
-				string tmpActionHtml;			
+				string tmpActionHtml;
 
 				tmpHtml = actionHtml.Replace("%ACTION_HREF%", "rtc://TEXT_CHAT");
 				tmpHtml = tmpHtml.Replace("%ACTION_IMAGE%", "file://" + textChatPng);
@@ -204,6 +225,115 @@ namespace Banter
 				widgetHtml = widgetHtml.Replace("<!--ACTION_DATA-->", tmpActionHtml);
 			}
 			
+			
+			if( (dataHtml != null) &&
+				(titleDataHtml != null) &&
+				(singleDataHtml != null) ) {
+
+				string allDataHtml = null;
+				string dataSectionHtml;
+				string dataEntryHtml;
+				
+				
+				if( (person.JabberId != null) && (person.JabberId.Length > 0) ) {
+					dataSectionHtml = dataHtml.Replace("%SECTION_TITLE%", "Instant Messaging");
+					dataEntryHtml = titleDataHtml.Replace("%DATA_TEXT%", person.JabberId);
+					dataEntryHtml = dataEntryHtml.Replace("%DATA_TITLE%", "jabber");
+					tmpHtml = dataEntryHtml;
+/*					dataEntryHtml = titleDataHtml.Replace("%DATA_TEXT%", "cgaisford.novell");
+					dataEntryHtml = dataEntryHtml.Replace("%DATA_TITLE%", "gwim");
+					tmpHtml += dataEntryHtml;
+*/
+					dataSectionHtml = dataSectionHtml.Replace("<!--DATA_ENTRY-->", tmpHtml);
+					if(allDataHtml == null)
+						allDataHtml = dataSectionHtml;
+					else
+						allDataHtml += dataSectionHtml;
+				}
+				
+				if( (person.EDSContact != null) &&	(person.EDSContact.Email1 != null) && (person.EDSContact.Email1.Length > 0) ) {
+					dataSectionHtml = dataHtml.Replace("%SECTION_TITLE%", "Email");
+					dataEntryHtml = titleDataHtml.Replace("%DATA_TEXT%", person.EDSContact.Email1);
+					dataEntryHtml = dataEntryHtml.Replace("%DATA_TITLE%", "Work");
+					tmpHtml = dataEntryHtml;
+					if(	(person.EDSContact.Email2 != null) && (person.EDSContact.Email2.Length > 0) ) {
+						dataEntryHtml = titleDataHtml.Replace("%DATA_TEXT%", person.EDSContact.Email2);
+						dataEntryHtml = dataEntryHtml.Replace("%DATA_TITLE%", "Home");
+						tmpHtml += dataEntryHtml;
+					}
+					if(	(person.EDSContact.Email3 != null) && (person.EDSContact.Email3.Length > 0) ) {
+						dataEntryHtml = titleDataHtml.Replace("%DATA_TEXT%", person.EDSContact.Email3);
+						dataEntryHtml = dataEntryHtml.Replace("%DATA_TITLE%", "Other");
+						tmpHtml += dataEntryHtml;
+					}
+
+					dataSectionHtml = dataSectionHtml.Replace("<!--DATA_ENTRY-->", tmpHtml);
+					
+					if(allDataHtml == null)
+						allDataHtml = dataSectionHtml;
+					else
+						allDataHtml += dataSectionHtml;
+				}
+
+				if( (person.EDSContact != null) &&	(person.EDSContact.PrimaryPhone != null) && (person.EDSContact.PrimaryPhone.Length > 0) ) {
+					dataSectionHtml = dataHtml.Replace("%SECTION_TITLE%", "Phone");
+					dataEntryHtml = titleDataHtml.Replace("%DATA_TEXT%", person.EDSContact.PrimaryPhone);
+					dataEntryHtml = dataEntryHtml.Replace("%DATA_TITLE%", "Primary");
+					tmpHtml = dataEntryHtml;
+					if(	(person.EDSContact.BusinessPhone != null) && (person.EDSContact.BusinessPhone.Length > 0) && (person.EDSContact.BusinessPhone.CompareTo(person.EDSContact.PrimaryPhone) != 0) ) {
+						dataEntryHtml = titleDataHtml.Replace("%DATA_TEXT%", person.EDSContact.BusinessPhone);
+						dataEntryHtml = dataEntryHtml.Replace("%DATA_TITLE%", "Work");
+						tmpHtml += dataEntryHtml;
+					}
+					if(	(person.EDSContact.HomePhone != null) && (person.EDSContact.HomePhone.Length > 0) && (person.EDSContact.HomePhone.CompareTo(person.EDSContact.PrimaryPhone) != 0) ) {
+						dataEntryHtml = titleDataHtml.Replace("%DATA_TEXT%", person.EDSContact.HomePhone);
+						dataEntryHtml = dataEntryHtml.Replace("%DATA_TITLE%", "Home");
+						tmpHtml += dataEntryHtml;
+					}
+					if(	(person.EDSContact.MobilePhone != null) && (person.EDSContact.MobilePhone.Length > 0) && (person.EDSContact.MobilePhone.CompareTo(person.EDSContact.PrimaryPhone) != 0) ) {
+						dataEntryHtml = titleDataHtml.Replace("%DATA_TEXT%", person.EDSContact.MobilePhone);
+						dataEntryHtml = dataEntryHtml.Replace("%DATA_TITLE%", "Mobile");
+						tmpHtml += dataEntryHtml;
+					}
+
+					dataSectionHtml = dataSectionHtml.Replace("<!--DATA_ENTRY-->", tmpHtml);
+					
+					if(allDataHtml == null)
+						allDataHtml = dataSectionHtml;
+					else
+						allDataHtml += dataSectionHtml;
+				}
+
+				if( (person.EDSContact != null) &&	(person.EDSContact.AddressLabelWork != null) && (person.EDSContact.AddressLabelWork.Length > 0) ) {
+					dataSectionHtml = dataHtml.Replace("%SECTION_TITLE%", "Work Address");
+					dataEntryHtml = singleDataHtml.Replace("%DATA_TEXT%", person.EDSContact.AddressLabelWork);
+					tmpHtml = dataEntryHtml;
+
+					dataSectionHtml = dataSectionHtml.Replace("<!--DATA_ENTRY-->", tmpHtml);
+					
+					if(allDataHtml == null)
+						allDataHtml = dataSectionHtml;
+					else
+						allDataHtml += dataSectionHtml;
+				}
+
+				if( (person.EDSContact != null) &&	(person.EDSContact.AddressLabelHome != null) && (person.EDSContact.AddressLabelHome.Length > 0) ) {
+					dataSectionHtml = dataHtml.Replace("%SECTION_TITLE%", "Home Address");
+					dataEntryHtml = singleDataHtml.Replace("%DATA_TEXT%", person.EDSContact.AddressLabelHome);
+					tmpHtml = dataEntryHtml;
+
+					dataSectionHtml = dataSectionHtml.Replace("<!--DATA_ENTRY-->", tmpHtml);
+					
+					if(allDataHtml == null)
+						allDataHtml = dataSectionHtml;
+					else
+						allDataHtml += dataSectionHtml;
+				}
+
+				if(allDataHtml != null)				
+					widgetHtml = widgetHtml.Replace("<!--DATA_SECTION-->", allDataHtml);
+			}
+			
 			return widgetHtml;
 		}
 		#endregion
@@ -211,7 +341,89 @@ namespace Banter
 		
 		#region Private Methods
 		///<summary>
-		///	Reads the NormalHtml from the Theme
+		///	Reads the LargeHtml from the Theme
+		///</summary>	
+		private void ReadLargeHtml()
+		{
+			System.IO.StreamReader htmlReader;
+			
+			try {
+				htmlReader = new System.IO.StreamReader(System.IO.Path.Combine(stylePath, "large/contact.html"));
+				largePersonHtml = htmlReader.ReadToEnd();
+			}
+			catch (Exception e) {
+				// must be an invalid Theme
+				throw new ApplicationException("Theme missing large/contact.html");
+			}
+
+
+			try {
+				htmlReader = new System.IO.StreamReader(System.IO.Path.Combine(stylePath, "large/action.html"));
+				largeActionHtml = htmlReader.ReadToEnd();
+			}
+			catch (Exception e) {
+				// must be an invalid Theme
+				throw new ApplicationException("Theme missing large/action.html");
+			}
+
+			try {
+				htmlReader = new System.IO.StreamReader(System.IO.Path.Combine(stylePath, "large/datasection.html"));
+				largeDataSectionHtml = htmlReader.ReadToEnd();
+			}
+			catch (Exception e) {
+				// must be an invalid Theme
+				throw new ApplicationException("Theme missing large/datasection.html");
+			}
+
+			try {
+				htmlReader = new System.IO.StreamReader(System.IO.Path.Combine(stylePath, "large/singledataentry.html"));
+				largeSingleDataEntryHtml = htmlReader.ReadToEnd();
+			}
+			catch (Exception e) {
+				// must be an invalid Theme
+				throw new ApplicationException("Theme missing large/singledataentry.html");
+			}
+
+			try {
+				htmlReader = new System.IO.StreamReader(System.IO.Path.Combine(stylePath, "large/titledataentry.html"));
+				largeTitleDataEntryHtml = htmlReader.ReadToEnd();
+			}
+			catch (Exception e) {
+				// must be an invalid Theme
+				throw new ApplicationException("Theme missing large/titledataentry.html");
+			}			
+
+
+			largeTextGraphic = System.IO.Path.Combine(stylePath, "large/text.png");
+			if (!File.Exists (largeTextGraphic)) {
+				largeTextGraphic = System.IO.Path.Combine(stylePath, "text.png");
+				if (!File.Exists (largeTextGraphic)) {
+					throw new ApplicationException("Theme missing large text.png");
+				}
+			}
+
+			largeVideoGraphic = System.IO.Path.Combine(stylePath, "large/video.png");
+			if (!File.Exists (largeVideoGraphic)) {
+				largeVideoGraphic = System.IO.Path.Combine(stylePath, "video.png");
+				if (!File.Exists (largeVideoGraphic)) {
+					throw new ApplicationException("Theme missing large video.png");
+				}
+			}
+
+			largeBlankHead = System.IO.Path.Combine(stylePath, "large/blankhead.png");
+			if (!File.Exists (largeBlankHead)) {
+				largeBlankHead = System.IO.Path.Combine(stylePath, "blankhead.png");
+				if (!File.Exists (largeBlankHead)) {
+					throw new ApplicationException("Theme missing large blankhead.png");
+				}
+			}
+			
+			
+		}
+
+
+		///<summary>
+		///	Reads the MediumHtml from the Theme
 		///</summary>	
 		private void ReadMediumHtml()
 		{

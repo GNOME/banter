@@ -1,5 +1,12 @@
 2007-05-22  Calvin Gaisford <calvinrg@gmail.com> 
 
+	* data/Themes/ContactStyles/basic.tar.gz: Updated Style to contain
+	  Large Theme
+	* Banter/ContactStyle.cs: Added support for new Large PersonCard
+	* Banter/PersonCard.cs: Added support for large PersonCard
+
+2007-05-22  Calvin Gaisford <calvinrg@gmail.com> 
+
 	* Banter/ChatWindow.cs: Added a PersonCard with Medium height to chat
 	  window
 
