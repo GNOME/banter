@@ -135,8 +135,18 @@ namespace Banter
 		{
 //			Console.WriteLine("OnSizeRequested being called");
 			base.OnSizeRequested(ref requisition);
-			requisition.Height = 26;
-			requisition.Width = 128;
+			switch(cardSize) {
+				default:
+				case PersonCardSize.Small:
+					requisition.Height = 26;
+					requisition.Width = 128;
+					break;
+				case PersonCardSize.Medium:
+				case PersonCardSize.Large:
+					requisition.Height = 64;
+					requisition.Width = 75;
+					break;
+			}
 		}		
 
 

@@ -35,10 +35,16 @@ namespace Banter
 		#region Private Types
 		private ContactStyleInfo styleInfo;
 		private string stylePath;
-		private string normalPersonHtml;
-		private string normalActionHtml;
+		private string mediumPersonHtml;
+		private string mediumActionHtml;
+		private string mediumTextGraphic;
+		private string mediumVideoGraphic;
+		private string mediumBlankHead;
 		private string smallPersonHtml;
-		private string smallActionHtml;	
+		private string smallActionHtml;
+		private string smallTextGraphic;
+		private string smallVideoGraphic;
+		private string smallBlankHead;		
 		#endregion
 
 
@@ -88,7 +94,7 @@ namespace Banter
 			
 			this.stylePath = tmpPath;
 
-			ReadNormalHtml();
+			ReadMediumHtml();
 			ReadSmallHtml();		
 		}
 		#endregion
@@ -119,33 +125,37 @@ namespace Banter
 			string widgetHtml = string.Empty;
 			string textChatPng;
 			string videoChatPng;
+			string blankHeadPng;
 			string personHtml;
 			string actionHtml;
 			int avatarSize = 0;
 			string tmpHtml;
-			
+
 			switch(size) {
 				default:
 				case PersonCardSize.Small:
-					textChatPng = "text-chat-small.png";
-					videoChatPng = "video-chat-small.png";
+					textChatPng = smallTextGraphic;
+					videoChatPng = smallVideoGraphic;
+					blankHeadPng = smallBlankHead;
 					personHtml = smallPersonHtml;
 					actionHtml = smallActionHtml;
 					avatarSize = 16;
 					break;
 				case PersonCardSize.Medium:
-					textChatPng = "text-chat.png";
-					videoChatPng = "video-chat.png";
-					personHtml = normalPersonHtml;
-					actionHtml = normalActionHtml;
+					textChatPng = mediumTextGraphic;
+					videoChatPng = mediumVideoGraphic;
+					blankHeadPng = mediumBlankHead;
+					personHtml = mediumPersonHtml;
+					actionHtml = mediumActionHtml;
 					avatarSize = 48;
 					break;
 				// Haven't created any Large, just use Medium
 				case PersonCardSize.Large:
-					textChatPng = "text-chat.png";
-					videoChatPng = "video-chat.png";
-					personHtml = normalPersonHtml;
-					actionHtml = normalActionHtml;
+					textChatPng = mediumTextGraphic;
+					videoChatPng = mediumVideoGraphic;
+					blankHeadPng = mediumBlankHead;
+					personHtml = mediumPersonHtml;
+					actionHtml = mediumActionHtml;
 					avatarSize = 48;					
 					break;
 			}
@@ -156,7 +166,7 @@ namespace Banter
 				tmpHtml = personHtml.Replace("%PERSON_PHOTO%", "file://" + avatar);
 			}
 			else {
-				tmpHtml = personHtml.Replace("%PERSON_PHOTO%", "file://" + System.IO.Path.Combine(stylePath, "blankhead.png"));
+				tmpHtml = personHtml.Replace("%PERSON_PHOTO%", "file://" + blankHeadPng);
 			}
 			
 			tmpHtml = tmpHtml.Replace("%PERSON_DISPLAY_NAME%",  person.DisplayName);
@@ -184,11 +194,11 @@ namespace Banter
 				string tmpActionHtml;			
 
 				tmpHtml = actionHtml.Replace("%ACTION_HREF%", "rtc://TEXT_CHAT");
-				tmpHtml = tmpHtml.Replace("%ACTION_IMAGE%", "file://" + System.IO.Path.Combine(stylePath, textChatPng));
+				tmpHtml = tmpHtml.Replace("%ACTION_IMAGE%", "file://" + textChatPng);
 				tmpActionHtml = tmpHtml;
 				
 				tmpHtml = actionHtml.Replace("%ACTION_HREF%", "rtc://VIDEO_CHAT");
-				tmpHtml = tmpHtml.Replace("%ACTION_IMAGE%", "file://" + System.IO.Path.Combine(stylePath, videoChatPng));
+				tmpHtml = tmpHtml.Replace("%ACTION_IMAGE%", "file://" + videoChatPng);
 				tmpActionHtml += tmpHtml;
 
 				widgetHtml = widgetHtml.Replace("<!--ACTION_DATA-->", tmpActionHtml);
@@ -203,28 +213,53 @@ namespace Banter
 		///<summary>
 		///	Reads the NormalHtml from the Theme
 		///</summary>	
-		private void ReadNormalHtml()
+		private void ReadMediumHtml()
 		{
 			System.IO.StreamReader htmlReader;
 			
 			try {
-				htmlReader = new System.IO.StreamReader(System.IO.Path.Combine(stylePath, "person.html"));
-				normalPersonHtml = htmlReader.ReadToEnd();
+				htmlReader = new System.IO.StreamReader(System.IO.Path.Combine(stylePath, "medium/contact.html"));
+				mediumPersonHtml = htmlReader.ReadToEnd();
 			}
 			catch (Exception e) {
 				// must be an invalid Theme
-				throw new ApplicationException("Theme missing person.html");
+				throw new ApplicationException("Theme missing medium/contact.html");
 			}
 
 
 			try {
-				htmlReader = new System.IO.StreamReader(System.IO.Path.Combine(stylePath, "action.html"));
-				normalActionHtml = htmlReader.ReadToEnd();
+				htmlReader = new System.IO.StreamReader(System.IO.Path.Combine(stylePath, "medium/action.html"));
+				mediumActionHtml = htmlReader.ReadToEnd();
 			}
 			catch (Exception e) {
 				// must be an invalid Theme
-				throw new ApplicationException("Theme missing action.html");
+				throw new ApplicationException("Theme missing medium/action.html");
 			}
+
+
+			mediumTextGraphic = System.IO.Path.Combine(stylePath, "medium/text.png");
+			if (!File.Exists (mediumTextGraphic)) {
+				mediumTextGraphic = System.IO.Path.Combine(stylePath, "text.png");
+				if (!File.Exists (mediumTextGraphic)) {
+					throw new ApplicationException("Theme missing medium text.png");
+				}
+			}
+
+			mediumVideoGraphic = System.IO.Path.Combine(stylePath, "medium/video.png");
+			if (!File.Exists (mediumVideoGraphic)) {
+				mediumVideoGraphic = System.IO.Path.Combine(stylePath, "video.png");
+				if (!File.Exists (mediumVideoGraphic)) {
+					throw new ApplicationException("Theme missing medium video.png");
+				}
+			}
+
+			mediumBlankHead = System.IO.Path.Combine(stylePath, "medium/blankhead.png");
+			if (!File.Exists (mediumBlankHead)) {
+				mediumBlankHead = System.IO.Path.Combine(stylePath, "blankhead.png");
+				if (!File.Exists (mediumBlankHead)) {
+					throw new ApplicationException("Theme missing medium blankhead.png");
+				}
+			}			
 		}
 
 
@@ -236,23 +271,46 @@ namespace Banter
 			System.IO.StreamReader htmlReader;
 			
 			try {
-				htmlReader = new System.IO.StreamReader(System.IO.Path.Combine(stylePath, "person-small.html"));
+				htmlReader = new System.IO.StreamReader(System.IO.Path.Combine(stylePath, "small/contact.html"));
 				smallPersonHtml = htmlReader.ReadToEnd();
 			}
 			catch (Exception e) {
 				// must be an invalid Theme
-				throw new ApplicationException("Theme missing person-small.html");
+				throw new ApplicationException("Theme missing small/contact.html");
 			}
 
 
 			try {
-				htmlReader = new System.IO.StreamReader(System.IO.Path.Combine(stylePath, "action-small.html"));
+				htmlReader = new System.IO.StreamReader(System.IO.Path.Combine(stylePath, "small/action.html"));
 				smallActionHtml = htmlReader.ReadToEnd();
 			}
 			catch (Exception e) {
 				// must be an invalid Theme
-				throw new ApplicationException("Theme missing action-small.html");
+				throw new ApplicationException("Theme missing small/action.html");
 			}
+			smallTextGraphic = System.IO.Path.Combine(stylePath, "small/text.png");
+			if (!File.Exists (smallTextGraphic)) {
+				smallTextGraphic = System.IO.Path.Combine(stylePath, "text.png");
+				if (!File.Exists (smallTextGraphic)) {
+					throw new ApplicationException("Theme missing small text.png");
+				}
+			}
+
+			smallVideoGraphic = System.IO.Path.Combine(stylePath, "small/video.png");
+			if (!File.Exists (smallVideoGraphic)) {
+				smallVideoGraphic = System.IO.Path.Combine(stylePath, "video.png");
+				if (!File.Exists (smallVideoGraphic)) {
+					throw new ApplicationException("Theme missing small video.png");
+				}
+			}
+
+			smallBlankHead = System.IO.Path.Combine(stylePath, "small/blankhead.png");
+			if (!File.Exists (smallBlankHead)) {
+				smallBlankHead = System.IO.Path.Combine(stylePath, "blankhead.png");
+				if (!File.Exists (smallBlankHead)) {
+					throw new ApplicationException("Theme missing small blankhead.png");
+				}
+			}			
 		}
 		#endregion
 

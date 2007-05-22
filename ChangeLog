@@ -1,5 +1,14 @@
 2007-05-22  Calvin Gaisford <calvinrg@gmail.com> 
 
+	* data/Themes/ContactStyles/basic.tar.gz: Updated ContactStyleBasic to
+	  support Medium Contacts Size
+	* Banter/ContactStyle.cs: Added code to really load ContactSytles in
+	  multiple sizes
+	* Banter/PersonCard.cs: Added support to size of multiple ContactStyle
+	  Sizes
+
+2007-05-22  Calvin Gaisford <calvinrg@gmail.com> 
+
 	* Banter/GroupWindow.cs: Changed the way the initial Everyone Group is
 	  selected so it works for the init and when selected.
 
