@@ -1,3 +1,9 @@
+2007-05-23  Calvin Gaisford <calvinrg@gmail.com> 
+
+	* data/Themes/ContactStyles/basic.tar.gz: Updated the Medium Style so
+	  the names are no so large
+	* Banter/ContactStyle.cs: Changed the avatar size for Medium
+
 2007-05-22  Calvin Gaisford <calvinrg@gmail.com> 
 
 	* data/Themes/ContactStyles/basic.tar.gz: Updated Style to contain

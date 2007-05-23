@@ -165,7 +165,7 @@ namespace Banter
 					dataHtml = null;
 					titleDataHtml = null;
 					singleDataHtml = null;					
-					avatarSize = 48;
+					avatarSize = 36;
 					break;
 				// Haven't created any Large, just use Medium
 				case PersonCardSize.Large:
