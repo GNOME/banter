@@ -1,3 +1,8 @@
+2007-05-23  Boyd Timothy <btimothy@gmail.com> 
+
+	* Banter/Makefile.am: Renamed CLEAN_FILES to CLEANFILES so that make
+	  clean would work.
+
 2007-05-23  Calvin Gaisford <calvinrg@gmail.com> 
 
 	* data/Themes/ContactStyles/basic-black.tar.gz: updated to the new

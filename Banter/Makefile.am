@@ -124,7 +124,7 @@ EXTRA_DIST = \
 	$(srcdir)/Defines.cs.in		\
 	$(srcdir)/UIManagerLayout.xml 
 
-CLEAN_FILES = \
+CLEANFILES = \
 	$(TARGET)					\
 	$(TARGET).mdb				\
 	$(WRAPPER)					\
