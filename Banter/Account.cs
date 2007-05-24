@@ -30,7 +30,6 @@ using System.Threading;
 using NDesk.DBus;
 using org.freedesktop.DBus;
 using org.freedesktop.Telepathy;
-using Tapioca;
 
 namespace Banter
 {
@@ -81,7 +80,6 @@ namespace Banter
 		protected bool presence = false;
 		protected bool privacy = false;
 
-		protected Tapioca.Connection tapConnection = null;
 		protected ManualResetEvent connectedEvent = null;
 		protected Dictionary<string, object> options;	
 		
@@ -157,12 +155,7 @@ namespace Banter
 			get {return port;}
 			set {port = value;}
 		}
-		
-		public Tapioca.Connection TapiocaConnection
-		{
-			get {return tapConnection;}
-		}
-		
+	
 		public org.freedesktop.Telepathy.IConnection TlpConnection
 		{
 			get {return tlpConnection;}
@@ -391,11 +384,11 @@ namespace Banter
 				tlpConnection.RequestPresence (cl.Members);
 		}
 		
-		protected void ConnectHandlers ()
+		private void ConnectHandlers ()
 		{
 			Logger.Debug ("Account::ConnectHandlers");
 			
-			tlpConnection.NewChannel += OnNewTPChannel;
+			this.tlpConnection.NewChannel += OnNewChannel;
 			channelConnected = true;
 			
 			if (aliasing == true) {
@@ -414,28 +407,33 @@ namespace Banter
 			}
 		}
 		
-		protected void DisconnectHandlers ()
+		private void DisconnectHandlers ()
 		{
 			Logger.Debug ("Account::DisconnectHandlers");
 			
-			if (avatarsConnected == true) {
-				tlpConnection.AvatarUpdated -= OnAvatarUpdated;
-				avatarsConnected = false;
-			}
-			
-			if (presenceConnected == true) {
-				tlpConnection.PresenceUpdate -= OnPresenceUpdate;
-				presenceConnected = false;
-			}
-			
-			if (aliasConnected == true) {
-				tlpConnection.AliasesChanged -= OnAliasesChanged;
-				aliasConnected = false;
-			}
-			
-			if (channelConnected == true) {
-				tlpConnection.NewChannel -= OnNewTPChannel;
-				channelConnected = false;
+			try {
+				if (avatarsConnected == true) {
+					tlpConnection.AvatarUpdated -= OnAvatarUpdated;
+					avatarsConnected = false;
+				}
+				
+				if (presenceConnected == true) {
+					tlpConnection.PresenceUpdate -= OnPresenceUpdate;
+					presenceConnected = false;
+				}
+				
+				if (aliasConnected == true) {
+					tlpConnection.AliasesChanged -= OnAliasesChanged;
+					aliasConnected = false;
+				}
+				
+				if (channelConnected == true) {
+					tlpConnection.NewChannel -= OnNewChannel;
+					channelConnected = false;
+				}
+			} catch (Exception dh) {
+				Logger.Debug (dh.Message);
+				Logger.Debug (dh.StackTrace);
 			}
 		}
 		
@@ -535,9 +533,9 @@ namespace Banter
 		}
 		
 		/// <summary>
-		/// Callback when new channels are created
+		/// Telepathy callback when new channels are created
 		/// </summary>
-		private void OnNewTPChannel (
+		private void OnNewChannel (
 						ObjectPath channelPath,
 						string channelType,
 						HandleType handleType,
@@ -659,10 +657,15 @@ namespace Banter
 		{
 			Logger.Debug ("Account::Disconnect - called");
 			if (connected == true && tlpConnection != null) {
-				//DisconnectHandlers ();
-				Logger.Debug ("Calling telepathy disconnect");
-				tlpConnection.Disconnect ();
-				Logger.Debug ("out of telepathy disconnect");
+				try {
+					//DisconnectHandlers ();
+					Logger.Debug ("Calling telepathy disconnect");
+					tlpConnection.Disconnect ();
+					Logger.Debug ("out of telepathy disconnect");
+				} catch (Exception dis) {
+					Logger.Debug (dis.Message);
+					Logger.Debug (dis.StackTrace);
+				}
 			}
 				
 			connected = false;

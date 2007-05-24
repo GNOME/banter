@@ -77,7 +77,6 @@ namespace Banter
 		internal Conversation (Account account, Person peer, ProviderUser peerUser, bool initiate)
 		{
 			this.account = account;
-			this.tapConnection = account.TapiocaConnection;
 			this.tlpConnection = account.TlpConnection;
 			this.peerUser = peerUser;
 			this.messages = new List<Message> ();

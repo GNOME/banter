@@ -1,5 +1,10 @@
 2007-05-24  Brady Anderson <banderso@novell.com> 
 
+	* Banter/Account.cs: Removed all references to Tapioca
+	* Banter/Conversation.cs: Removed reference to TapiocaConnection
+
+2007-05-24  Brady Anderson <banderso@novell.com> 
+
 	* Banter/Account.cs: Commented out DisconnectHandlers() temporarily. 
 	  It's trapping and thus preventing the closing of our telepathy
 	  connection
