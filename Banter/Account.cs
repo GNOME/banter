@@ -245,34 +245,6 @@ namespace Banter
 						SetupMe ();
 						SetupProviderUsers ();
 						AdvertiseCapabilities ();
-						
-						/*
-						Logger.Debug ("ME - uri: {0}", tlpConnection.Status);
-						Logger.Debug ("ME - alias: {0}", tapConnection.Info.Alias);
-						Logger.Debug ("ME - caps: {0}", tapConnection.Info.Capabilities.ToString());
-						Logger.Debug ("ME - avatar token: {0}", tapConnection.Info.CurrentAvatarToken);
-						
-						Logger.Debug ("# Subscribed Contacts: {0}", tapConnection.ContactList.SubscribedContacts.Length);
-						Logger.Debug ("# Known Contacts: {0}", tapConnection.ContactList.KnownContacts.Length);
-						*/
-
-						// Add me to the list
-							
-	
-						/*
-						try {
-							string meKey = 
-								ProviderUserManager.CreateKey (tapConnection.Info.Uri, this.protocol);
-							ProviderUser me = new Banter.ProviderUser ();
-							me.AccountName = this.Name;
-							me.Alias = tapConnection.Info.Alias;
-							me.Protocol = this.protocol;
-							me.Uri = tapConnection.Info.Uri;
-							me.IsMe = true;
-							me.Presence = new Banter.Presence (Banter.PresenceType.Available);
-							ProviderUserManager.AddProviderUser (meKey, me);
-						} catch{}
-						*/
 							
 		                // Setup handlers for incoming conversations
 		                //sender.ChannelCreated += OnNewChannel;
@@ -369,7 +341,6 @@ namespace Banter
 		
 		protected void SetupProviderUsers ()
 		{
-			Logger.Debug ("trying to get the buddy list");
 			//string[] args = {"subscribe"};
 			string[] args = {"known"};
 			uint[] memberHandles = tlpConnection.RequestHandles (HandleType.List, args);
@@ -380,7 +351,7 @@ namespace Banter
 					memberHandles[0], 
 					true);
 					
-			Logger.Debug ("#handles: {0}", memberHandles.Length);
+			Logger.Debug ("# known contacts: {0}", memberHandles.Length);
 					
 			IChannelGroup cl = Bus.Session.GetObject<IChannelGroup> (connInfo.BusName, op);
 			string[] members = tlpConnection.InspectHandles (HandleType.Contact, cl.Members);
@@ -402,6 +373,8 @@ namespace Banter
 				try {
 					providerUser = ProviderUserManager.GetProviderUser (key);
 					providerUser.TlpConnection = tlpConnection;
+					providerUser.AccountName = this.Name;
+					providerUser.Protocol = this.Protocol;
 					providerUser.ID = cl.Members[i];
 					if (aliasing == true && aliasNames != null)
 						providerUser.Alias = aliasNames[i];
@@ -493,24 +466,14 @@ namespace Banter
 		
 		/// <summary>
 		///	Telepathy callback when an Avatar has changed
+		/// Changing the token property in ProviderUser will force
+		/// all registered providers to get called back on the change
 		/// </summary>
 		private void OnAvatarUpdated (uint id, string token)
 		{
 			ProviderUser user = ProviderUserManager.GetProviderUser (id);
 			if (user != null)
 				user.AvatarToken = token;
-		}
-		
-		private void OnAvatarUpdate (string avatarToken)
-		{
-			/*
-			ProviderUser user;
-			foreach (AliasInfo info in aliases) {
-				user = ProviderUserManager.GetProviderUser (info.ContactHandle);
-				if (user != null)
-					user.Alias = info.NewAlias;
-			}
-			*/
 		}
 		
 		/// <summary>
@@ -549,6 +512,12 @@ namespace Banter
 					break;
 			}
 
+			Logger.Debug (
+				"Updating presence for: {0} to {1}:{2}", 
+				user.Uri, 
+				banterPresence.Type.ToString(), 
+				banterPresence.Message);
+				
 			user.Presence = banterPresence;
 		}
 	

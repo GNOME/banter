@@ -1,3 +1,7 @@
+2007-05-24  Brady Anderson <banderso@novell.com> 
+
+	* Banter/Account.cs: added presence debug messages
+
 2007-05-23  Brady Anderson <banderso@novell.com> 
 
 	* Banter.mdp, Banter/AccountManagement.cs, Banter/Account.cs,
