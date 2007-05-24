@@ -1,5 +1,10 @@
 2007-05-24  Brady Anderson <banderso@novell.com> 
 
+	* Banter/ProviderUserManager.cs: Added a static method to get all
+	  ProviderUser objects which are flagged as me
+
+2007-05-24  Brady Anderson <banderso@novell.com> 
+
 	* Banter/Account.cs: Removed all references to Tapioca
 	* Banter/Conversation.cs: Removed reference to TapiocaConnection
 

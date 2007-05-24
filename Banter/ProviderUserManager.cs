@@ -19,7 +19,6 @@
 // *
 // **********************************************************************
 
-
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -164,12 +163,19 @@ namespace Banter
 		
 		
 		/// <summary>
-		/// Gets the ProviderUser for the specified key
-		/// The key is basically "Uri:Provider"
+		/// Gets a list of all Me ProviderUser objects
 		/// </summary>	
-		public static ProviderUser[] GetMe()
+		public static IList <ProviderUser> GetMe()
 		{
-			return null;
+			List<ProviderUser> users = new List<ProviderUser> ();
+
+			lock(locker) {			
+				foreach (ProviderUser cUser in ProviderUserManager.Instance.users.Values)
+					if (cUser.IsMe == true)
+						users.Add (cUser);
+			}
+			
+			return users;
 		}		
 
 
