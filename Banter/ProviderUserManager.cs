@@ -101,6 +101,25 @@ namespace Banter
 			return user;
 		}
 
+		/// <summary>
+		/// Gets the ProviderUser based on the instance ID
+		/// </summary>	
+		public static ProviderUser GetProviderUser(uint id)
+		{
+			ProviderUser user = null;
+
+			lock(locker) {			
+	
+				foreach (ProviderUser cUser in ProviderUserManager.Instance.users.Values) {
+					if (cUser.ID == id) {
+						user = cUser;
+						break;
+					}
+				}
+			}
+			return user;
+		}
+
 
 		/// <summary>
 		/// Adds the ProviderUser for the given key

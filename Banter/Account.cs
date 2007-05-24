@@ -29,6 +29,7 @@ using System.Threading;
 
 using NDesk.DBus;
 using org.freedesktop.DBus;
+using org.freedesktop.Telepathy;
 using Tapioca;
 
 namespace Banter
@@ -59,6 +60,27 @@ namespace Banter
 		protected string server;
 		protected string port;
 		protected string protocol;
+		protected string busName;
+		protected ConnectionInfo connInfo;
+		protected IConnection tlpConnection;
+		protected IConnectionManager connManager;
+
+		// Connected Handlers
+		protected bool aliasConnected = false;
+		protected bool avatarsConnected = false;
+		protected bool channelConnected = false;
+		protected bool presenceConnected = false;
+		protected bool messagingConnected = false;
+		
+		// Supported interfaces
+		protected bool aliasing = false;
+		protected bool avatars = false;
+		protected bool capabilities = false;
+		protected bool forwarding = false;
+		protected bool renaming = false;
+		protected bool presence = false;
+		protected bool privacy = false;
+
 		protected Tapioca.Connection tapConnection = null;
 		protected ManualResetEvent connectedEvent = null;
 		protected Dictionary<string, object> options;	
@@ -83,6 +105,11 @@ namespace Banter
 		{
 			get {return remember;}
 			set {remember = value;}
+		}
+		
+		public string BusName
+		{
+			get {return busName;}
 		}
 		
 		public bool Default
@@ -136,21 +163,525 @@ namespace Banter
 			get {return tapConnection;}
 		}
 		
+		public org.freedesktop.Telepathy.IConnection TlpConnection
+		{
+			get {return tlpConnection;}
+		}
+		
 		#region Constructors
 		public Account ()
 		{
 			autoLogin = false;
-			
-			
 		}
 		
 		public Account (string protocol)
 		{
 			this.protocol = protocol;
-			
 		}
 		#endregion
+
+		/// <summary>
+		/// This method should be called immediately
+		/// after a successful connect as other private
+		/// methods depend on it
+		/// </summary>
+		protected void SetupSupportedInterfaces ()
+		{
+			foreach (string iname in tlpConnection.Interfaces)
+			{
+				switch (iname)
+				{
+					case "org.freedesktop.Telepathy.Connection.Interface.Aliasing":
+						aliasing = true;
+						break;
+					case "org.freedesktop.Telepathy.Connection.Interface.Avatars":
+						avatars = true;
+						break;
+					case "org.freedesktop.Telepathy.Connection.Interface.Capabilities":
+						capabilities = true;
+						break;
+					case "org.freedesktop.Telepathy.Connection.Interface.Forwarding":
+						forwarding = true;
+						break;
+					case "org.freedesktop.Telepathy.Connection.Interface.Renaming":
+						renaming = true;
+						break;
+					case "org.freedesktop.Telepathy.Connection.Interface.Presence":
+						presence = true;
+						break;
+					case "org.freedesktop.Telepathy.Connection.Interface.Privacy":
+						privacy = true;
+						break;
+					default:
+						Logger.Debug ("Interface {0} is unknown", iname);
+						break;
+				}
+			}
+		}
+
+		/// <summary>
+		/// Telepathy callback when state is changing on the connection
+		/// </summary>
+		protected void OnConnectionStateChanged (
+			org.freedesktop.Telepathy.ConnectionStatus status, 
+			org.freedesktop.Telepathy.ConnectionStatusReason reason)
+		{
+			Logger.Debug ("Connection state changed, Status: {0}, Reason: {1}", status, reason);
+			
+			switch (status)
+			{
+				case org.freedesktop.Telepathy.ConnectionStatus.Connecting:
+				{
+					break;
+				}
+				
+				case org.freedesktop.Telepathy.ConnectionStatus.Connected:
+				{
+					Logger.Debug ("  in connected");
+					
+					try
+					{
+						SetupSupportedInterfaces ();
+						SetupMe ();
+						SetupProviderUsers ();
+						AdvertiseCapabilities ();
+						
+						/*
+						Logger.Debug ("ME - uri: {0}", tlpConnection.Status);
+						Logger.Debug ("ME - alias: {0}", tapConnection.Info.Alias);
+						Logger.Debug ("ME - caps: {0}", tapConnection.Info.Capabilities.ToString());
+						Logger.Debug ("ME - avatar token: {0}", tapConnection.Info.CurrentAvatarToken);
+						
+						Logger.Debug ("# Subscribed Contacts: {0}", tapConnection.ContactList.SubscribedContacts.Length);
+						Logger.Debug ("# Known Contacts: {0}", tapConnection.ContactList.KnownContacts.Length);
+						*/
+
+						// Add me to the list
+							
+	
+						/*
+						try {
+							string meKey = 
+								ProviderUserManager.CreateKey (tapConnection.Info.Uri, this.protocol);
+							ProviderUser me = new Banter.ProviderUser ();
+							me.AccountName = this.Name;
+							me.Alias = tapConnection.Info.Alias;
+							me.Protocol = this.protocol;
+							me.Uri = tapConnection.Info.Uri;
+							me.IsMe = true;
+							me.Presence = new Banter.Presence (Banter.PresenceType.Available);
+							ProviderUserManager.AddProviderUser (meKey, me);
+						} catch{}
+						*/
+							
+		                // Setup handlers for incoming conversations
+		                //sender.ChannelCreated += OnNewChannel;
+		                this.connected = true;
+					}
+					catch (Exception on)
+					{	
+						Logger.Debug (on.Message);
+						Logger.Debug (on.StackTrace);
+					}
+					
+					if (this.connectedEvent != null)
+						this.connectedEvent.Set();
+						
+					break;
+				}
+				
+				case org.freedesktop.Telepathy.ConnectionStatus.Disconnected:
+				{
+					/*
+					DisconnectHandlers ();
+					if (tlpConnection != null) {
+						tlpConnection.Disconnect();
+						tlpConnection = null;
+					}
+					*/
+						
+					break;
+				}
+			}
+			
+		}
+
+		protected void AdvertiseCapabilities ()
+		{
+			// FIXME - For now we have all caps
+			LocalCapabilityInfo[] info = new LocalCapabilityInfo[2];
+			info[0].ChannelType = (string) org.freedesktop.Telepathy.ChannelType.Text;
+			info[1].ChannelType = (string) org.freedesktop.Telepathy.ChannelType.StreamedMedia;
+			info[1].TypeSpecificFlags = 
+				ChannelMediaCapability.Audio | ChannelMediaCapability.Video;
 		
+			tlpConnection.AdvertiseCapabilities (info, new string[0]);						
+		}
+		
+		protected void SetupMe ()
+		{
+			string[] aliasNames = null;
+	
+			try {
+
+				string uri = options["account"] as string;
+				if (aliasing == true) {
+					uint[] ids = { tlpConnection.SelfHandle };
+					aliasNames = tlpConnection.RequestAliases (ids);
+				}	
+
+				string meKey = ProviderUserManager.CreateKey (uri, protocol);
+				ProviderUser me = null;				
+				try {
+					me = ProviderUserManager.GetProviderUser (meKey);
+					me.TlpConnection = tlpConnection;
+					me.ID = tlpConnection.SelfHandle;
+					me.Protocol = protocol;
+					me.IsMe = true;
+					me.Presence = new Banter.Presence (Banter.PresenceType.Available);
+					if (aliasNames != null)
+						me.Alias = aliasNames[0];
+				} 
+				catch{}
+					
+				if (me == null) {
+					try {
+					
+						me = new Banter.ProviderUser (tlpConnection, tlpConnection.SelfHandle);
+						me.Uri = uri;
+						me.AccountName = this.Name;
+						me.Protocol = this.protocol;
+						me.IsMe = true;
+						me.Presence = new Banter.Presence (Banter.PresenceType.Available);
+						if (aliasNames != null)
+							me.Alias = aliasNames[0];
+						ProviderUserManager.AddProviderUser (meKey, me);
+					} catch{}
+				}
+				
+				Logger.Debug ("Me Alias: {0}", me.Alias);
+			} catch (Exception sm) {
+				Logger.Debug ("Failed in SetupMe");
+				Logger.Debug (sm.Message);
+				Logger.Debug (sm.StackTrace);
+			}
+		}
+		
+		protected void SetupProviderUsers ()
+		{
+			Logger.Debug ("trying to get the buddy list");
+			//string[] args = {"subscribe"};
+			string[] args = {"known"};
+			uint[] memberHandles = tlpConnection.RequestHandles (HandleType.List, args);
+			ObjectPath op = 
+				tlpConnection.RequestChannel (
+					org.freedesktop.Telepathy.ChannelType.ContactList, 
+					HandleType.List, 
+					memberHandles[0], 
+					true);
+					
+			Logger.Debug ("#handles: {0}", memberHandles.Length);
+					
+			IChannelGroup cl = Bus.Session.GetObject<IChannelGroup> (connInfo.BusName, op);
+			string[] members = tlpConnection.InspectHandles (HandleType.Contact, cl.Members);
+			
+			string[] aliasNames = null;
+			if (aliasing == true) {
+				aliasNames = tlpConnection.RequestAliases (cl.Members);
+				Logger.Debug ("# returned aliases: {0}", aliasNames.Length);	
+			}	
+
+			Logger.Debug ("# of known contacts: {0}", members.Length);
+			for (int i = 0; i < members.Length; i++) {
+				Logger.Debug ("MemberID: {0} Member: {1}", cl.Members[i], members[i]);
+				
+				// update the provider user objects
+				string key = ProviderUserManager.CreateKey (members[i], protocol);
+						
+				ProviderUser providerUser = null;
+				try {
+					providerUser = ProviderUserManager.GetProviderUser (key);
+					providerUser.TlpConnection = tlpConnection;
+					providerUser.ID = cl.Members[i];
+					if (aliasing == true && aliasNames != null)
+						providerUser.Alias = aliasNames[i];
+				} 
+				catch (Exception fff) {
+					Logger.Debug ("Failed to get ProviderUser {0}", key);
+					Logger.Debug (fff.Message);
+				}
+					
+				if (providerUser == null) {
+					try {
+						providerUser = new ProviderUser (tlpConnection, cl.Members[i]);
+						providerUser.AccountName = this.Name;
+						providerUser.Protocol = this.Protocol;
+						providerUser.Uri = members[i];
+						if (aliasing == true && aliasNames != null)
+							providerUser.Alias = aliasNames[i];
+						
+						ProviderUserManager.AddProviderUser (key, providerUser);
+					} catch{}
+				}
+			}
+			
+			ConnectHandlers ();
+			if (presence == true)
+				tlpConnection.RequestPresence (cl.Members);
+		}
+		
+		protected void ConnectHandlers ()
+		{
+			Logger.Debug ("Account::ConnectHandlers");
+			
+			tlpConnection.NewChannel += OnNewTPChannel;
+			channelConnected = true;
+			
+			if (aliasing == true) {
+				tlpConnection.AliasesChanged += OnAliasesChanged;
+				aliasConnected = true;
+			}
+			
+			if (presence == true) {
+				tlpConnection.PresenceUpdate += OnPresenceUpdate;
+				presenceConnected = true;
+			}
+			
+			if (avatars == true) {
+				tlpConnection.AvatarUpdated += OnAvatarUpdated;
+				avatarsConnected = true;
+			}
+		}
+		
+		protected void DisconnectHandlers ()
+		{
+			Logger.Debug ("Account::DisconnectHandlers");
+			
+			if (avatarsConnected == true) {
+				tlpConnection.AvatarUpdated -= OnAvatarUpdated;
+				avatarsConnected = false;
+			}
+			
+			if (presenceConnected == true) {
+				tlpConnection.PresenceUpdate -= OnPresenceUpdate;
+				presenceConnected = false;
+			}
+			
+			if (aliasConnected == true) {
+				tlpConnection.AliasesChanged -= OnAliasesChanged;
+				aliasConnected = false;
+			}
+			
+			if (channelConnected == true) {
+				tlpConnection.NewChannel -= OnNewTPChannel;
+				channelConnected = false;
+			}
+		}
+		
+		/// <summary>
+		///	Telepathy callback when a alias has changed on a contact
+		/// </summary>
+		private void OnAliasesChanged (AliasInfo[] aliases)
+		{
+			ProviderUser user;
+			foreach (AliasInfo info in aliases) {
+				user = ProviderUserManager.GetProviderUser (info.ContactHandle);
+				if (user != null)
+					user.Alias = info.NewAlias;
+			}
+		}
+		
+		/// <summary>
+		///	Telepathy callback when an Avatar has changed
+		/// </summary>
+		private void OnAvatarUpdated (uint id, string token)
+		{
+			ProviderUser user = ProviderUserManager.GetProviderUser (id);
+			if (user != null)
+				user.AvatarToken = token;
+		}
+		
+		private void OnAvatarUpdate (string avatarToken)
+		{
+			/*
+			ProviderUser user;
+			foreach (AliasInfo info in aliases) {
+				user = ProviderUserManager.GetProviderUser (info.ContactHandle);
+				if (user != null)
+					user.Alias = info.NewAlias;
+			}
+			*/
+		}
+		
+		/// <summary>
+		/// Private method to convert telepathy presence information into
+		/// a Banter.Presence object.  The ProviderUser object is updated with
+		/// the new presence information which will call all agents registered
+		/// for presence update
+		/// </summary>
+		private void UpdatePresence (ProviderUser user, string presence, string message)
+		{
+			Banter.Presence banterPresence = new Banter.Presence (Banter.PresenceType.Offline);
+			if (message != null && message != String.Empty)
+				banterPresence.Message = message;
+				
+			switch (presence)
+			{
+				case "available":
+					banterPresence.Type = Banter.PresenceType.Available;
+					break;
+				case "away":
+				case "brb":
+					banterPresence.Type = Banter.PresenceType.Away;
+					break;
+				case "busy":
+				case "dnd":
+					banterPresence.Type = Banter.PresenceType.Busy;
+					break;
+				case "xa":
+					banterPresence.Type = Banter.PresenceType.XA;
+					break;
+				case "hidden":
+					banterPresence.Type = Banter.PresenceType.Hidden;
+					break;
+				case "offline":
+				default:
+					break;
+			}
+
+			user.Presence = banterPresence;
+		}
+	
+		/// <summary>
+		/// Telepathy callback when presence has changed
+		/// </summary>
+		private void OnPresenceUpdate (IDictionary<uint, PresenceUpdateInfo> infos)
+		{
+			ProviderUser user;
+			foreach (KeyValuePair<uint, PresenceUpdateInfo> entry in infos)
+			{
+				user = ProviderUserManager.GetProviderUser (entry.Key);
+				if (user == null) continue;
+				
+				foreach (KeyValuePair<string, IDictionary<string, object>> info in entry.Value.info)
+				{
+					string message = String.Empty;
+					foreach (KeyValuePair<string, object> val in info.Value)
+					{
+						if (val.Key == "message")
+							message = val.Value as String;
+					}
+					
+					UpdatePresence (user, info.Key, message);
+				}
+			}
+		}
+		
+		/// <summary>
+		/// Callback when new channels are created
+		/// </summary>
+		private void OnNewTPChannel (
+						ObjectPath channelPath,
+						string channelType,
+						HandleType handleType,
+						uint handle,
+						bool suppressHandler)
+		{	
+			Logger.Debug ("New Channel {0}", channelType);
+			Logger.Debug ("Handle Type: {0}", handleType.ToString());
+			Logger.Debug ("Handle: {0}", handle);
+			Logger.Debug ("Suppress Handler: {0}", suppressHandler);
+			
+			Conversation conversation = null;
+			switch (channelType)
+			{
+				case org.freedesktop.Telepathy.ChannelType.Text:
+				{
+					if (handle == 0)
+						return;
+						
+					// Check if we have an existing conversation with the peer user
+					ProviderUser pu = null;
+					try {
+						pu = ProviderUserManager.GetProviderUser (handle);
+					} catch{}
+					
+					if (pu == null) return;
+					
+					if (ConversationManager.Exist (pu) == true) {
+						Logger.Debug ("An existing conversation with {0} already exists", pu.Uri);
+						return;
+					}
+					
+					Person peer = PersonStore.GetPersonByJabberId (pu.Uri);
+					ChatWindow cw = null;
+					
+					Logger.Debug ("Peer: {0}", peer.Id);
+					Logger.Debug ("Peer Name: {0}", peer.EDSContact.GivenName);
+					
+					if (ChatWindow.AlreadyExist (peer.Id) == true) { 
+						Logger.Debug ("ChatWindow already exists with this peer");
+						ChatWindow.PresentWindow (peer.Id);
+					} else {
+						try
+						{
+							Logger.Debug ("creating conversation object");
+							conversation = ConversationManager.Create (this, peer, false);
+							IChannelText txtChannel = 
+								Bus.Session.GetObject<IChannelText> (busName, channelPath);
+							
+							conversation.SetTextChannel (txtChannel);
+							Logger.Debug ("created new conversation object");
+						
+							cw = new ChatWindow (conversation);
+							cw.Present();
+						}
+						catch (Exception es)
+						{
+							Logger.Debug (es.Message);
+							Logger.Debug (es.StackTrace);
+						}
+					}
+					break;
+				}
+				
+				case org.freedesktop.Telepathy.ChannelType.StreamedMedia:
+				{
+					/*
+					IChannelStreamedMedia ichannel = 
+						Bus.Session.GetObject<IChannelStreamedMedia> (
+							account.TelepathyBusName, 
+							channel);
+					
+					if (handle == 0) {
+						if (ichannel.RemotePendingMembers.Length > 0)
+							handle = ichannel.RemotePendingMembers[0];
+						else if (ichannel.Members.Length > 0)
+							handle = ichannel.Members[0];
+						else
+							return;
+					}
+						
+					uint[] ids = {handle};
+					Contact contact = contact_list.ContactLookup (ids[0]);
+					if (contact == null)
+						return;
+						
+					StreamChannel stream_channel = new StreamChannel (this, ichannel, contact, ServiceName, channel);	
+					if ((stream_channel != null) && (!channel_list.Contains (stream_channel)))
+						channel_list.Add (stream_channel);
+
+					if (ChannelCreated != null)
+						ChannelCreated (this, (Channel) stream_channel);
+					*/
+					break;
+				}	
+				default:
+					break;
+			}
+		}
+
+		/*		
 		/// <summary>
 		/// Callback from Tapioca when connection status changes
 		/// </summary>
@@ -201,27 +732,6 @@ namespace Banter
 						// Loop through and add all of the subscribed contacts
 		 				foreach (Contact c in tapConnection.ContactList.KnownContacts) //.SubscribedContacts)
 						{
-							/*
-		                 	Logger.Debug (
-		                 		"Contact Retrieved\n\t{0}/{4} - {1}/{2} - {3}",
-		                 		c.Uri, 
-		                 		c.Presence, 
-		                 		c.PresenceMessage, 
-		                 		c.SubscriptionStatus, 
-		                 		c.Alias);
-		                 	*/
-		                 		
-							// FIXME:: this all needs to be take out when the PersonManager
-							// is complete - it will handle all of this
-/*							Person person = PersonStore.GetPersonByJabberId(c.Handle.Name);
-							if(person == null) {
-								person = new Person(c.Alias);
-								person.JabberId = c.Handle.Name;
-								PersonStore.AddPerson(person);
-							}
-								
-							person.Contact = c;
-*/
 							// END OF FIXME
 							
 							// update the provider user objects
@@ -277,7 +787,9 @@ namespace Banter
 				}
 			}
 		}
-
+		*/
+		
+		/*
 		private void UpdateProviderUserFromContact (ProviderUser pu, Tapioca.Contact contact)
 		{
 			pu.AccountName = this.Name;
@@ -335,6 +847,7 @@ namespace Banter
 			UpdateProviderUserFromContact (pu, contact);
 			return pu;
 		}
+		*/
 		
 		/// <summary>
 		/// Tapioca callback when a new channel is created on a connection
@@ -386,7 +899,7 @@ namespace Banter
 							{
 								Logger.Debug ("creating conversation object");
 								conversation = ConversationManager.Create (this, peer, false);
-								conversation.SetTextChannel (txtChannel);
+								//conversation.SetTextChannel (txtChannel);
 								Logger.Debug ("created new conversation object");
 							
 								cw = new ChatWindow (conversation);
@@ -437,7 +950,15 @@ namespace Banter
 		/// </summary>
 		public void Connect (bool async)
 		{
-			tapConnection.Connect (Tapioca.ContactPresence.Available);
+			// An instance of a telepathy connection should exist
+			// it just won't be connected.
+			if (tlpConnection != null )
+				tlpConnection.Connect ();
+				
+			/*	
+			else
+				tapConnection.Connect (Tapioca.ContactPresence.Available);
+			*/
 			connectedEvent.WaitOne (30000, true);
 			Thread.Sleep (0);
 		}
@@ -447,11 +968,17 @@ namespace Banter
 		/// </summary>
 		public void Disconnect ()
 		{
-			if (connected == true && tapConnection != null)
+			if (connected == true && tlpConnection != null) {
+				DisconnectHandlers ();
+				Logger.Debug ("Calling telepathy disconnect");
+				tlpConnection.Disconnect ();
+				Logger.Debug ("out of telepathy disconnect");
+			} else if (connected == true && tapConnection != null)
 				tapConnection.Disconnect ();
 				
 			connected = false;
 			tapConnection = null;
+			tlpConnection = null;
 		}
 	}
 	
@@ -522,7 +1049,8 @@ namespace Banter
 //			optionList.Add ("ignore-ssl-errors", ignoreSslErrors);
 			options.Add ("ignore-ssl-errors", true);
 			
-			TapiocaSetup();
+			TelepathyConnectionSetup ();
+			//TapiocaSetup();
 		}
 		#endregion
 		
@@ -555,7 +1083,87 @@ namespace Banter
 			}
 		
 			connectedEvent = new ManualResetEvent (false);
-			tapConnection.StatusChanged += OnConnectionChanged;
+			//tapConnection.StatusChanged += OnConnectionChanged;
+		}
+
+		/// <summary>
+		/// Check if we have an existing connection in gabble
+		/// assumes connection info is valid
+		/// </summary>
+		private bool CheckForExistingConnection()
+		{
+			return false;
+			
+			IConnection connection = null;
+			string existingBusName = 
+				"org.freedesktop.Telepathy.ConnectionManager.gabble/";
+			string objectPath = existingBusName.Replace ('.', '/');	
+				
+			existingBusName += options["account"];
+			objectPath += options["account"];
+			
+			Logger.Debug ("Existing BusName:{0}", existingBusName);
+			Logger.Debug ("Object Path: {0}", objectPath);
+			ObjectPath op = new ObjectPath (objectPath);
+			
+			connection = 
+				Bus.Session.GetObject<IConnection> (existingBusName, op);
+				
+			if (connection != null) {
+				Logger.Debug ("Found an existing connection");
+				tlpConnection = connection;
+				
+				Logger.Debug ("Connection Status: {0}", tlpConnection.Status.ToString());
+				//if (tlpConnection.Status == org.freedesktop.Telepathy.IConnection.Status.Connected) {
+					SetupSupportedInterfaces ();
+					SetupProviderUsers ();
+					AdvertiseCapabilities ();
+				//}	
+				
+			} else {
+				Logger.Debug ("Failed to find an existing connection");
+			}
+			
+			return (connection != null) ? true : false;
+		}
+		
+		private bool TelepathyConnectionSetup ()
+		{
+			if (this.protocol == Banter.ProtocolName.Jabber) {
+				busName = "org.freedesktop.Telepathy.ConnectionManager.gabble";
+			}
+		
+			string objectPath = "/" + busName.Replace('.', '/');
+			Logger.Debug ("connectionPath = " + busName);
+			
+			try {
+				
+				if (CheckForExistingConnection() == false) {
+					//get connection manager from dbus
+					connManager = 
+						Bus.Session.GetObject<IConnectionManager> (
+							busName,
+							new ObjectPath (objectPath));
+
+				    if (connManager == null) {
+			    	  	Logger.Debug ("Unable to establish a connection with the telepathy-sharp connection manager");
+						return false;
+					}
+
+					connInfo = connManager.RequestConnection (this.protocol, this.options);
+					tlpConnection = 
+						Bus.Session.GetObject<IConnection> (connInfo.BusName, connInfo.ObjectPath);
+					tlpConnection.StatusChanged += OnConnectionStateChanged;
+				}
+				
+				connectedEvent = new ManualResetEvent (false);
+				return true;
+			} catch (Exception e) {
+				Logger.Debug ("Exception while connecting to: " + busName);
+				Logger.Debug (e.Message);
+			}
+			
+			return false;
 		}
 		#endregion
 		

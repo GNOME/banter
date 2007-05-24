@@ -308,7 +308,7 @@ namespace Banter
 		/// AvatarTokenUpdated handler
 		/// AvatarReceived
 		/// </summary>
-		private void ProviderUserAvatarReceived (ProviderUser user, string token, byte[] avatarData)
+		private void ProviderUserAvatarReceived (ProviderUser user, string token, string mimeType, byte[] avatarData)
 		{
 			// FIXME: This needs to determine if the AvatarUpdated needs to be called depending
 			// on the avatar stored in EDS etc.

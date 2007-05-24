@@ -27,6 +27,7 @@ using System.Text;
 
 using NDesk.DBus;
 using org.freedesktop.DBus;
+using org.freedesktop.Telepathy;
 
 using Tapioca;
 
@@ -49,6 +50,9 @@ namespace Banter
 		private Tapioca.StreamChannel tapStreamChannel;
 		private Tapioca.StreamAudio tapAudioStream;
 		private Tapioca.StreamVideo tapVideoStream;
+		private org.freedesktop.Telepathy.IConnection tlpConnection;
+		//private org.freedesktop.Telepathy.IChannel txtChannel;
+		private org.freedesktop.Telepathy.IChannelText txtChannel;
 		private ProviderUser peerUser;
 		
 		private uint current;
@@ -74,6 +78,7 @@ namespace Banter
 		{
 			this.account = account;
 			this.tapConnection = account.TapiocaConnection;
+			this.tlpConnection = account.TlpConnection;
 			this.peerUser = peerUser;
 			this.messages = new List<Message> ();
 			last = 999;
@@ -93,6 +98,56 @@ namespace Banter
 				tapTextChannel = null;
 			}
 		}
+		
+		
+		/// <summary>
+		/// Message receive indication called from telepathy
+		/// </summary>
+		private void OnReceiveMessageHandler (
+			uint id,
+			uint timeStamp,
+			uint sender,
+			org.freedesktop.Telepathy.MessageType messageType,
+			org.freedesktop.Telepathy.MessageFlag messageFlag,
+			string text)
+		{
+			if (this.peerUser != null)
+			{
+				Logger.Debug ("Conversation::OnReceiveMessageHandler - called");
+				Logger.Debug ("  received message from: {0}", peerUser.Uri);
+				Logger.Debug ("  peer id: {0}  incoming id: {1}", peerUser.ID, id);
+				
+				TextMessage txtMessage = new TextMessage (text);
+				messages.Add (txtMessage);
+				
+				if (current != 0) last = current;
+				current = this.peerUser.ID;
+			
+				// Indicate the message to registered handlers
+				if (MessageReceived != null){
+					MessageReceived (this, txtMessage);
+				}
+			}
+		}
+
+		/*
+		private void OnMessageReceivedHandler (
+			ProviderUser sender,
+			TextMessage txtMessage)
+		{
+			Logger.Debug ("Conversation::OnMessageReceivedHandler - called");
+	
+			messages.Add (txtMessage);
+			
+			if (current != 0) last = current;
+			current = this.peerUser.ID;
+			
+			// Indicate the message to registered handlers
+			if (MessageReceived != null){
+				MessageReceived (this, txtMessage);
+			}
+		}
+		*/
 		
 		private void OnTapiocaMessageReceivedHandler (
 			Tapioca.TextChannel sender,
@@ -278,11 +333,22 @@ namespace Banter
 				}
 			}
 		}
+		
+		private void OnTextChannelClosed()
+		{
+			this.txtChannel = null;
+		}
+		
 		#endregion
 		
 		#region Public Methods
 		public void Dispose()
 		{
+			if (txtChannel != null)	{
+				txtChannel.Close();
+				txtChannel = null;
+			}
+			
 			if (tapStreamChannel != null)
 			{
 				StopVideoChat ();
@@ -305,6 +371,24 @@ namespace Banter
 			return messages.ToArray();
 		}
 		
+		public void SendMessage (Message message)
+		{
+			// FIXME::Throw exception
+			if (tlpConnection == null) return;
+			if (txtChannel == null) return;
+			if (message == null) return;
+			
+			this.txtChannel.Send (org.freedesktop.Telepathy.MessageType.Normal, message.Text);
+
+			if (current != 0)
+				last = current;
+				
+			current = tlpConnection.SelfHandle;
+			
+			if (MessageSent != null)
+				MessageSent (this, message);
+		}
+		
 		public void SendTapiocaMessage (Message message)
 		{
 			// FIXME throw exception
@@ -325,13 +409,17 @@ namespace Banter
 				MessageSent (this, message);
 		}
 
-		public void SetTextChannel (Tapioca.TextChannel channel)
+		public void SetTextChannel (IChannelText channel)
 		{
-			if (tapTextChannel != null) return;
-			tapTextChannel = channel;
-					
-			tapTextChannel.Closed += OnTextChannelClosed;
-			tapTextChannel.MessageReceived += OnTapiocaMessageReceivedHandler;
+			if (txtChannel != null) return;
+			txtChannel = channel;
+			
+			txtChannel.Received += OnReceiveMessageHandler;
+			txtChannel.Closed += OnTextChannelClosed;
+			
+							
+			//tapTextChannel.Closed += OnTextChannelClosed;
+			//tapTextChannel.MessageReceived += OnTapiocaMessageReceivedHandler;
 		}
 		
 		public void SetVideoWindows (uint meID, uint peerID)
@@ -352,8 +440,31 @@ namespace Banter
 		
 		private void CreateTextChannel()
 		{
-			if (tapTextChannel != null) return;
+			if (txtChannel != null) return;
 			
+			ObjectPath op = 
+				tlpConnection.RequestChannel (
+					org.freedesktop.Telepathy.ChannelType.Text, 
+					HandleType.Contact,
+					//target.Handle.Type, 
+					this.peerUser.ID, 
+					true);
+				
+			txtChannel = Bus.Session.GetObject<IChannelText> (account.BusName, op);
+			txtChannel.Received += OnReceiveMessageHandler;
+			
+			/*
+			ObjectPath op = tlpConnection.RequestChannel (
+				org.freedesktop.Telepathy.ChannelType.Text,
+				org.freedesktop.Telepathy.dfd,
+				this.peerUser.ID,
+				true);
+			*/	
+				
+				
+				
+			/*
+			if (tapTextChannel != null) return;
 			tapTextChannel = 
 				tapConnection.CreateChannel (
 					Tapioca.ChannelType.Text,
@@ -361,6 +472,7 @@ namespace Banter
 					
 			tapTextChannel.Closed += OnTextChannelClosed;
 			tapTextChannel.MessageReceived += OnTapiocaMessageReceivedHandler;
+			*/
 		}
 		
 		public void StartAudioChat ()

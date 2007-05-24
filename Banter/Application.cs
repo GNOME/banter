@@ -105,7 +105,7 @@ namespace Banter
 			Gtk.Application.Init ();
 			program = 
 				new Gnome.Program (
-						"novell-rtc-application",
+						"banter",
 						Defines.Version,
 						Gnome.Modules.UI,
 						args);

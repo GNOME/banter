@@ -1,3 +1,12 @@
+2007-05-23  Brady Anderson <banderso@novell.com> 
+
+	* Banter.mdp, Banter/AccountManagement.cs, Banter/Account.cs,
+	  Banter/Application.cs, Banter/Person.cs, Banter/ChatWindow.cs,
+	  Banter/ProviderUserManager.cs, Banter/ProviderUser.cs,
+	  Banter/Makefile.am, Banter/Conversation.cs: Major changes to talk
+	  directly to telepathy-sharp rather than tapioca-sharp.  All the
+	  tapioca calling code has not been removed yet.
+
 2007-05-23  Boyd Timothy <btimothy@gmail.com> 
 
 	* Banter/Makefile.am: Renamed CLEAN_FILES to CLEANFILES so that make

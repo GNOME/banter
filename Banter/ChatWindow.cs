@@ -217,7 +217,7 @@ Logger.Debug ("OnMessageReceived called: {0}", message.Text);
 			string avatarPath = null;
 Logger.Debug ("OnMessageReceived called: {0}", message.Text);
 			
-			Logger.Debug ("Peer Handle: {0}", conversation.PeerUser.Contact.Handle.Id);
+			Logger.Debug ("Peer Handle: {0}", conversation.PeerUser.ID);
 			Logger.Debug ("Peer Screenname: {0}", conversation.PeerUser.Uri);
 			Logger.Debug ("Sender: {0}", conversation.PeerUser.Alias);
 			
@@ -239,9 +239,11 @@ Logger.Debug ("OnMessageReceived called: {0}", message.Text);
 			string avatarPath = null;
 Logger.Debug ("OnMessageSent called: {0}", message.Text);
 
+			/*
 			Person person = PersonStore.GetPersonByJabberId(conversation.MeContact.Uri);
 			if(person != null)
 				avatarPath = person.GetScaledAvatar(36);
+			*/
 			AddMessage (message, false, conversation.CurrentMessageSameAsLast, avatarPath);
 		}
 		
@@ -336,7 +338,8 @@ Logger.Debug ("OnMessageSent called: {0}", message.Text);
 			typingTextView.Buffer.Clear ();
 			
 			TextMessage msg = new TextMessage (text);
-			conv.SendTapiocaMessage (msg);
+			conv.SendMessage (msg);
+			//conv.SendTapiocaMessage (msg);
 		}
 		
 		private void WindowRealized (object sender, EventArgs args)

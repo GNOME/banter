@@ -360,8 +360,8 @@ namespace Banter
 					account.Connect (true);
 					
 			} catch (Exception es){
-				Console.WriteLine (es.Message);
-				Console.WriteLine (es.StackTrace);
+				Logger.Debug (es.Message);
+				Logger.Debug (es.StackTrace);
 			} finally {
 			
 			}

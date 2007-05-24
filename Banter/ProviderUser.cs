@@ -25,6 +25,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 using Tapioca;
+using org.freedesktop.Telepathy;
 
 namespace Banter
 {
@@ -36,16 +37,16 @@ namespace Banter
 	{
 		#region Public Static Types
 		public const string Jabber = "jabber";
-		public const string Sip	= "SIP";
-		public const string Aol = "AOL";
-		public const string Gwim = "Gwim";
+		public const string Sip	= "sip";
+		public const string Aol = "aol";
+		public const string Gwim = "gwim";
 		#endregion		
 	}
 
 	public delegate void ProviderUserPresenceUpdatedHandler (ProviderUser user);
 	public delegate void ProviderUserAliasChangedHandler (ProviderUser user);
 	public delegate void ProviderUserAvatarUpdatedHandler (ProviderUser user, string newToken);
-	public delegate void ProviderUserAvatarReceivedHandler (ProviderUser user, string token, byte[] avatarData);
+	public delegate void ProviderUserAvatarReceivedHandler (ProviderUser user, string token, string mimeType, byte[] avatarData);
 
 	///<summary>
 	///	ProviderUser Class
@@ -56,11 +57,14 @@ namespace Banter
 		#region Private Types
 		private string uri;
 		private string alias;
+		private string avatarToken;
 		private string protocol;
+		private uint id;
 		private Presence presence;
 		private string accountName;
 		private bool isMe;
-		private Tapioca.Contact contact; 
+		private Tapioca.Contact contact;
+		private IConnection tlpConnection;
 		#endregion		
 		
 		#region Public Events
@@ -73,16 +77,41 @@ namespace Banter
 		#region Public Properties
 		
 		/// <summary>
+		/// The unique id of the user in the telepathy framework
+		/// this id is volatile and only unique during a connection
+		/// </summary>		
+		public uint ID
+		{
+			get { return id; }
+			set { this.id = value; }
+		}
+
+		/// <summary>
 		/// Opaque token for detecting changes in the avatar
 		/// </summary>		
 		public string AvatarToken
 		{
 			get
 			{ 
-				if (this.contact != null)
-					return this.contact.CurrentAvatarToken;
+				if (avatarToken != null)
+					return avatarToken;
 					
 				return String.Empty;
+			}
+			
+			set
+			{
+				if (avatarToken != null) {
+					if (avatarToken.Equals ((string) value) == false) {
+						avatarToken = value;
+						if (AvatarTokenUpdated != null)
+							AvatarTokenUpdated (this, value);
+					}
+				} else {
+					avatarToken = value;
+					if (AvatarTokenUpdated != null)
+						AvatarTokenUpdated (this, value);
+				}	
 			}
 		}
 		
@@ -102,7 +131,20 @@ namespace Banter
 		public string Alias
 		{
 			get { return alias; }
-			set { this.alias = value; }
+			set
+			{
+				if (this.alias != null) {
+					if (this.alias.Equals ((string) value) == false) {
+						this.alias = value;
+						if (this.AliasChanged != null)
+							this.AliasChanged (this);
+					}
+				} else {
+					this.alias = value;
+					if (this.AliasChanged != null)
+						this.AliasChanged (this);
+				}	
+			}
 		}
 
 
@@ -122,7 +164,23 @@ namespace Banter
 		public Presence Presence
 		{
 			get { return presence; }
-			set { this.presence = value; }
+			set
+			{ 
+				if (this.presence != null) {
+					Banter.Presence newPresence = value;
+					if (this.presence.Type != newPresence.Type ||
+						this.presence.Message.Equals (newPresence.Message) == false)
+					{
+						this.presence = newPresence;
+						if (this.PresenceUpdated != null)
+							PresenceUpdated (this);
+					}
+				} else {
+					this.presence = value;
+					if (this.PresenceUpdated != null)
+						PresenceUpdated (this);
+				}
+			}
 		}		
 
 
@@ -146,6 +204,15 @@ namespace Banter
 		}	
 		
 
+		/// <summary>
+		/// the actual telepathy connection for this provider user
+		/// </summary>		
+		internal IConnection TlpConnection
+		{
+			get {return tlpConnection;}
+			set {tlpConnection = value;}
+		}
+		
 		/// <summary>
 		/// the actual tapioca contact for this provider user
 		/// </summary>		
@@ -185,7 +252,18 @@ namespace Banter
 			this.alias = String.Empty;
 			this.isMe = false;
 			this.protocol = String.Empty;
+			this.avatarToken = String.Empty;
 		}
+		
+		/// <summary>
+		/// Constructs a ProviderUser 
+		/// </summary>	
+		internal ProviderUser(IConnection conn, uint id) : base()
+		{
+			this.tlpConnection = conn;
+			this.id = id;
+		}
+		
 		#endregion
 
 		#region Private Methods
@@ -211,7 +289,7 @@ namespace Banter
 		private void OnAvatarReceived (ContactBase sender, Tapioca.Avatar avatar)
 		{
 			if (this.AvatarReceived != null)
-				this.AvatarReceived (this, avatar.Token, avatar.Data);
+				this.AvatarReceived (this, avatar.Token, String.Empty, avatar.Data);
 		}
 		
 		private void OnPresenceUpdated (ContactBase sender, Tapioca.ContactPresence contactPresence)
@@ -226,7 +304,6 @@ namespace Banter
 						this.Presence.Type = Banter.PresenceType.Available;
 						break;
 					}
-				
 					case Tapioca.ContactPresence.Away:
 					{
 						this.Presence.Type = Banter.PresenceType.Away;
@@ -260,14 +337,28 @@ namespace Banter
 					this.PresenceUpdated (this); 
 			}
 		}
-		
 		#endregion		
 		
 		#region Public Methods
 		public void RequestAvatarData ()
 		{
-			if (this.contact != null) 
-				this.contact.RequestAvatar();
+			if (tlpConnection == null) return;
+			
+			/*
+			if (!connection.SupportAvatars)
+				return;
+			*/
+				
+			uint[] ids = {id};
+			string[] tokens = tlpConnection.GetAvatarTokens(ids);
+			if (tokens == null || tokens[0].Length <= 0)
+				return;
+				
+			org.freedesktop.Telepathy.Avatar avatarData	= 
+				tlpConnection.RequestAvatar (id);
+				
+			if (AvatarReceived != null)				
+				AvatarReceived (this, tokens[0], avatarData.MimeType, avatarData.Data);
 		}
 		#endregion
 	}
