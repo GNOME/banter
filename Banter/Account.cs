@@ -237,18 +237,13 @@ namespace Banter
 				
 				case org.freedesktop.Telepathy.ConnectionStatus.Connected:
 				{
-					Logger.Debug ("  in connected");
-					
 					try
 					{
 						SetupSupportedInterfaces ();
 						SetupMe ();
 						SetupProviderUsers ();
 						AdvertiseCapabilities ();
-							
-		                // Setup handlers for incoming conversations
-		                //sender.ChannelCreated += OnNewChannel;
-		                this.connected = true;
+		                connected = true;
 					}
 					catch (Exception on)
 					{	
@@ -256,22 +251,15 @@ namespace Banter
 						Logger.Debug (on.StackTrace);
 					}
 					
-					if (this.connectedEvent != null)
-						this.connectedEvent.Set();
+					if (connectedEvent != null)
+						connectedEvent.Set();
 						
 					break;
 				}
 				
 				case org.freedesktop.Telepathy.ConnectionStatus.Disconnected:
 				{
-					/*
-					DisconnectHandlers ();
-					if (tlpConnection != null) {
-						tlpConnection.Disconnect();
-						tlpConnection = null;
-					}
-					*/
-						
+					connected = false;	
 					break;
 				}
 			}
@@ -650,270 +638,6 @@ namespace Banter
 			}
 		}
 
-		/*		
-		/// <summary>
-		/// Callback from Tapioca when connection status changes
-		/// </summary>
-		protected void OnConnectionChanged ( 
-			Tapioca.Connection sender,
-			Tapioca.ConnectionStatus status,
-			Tapioca.ConnectionStatusReason reason)
-		{
-			Logger.Debug ("Account::OnConnectionChanged - called");
-			Logger.Debug ("  {0}", status.ToString());
-			
-			switch (status)
-			{
-				case Tapioca.ConnectionStatus.Connecting:
-				{
-					break;
-				}
-				
-				case Tapioca.ConnectionStatus.Connected:
-				{
-					Logger.Debug ("  in connected");
-					
-					try
-					{
-						Logger.Debug ("ME - uri: {0}", tapConnection.Info.Uri);
-						Logger.Debug ("ME - alias: {0}", tapConnection.Info.Alias);
-						Logger.Debug ("ME - caps: {0}", tapConnection.Info.Capabilities.ToString());
-						Logger.Debug ("ME - avatar token: {0}", tapConnection.Info.CurrentAvatarToken);
-						
-						Logger.Debug ("# Subscribed Contacts: {0}", tapConnection.ContactList.SubscribedContacts.Length);
-						Logger.Debug ("# Known Contacts: {0}", tapConnection.ContactList.KnownContacts.Length);
-
-						// Add me to the list
-							
-						try {
-							string meKey = 
-								ProviderUserManager.CreateKey (tapConnection.Info.Uri, this.protocol);
-							ProviderUser me = new Banter.ProviderUser ();
-							me.AccountName = this.Name;
-							me.Alias = tapConnection.Info.Alias;
-							me.Protocol = this.protocol;
-							me.Uri = tapConnection.Info.Uri;
-							me.IsMe = true;
-							me.Presence = new Banter.Presence (Banter.PresenceType.Available);
-							ProviderUserManager.AddProviderUser (meKey, me);
-						} catch{}
-
-						// Loop through and add all of the subscribed contacts
-		 				foreach (Contact c in tapConnection.ContactList.KnownContacts) //.SubscribedContacts)
-						{
-							// END OF FIXME
-							
-							// update the provider user objects
-							string key = 
-								ProviderUserManager.CreateKey (c.Uri, this.Protocol);
-								
-							ProviderUser providerUser = null;
-							try {
-								providerUser = ProviderUserManager.GetProviderUser (key);
-								UpdateProviderUserFromContact (providerUser, c);
-							} 
-							catch (Exception fff) {
-								Logger.Debug ("Failed to get ProviderUser {0}", key);
-								Logger.Debug (fff.Message);
-							}
-							
-							if (providerUser == null) {
-								try {
-									providerUser = CreateProviderUserFromContact (c);
-									ProviderUserManager.AddProviderUser (key, providerUser);
-									
-								} catch{}
-							}
-							
-							providerUser.Contact = c;
-		                }
-		                
-						// FIXME - For now we have all caps		                
-						tapConnection.Info.SetCapabilities (
-							ContactCapabilities.Text |
-							ContactCapabilities.Audio |
-							ContactCapabilities.Video);
-		                
-		                // Setup handlers for incoming conversations
-		                sender.ChannelCreated += OnNewChannel;
-		                this.connected = true;
-					}
-					catch (Exception on)
-					{	
-						Logger.Debug (on.Message);
-						Logger.Debug (on.StackTrace);
-					}
-					
-					if (this.connectedEvent != null)
-						this.connectedEvent.Set();
-						
-					break;
-				}
-				
-				case Tapioca.ConnectionStatus.Disconnected:
-				{
-					break;
-				}
-			}
-		}
-		*/
-		
-		/*
-		private void UpdateProviderUserFromContact (ProviderUser pu, Tapioca.Contact contact)
-		{
-			pu.AccountName = this.Name;
-			pu.Alias = contact.Alias;
-			pu.Protocol = this.protocol;
-			pu.Uri = contact.Uri;
-			
-			switch (contact.Presence)
-			{
-				case Tapioca.ContactPresence.Available:
-				{
-					pu.Presence.Type = Banter.PresenceType.Available;
-					break;
-				}
-			
-				case Tapioca.ContactPresence.Away:
-				{
-					pu.Presence.Type = Banter.PresenceType.Away;
-					break;
-				}
-				case Tapioca.ContactPresence.Busy:
-				{
-					pu.Presence.Type = Banter.PresenceType.Busy;
-					break;
-				}
-				case Tapioca.ContactPresence.Hidden:
-				{
-					pu.Presence.Type = Banter.PresenceType.Hidden;
-					break;
-				}
-				case Tapioca.ContactPresence.Offline:
-				{
-					pu.Presence.Type = Banter.PresenceType.Offline;
-					break;
-				}
-				
-				case Tapioca.ContactPresence.XA:
-				{
-					pu.Presence.Type = Banter.PresenceType.XA;
-					break;
-				}
-			}
-			
-			if (contact.PresenceMessage != null && pu.Presence != null)
-				pu.Presence.Message = contact.PresenceMessage;
-		}
-		
-		/// <summary>
-		/// method to create a provider user object from a 
-		/// tapioca contact object
-		/// </summary>
-		private ProviderUser CreateProviderUserFromContact (Tapioca.Contact contact)
-		{
-			ProviderUser pu = new ProviderUser();
-			UpdateProviderUserFromContact (pu, contact);
-			return pu;
-		}
-		*/
-		
-		/// <summary>
-		/// Tapioca callback when a new channel is created on a connection
-		/// </summary>
-		private void OnNewChannel (Tapioca.Connection sender, Tapioca.Channel channel)
-		{
-			Logger.Debug ("Account::OnNewChannel - called");
-			
-			Logger.Debug ("  incoming channel");
-			Logger.Debug ("  type: {0}", channel.Type.ToString());
-				
-			try
-			{
-				Conversation conversation = null;
-				
-				switch (channel.Type)
-				{
-					case Tapioca.ChannelType.Text:
-					{
-						TextChannel txtChannel = channel as TextChannel;
-						Contact contact = txtChannel.RemoteTarget as Contact;
-						Logger.Debug ("got contact: {0}", contact.Uri);
-						
-						// Do we already have a conversation setup with contact
-						ProviderUser pu = null;
-						try {
-							string key = ProviderUserManager.CreateKey (contact.Uri, sender.Protocol);
-							pu = ProviderUserManager.GetProviderUser (key);
-						} catch{}
-						
-						if (pu == null) return;
-						
-						if (ConversationManager.Exist (pu) == true)
-							return;
-						
-						Person peer = PersonStore.GetPersonByJabberId (pu.Uri);
-						Logger.Debug ("got person");
-						ChatWindow cw = null;
-						
-						Logger.Debug ("Peer: {0}", peer.Id);
-						Logger.Debug ("Peer Name: {0}", peer.EDSContact.GivenName);
-						
-						if (ChatWindow.AlreadyExist (peer.Id) == true) { 
-							Logger.Debug ("ChatWindow already exists with this peer");
-							ChatWindow.PresentWindow (peer.Id);
-						}	
-						else {
-							try
-							{
-								Logger.Debug ("creating conversation object");
-								conversation = ConversationManager.Create (this, peer, false);
-								//conversation.SetTextChannel (txtChannel);
-								Logger.Debug ("created new conversation object");
-							
-								cw = new ChatWindow (conversation);
-								cw.Present();
-							}
-							catch (Exception es)
-							{
-								Console.WriteLine (es.Message);
-								Console.WriteLine (es.StackTrace);
-							}
-						}
-						break;
-					}
-					
-					case Tapioca.ChannelType.StreamedMedia:
-					{
-						VideoWindow meWindow = new VideoWindow();
-						meWindow.Title = "Me";
-						meWindow.Show();
-				
-						VideoWindow youWindow = new VideoWindow();
-						youWindow.Title = "You";
-						youWindow.Show();
-						
-						StreamChannel strmChannel =	channel as StreamChannel;
-
-						/*
-						conversation = 
-							new Conversation (sender, strmChannel.RemoteTarget as Contact);
-					
-						conversation.SetVideoWindows (meWindow.WindowId, youWindow.WindowId);
-						conversation.SetStreamedMediaChannel (strmChannel);
-						*/
-						break;
-					}
-				}
-			
-			}
-			catch (Exception onc)
-			{
-				Logger.Debug (onc.Message);
-				Logger.Debug (onc.StackTrace);
-			}
-		}
-		
 		/// <summary>
 		///	Method to connect this account
 		/// </summary>
@@ -924,10 +648,6 @@ namespace Banter
 			if (tlpConnection != null )
 				tlpConnection.Connect ();
 				
-			/*	
-			else
-				tapConnection.Connect (Tapioca.ContactPresence.Available);
-			*/
 			connectedEvent.WaitOne (30000, true);
 			Thread.Sleep (0);
 		}
@@ -937,16 +657,15 @@ namespace Banter
 		/// </summary>
 		public void Disconnect ()
 		{
+			Logger.Debug ("Account::Disconnect - called");
 			if (connected == true && tlpConnection != null) {
-				DisconnectHandlers ();
+				//DisconnectHandlers ();
 				Logger.Debug ("Calling telepathy disconnect");
 				tlpConnection.Disconnect ();
 				Logger.Debug ("out of telepathy disconnect");
-			} else if (connected == true && tapConnection != null)
-				tapConnection.Disconnect ();
+			}
 				
 			connected = false;
-			tapConnection = null;
 			tlpConnection = null;
 		}
 	}
@@ -1024,37 +743,6 @@ namespace Banter
 		#endregion
 		
 		#region Private Methods
-		private void TapiocaSetup()
-		{
-			ConnectionManagerFactory cmFactory = new ConnectionManagerFactory ();
-              
-            Logger.Debug ("user account: {0}", options["account"]);
-              
-			List<ConnectionManagerParameter> ps = new List<ConnectionManagerParameter> ();
-			ps.Add (new ConnectionManagerParameter ("account", options["account"]));
-			ps.Add (new ConnectionManagerParameter ("password", options["password"]));
-			ps.Add (new ConnectionManagerParameter ("server", options["server"]));
-			ps.Add (new ConnectionManagerParameter ("old-ssl", true));
-			ps.Add (new ConnectionManagerParameter ("ignore-ssl-errors", true));
-			ps.Add (new ConnectionManagerParameter ("port", (uint) 5223));
-
-			ConnectionManagerParameter[] parameters = ps.ToArray ();
-
-			Logger.Debug ("Creating connection");
-			ConnectionManager cm = cmFactory.GetConnectionManager (this.protocol);
-			if (cm == null) {
-				throw new ApplicationException ("Could not get a factory for this protocol");
-			}
-			
-			tapConnection = cm.RequestConnection (this.protocol, parameters);
-			if (tapConnection == null) {
-				throw new ApplicationException ("Could not establish a telepathy connection for the specified protocol");
-			}
-		
-			connectedEvent = new ManualResetEvent (false);
-			//tapConnection.StatusChanged += OnConnectionChanged;
-		}
-
 		/// <summary>
 		/// Check if we have an existing connection in gabble
 		/// assumes connection info is valid
@@ -1063,6 +751,7 @@ namespace Banter
 		{
 			return false;
 			
+			/*
 			IConnection connection = null;
 			string existingBusName = 
 				"org.freedesktop.Telepathy.ConnectionManager.gabble/";
@@ -1094,6 +783,7 @@ namespace Banter
 			}
 			
 			return (connection != null) ? true : false;
+			*/
 		}
 		
 		private bool TelepathyConnectionSetup ()
