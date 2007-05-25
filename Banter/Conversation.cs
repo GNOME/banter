@@ -112,20 +112,49 @@ namespace Banter
 			if (MessageReceived == null) return;
 			
 			string displayName = (user.Alias != null) ? user.Alias.Split (' ')[0] : user.Uri;
-			
+			if (user.Presence.Type == Banter.PresenceType.Offline) {
+				msg = String.Format("{0} has gone {1}", displayName, user.Presence.Name); 
+				systemMessage = new Banter.SystemMessage (msg);
+			} else {
+				if (user.Presence.Message != null && 
+					user.Presence.Message != String.Empty &&
+					user.Presence.Message != lastPeerPresence.Message) {
+				
+					msg = String.Format(
+							"{0} is {1} \"{2}\"", 
+							displayName, 
+							user.Presence.Name,
+							user.Presence.Message);
+					systemMessage = new Banter.SystemMessage (msg);
+					
+					/*
+					MessageReceived (this, systemMessage);
+					msg = String.Format("{0}'s new status \"{1}\"", displayName, user.Presence.Message); 
+					systemMessage = new Banter.SystemMessage (msg);
+					*/
+				} else {
+					msg = String.Format("{0} is {1}", displayName, user.Presence.Name); 
+					systemMessage = new Banter.SystemMessage (msg);
+				}
+			}
+
+			/*
 			if (user.Presence.Type != lastPeerPresence.Type) {
 				if (user.Presence.Type == Banter.PresenceType.Offline) {
 					msg = String.Format("{0} has gone {1}", displayName, user.Presence.Name); 
 					systemMessage = new Banter.SystemMessage (msg);
 				} else {
-					if (user.Presence.Message != null && user.Presence.Message != String.Empty) {
+					if (user.Presence.Message != null && 
+						user.Presence.Message != String.Empty &&
+						user.Presence.Message != lastPeerPresence.Message) {
 					
-						msg = String.Format("{0} is {1}", displayName, user.Presence.Name); 
+						msg = String.Format(
+								"{0} is {1} \"{2}\"", 
+								displayName, 
+								user.Presence.Name,
+								user.Presence.Message);
 						systemMessage = new Banter.SystemMessage (msg);
-						MessageReceived (this, systemMessage);
-
-						msg = String.Format("{0}'s new status \"{1}\"", displayName, user.Presence.Message); 
-						systemMessage = new Banter.SystemMessage (msg);
+						
 					} else {
 						msg = String.Format("{0} is {1}", displayName, user.Presence.Name); 
 						systemMessage = new Banter.SystemMessage (msg);
@@ -138,12 +167,8 @@ namespace Banter
 					msg = String.Format("{0}'s new status \"{1}\"", displayName, user.Presence.Message); 
 					systemMessage = new Banter.SystemMessage (msg);
 				}
-				
-				/*else {
-					msg = String.Format("{0} is {1}", displayName, user.Presence.Name); 
-					systemMessage = new Banter.SystemMessage (msg);
-				} */
 			}
+			*/
 			
 			lastPeerPresence = user.Presence;
 			
