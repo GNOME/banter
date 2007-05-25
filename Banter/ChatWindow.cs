@@ -269,7 +269,8 @@ Logger.Debug ("OnMessageSent called: {0}", message.Text);
 				break;
 			case Gdk.Key.Return:
 				if (!shiftKeyPressed) {
-					SendMessage ();
+					if(!HandleMessageTrigger())
+						SendMessage ();
 					// Prevent the event from passing on to the TextView
 					retVal = true;
 				}
@@ -304,6 +305,27 @@ Logger.Debug ("OnMessageSent called: {0}", message.Text);
 				conv.MessageSent -= OnMessageSent;
 				*/
 			}
+		}
+		
+		private bool HandleMessageTrigger()
+		{
+			bool handled = false;
+			
+			string text = typingTextView.Buffer.Text;
+			if(text.StartsWith("/status ")) {
+				string statusText = text.Substring(8);
+				if(statusText.Length > 0) {
+					if(PersonManager.Me != null) {
+						Presence presence = new Presence(PersonManager.Me.Presence.Type);
+						presence.Message = statusText;
+						PersonManager.Me.SetStatus(presence);
+					}
+				}
+				typingTextView.Buffer.Clear ();
+				handled = true;
+			}
+			
+			return handled;
 		}
 		
 		private void SendMessage ()

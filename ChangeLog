@@ -1,5 +1,14 @@
 2007-05-25  Calvin Gaisford <calvinrg@gmail.com> 
 
+	* Banter/Presence.cs: Added text for Presence types
+	* Banter/Person.cs: Added a SetStatus to update the presence.Message
+	* Banter/ChatWindow.cs: Added ability to set presence messages using
+	  /status in chat window
+	* Banter/GroupWindow.cs: Added Entry to set status
+	* Banter/ProviderUser.cs: Added ability to set status on a connection
+
+2007-05-25  Calvin Gaisford <calvinrg@gmail.com> 
+
 	* Banter/Person.cs: Updated the IsSelf to be IsMe in Person and it
 	  works now
 	* Banter/PersonManager.cs: Updated the Me property so it will find the

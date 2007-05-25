@@ -72,7 +72,7 @@ namespace Banter
 		private Widget sidebar;
 		private Image avatarImage;
 		private Label myDisplayName;
-		private ComboBoxEntry statusComboBoxEntry;
+		private Gtk.Entry statusEntry;
 		
 		private Entry searchEntry;
 		private Button cancelSearchButton;
@@ -443,18 +443,36 @@ namespace Banter
 			myDisplayName.Show ();
 			vbox.PackStart (myDisplayName, true, true, 0);
 			
-			statusComboBoxEntry = ComboBoxEntry.NewText ();
-			statusComboBoxEntry.KeyPressEvent += OnStatusComboKeyPress;
-			statusComboBoxEntry.Changed += OnStatusComboChanged;
+			statusEntry = new Entry();
+//			statusEntry.KeyPressEvent += OnEntryKeyPress;
+			statusEntry.Activated += OnEntryActivated;
+			statusEntry.Show();
+			vbox.PackStart (statusEntry, false, false, 0);
 			
-			statusComboBoxEntry.Show ();
-			vbox.PackStart (statusComboBoxEntry, false, false, 0);
+//			statusComboBoxEntry = ComboBoxEntry.NewText ();
+//			statusComboBoxEntry.KeyPressEvent += OnStatusComboKeyPress;
+//			statusComboBoxEntry.Changed += OnStatusComboChanged;
+			
+//			statusComboBoxEntry.Show ();
+//			vbox.PackStart (statusComboBoxEntry, false, false, 0);
 			
 			hbox.Show ();
 			return hbox;
 		}
+
+		private void OnEntryActivated (object sender, EventArgs e)
+		{
+			Logger.Debug("Setting presence on Me to {0}", statusEntry.Text);
+			
+			if(PersonManager.Me != null) {
+				Presence presence = new Presence(PresenceType.Available);
+				presence.Message = statusEntry.Text;
+				PersonManager.Me.SetStatus(presence);
+			}
+			statusEntry.SelectRegion(0, -1);
+		}
 		
-		private void OnStatusComboKeyPress (object sender, KeyPressEventArgs args)
+/*		private void OnStatusComboKeyPress (object sender, KeyPressEventArgs args)
 		{
 			if (args.Event.Key == Gdk.Key.Return) {
 				if (PersonManager.Me != null) {
@@ -465,12 +483,12 @@ namespace Banter
 				}
 			}
 		}
-		
-		private void OnStatusComboChanged (object sender, EventArgs args)
+*/		
+/*		private void OnStatusComboChanged (object sender, EventArgs args)
 		{
 			Logger.Debug ("OnStatusComboChanged");
 		}
-		
+*/		
 		private Widget CreateSidebarSearchEntry ()
 		{
 			VBox vbox = new VBox (false, 0);
@@ -739,7 +757,7 @@ Logger.Debug ("GroupWindow.BuildGroupButtonsView adding {0} groups",
 						me.DisplayName);
 				
 				// Set "my" status
-				statusComboBoxEntry.AppendText (me.Presence.Message);
+				statusEntry.Text = me.Presence.Message;
 				
 				me.PresenceUpdated += OnMyPresenceUpdated;
 			}
@@ -907,7 +925,8 @@ Logger.Debug ("GroupWindow.BuildGroupButtonsView adding {0} groups",
 		
 		private void OnMyPresenceUpdated (Person me)
 		{
-			statusComboBoxEntry.AppendText (me.Presence.Message);
+			statusEntry.Text = me.Presence.Message;
+			statusEntry.SelectRegion(0, -1);
 		}
 		
 		private void OnGroupRowInserted (object sender, RowInsertedArgs args)

@@ -360,6 +360,20 @@ namespace Banter
 			if (AvatarReceived != null)				
 				AvatarReceived (this, tokens[0], avatarData.MimeType, avatarData.Data);
 		}
+
+		
+		public void SetStatus(Presence myPresence)
+        {
+        	if(tlpConnection.Status == org.freedesktop.Telepathy.ConnectionStatus.Connected) {
+				Dictionary<string, IDictionary<string, object>> presence = new Dictionary<string, IDictionary<string, object>>();
+				Dictionary<string, object> values = new Dictionary<string, object>();
+				values.Add ("message", myPresence.Message);
+				presence.Add ( myPresence.Name, values);
+				tlpConnection.SetStatus (presence);
+				this.Presence = myPresence;
+        	}
+        }
+
 		#endregion
 	}
 }

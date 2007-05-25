@@ -71,7 +71,36 @@ namespace Banter
 		{
 			get { return message; }
 			set { this.message = value; }
-		}		
+		}
+		
+
+		/// <summary>
+		/// The name of this Presence
+		/// </summary>	
+		public string Name
+		{
+			get
+			{
+	            switch (presenceType)
+	            {
+	                case PresenceType.Offline:
+	                    return "offline";
+	                case PresenceType.Available:
+	                    return "available";
+	                case PresenceType.Away:
+	                    return "away";
+	                case PresenceType.XA:
+	                    return "xa";
+	                case PresenceType.Hidden:
+	                    return "hidden";
+	                case PresenceType.Busy:
+	                    return "dnd";
+	            }
+	            return "";
+			}
+        }
+
+		
 		#endregion
 
 

@@ -61,10 +61,7 @@ namespace Banter
 		/// </summary>
 		public Presence Presence
 		{
-			get
-			{
-				return presence;
-			}
+			get { return presence; }
 		}
 
 
@@ -73,10 +70,7 @@ namespace Banter
 		/// </summary>
 		public string PresenceMessage
 		{
-			get 
-			{			
-				return presence.Message;
-			}
+			get { return presence.Message; }
 		}		
 
 		
@@ -399,6 +393,21 @@ namespace Banter
 				}
 			}
 			UpdatePresence();
+		}
+		
+		/// <summary>
+		/// Sets the status for the person if the person IsMe
+		/// </summary>
+		public void SetStatus(Presence presence)
+		{
+			if(!this.IsMe)
+				return;
+			
+			if(providerUsers.Count > 0) {
+				foreach(ProviderUser user in providerUsers) {
+					user.SetStatus(presence);
+				}
+			}
 		}
 		
 		#endregion
