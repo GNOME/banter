@@ -62,7 +62,8 @@ CSFILES = \
 	$(srcdir)/GroupWindow.cs \
 	$(srcdir)/WrapBox.cs \
 	$(srcdir)/InterruptableTimeout.cs \
-	$(srcdir)/HIGMessageDialog.cs
+	$(srcdir)/HIGMessageDialog.cs \
+	$(srcdir)/StatusEntry.cs
 
 RESOURCES = \
 	-resource:$(top_srcdir)/data/images/banter-16.png \

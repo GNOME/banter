@@ -72,7 +72,7 @@ namespace Banter
 		private Widget sidebar;
 		private Image avatarImage;
 		private Label myDisplayName;
-		private Gtk.Entry statusEntry;
+		private StatusEntry statusEntry;
 		
 		private Entry searchEntry;
 		private Button cancelSearchButton;
@@ -443,11 +443,9 @@ namespace Banter
 			myDisplayName.Show ();
 			vbox.PackStart (myDisplayName, true, true, 0);
 			
-			statusEntry = new Entry();
-			statusEntry.HasFrame = false;
-//			statusEntry.KeyPressEvent += OnEntryKeyPress;
-			statusEntry.Activated += OnEntryActivated;
-			statusEntry.Show();
+			statusEntry = new StatusEntry ();
+			statusEntry.MessageChanged += OnStatusEntryChanged;
+			statusEntry.Show ();
 			vbox.PackStart (statusEntry, false, false, 0);
 			
 //			statusComboBoxEntry = ComboBoxEntry.NewText ();
@@ -460,19 +458,18 @@ namespace Banter
 			hbox.Show ();
 			return hbox;
 		}
-
-		private void OnEntryActivated (object sender, EventArgs e)
-		{
-			Logger.Debug("Setting presence on Me to {0}", statusEntry.Text);
-			
-			if(PersonManager.Me != null) {
-				Presence presence = new Presence(PresenceType.Available);
-				presence.Message = statusEntry.Text;
-				PersonManager.Me.SetStatus(presence);
-			}
-			statusEntry.SelectRegion(0, -1);
-		}
 		
+		private void OnStatusEntryChanged (PresenceType presenceType, string message)
+		{
+			Logger.Debug ("Setting precense on Me to {0}", message);
+			
+			if (PersonManager.Me != null) {
+				Presence presence = new Presence (presenceType);
+				presence.Message = message;
+				PersonManager.Me.SetStatus (presence);
+			}
+		}
+
 /*		private void OnStatusComboKeyPress (object sender, KeyPressEventArgs args)
 		{
 			if (args.Event.Key == Gdk.Key.Return) {
@@ -758,7 +755,7 @@ Logger.Debug ("GroupWindow.BuildGroupButtonsView adding {0} groups",
 						me.DisplayName);
 				
 				// Set "my" status
-				statusEntry.Text = me.Presence.Message;
+				statusEntry.SetMessage (me.Presence.Type, me.Presence.Message);
 				
 				me.PresenceUpdated += OnMyPresenceUpdated;
 			}
@@ -926,8 +923,7 @@ Logger.Debug ("GroupWindow.BuildGroupButtonsView adding {0} groups",
 		
 		private void OnMyPresenceUpdated (Person me)
 		{
-			statusEntry.Text = me.Presence.Message;
-			statusEntry.SelectRegion(0, -1);
+			statusEntry.SetMessage (me.Presence.Type, me.Presence.Message);
 		}
 		
 		private void OnGroupRowInserted (object sender, RowInsertedArgs args)

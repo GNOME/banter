@@ -1,3 +1,11 @@
+2007-05-25  Boyd Timothy <btimothy@gmail.com> 
+
+	* Banter.mdp, Banter/Makefile.am: Add StatusEntry.cs.
+	* Banter/StatusEntry.cs: New widget to provide cleaner setting of
+	  online status.
+	* Banter/GroupWindow.cs: Took the old Gtk.Entry statusEntry out and now
+	  use the StatusEntry widget.
+
 2007-05-25  Brady Anderson <banderso@novell.com> 
 
 	* Banter/Account.cs: removed printing the Disconnect exception message
