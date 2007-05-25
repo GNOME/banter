@@ -663,8 +663,8 @@ namespace Banter
 					tlpConnection.Disconnect ();
 					Logger.Debug ("out of telepathy disconnect");
 				} catch (Exception dis) {
-					Logger.Debug (dis.Message);
-					Logger.Debug (dis.StackTrace);
+					//Logger.Debug (dis.Message);
+					//Logger.Debug (dis.StackTrace);
 				}
 			}
 				

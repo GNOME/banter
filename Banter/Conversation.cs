@@ -52,6 +52,7 @@ namespace Banter
 		private org.freedesktop.Telepathy.IConnection tlpConnection;
 		private org.freedesktop.Telepathy.IChannelText txtChannel;
 		private ProviderUser peerUser;
+		private Presence lastPeerPresence;
 		
 		private uint current;
 		private uint last;
@@ -79,6 +80,9 @@ namespace Banter
 			this.peerUser = peerUser;
 			this.messages = new List<Message> ();
 			last = 999;
+
+			peerUser.PresenceUpdated += OnPeerPresenceUpdated;
+			lastPeerPresence = peerUser.Presence;
 			
 			if (initiate == true)
 				this.CreateTextChannel();
@@ -96,6 +100,57 @@ namespace Banter
 			}
 		}
 		
+		/// <summary>
+		/// Signal called when presence changes for the peer user.
+		/// </summary>
+		private void OnPeerPresenceUpdated (ProviderUser user)
+		{
+			string msg;
+			Banter.SystemMessage systemMessage = null;
+			
+			// no handlers?  exit
+			if (MessageReceived == null) return;
+			
+			string displayName = (user.Alias != null) ? user.Alias.Split (' ')[0] : user.Uri;
+			
+			if (user.Presence.Type != lastPeerPresence.Type) {
+				if (user.Presence.Type == Banter.PresenceType.Offline) {
+					msg = String.Format("{0} has gone {1}", displayName, user.Presence.Name); 
+					systemMessage = new Banter.SystemMessage (msg);
+				} else {
+					if (user.Presence.Message != null && user.Presence.Message != String.Empty) {
+					
+						msg = String.Format("{0} is {1}", displayName, user.Presence.Name); 
+						systemMessage = new Banter.SystemMessage (msg);
+						MessageReceived (this, systemMessage);
+
+						msg = String.Format("{0}'s new status \"{1}\"", displayName, user.Presence.Message); 
+						systemMessage = new Banter.SystemMessage (msg);
+					} else {
+						msg = String.Format("{0} is {1}", displayName, user.Presence.Name); 
+						systemMessage = new Banter.SystemMessage (msg);
+					}
+				}
+			
+			} else {
+				
+				if (user.Presence.Message != null && user.Presence.Message != String.Empty) {
+					msg = String.Format("{0}'s new status \"{1}\"", displayName, user.Presence.Message); 
+					systemMessage = new Banter.SystemMessage (msg);
+				}
+				
+				/*else {
+					msg = String.Format("{0} is {1}", displayName, user.Presence.Name); 
+					systemMessage = new Banter.SystemMessage (msg);
+				} */
+			}
+			
+			lastPeerPresence = user.Presence;
+			
+			// Indicate the message to registered handlers
+			if (systemMessage != null)
+				MessageReceived (this, systemMessage);
+		}
 		
 		/// <summary>
 		/// Message receive indication called from telepathy

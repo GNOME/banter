@@ -1,3 +1,10 @@
+2007-05-25  Brady Anderson <banderso@novell.com> 
+
+	* Banter/Account.cs: removed printing the Disconnect exception message
+	  since it happens every time.
+	* Banter/Conversation.cs: Added system messages for presence changes
+	  with a peer.
+
 2007-05-25  Boyd Timothy <btimothy@gmail.com> 
 
 	* Banter/GroupWindow.cs: Removed the frame around the statusEntry.
