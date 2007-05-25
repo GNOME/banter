@@ -84,6 +84,7 @@ namespace Banter
 			SetUpWidgets (peer);
 			Realized += WindowRealized;
 			DeleteEvent += WindowDeleted;
+			
 		}
 		
 #region Private Methods
@@ -215,8 +216,7 @@ Logger.Debug ("OnMessageReceived called: {0}", message.Text);
 		void OnTapiocaMessageReceived (Conversation conversation, Message message)
 		{
 			string avatarPath = null;
-Logger.Debug ("OnMessageReceived called: {0}", message.Text);
-			
+			Logger.Debug ("OnMessageReceived called: {0}", message.Text);
 			Logger.Debug ("Peer Handle: {0}", conversation.PeerUser.ID);
 			Logger.Debug ("Peer Screenname: {0}", conversation.PeerUser.Uri);
 			Logger.Debug ("Sender: {0}", conversation.PeerUser.Alias);
@@ -246,26 +246,6 @@ Logger.Debug ("OnMessageSent called: {0}", message.Text);
 			*/
 			AddMessage (message, false, conversation.CurrentMessageSameAsLast, avatarPath);
 		}
-		
-		/*
-		void OnMessageSent (Conversation conversation, Message message)
-		{
-Logger.Debug ("OnMessageSent called: {0}", message.Text);
-			// FIXME: This should eventually pull the from off of the Message
-			Person sender = null;
-			try {
-				sender = app.GetPerson (conversation.Me);
-			} catch (Exception e) {
-				Console.WriteLine ("Application.GetPerson () threw an exception: {0}\n{1}", e.Message, e.StackTrace);
-			}
-			
-			bool contentIsSimilar =
-				(lastSender == null || lastSender != sender || message is TextMessage == false) ?
-					false : true;
-			AddMessage (message, false, contentIsSimilar);
-			lastSender = sender;
-		}
-		*/
 		
 		void AddMessage (Message message, bool incoming, bool contentIsSimilar, string avatarPath)
 		{
@@ -328,10 +308,12 @@ Logger.Debug ("OnMessageSent called: {0}", message.Text);
 		
 		private void SendMessage ()
 		{
+			/*
 			if (conv == null) {
 				Logger.Info ("This window does not have a valid Conversation and cannot be used to chat with yet.");
 				return;
 			}
+			*/
 			
 			// Grab the text from the TextBuffer and clear it out
 			string text = typingTextView.Buffer.Text;
@@ -339,11 +321,15 @@ Logger.Debug ("OnMessageSent called: {0}", message.Text);
 			
 			TextMessage msg = new TextMessage (text);
 			conv.SendMessage (msg);
-			//conv.SendTapiocaMessage (msg);
 		}
 		
 		private void WindowRealized (object sender, EventArgs args)
 		{
+			// Check for any existing messages
+			Message[] messages = conv.GetReceivedMessages();
+			foreach (Message msg in messages)
+				OnTapiocaMessageReceived (conv, msg);
+				
 			// Set the default focus to the TextView where users should type
 			typingTextView.GrabFocus ();
 		}

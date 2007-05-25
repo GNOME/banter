@@ -28,7 +28,6 @@ using System.Text;
 using NDesk.DBus;
 using org.freedesktop.DBus;
 using org.freedesktop.Telepathy;
-
 using Tapioca;
 
 namespace Banter
@@ -51,7 +50,6 @@ namespace Banter
 		private Tapioca.StreamAudio tapAudioStream;
 		private Tapioca.StreamVideo tapVideoStream;
 		private org.freedesktop.Telepathy.IConnection tlpConnection;
-		//private org.freedesktop.Telepathy.IChannel txtChannel;
 		private org.freedesktop.Telepathy.IChannelText txtChannel;
 		private ProviderUser peerUser;
 		
@@ -388,26 +386,6 @@ namespace Banter
 				MessageSent (this, message);
 		}
 		
-		public void SendTapiocaMessage (Message message)
-		{
-			// FIXME throw exception
-			if (this.tapConnection == null) return;
-			if (this.tapTextChannel == null) return;
-			
-			Tapioca.TextChannelMessage tm = 
-				new Tapioca.TextChannelMessage (TextChannelMessageType.Normal, message.Text);
-				
-			this.tapTextChannel.SendMessage (tm);
-
-			if (current != 0)
-				last = current;
-				
-			current = this.tapConnection.Info.Handle.Id;
-			
-			if (MessageSent != null && message != null)
-				MessageSent (this, message);
-		}
-
 		public void SetTextChannel (IChannelText channel)
 		{
 			if (txtChannel != null) return;
@@ -416,9 +394,15 @@ namespace Banter
 			txtChannel.Received += OnReceiveMessageHandler;
 			txtChannel.Closed += OnTextChannelClosed;
 			
-							
-			//tapTextChannel.Closed += OnTextChannelClosed;
-			//tapTextChannel.MessageReceived += OnTapiocaMessageReceivedHandler;
+			// Check for any pending messages and add them to our list
+			TextMessage txtMessage;
+			PendingMessageInfo[] msgInfos = txtChannel.ListPendingMessages (true);
+			foreach (PendingMessageInfo info in msgInfos) {
+				Logger.Debug ("Pending Message: {0}", info.Message);
+				txtMessage = new TextMessage (info.Message);
+				txtMessage.From = peerUser.Uri;
+				messages.Add (txtMessage);
+			}
 		}
 		
 		public void SetVideoWindows (uint meID, uint peerID)

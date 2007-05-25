@@ -1,5 +1,10 @@
 2007-05-24  Brady Anderson <banderso@novell.com> 
 
+	* Banter/ChatWindow.cs, Banter/Conversation.cs: Added code to retrieve
+	  pending messages when receiving a chat start
+
+2007-05-24  Brady Anderson <banderso@novell.com> 
+
 	* Banter/ProviderUserManager.cs: Added a static method to get all
 	  ProviderUser objects which are flagged as me
 
