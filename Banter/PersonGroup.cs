@@ -94,7 +94,7 @@ namespace Banter
 		#region Constructors
 		/// <summary>
 		/// Constructor to create a new group
-		/// call PersonStore.AddGroup() to add this group to the store
+		/// call PersonManager.AddGroup() to add this group to the store
 		/// </summary>		
 		public PersonGroup(string groupName)
 		{
@@ -153,7 +153,7 @@ namespace Banter
 						foreach(String valStr in valueList) {
 							//Logger.Debug("  Value: {0}", valStr);
 
-							Person person = PersonStore.GetPerson(valStr);
+							Person person = PersonManager.GetPerson(valStr);
 							if(person != null) {
 								Gtk.TreeIter iter = personTreeStore.AppendValues(person);
 								//Logger.Debug("  Contact: {0}", person.DisplayName);
@@ -186,12 +186,12 @@ namespace Banter
 
 		#region Public Methods
 		/// <summary>
-		/// Adds a person to a group.  You must call PersonStore CommitGroup with this group to save it to EDS
+		/// Adds a person to a group.  You must call PersonManager CommitGroup with this group to save it to EDS
 		/// </summary>			
 		public void AddPerson(Person person)
 		{
 			if( (person.Id == null) || (person.Id.Length == 0) )
-				throw new ApplicationException("Invalid Person object.  Person must be added to the PersonStore before adding them to a group");
+				throw new ApplicationException("Invalid Person object.  Person must be added to the PersonManager before adding them to a group");
 				
 			if(IsPersonInGroup(person))
 				return;
@@ -217,12 +217,12 @@ namespace Banter
 		
 
 		/// <summary>
-		/// Removes a person from a group.  You must call PersonStore CommitGroup with this group to save it to EDS
+		/// Removes a person from a group.  You must call PersonManager CommitGroup with this group to save it to EDS
 		/// </summary>			
 		public void RemovePerson(Person person)
 		{
 			if( (person.Id == null) || (person.Id.Length == 0) )
-				throw new ApplicationException("Invalid Person object.  Person must be added to the PersonStore before adding them to a group");
+				throw new ApplicationException("Invalid Person object.  Person must be added to the PersonManager before adding them to a group");
 
 			if(edsContact == null)
 				return;

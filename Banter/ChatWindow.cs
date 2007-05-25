@@ -72,7 +72,7 @@ namespace Banter
 			//lastSender = null;
 			shiftKeyPressed = false;
 
-			Person peer = PersonStore.GetPersonByJabberId (conv.PeerUser.Uri);
+			Person peer = PersonManager.GetPersonByJabberId (conv.PeerUser.Uri);
 			chatWindows[peer.Id] = this;
 			
 			// Update the window title
@@ -223,7 +223,7 @@ Logger.Debug ("OnMessageReceived called: {0}", message.Text);
 			
 			Person person = null;
 			try {
-				person = PersonStore.GetPerson (conversation.PeerUser);
+				person = PersonManager.GetPerson (conversation.PeerUser);
 			} catch{}
 			
 			if(person != null)
@@ -240,7 +240,7 @@ Logger.Debug ("OnMessageReceived called: {0}", message.Text);
 Logger.Debug ("OnMessageSent called: {0}", message.Text);
 
 			/*
-			Person person = PersonStore.GetPersonByJabberId(conversation.MeContact.Uri);
+			Person person = PersonManager.GetPersonByJabberId(conversation.MeContact.Uri);
 			if(person != null)
 				avatarPath = person.GetScaledAvatar(36);
 			*/

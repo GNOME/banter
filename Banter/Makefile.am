@@ -32,7 +32,7 @@ CSFILES = \
 	$(srcdir)/Utilities.cs \
 	$(srcdir)/Person.cs \
 	$(srcdir)/PersonGroup.cs \
-	$(srcdir)/PersonStore.cs \
+	$(srcdir)/PersonManager.cs \
 	$(srcdir)/PersonSync.cs \
 	$(srcdir)/PersonView.cs \
 	$(srcdir)/PersonCard.cs \

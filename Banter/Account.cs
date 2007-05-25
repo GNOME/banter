@@ -568,7 +568,7 @@ namespace Banter
 						return;
 					}
 					
-					Person peer = PersonStore.GetPersonByJabberId (pu.Uri);
+					Person peer = PersonManager.GetPersonByJabberId (pu.Uri);
 					ChatWindow cw = null;
 					
 					Logger.Debug ("Peer: {0}", peer.Id);

@@ -69,6 +69,26 @@ namespace Banter
 				}
 			}
 		}
+
+
+		/// <summary>
+		/// Read-Only returning an array of ProviderUsers that are Me
+		/// </summary>	
+		public static ProviderUser[] Me
+		{
+			get
+			{
+				List<ProviderUser> users = new List<ProviderUser> ();
+
+				lock(locker) {			
+					foreach (ProviderUser cUser in ProviderUserManager.Instance.users.Values)
+						if (cUser.IsMe == true)
+							users.Add (cUser);
+				}
+				
+				return users.ToArray();
+			}
+		}		
 		#endregion
 
 
@@ -161,22 +181,6 @@ namespace Banter
 			}
 		}		
 		
-		
-		/// <summary>
-		/// Gets a list of all Me ProviderUser objects
-		/// </summary>	
-		public static IList <ProviderUser> GetMe()
-		{
-			List<ProviderUser> users = new List<ProviderUser> ();
-
-			lock(locker) {			
-				foreach (ProviderUser cUser in ProviderUserManager.Instance.users.Values)
-					if (cUser.IsMe == true)
-						users.Add (cUser);
-			}
-			
-			return users;
-		}		
 
 
 		/// <summary>

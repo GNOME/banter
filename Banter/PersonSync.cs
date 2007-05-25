@@ -27,7 +27,7 @@ namespace Banter
 	///<summary>
 	///	PersonSync Class
 	/// Synchronizes the Telepathy contacts with EDS contacts.  This is done using
-	/// the ProviderUserManager and the PersonStore.
+	/// the ProviderUserManager and the PersonManager.
 	///</summary>
 	public class PersonSync
 	{
@@ -66,12 +66,12 @@ namespace Banter
 		#region Private Methods
 		public void ProviderUserAdded (ProviderUser user)
 		{
-			Person person = PersonStore.GetPerson(user);
+			Person person = PersonManager.GetPerson(user);
 			if(person == null) {
 				Logger.Debug("PersonSync.ProviderUserAdded: Adding new Contact in EDS: {0}", user.Alias);
 				person = new Person(user.Alias);
 				person.JabberId = user.Uri;
-				PersonStore.AddPerson(person);
+				PersonManager.AddPerson(person);
 			}
 		}
 		#endregion

@@ -1,5 +1,5 @@
 //***********************************************************************
-// *  $RCSfile$ - PersonStoreEDS.cs
+// *  $RCSfile$ - PersonManager.cs
 // *
 // *  Copyright (C) 2007 Novell, Inc.
 // *
@@ -30,16 +30,16 @@ using System.Collections.Generic;
 namespace Banter
 {
 	///<summary>
-	///	PersonStore Class
-	/// PersonStore is a singleton that is the main interface into EDS.  It provides models for the groups
+	///	PersonManager Class
+	/// PersonManager is a singleton that is the main interface into EDS.  It provides models for the groups
 	/// which can be used to create a UI.  It also provides methods to manipulate
 	/// Person and PersonGroup objects in the EDS.
 	///</summary>
-	public class PersonStore
+	public class PersonManager
 	{
 
 		#region Private Static Types
-		private static Banter.PersonStore store = null;
+		private static Banter.PersonManager store = null;
 		private static System.Object locker = new System.Object();
 		#endregion
 
@@ -70,16 +70,16 @@ namespace Banter
 
 		#region Public Static Properties
 		/// <summary>
-		/// Obtain the singleton for PersonStore
+		/// Obtain the singleton for PersonManager
 		/// </summary>		
-		public static PersonStore Instance
+		public static PersonManager Instance
 		{
 			get
 			{
 				lock(locker) {
 					if(store == null) {
 						lock(locker) {
-							store = new PersonStore();
+							store = new PersonManager();
 						}
 					}
 					return store;
@@ -95,7 +95,7 @@ namespace Banter
 		{
 			get
 			{
-				return PersonStore.Instance.groupTreeStore;
+				return PersonManager.Instance.groupTreeStore;
 			}
 		}
 		
@@ -107,7 +107,7 @@ namespace Banter
 		{
 			get
 			{
-				return PersonStore.Instance.personTreeStore;
+				return PersonManager.Instance.personTreeStore;
 			}
 		}
 		
@@ -117,10 +117,10 @@ namespace Banter
 		/// </summary>
 		public static Person Me
 		{
-			get{ return PersonStore.Instance.me;}
+			get{ return PersonManager.Instance.me;}
 			set
 			{
-				PersonStore.Instance.me = value;
+				PersonManager.Instance.me = value;
 			}
 		}			
 		#endregion
@@ -130,7 +130,7 @@ namespace Banter
 		/// <summary>
 		/// A private constructor used when obtaining the Singleton by using the static property Instance.
 		/// </summary>			
-		private PersonStore ()
+		private PersonManager ()
 		{
 			systemBook = Book.NewSystemAddressbook();
 			systemBook.Open(true);
@@ -182,13 +182,13 @@ namespace Banter
 						group.EDSContact = contact;
 						// because we just changed the internal object, we need to emit the event
 						groupTreeStore.EmitRowChanged(groupTreeStore.GetPath(iter), iter);
-						Logger.Debug("PersonStore.OnContactsAdded - Updated PersonGroup: {0}", group.DisplayName);
+						Logger.Debug("PersonManager.OnContactsAdded - Updated PersonGroup: {0}", group.DisplayName);
 					}
 					else {
 						PersonGroup group = new PersonGroup(contact);
 						Gtk.TreeIter iter = groupTreeStore.AppendValues(group);
 						groupIters[contact.Id] = iter;
-						Logger.Debug ("PersonStore.OnContactsAdded - Added PersonGroup: {0}", contact.FileAs);
+						Logger.Debug ("PersonManager.OnContactsAdded - Added PersonGroup: {0}", contact.FileAs);
 					}
 				}
 				else {
@@ -198,14 +198,14 @@ namespace Banter
 						person.EDSContact = contact;
 						// because we just changed the internal object, we need to emit the event
 						personTreeStore.EmitRowChanged(personTreeStore.GetPath(iter), iter);
-						Logger.Debug("PersonStore.OnContactsAdded - Updated Person: {0}", contact.FileAs);
+						Logger.Debug("PersonManager.OnContactsAdded - Updated Person: {0}", contact.FileAs);
 					}
 					else {
 						Person person = new Person(contact);
 						Gtk.TreeIter iter = personTreeStore.AppendValues(person);
 						personIters[contact.Id] = iter;
 						person.UpdateProviderUsers();
-						Logger.Debug ("PersonStore.OnContactsAdded - Added Person: {0}", person.DisplayName);
+						Logger.Debug ("PersonManager.OnContactsAdded - Added Person: {0}", person.DisplayName);
 					}
 				}
 			}
@@ -225,13 +225,13 @@ namespace Banter
 						group.EDSContact = contact;
 						// because we just changed the internal object, we need to emit the event
 						groupTreeStore.EmitRowChanged(groupTreeStore.GetPath(iter), iter);
-						Logger.Debug("PersonStore.OnContactsChanged - Updated PersonGroup: {0}", group.DisplayName);
+						Logger.Debug("PersonManager.OnContactsChanged - Updated PersonGroup: {0}", group.DisplayName);
 					}
 					else {
 						PersonGroup group = new PersonGroup(contact);
 						Gtk.TreeIter iter = groupTreeStore.AppendValues(group);
 						groupIters[contact.Id] = iter;
-						Logger.Debug ("PersonStore.OnContactsChanged - Added PersonGroup: {0}", contact.FileAs);
+						Logger.Debug ("PersonManager.OnContactsChanged - Added PersonGroup: {0}", contact.FileAs);
 					}
 				}
 				else {
@@ -241,14 +241,14 @@ namespace Banter
 						person.EDSContact = contact;
 						// because we just changed the internal object, we need to emit the event
 						personTreeStore.EmitRowChanged(personTreeStore.GetPath(iter), iter);
-						Logger.Debug("PersonStore.OnContactsChanged - Updated Person: {0}", contact.FileAs);
+						Logger.Debug("PersonManager.OnContactsChanged - Updated Person: {0}", contact.FileAs);
 					}
 					else {
 						Person person = new Person(contact);
 						Gtk.TreeIter iter = personTreeStore.AppendValues(person);
 						personIters[contact.Id] = iter;
 						person.UpdateProviderUsers();						
-						Logger.Debug ("PersonStore.OnContactsChanged - Added Person: {0}", person.DisplayName);
+						Logger.Debug ("PersonManager.OnContactsChanged - Added Person: {0}", person.DisplayName);
 					}
 				}
 			}
@@ -273,13 +273,13 @@ namespace Banter
 					Gtk.TreeIter iter = groupIters[contactId];
 					PersonGroup group = (PersonGroup) groupTreeStore.GetValue(iter, 0);
 					groupTreeStore.Remove(ref iter);
-					Logger.Debug("PersonStore.OnContactsRemoved - Removed PersonGroup: {0}", group.DisplayName);
+					Logger.Debug("PersonManager.OnContactsRemoved - Removed PersonGroup: {0}", group.DisplayName);
 				}
 				else if(personIters.ContainsKey(contactId)) {
 					Gtk.TreeIter iter = personIters[contactId];
 					Person person = (Person) personTreeStore.GetValue(iter, 0);
 					personTreeStore.Remove(ref iter);
-					Logger.Debug("PersonStore.OnContactsRemoved - Removed Person: {0}", person.DisplayName);
+					Logger.Debug("PersonManager.OnContactsRemoved - Removed Person: {0}", person.DisplayName);
 				}
 			}
 		}
@@ -317,7 +317,7 @@ namespace Banter
 			Evolution.BookQuery q = Evolution.BookQuery.FieldTest(	ContactField.ImJabber, 
 																	BookQueryTest.Is, 
 																	jabberId);
-			return PersonStore.Instance.FindPerson(q);
+			return PersonManager.Instance.FindPerson(q);
 		}
 
 
@@ -330,7 +330,7 @@ namespace Banter
 				Evolution.BookQuery q = Evolution.BookQuery.FieldTest(	ContactField.ImJabber, 
 																		BookQueryTest.Is, 
 																		user.Uri );
-				return PersonStore.Instance.FindPerson(q);
+				return PersonManager.Instance.FindPerson(q);
 			}
 			else
 				throw new ApplicationException("Can't do that");
@@ -343,9 +343,9 @@ namespace Banter
 		public static Person GetPerson(string contactId)
 		{
 			Person person = null;
-			if(PersonStore.Instance.personIters.ContainsKey(contactId)) {
-				Gtk.TreeIter iter = PersonStore.Instance.personIters[contactId];
-				person = (Person) PersonStore.Instance.personTreeStore.GetValue(iter, 0);
+			if(PersonManager.Instance.personIters.ContainsKey(contactId)) {
+				Gtk.TreeIter iter = PersonManager.Instance.personIters[contactId];
+				person = (Person) PersonManager.Instance.personTreeStore.GetValue(iter, 0);
 			}
 			return person;
 		}
@@ -356,10 +356,10 @@ namespace Banter
 		/// </summary>	
 		public static bool AddPerson(Person person)
 		{
-			if(PersonStore.Instance.systemBook.AddContact(person.EDSContact)) {
+			if(PersonManager.Instance.systemBook.AddContact(person.EDSContact)) {
 				// if they added, then add the person to our tables to find them
-				Gtk.TreeIter iter = PersonStore.Instance.personTreeStore.AppendValues(person);
-				PersonStore.Instance.personIters[person.Id] = iter;
+				Gtk.TreeIter iter = PersonManager.Instance.personTreeStore.AppendValues(person);
+				PersonManager.Instance.personIters[person.Id] = iter;
 				return true;
 			}
 			return false;
@@ -371,7 +371,7 @@ namespace Banter
 		/// </summary>	
 		public static bool CommitPerson(Person person)
 		{
-			return PersonStore.Instance.systemBook.CommitContact(person.EDSContact);
+			return PersonManager.Instance.systemBook.CommitContact(person.EDSContact);
 		}
 		
 		
@@ -380,7 +380,7 @@ namespace Banter
 		/// </summary>	
 		public static bool RemovePerson(string Id)
 		{
-			return PersonStore.Instance.systemBook.RemoveContact(Id);
+			return PersonManager.Instance.systemBook.RemoveContact(Id);
 		}				
 		
 
@@ -390,9 +390,9 @@ namespace Banter
 		public static PersonGroup GetGroup(string groupId)
 		{
 			PersonGroup group = null;
-			if(PersonStore.Instance.groupIters.ContainsKey(groupId)) {
-				Gtk.TreeIter iter = PersonStore.Instance.groupIters[groupId];
-				group = (PersonGroup) PersonStore.Instance.groupTreeStore.GetValue(iter, 0);
+			if(PersonManager.Instance.groupIters.ContainsKey(groupId)) {
+				Gtk.TreeIter iter = PersonManager.Instance.groupIters[groupId];
+				group = (PersonGroup) PersonManager.Instance.groupTreeStore.GetValue(iter, 0);
 			}
 			return group;
 		}
@@ -403,10 +403,10 @@ namespace Banter
 		/// </summary>	
 		public static bool AddGroup(PersonGroup group)
 		{
-			if(PersonStore.Instance.systemBook.AddContact(group.EDSContact)) {
+			if(PersonManager.Instance.systemBook.AddContact(group.EDSContact)) {
 				// if they added, then add the person to our tables to find them
-				Gtk.TreeIter iter = PersonStore.Instance.groupTreeStore.AppendValues(group);
-				PersonStore.Instance.groupIters[group.Id] = iter;
+				Gtk.TreeIter iter = PersonManager.Instance.groupTreeStore.AppendValues(group);
+				PersonManager.Instance.groupIters[group.Id] = iter;
 				return true;
 			}
 			return false;
@@ -418,7 +418,7 @@ namespace Banter
 		/// </summary>	
 		public static bool CommitGroup(PersonGroup group)
 		{
-			return PersonStore.Instance.systemBook.CommitContact(group.EDSContact);
+			return PersonManager.Instance.systemBook.CommitContact(group.EDSContact);
 		}		
 
 
@@ -427,7 +427,7 @@ namespace Banter
 		/// </summary>	
 		public static bool RemoveGroup(string Id)
 		{
-			return PersonStore.Instance.systemBook.RemoveContact(Id);
+			return PersonManager.Instance.systemBook.RemoveContact(Id);
 		}		
 		#endregion
 		

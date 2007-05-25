@@ -1,3 +1,12 @@
+2007-05-25  Calvin Gaisford <calvinrg@gmail.com> 
+
+	* Banter.mdp, Banter/PersonGroup.cs, Banter/Account.cs,
+	  Banter/Application.cs, Banter/ChatWindow.cs, Banter/PersonStore.cs,
+	  Banter/GroupWindow.cs, Banter/PersonManager.cs,
+	  Banter/PersonSync.cs, Banter/Makefile.am: Renamed PersonStore to
+	  PersonManager
+	* Banter/ProviderUserManager.cs: Moved the GetMe call to a Me property
+
 2007-05-24  Brady Anderson <banderso@novell.com> 
 
 	* Banter/ChatWindow.cs, Banter/Conversation.cs: Added code to retrieve

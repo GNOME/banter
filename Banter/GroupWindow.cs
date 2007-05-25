@@ -351,7 +351,7 @@ namespace Banter
 			
 			Move (xPos, yPos);
 
-			groupTreeModel = PersonStore.Groups;
+			groupTreeModel = PersonManager.Groups;
 			groupButtonMap = new Dictionary<int, GroupButton> ();
 			
 			saveStateTimeout = new InterruptableTimeout ();
@@ -424,8 +424,8 @@ namespace Banter
 		{
 			HBox hbox = new HBox (false, 4);
 			
-			if( (PersonStore.Me != null) && (PersonStore.Me.Photo != null) )
-				avatarImage = new Image(PersonStore.Me.Photo.ScaleSimple(48,48,Gdk.InterpType.Bilinear));
+			if( (PersonManager.Me != null) && (PersonManager.Me.Photo != null) )
+				avatarImage = new Image(PersonManager.Me.Photo.ScaleSimple(48,48,Gdk.InterpType.Bilinear));
 			else
 				avatarImage = new Image (Utilities.GetIcon ("blank-photo-128", 32));
 
@@ -457,10 +457,10 @@ namespace Banter
 		private void OnStatusComboKeyPress (object sender, KeyPressEventArgs args)
 		{
 			if (args.Event.Key == Gdk.Key.Return) {
-				if (PersonStore.Me != null) {
+				if (PersonManager.Me != null) {
 					Logger.Debug ("FIXME: Set \"my\" status to: {0}",
 							statusComboBoxEntry.ActiveText);
-					PersonStore.Me.Presence.Message =
+					PersonManager.Me.Presence.Message =
 							statusComboBoxEntry.ActiveText;
 				}
 			}
@@ -711,8 +711,8 @@ Logger.Debug ("GroupWindow.BuildGroupButtonsView adding {0} groups",
 		#region method overrides
 		protected override bool OnDeleteEvent (Gdk.Event evnt)
 		{
-			if (PersonStore.Me != null)
-				PersonStore.Me.PresenceUpdated -= OnMyPresenceUpdated;
+			if (PersonManager.Me != null)
+				PersonManager.Me.PresenceUpdated -= OnMyPresenceUpdated;
 			
 			groupTreeModel.RowInserted -= OnGroupRowInserted;
 			groupTreeModel.RowDeleted -= OnGroupRowDeleted;
@@ -731,7 +731,7 @@ Logger.Debug ("GroupWindow.BuildGroupButtonsView adding {0} groups",
 		private void OnRealizeWidget (object sender, EventArgs args)
 		{
 			// Set "my" display name
-			Person me = PersonStore.Me;
+			Person me = PersonManager.Me;
 			if (me != null) {
 				myDisplayName.Markup =
 					string.Format (
@@ -810,7 +810,7 @@ Logger.Debug ("GroupWindow.BuildGroupButtonsView adding {0} groups",
 			Title = Catalog.GetString ("Everyone - Banter");
 			selectedGroup = null;
 			
-			personView.Model = PersonStore.People;
+			personView.Model = PersonManager.People;
 			
 			QueueSaveState ();
 		}
@@ -834,7 +834,7 @@ Logger.Debug ("GroupWindow.BuildGroupButtonsView adding {0} groups",
 				if (groupName.Length > 0) {
 					try {
 						PersonGroup group = new PersonGroup (groupName);
-						PersonStore.AddGroup (group);
+						PersonManager.AddGroup (group);
 					} catch (Exception e) {
 						Logger.Debug ("Couldn't create a group: {0}\n{1}\n{2}",
 								groupName, e.Message, e.StackTrace);
@@ -998,7 +998,7 @@ Logger.Debug ("GroupWindow.BuildGroupButtonsView adding {0} groups",
 			
 			if (responseType == (int) ResponseType.Yes) {
 				try {
-					PersonStore.RemoveGroup (group.Id);
+					PersonManager.RemoveGroup (group.Id);
 				} catch (Exception e) {
 					Logger.Warn ("Error removing the group: {0}\n{1}\n{2}",
 							group.DisplayName,

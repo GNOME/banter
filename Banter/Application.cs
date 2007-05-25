@@ -111,7 +111,7 @@ namespace Banter
 						args);
 
 			// Call Init before anything so the people objects are in place
-			PersonStore.Instance.Init();
+			PersonManager.Instance.Init();
 			
 			// Create and start up the Person Sync
 			personSync = new PersonSync();
