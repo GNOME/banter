@@ -1,5 +1,10 @@
 2007-05-25  Calvin Gaisford <calvinrg@gmail.com> 
 
+	* Banter/Conversation.cs: Changed GetReceivedMessages() so it doesn't
+	  return null.  Just return a blank array if there are no messages
+
+2007-05-25  Calvin Gaisford <calvinrg@gmail.com> 
+
 	* Banter.mdp, Banter/PersonGroup.cs, Banter/Account.cs,
 	  Banter/Application.cs, Banter/ChatWindow.cs, Banter/PersonStore.cs,
 	  Banter/GroupWindow.cs, Banter/PersonManager.cs,

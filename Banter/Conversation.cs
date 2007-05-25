@@ -362,8 +362,8 @@ namespace Banter
 		
 		public Banter.Message[] GetReceivedMessages()
 		{
-			if (messages.Count == 0)
-				return null;
+//			if (messages.Count == 0)
+//				return null;
 			
 			return messages.ToArray();
 		}
