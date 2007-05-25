@@ -1,5 +1,9 @@
 2007-05-25  Calvin Gaisford <calvinrg@gmail.com> 
 
+	* configure.ac: bumped the revision to 0.1.5 for next iteration
+
+2007-05-25  Calvin Gaisford <calvinrg@gmail.com> 
+
 	* Banter.mds: Removed WebKit references
 	* NEWS: Updated for 0.1.4 release
 
