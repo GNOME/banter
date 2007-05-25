@@ -1,3 +1,7 @@
+2007-05-25  Boyd Timothy <btimothy@gmail.com> 
+
+	* Banter/GroupWindow.cs: Removed the frame around the statusEntry.
+
 2007-05-25  Calvin Gaisford <calvinrg@gmail.com> 
 
 	* Banter/Presence.cs: Added text for Presence types

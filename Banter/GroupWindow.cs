@@ -444,6 +444,7 @@ namespace Banter
 			vbox.PackStart (myDisplayName, true, true, 0);
 			
 			statusEntry = new Entry();
+			statusEntry.HasFrame = false;
 //			statusEntry.KeyPressEvent += OnEntryKeyPress;
 			statusEntry.Activated += OnEntryActivated;
 			statusEntry.Show();
