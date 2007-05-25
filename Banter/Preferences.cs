@@ -50,6 +50,9 @@ namespace Banter
 			"PurePlastics=MessageStyles/PurePlastics.AdiumMessageStyle"
 		};
 		
+		static readonly string[] DefaultCustomAvailableMessages = {};
+		static readonly string[] DefaultCustomBusyMessages = {};
+		
 		public const string GroupWindows = "/apps/banter/group_windows/saved_windows";
 		public const string GroupWindowPrefix = "/apps/banter/group_windows";
 
@@ -72,6 +75,9 @@ namespace Banter
 	   	public const string SelectedMessageStyle = "/apps/banter/themes/selected_message_style";
 	   	public const string SelectedMessageStyleVariant = "/apps/banter/themes/selected_message_style_variant";
 	   	public const string ValidMessageStyles = "/apps/banter/themes/valid_message_styles";
+	   	
+	   	public const string CustomAvailableMessages = "/apps/banter/custom_available_messages";
+	   	public const string CustomBusyMessages = "/apps/banter/custom_busy_messages";
 
 		static Preferences ()
 		{
@@ -131,6 +137,10 @@ namespace Banter
 				return "ekiga.net";
 //			case GroupWindows:
 //				return DefaultGroupWindows;
+			case CustomAvailableMessages:
+				return DefaultCustomAvailableMessages;
+			case CustomBusyMessages:
+				return DefaultCustomBusyMessages;
 			}
 			
 			return null;

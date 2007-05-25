@@ -332,7 +332,7 @@ namespace Banter
 				
 				if (PresenceChanged != null)
 					PresenceChanged (presence);
-				}
+			}
 		}
 #endregion
 

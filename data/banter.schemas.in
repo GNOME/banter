@@ -292,5 +292,35 @@
       </locale>
     </schema>
 
+    <schema>
+      <key>/schemas/apps/banter/custom_available_messages</key>
+      <applyto>/apps/banter/custom_available_messages</applyto>
+      <owner>banter</owner>
+      <type>list</type>
+      <default>[]</default>
+      <locale name="C">
+         <short>List of custom available status messages</short>
+         <long>
+        List containing the custom status messages indicating the user
+        is available.
+         </long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/apps/banter/custom_busy_messages</key>
+      <applyto>/apps/banter/custom_busy_messages</applyto>
+      <owner>banter</owner>
+      <type>list</type>
+      <default>[]</default>
+      <locale name="C">
+         <short>List of custom busy status messages</short>
+         <long>
+        List containing the custom status messages indicating the user
+        is busy.
+         </long>
+      </locale>
+    </schema>
+
   </schemalist>
 </gconfschemafile>

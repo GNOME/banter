@@ -1,5 +1,11 @@
 2007-05-25  Boyd Timothy <btimothy@gmail.com> 
 
+	* data/banter.schemas.in, Banter/Preferences.cs: Stubbing out some code
+	  for saving custom status messages.
+	* Banter/StatusEntry.cs: Fixed up a close brace indentation.
+
+2007-05-25  Boyd Timothy <btimothy@gmail.com> 
+
 	* Banter/Presence.cs: Add a constructor that allows you to specify both
 	  a PresenceType and a message at the same time.
 	* Banter/StatusEntry.cs: Cleaned up to use the already-existing
