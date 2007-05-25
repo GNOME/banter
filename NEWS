@@ -7,8 +7,14 @@ Please send questions and suggestions to
 Please report bugs using http://bugzilla.gnome.org/
 (http://bugzilla.gnome.org/enter_bug.cgi?product=Banter).
 
-Version 0.1.3
+Version 0.1.4
+* Status Messages can be set and received in Group and Chat windows.
+* Secret status messages can be set.
+* Logged in person is shown in Group Window.
+* Contacts can be resized in Group Window to show more details.
+* Removed dependency on Tapioca sharp.
 
+Version 0.1.3
 * Groups can now be created/deleted from group windows.
 * Themes/Styles now loaded from $prefix/share/banter/Themes and ~/.banter/Themes.
 * Initial work for adding people to groups via evolution.

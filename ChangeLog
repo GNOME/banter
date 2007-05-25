@@ -1,3 +1,8 @@
+2007-05-25  Calvin Gaisford <calvinrg@gmail.com> 
+
+	* Banter.mds: Removed WebKit references
+	* NEWS: Updated for 0.1.4 release
+
 2007-05-25  Brady Anderson <banderso@novell.com> 
 
 	* Banter/Conversation.cs: changes to status system messages - took out

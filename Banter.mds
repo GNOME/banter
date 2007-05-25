@@ -5,14 +5,12 @@
       <Entry build="False" name="StreamObjectTest" configuration="Debug" />
       <Entry build="True" name="tapioca-sharp" configuration="Debug" />
       <Entry build="True" name="Banter" configuration="Debug" />
-      <Entry build="True" name="WebKit" configuration="Debug" />
     </Configuration>
     <Configuration name="Release" ctype="CombineConfiguration">
       <Entry build="False" name="TelepathyTest" configuration="Release" />
       <Entry build="False" name="StreamObjectTest" configuration="Release" />
       <Entry build="True" name="tapioca-sharp" configuration="Release" />
       <Entry build="True" name="Banter" configuration="Release" />
-      <Entry build="True" name="WebKit" configuration="Release" />
     </Configuration>
   </Configurations>
   <StartMode startupentry="Banter" single="True">
@@ -20,13 +18,11 @@
     <Execute type="None" entry="StreamObjectTest" />
     <Execute type="None" entry="tapioca-sharp" />
     <Execute type="None" entry="Banter" />
-    <Execute type="None" entry="WebKit" />
   </StartMode>
   <Entries>
     <Entry filename="./test/TelepathyTest/TelepathyTest.mdp" />
     <Entry filename="./test/StreamObjectTest/StreamObjectTest.mdp" />
     <Entry filename="./tapioca-sharp/tapioca-sharp.mdp" />
     <Entry filename="./Banter.mdp" />
-    <Entry filename="./WebKit/WebKit.mdp" />
   </Entries>
 </Combine>
