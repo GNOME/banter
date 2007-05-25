@@ -1,5 +1,12 @@
 2007-05-25  Boyd Timothy <btimothy@gmail.com> 
 
+	* Banter/StatusEntry.cs: Use ModifyBg on all the included widgets to
+	  have the color turn out appropriately.  Fix up the Available/Busy
+	  strings so they don't get added more than once.  Use italic font
+	  for the status.
+
+2007-05-25  Boyd Timothy <btimothy@gmail.com> 
+
 	* Banter.mdp, Banter/Makefile.am: Add StatusEntry.cs.
 	* Banter/StatusEntry.cs: New widget to provide cleaner setting of
 	  online status.

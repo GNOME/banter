@@ -53,6 +53,7 @@ namespace Banter
 			potentialPresenceType = PresenceType.Offline;
 			
 			notebook = new Notebook ();
+			notebook.ModifyBg (StateType.Normal, Style.Background (StateType.Active));
 			notebook.ShowTabs = false;
 			
 			notebook.AppendPage (CreateViewWidget (), new Label ());
@@ -69,6 +70,7 @@ namespace Banter
 			HBox hbox = new HBox (false, 2);
 			
 			statusLabel = new Label ();
+			statusLabel.ModifyBg (StateType.Normal, Style.Background (StateType.Active));
 			statusLabel.LineWrap = false;
 			statusLabel.UseMarkup = true;
 			statusLabel.UseUnderline = false;
@@ -77,6 +79,7 @@ namespace Banter
 			
 			Image downImage = new Image (Stock.GoDown, IconSize.Menu);
 			statusDownButton = new Button (downImage);
+			statusDownButton.ModifyBg (StateType.Normal, Style.Background (StateType.Active));
 			statusDownButton.Relief = ReliefStyle.None;
 			statusDownButton.Clicked += OnStatusDownButtonClicked;
 			statusDownButton.Show ();
@@ -90,6 +93,7 @@ namespace Banter
 		private Widget CreateEditWidget ()
 		{
 			statusEntry = new Entry ();
+			statusEntry.ModifyBg (StateType.Normal, Style.Background (StateType.Active));
 			statusEntry.Activated += OnStatusEntryActivated;
 			statusEntry.KeyPressEvent += OnStatusEntryKeyPressEvent;
 			statusEntry.Show ();
@@ -129,14 +133,20 @@ namespace Banter
 		private void OnStatusDownButtonClicked (object sender, EventArgs args)
 		{
 			Menu popupMenu = new Menu ();
+			StatusMenuItem item;
 			
 			// Available messages
-			StatusMenuItem item =
-				new StatusMenuItem (StatusMenuType.Available, Catalog.GetString ("Available"));
+			string availMsg = Catalog.GetString ("Available");
+			AddCustomAvailableMessage (availMsg);
+			
+			// Make sure the Available message is shown first
+			item = new StatusMenuItem (StatusMenuType.Available, availMsg);
 			item.Activated += OnAvailableMessageSelected;
 			popupMenu.Add (item);
 			
 			foreach (string customMessage in customAvailableMessages.Keys) {
+				if (string.Compare (customMessage, availMsg) == 0)
+					continue; // skip the available item since it's already at the top of the list
 				item = new StatusMenuItem (StatusMenuType.Available, customMessage);
 				item.Activated += OnAvailableMessageSelected;
 				popupMenu.Add (item);
@@ -149,11 +159,17 @@ namespace Banter
 			popupMenu.Add (new SeparatorMenuItem ());
 			
 			// Busy messages
-			item = new StatusMenuItem (StatusMenuType.Busy, Catalog.GetString ("Busy"));
+			string busyMsg = Catalog.GetString ("Busy");
+			AddCustomBusyMessage (busyMsg);
+			
+			// Make sure the Busy message is shown first
+			item = new StatusMenuItem (StatusMenuType.Available, busyMsg);
 			item.Activated += OnBusyMessageSelected;
 			popupMenu.Add (item);
 			
 			foreach (string customMessage in customBusyMessages.Keys) {
+				if (string.Compare (customMessage, busyMsg) == 0)
+					continue; // skip the busy item since it's already at the top of the list
 				item = new StatusMenuItem (StatusMenuType.Available, customMessage);
 				item.Activated += OnBusyMessageSelected;
 				popupMenu.Add (item);
@@ -275,7 +291,9 @@ namespace Banter
 		public void SetMessage (PresenceType presenceType, string message)
 		{
 			this.presenceType = presenceType;
-			statusLabel.Text = message;
+			statusLabel.Markup = string.Format (
+				"<span style=\"italic\" size=\"small\">{0}</span>",
+				message);
 			
 			switch (presenceType) {
 			case PresenceType.Available:
