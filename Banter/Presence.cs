@@ -114,6 +114,16 @@ namespace Banter
 			this.message = String.Empty;
 			this.time = 0;
 		}
+		
+		/// <summary>
+		/// Constructs a Presence Object with a specific message
+		/// </summary>
+		public Presence(PresenceType type, string message)
+		{
+			this.presenceType = type;
+			this.message = message;
+			this.time = 0;
+		}
 		#endregion
 
 	}

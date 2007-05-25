@@ -444,7 +444,7 @@ namespace Banter
 			vbox.PackStart (myDisplayName, true, true, 0);
 			
 			statusEntry = new StatusEntry ();
-			statusEntry.MessageChanged += OnStatusEntryChanged;
+			statusEntry.PresenceChanged += OnStatusEntryChanged;
 			statusEntry.Show ();
 			vbox.PackStart (statusEntry, false, false, 0);
 			
@@ -459,14 +459,14 @@ namespace Banter
 			return hbox;
 		}
 		
-		private void OnStatusEntryChanged (PresenceType presenceType, string message)
+		private void OnStatusEntryChanged (Presence presence)
 		{
-			Logger.Debug ("Setting precense on Me to {0}", message);
+			Logger.Debug ("Setting precense on Me to {0}", presence.Message);
 			
 			if (PersonManager.Me != null) {
-				Presence presence = new Presence (presenceType);
-				presence.Message = message;
 				PersonManager.Me.SetStatus (presence);
+				
+				Logger.Debug ("FIXME: Save off a custom presence message so when Banter restarts, they'll be available.");
 			}
 		}
 
@@ -755,7 +755,9 @@ Logger.Debug ("GroupWindow.BuildGroupButtonsView adding {0} groups",
 						me.DisplayName);
 				
 				// Set "my" status
-				statusEntry.SetMessage (me.Presence.Type, me.Presence.Message);
+				statusEntry.Presence = me.Presence;
+				
+				Logger.Debug ("FIXME: Populate the StatusEntry widget with saved status messages.");
 				
 				me.PresenceUpdated += OnMyPresenceUpdated;
 			}
@@ -923,7 +925,7 @@ Logger.Debug ("GroupWindow.BuildGroupButtonsView adding {0} groups",
 		
 		private void OnMyPresenceUpdated (Person me)
 		{
-			statusEntry.SetMessage (me.Presence.Type, me.Presence.Message);
+			statusEntry.Presence = me.Presence;
 		}
 		
 		private void OnGroupRowInserted (object sender, RowInsertedArgs args)

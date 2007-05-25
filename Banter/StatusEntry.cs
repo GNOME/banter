@@ -26,7 +26,7 @@ using Mono.Unix;
 
 namespace Banter
 {
-	public delegate void StatusEntryChangedHandler (PresenceType presenceType, string newMessage);
+	public delegate void StatusEntryChangedHandler (Presence presence);
 	
 	public class StatusEntry : Gtk.EventBox 
 	{
@@ -39,7 +39,7 @@ namespace Banter
 		Dictionary<string, string> customAvailableMessages;
 		Dictionary<string, string> customBusyMessages;
 		
-		PresenceType presenceType;
+		Presence presence;
 		PresenceType potentialPresenceType;
 		
 		public StatusEntry()
@@ -49,7 +49,7 @@ namespace Banter
 			customAvailableMessages = new Dictionary<string,string> ();
 			customBusyMessages = new Dictionary<string,string> ();
 			
-			presenceType = PresenceType.Offline;
+			presence = null;
 			potentialPresenceType = PresenceType.Offline;
 			
 			notebook = new Notebook ();
@@ -140,19 +140,21 @@ namespace Banter
 			AddCustomAvailableMessage (availMsg);
 			
 			// Make sure the Available message is shown first
-			item = new StatusMenuItem (StatusMenuType.Available, availMsg);
+			item = new StatusMenuItem (new Presence (PresenceType.Available, availMsg));
 			item.Activated += OnAvailableMessageSelected;
 			popupMenu.Add (item);
 			
 			foreach (string customMessage in customAvailableMessages.Keys) {
 				if (string.Compare (customMessage, availMsg) == 0)
 					continue; // skip the available item since it's already at the top of the list
-				item = new StatusMenuItem (StatusMenuType.Available, customMessage);
+				item = new StatusMenuItem (new Presence (PresenceType.Available, customMessage));
 				item.Activated += OnAvailableMessageSelected;
 				popupMenu.Add (item);
 			}
 			
-			item = new StatusMenuItem (StatusMenuType.Available, Catalog.GetString ("Custom message..."));
+			item = new StatusMenuItem (
+					new Presence (PresenceType.Available,
+							Catalog.GetString ("Custom message...")));
 			item.Activated += OnCustomAvailableMessageSelected;
 			popupMenu.Add (item);
 			
@@ -163,19 +165,22 @@ namespace Banter
 			AddCustomBusyMessage (busyMsg);
 			
 			// Make sure the Busy message is shown first
-			item = new StatusMenuItem (StatusMenuType.Available, busyMsg);
+			item = new StatusMenuItem (new Presence (PresenceType.Busy, busyMsg));
 			item.Activated += OnBusyMessageSelected;
 			popupMenu.Add (item);
 			
 			foreach (string customMessage in customBusyMessages.Keys) {
 				if (string.Compare (customMessage, busyMsg) == 0)
 					continue; // skip the busy item since it's already at the top of the list
-				item = new StatusMenuItem (StatusMenuType.Available, customMessage);
+				item = new StatusMenuItem (new Presence (PresenceType.Busy, customMessage));
 				item.Activated += OnBusyMessageSelected;
 				popupMenu.Add (item);
 			}
 			
-			item = new StatusMenuItem (StatusMenuType.Busy, Catalog.GetString ("Custom message..."));
+			item = new StatusMenuItem (
+					new Presence (
+						PresenceType.Busy,
+						Catalog.GetString ("Custom message...")));
 			item.Activated += OnCustomBusyMessageSelected;
 			popupMenu.Add (item);
 
@@ -183,12 +188,15 @@ namespace Banter
 			
 			// Sign on/off of chat
 //			Logger.Debug ("FIXME: Make this changed based on online/offline status");
-//			item = new StatusMenuItem (StatusMenuType.Undefined, Catalog.GetString ("Sign out of chat"));
+//			item = new StatusMenuItem (new Presence (PresenceType.Offline, Catalog.GetString ("Sign out of chat")));
 //			item.Activated += OnSignOnOffChatSelected;
 //			popupMenu.Add (item);
 
 			// Clear custom messages
-			item = new StatusMenuItem (StatusMenuType.Undefined, Catalog.GetString ("Clear custom messages"));
+			item = new StatusMenuItem (
+					new Presence (
+						PresenceType.Offline,
+						Catalog.GetString ("Clear custom messages")));
 			item.Activated += OnClearCustomMessagesSelected;
 			popupMenu.Add (item);
 			
@@ -199,7 +207,7 @@ namespace Banter
 		private void OnAvailableMessageSelected (object sender, EventArgs args)
 		{
 			StatusMenuItem item = sender as StatusMenuItem;
-			SetMessage (PresenceType.Available, item.Message);
+			Presence = new Presence (PresenceType.Available, item.Message);
 		}
 
 		private void OnCustomAvailableMessageSelected (object sender, EventArgs args)
@@ -210,7 +218,7 @@ namespace Banter
 		private void OnBusyMessageSelected (object sender, EventArgs args)
 		{
 			StatusMenuItem item = sender as StatusMenuItem;
-			SetMessage (PresenceType.Busy, item.Message);
+			Presence = new Presence(PresenceType.Busy, item.Message);
 		}
 
 		private void OnCustomBusyMessageSelected (object sender, EventArgs args)
@@ -233,8 +241,9 @@ namespace Banter
 			string potentialMessage = statusEntry.Text.Trim ();
 			if (potentialMessage.Length > 0) {
 				if (potentialPresenceType != PresenceType.Offline)
-					presenceType = potentialPresenceType;
-				SetMessage (presenceType, potentialMessage);
+					Presence = new Presence (potentialPresenceType, potentialMessage);
+				else
+					Presence = new Presence (presence.Type, potentialMessage);
 			}
 
 			SwitchToViewMode ();
@@ -252,7 +261,8 @@ namespace Banter
 #endregion
 
 #region Public Events
-		public event StatusEntryChangedHandler MessageChanged;
+		public event StatusEntryChangedHandler PresenceChanged;
+		public event EventHandler CustomMessagesCleared;
 #endregion
 
 #region Public Methods
@@ -286,65 +296,66 @@ namespace Banter
 		{
 			customAvailableMessages.Clear ();
 			customBusyMessages.Clear ();
+			
+			if (CustomMessagesCleared != null)
+				CustomMessagesCleared (this, EventArgs.Empty);
 		}
 		
-		public void SetMessage (PresenceType presenceType, string message)
-		{
-			this.presenceType = presenceType;
-			statusLabel.Markup = string.Format (
-				"<span style=\"italic\" size=\"small\">{0}</span>",
-				message);
-			
-			switch (presenceType) {
-			case PresenceType.Available:
-				AddCustomAvailableMessage (message);
-				break;
-			case PresenceType.Busy:
-				AddCustomBusyMessage (message);
-				break;
-			default:
-				Logger.Debug ("StatusEntry.SetMessage () called with an unimplemented PresenceType: {0}", presenceType);
-				// Default to use The PresenceType.Available so the rest of the code doesn't misbehave.
-				presenceType = PresenceType.Available;
-				break;
-			}
-			
-			if (MessageChanged != null)
-				MessageChanged (presenceType, message);
-		}
-		
-		public PresenceType GetMessage (out string message)
-		{
-			message = statusLabel.Text;
-			return presenceType;
-		}
 #endregion
 
 #region Public Properties
+		public Presence Presence
+		{
+			get { return Presence; }
+			set {
+				if (value == null)
+					return;
+				
+				this.presence = value;
+				statusLabel.Markup = string.Format (
+					"<span style=\"italic\" size=\"small\">{0}</span>",
+					presence.Message);
+				
+				switch (presence.Type) {
+				case PresenceType.Available:
+					AddCustomAvailableMessage (presence.Message);
+					break;
+				case PresenceType.Busy:
+					AddCustomBusyMessage (presence.Message);
+					break;
+				default:
+					Logger.Debug ("StatusEntry.Presence [set] called with an unimplemented PresenceType: {0}", presence.Type);
+					// Default to use The PresenceType.Available so the rest of the code doesn't misbehave.
+					presence.Type = PresenceType.Available;
+					break;
+				}
+				
+				if (PresenceChanged != null)
+					PresenceChanged (presence);
+				}
+		}
 #endregion
 
 #region StatusMenuItem Class
 		
-		enum StatusMenuType
-		{
-			Undefined,
-			Available,
-			Busy
-		};
-		
 		class StatusMenuItem : ImageMenuItem
 		{
-			string statusMessage;
+			Presence presence;
 			
-			public StatusMenuItem (StatusMenuType menuType, string message) :
-				base (message)
+			public StatusMenuItem (Presence presence) :
+				base (presence.Message)
 			{
-				this.statusMessage = message;
+				this.presence = presence;
 			}
 			
 			public string Message
 			{
-				get { return statusMessage; }
+				get { return presence.Message; }
+			}
+			
+			public PresenceType PresenceType
+			{
+				get { return presence.Type; }
 			}
 		}
 #endregion

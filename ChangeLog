@@ -1,5 +1,14 @@
 2007-05-25  Boyd Timothy <btimothy@gmail.com> 
 
+	* Banter/Presence.cs: Add a constructor that allows you to specify both
+	  a PresenceType and a message at the same time.
+	* Banter/StatusEntry.cs: Cleaned up to use the already-existing
+	  Banter.Presence object.
+	* Banter/GroupWindow.cs: Adjust to use Banter.Presence with the
+	  Banter.StatusEntry class.
+
+2007-05-25  Boyd Timothy <btimothy@gmail.com> 
+
 	* Banter/StatusEntry.cs: Use ModifyBg on all the included widgets to
 	  have the color turn out appropriately.  Fix up the Available/Busy
 	  strings so they don't get added more than once.  Use italic font
