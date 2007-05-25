@@ -41,7 +41,6 @@ namespace Banter
 	public class Person
 	{
 		#region Private Types
-		private bool isSelf;
 		private string photoFile = String.Empty;
 		private Evolution.Contact edsContact;
 		private string cachePath;
@@ -149,12 +148,15 @@ namespace Banter
 		/// <summary>
 		/// Indicates self awareness
 		/// </summary>
-		public bool IsSelf
+		public bool IsMe
 		{
-			get{ return isSelf;}
-			set
+			get
 			{
-				isSelf = value;
+				foreach(ProviderUser user in providerUsers) {
+					if(user.IsMe)
+						return true;
+				}
+				return false;
 			}
 		}
 
@@ -193,20 +195,7 @@ namespace Banter
 		/// </summary>
 		internal Person(Evolution.Contact edsContact)
 		{
-			this.isSelf = false;
 			this.edsContact = edsContact;
-			Init();
-		}
-
-		
-		/// <summary>
-		/// Constructs a ME person from an Evolution contact
-		/// </summary>
-		internal Person(Evolution.Contact edsContact, bool self)
-		{
-			this.isSelf = false;
-			this.edsContact = edsContact;
-			this.isSelf = self;			
 			Init();
 		}
 
@@ -216,7 +205,6 @@ namespace Banter
 		/// </summary>
 		public Person(string displayName)
 		{
-			this.isSelf = false;
 			this.edsContact = new Contact();
 			edsContact.FileAs = displayName;
 			Init();

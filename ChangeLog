@@ -1,5 +1,12 @@
 2007-05-25  Calvin Gaisford <calvinrg@gmail.com> 
 
+	* Banter/Person.cs: Updated the IsSelf to be IsMe in Person and it
+	  works now
+	* Banter/PersonManager.cs: Updated the Me property so it will find the
+	  Person object that is me and cache it off
+
+2007-05-25  Calvin Gaisford <calvinrg@gmail.com> 
+
 	* Banter/Conversation.cs: Changed GetReceivedMessages() so it doesn't
 	  return null.  Just return a blank array if there are no messages
 

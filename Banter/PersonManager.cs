@@ -117,10 +117,24 @@ namespace Banter
 		/// </summary>
 		public static Person Me
 		{
-			get{ return PersonManager.Instance.me;}
-			set
+			get
 			{
-				PersonManager.Instance.me = value;
+				if(PersonManager.Instance.me == null) {
+					Gtk.TreeIter iter;
+					
+					if(PersonManager.Instance.personTreeStore.GetIterFirst(out iter))
+					{
+						do {
+							Person person = (Person) PersonManager.Instance.personTreeStore.GetValue(iter, 0);
+							if(person.IsMe) {
+								PersonManager.Instance.me = person;
+								return person;
+							}
+						}
+						while(PersonManager.Instance.personTreeStore.IterNext(ref iter));
+					}
+				}
+				return PersonManager.Instance.me;
 			}
 		}			
 		#endregion
