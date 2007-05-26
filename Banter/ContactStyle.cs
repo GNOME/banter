@@ -192,20 +192,11 @@ namespace Banter
 			
 			tmpHtml = tmpHtml.Replace("%PERSON_DISPLAY_NAME%",  person.DisplayName);
 
-			if(person.Presence.Type == PresenceType.Offline) {
-				tmpHtml = tmpHtml.Replace("%PERSON_STATUS_TEXT%", "offline");
-			}
-			else if (person.PresenceMessage.Length > 0) {
+			if (person.PresenceMessage.Length > 0) {
 				tmpHtml = tmpHtml.Replace("%PERSON_STATUS_TEXT%", person.PresenceMessage);
 			}
-			else if(person.Presence.Type == PresenceType.Busy) {
-				tmpHtml = tmpHtml.Replace("%PERSON_STATUS_TEXT%", "busy");
-			}
-			else if(person.Presence.Type == PresenceType.Away) {
-				tmpHtml = tmpHtml.Replace("%PERSON_STATUS_TEXT%", "away");
-			}
 			else {
-				tmpHtml = tmpHtml.Replace("%PERSON_STATUS_TEXT%", "online");
+				tmpHtml = tmpHtml.Replace("%PERSON_STATUS_TEXT%", Presence.GetStatusString(person.Presence.Type));
 			}
 			
 			widgetHtml = tmpHtml;

@@ -21,6 +21,7 @@
 
 
 using System;
+using Mono.Unix;
 
 namespace Banter
 {
@@ -60,7 +61,11 @@ namespace Banter
 		public PresenceType Type
 		{
 			get { return presenceType; }
-			set { this.presenceType = value; }
+			set
+			{ 
+				this.presenceType = value;
+				this.message = GetStatusString(value);
+			}
 		}
 
 
@@ -111,7 +116,7 @@ namespace Banter
 		public Presence(PresenceType type)
 		{
 			this.presenceType = type;
-			this.message = String.Empty;
+			this.message = GetStatusString(type);
 			this.time = 0;
 		}
 		
@@ -123,6 +128,37 @@ namespace Banter
 			this.presenceType = type;
 			this.message = message;
 			this.time = 0;
+		}
+		#endregion
+		
+		#region Public Static Methods
+		/// <summary>
+		/// Gets a default translated string for status
+		/// </summary>
+		static public string GetStatusString(PresenceType type)
+		{
+			switch (type)
+			{
+				case PresenceType.Offline:
+					return Catalog.GetString ("Offline");
+					break;
+				case PresenceType.Available:
+					return Catalog.GetString ("Available");	           
+					break;
+				case PresenceType.Away:
+					return Catalog.GetString ("Away");	           
+					break;
+				case PresenceType.XA:
+					return Catalog.GetString ("XA");	           
+					break;
+				case PresenceType.Hidden:
+					return Catalog.GetString ("Hidden");	           
+					break;
+				case PresenceType.Busy:
+					return Catalog.GetString ("Busy");	           
+					break;
+			}
+			return String.Empty;
 		}
 		#endregion
 

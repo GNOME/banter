@@ -1,5 +1,11 @@
 2007-05-25  Calvin Gaisford <calvinrg@gmail.com> 
 
+	* Banter/Presence.cs: Added default messages on Status
+	* Banter/ContactStyle.cs: Switched out hard coded strings for status to
+	  get the status from Presence
+
+2007-05-25  Calvin Gaisford <calvinrg@gmail.com> 
+
 	* Banter/StatusEntry.cs: Added the ability to set Away status and Away
 	  custom messages
 
