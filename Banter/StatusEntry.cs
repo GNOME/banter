@@ -38,6 +38,7 @@ namespace Banter
 		
 		Dictionary<string, string> customAvailableMessages;
 		Dictionary<string, string> customBusyMessages;
+		Dictionary<string, string> customAwayMessages;
 		
 		Presence presence;
 		PresenceType potentialPresenceType;
@@ -48,6 +49,7 @@ namespace Banter
 
 			customAvailableMessages = new Dictionary<string,string> ();
 			customBusyMessages = new Dictionary<string,string> ();
+			customAwayMessages = new Dictionary<string,string> ();
 			
 			presence = null;
 			potentialPresenceType = PresenceType.Offline;
@@ -185,6 +187,32 @@ namespace Banter
 			popupMenu.Add (item);
 
 			popupMenu.Add (new SeparatorMenuItem ());
+
+			// Away messages
+			string awayMsg = Catalog.GetString ("Away");
+			AddCustomAwayMessage (awayMsg);
+			
+			// Make sure the Away message is shown first
+			item = new StatusMenuItem (new Presence (PresenceType.Away, awayMsg));
+			item.Activated += OnAwayMessageSelected;
+			popupMenu.Add (item);
+			
+			foreach (string customMessage in customAwayMessages.Keys) {
+				if (string.Compare (customMessage, awayMsg) == 0)
+					continue; // skip the away item since it's already at the top of the list
+				item = new StatusMenuItem (new Presence (PresenceType.Away, customMessage));
+				item.Activated += OnAwayMessageSelected;
+				popupMenu.Add (item);
+			}
+			
+			item = new StatusMenuItem (
+					new Presence (
+						PresenceType.Away,
+						Catalog.GetString ("Custom message...")));
+			item.Activated += OnCustomAwayMessageSelected;
+			popupMenu.Add (item);
+
+			popupMenu.Add (new SeparatorMenuItem ());
 			
 			// Sign on/off of chat
 //			Logger.Debug ("FIXME: Make this changed based on online/offline status");
@@ -224,6 +252,17 @@ namespace Banter
 		private void OnCustomBusyMessageSelected (object sender, EventArgs args)
 		{
 			SwitchToEditMode (PresenceType.Busy);
+		}
+
+		private void OnAwayMessageSelected (object sender, EventArgs args)
+		{
+			StatusMenuItem item = sender as StatusMenuItem;
+			Presence = new Presence(PresenceType.Away, item.Message);
+		}
+
+		private void OnCustomAwayMessageSelected (object sender, EventArgs args)
+		{
+			SwitchToEditMode (PresenceType.Away);
 		}
 
 		private void OnSignOnOffChatSelected (object sender, EventArgs args)
@@ -291,11 +330,25 @@ namespace Banter
 			if (customBusyMessages.ContainsKey (message) == false)
 				customBusyMessages [message] = message;
 		}
+
+		public void AddCustomAwayMessage (string message)
+		{
+			if (message == null)
+				return;
+			
+			message = message.Trim ();
+			if (message.Length == 0)
+				return;
+			
+			if (customAwayMessages.ContainsKey (message) == false)
+				customAwayMessages [message] = message;
+		}
 		
 		public void ClearCustomMessages ()
 		{
 			customAvailableMessages.Clear ();
 			customBusyMessages.Clear ();
+			customAwayMessages.Clear ();
 			
 			if (CustomMessagesCleared != null)
 				CustomMessagesCleared (this, EventArgs.Empty);
@@ -322,6 +375,9 @@ namespace Banter
 					break;
 				case PresenceType.Busy:
 					AddCustomBusyMessage (presence.Message);
+					break;
+				case PresenceType.Away:
+					AddCustomAwayMessage (presence.Message);
 					break;
 				default:
 					Logger.Debug ("StatusEntry.Presence [set] called with an unimplemented PresenceType: {0}", presence.Type);

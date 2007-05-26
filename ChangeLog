@@ -1,5 +1,10 @@
 2007-05-25  Calvin Gaisford <calvinrg@gmail.com> 
 
+	* Banter/StatusEntry.cs: Added the ability to set Away status and Away
+	  custom messages
+
+2007-05-25  Calvin Gaisford <calvinrg@gmail.com> 
+
 	* configure.ac: bumped the revision to 0.1.5 for next iteration
 
 2007-05-25  Calvin Gaisford <calvinrg@gmail.com> 
