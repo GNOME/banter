@@ -1,3 +1,9 @@
+2007-05-29  Calvin Gaisford <calvinrg@gmail.com> 
+
+	* Banter/Person.cs, Banter/ProviderUser.cs: Added a SetAvatar call
+	* Banter/GroupWindow.cs: Added a button to click on to change the
+	  avatar and code to handle the changing of the avatar
+
 2007-05-29  Brady Anderson <banderso@novell.com> 
 
 	* Banter.mds, Banter/Application.cs, Banter/ConversationManager.cs,

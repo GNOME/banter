@@ -410,6 +410,26 @@ namespace Banter
 			}
 		}
 		
+
+		/// <summary>
+		/// Sets the avatar for the person if the person IsMe
+		/// </summary>
+		public void SetAvatar(Gdk.Pixbuf newAvatar)
+		{
+			if(!this.IsMe)
+				return;
+			
+			if(providerUsers.Count > 0) {
+				byte[] data;
+				
+				data = newAvatar.SaveToBuffer("png");
+
+				foreach(ProviderUser user in providerUsers) {
+					user.SetAvatar("png", data);
+				}
+			}
+		}
+
 		#endregion
 		
 	}	

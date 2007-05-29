@@ -70,6 +70,7 @@ namespace Banter
 		// Sidebar Pane
 		//
 		private Widget sidebar;
+		private Button avatarButton;
 		private Image avatarImage;
 		private Label myDisplayName;
 		private StatusEntry statusEntry;
@@ -423,14 +424,21 @@ namespace Banter
 		private Widget CreateAvatarBox ()
 		{
 			HBox hbox = new HBox (false, 4);
-			
+						
 			if( (PersonManager.Me != null) && (PersonManager.Me.Photo != null) )
 				avatarImage = new Image(PersonManager.Me.Photo.ScaleSimple(48,48,Gdk.InterpType.Bilinear));
 			else
 				avatarImage = new Image (Utilities.GetIcon ("blank-photo-128", 32));
 
 			avatarImage.Show ();
-			hbox.PackStart (avatarImage, false, false, 0);
+			
+			avatarButton = new Button(avatarImage);
+			avatarButton.BorderWidth = 0;
+			avatarButton.Relief = Gtk.ReliefStyle.None;
+			avatarButton.Clicked += OnAvatarClicked;
+			avatarButton.Show();
+
+			hbox.PackStart (avatarButton, false, false, 0);
 			
 			VBox vbox = new VBox (false, 0);
 			vbox.Show ();
@@ -1035,6 +1043,41 @@ Logger.Debug ("GroupWindow.BuildGroupButtonsView adding {0} groups",
 		{
 			QueueSaveState ();
 		}
+		
+		// <summary>
+		// Called with someone clicks on the avatar in the group window
+		// </summary> 
+		private void OnAvatarClicked (object sender, EventArgs e)
+		{
+			Logger.Debug("Avatar was clicked");
+			FileSelection fs = new FileSelection(Catalog.GetString("Select an Avatar"));
+			int fsreturn = fs.Run();
+			fs.Hide();
+			
+			if(fsreturn == -5) {
+				Gdk.Pixbuf avatar;
+				Logger.Debug("New Avatar file selected: {0}", fs.Filename);
+				try {
+					avatar = new Gdk.Pixbuf(fs.Filename);
+				} catch(Exception ex) {
+					Logger.Debug("Exception loading image from file: {0}", fs.Filename);
+					Logger.Debug(ex.Message);
+					return;
+				}
+				
+				Logger.Debug("FIXME: This should set the avatar but telepathy is broken!");
+				// The following lines eventually call down into telepathy connection to set an avatar
+				// and it crashes the app with an error that Avatars method doesn't exist
+				//if(PersonManager.Me != null) {
+				//	PersonManager.Me.SetAvatar(avatar);
+				//}
+
+				avatarImage.Pixbuf = avatar.ScaleSimple(48,48,Gdk.InterpType.Bilinear);
+			}
+		}
+		
+		
+		
 		#endregion
 	}
 

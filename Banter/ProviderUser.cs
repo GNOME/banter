@@ -273,6 +273,17 @@ namespace Banter
         	}
         }
 
+		public void SetAvatar(string mimeType, byte[] data)
+        {
+        	if(tlpConnection.Status == org.freedesktop.Telepathy.ConnectionStatus.Connected) {
+        		org.freedesktop.Telepathy.Avatar aphoto = new org.freedesktop.Telepathy.Avatar();
+        		aphoto.Data = data;
+        		aphoto.MimeType = mimeType;
+				tlpConnection.SetAvatar(aphoto);
+        	}
+        }
+
+
 		#endregion
 	}
 }
