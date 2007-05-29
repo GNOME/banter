@@ -461,8 +461,7 @@ namespace Banter
 		
 		private void OnStatusEntryChanged (Presence presence)
 		{
-			Logger.Debug ("Setting precense on Me to {0}", presence.Message);
-			
+			Logger.Debug ("Setting presence on Me to {0}", presence.Message);
 			if (PersonManager.Me != null) {
 				PersonManager.Me.SetStatus (presence);
 				
@@ -925,7 +924,9 @@ Logger.Debug ("GroupWindow.BuildGroupButtonsView adding {0} groups",
 		
 		private void OnMyPresenceUpdated (Person me)
 		{
+			statusEntry.PresenceChanged -= OnStatusEntryChanged;
 			statusEntry.Presence = me.Presence;
+			statusEntry.PresenceChanged += OnStatusEntryChanged;
 		}
 		
 		private void OnGroupRowInserted (object sender, RowInsertedArgs args)

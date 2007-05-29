@@ -1,3 +1,8 @@
+2007-05-29  Calvin Gaisford <calvinrg@gmail.com> 
+
+	* Banter/GroupWindow.cs: Added logic to disconnect the Widget event
+	  when setting the state text so we don't get into a loop
+
 2007-05-25  Calvin Gaisford <calvinrg@gmail.com> 
 
 	* Banter/Presence.cs: Added default messages on Status
