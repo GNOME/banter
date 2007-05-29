@@ -27,7 +27,6 @@ using System.Text;
 
 using NDesk.DBus;
 using org.freedesktop.DBus;
-using Tapioca;
 
 namespace Banter
 {

@@ -22,10 +22,7 @@
 
 using System;
 using System.Collections;
-using System.Collections.Generic;
-
-using Tapioca;
-using org.freedesktop.Telepathy;
+using System.Collections.Generic;using org.freedesktop.Telepathy;
 
 namespace Banter
 {
@@ -63,7 +60,6 @@ namespace Banter
 		private Presence presence;
 		private string accountName;
 		private bool isMe;
-		private Tapioca.Contact contact;
 		private IConnection tlpConnection;
 		#endregion		
 		
@@ -212,31 +208,6 @@ namespace Banter
 			get {return tlpConnection;}
 			set {tlpConnection = value;}
 		}
-		
-		/// <summary>
-		/// the actual tapioca contact for this provider user
-		/// </summary>		
-		internal Tapioca.Contact Contact
-		{
-			get { return contact; }
-			set
-			{ 
-				if (this.contact != null) {
-					this.contact.AliasChanged -= OnAliasChanged;
-					this.contact.AuthorizationStatusChanged -= OnAuthorizationStatusChanged;
-					this.contact.PresenceUpdated -= OnPresenceUpdated;
-					this.contact.AvatarUpdated -= OnAvatarUpdated;
-					this.contact.AvatarReceived -= OnAvatarReceived;
-				}
-				
-				this.contact = value;
-				this.contact.AliasChanged += OnAliasChanged;
-				this.contact.AuthorizationStatusChanged += OnAuthorizationStatusChanged;
-				this.contact.PresenceUpdated += OnPresenceUpdated;
-				this.contact.AvatarUpdated += OnAvatarUpdated;
-				this.contact.AvatarReceived += OnAvatarReceived;
-			}
-		}	
 		#endregion	
 		
 		
@@ -263,80 +234,9 @@ namespace Banter
 			this.tlpConnection = conn;
 			this.id = id;
 		}
-		
 		#endregion
 
 		#region Private Methods
-		private void OnAliasChanged (ContactBase sender, string newAlias)
-		{
-			this.alias = newAlias;
-			
-			// Call any registered handlers
-			if (this.AliasChanged != null)
-				this.AliasChanged (this);
-		}
-		
-		private void OnAuthorizationStatusChanged (Tapioca.Contact sender, Tapioca.ContactAuthorizationStatus status)
-		{
-		}
-		
-		private void OnAvatarUpdated (ContactBase sender, string newToken)
-		{
-			if (this.AvatarTokenUpdated != null)
-				this.AvatarTokenUpdated (this, newToken);
-		}
-		
-		private void OnAvatarReceived (ContactBase sender, Tapioca.Avatar avatar)
-		{
-			if (this.AvatarReceived != null)
-				this.AvatarReceived (this, avatar.Token, String.Empty, avatar.Data);
-		}
-		
-		private void OnPresenceUpdated (ContactBase sender, Tapioca.ContactPresence contactPresence)
-		{
-			if (this.Presence != null) {
-				this.Presence.Message = this.contact.PresenceMessage;
-
-				switch (contactPresence)
-				{
-					case Tapioca.ContactPresence.Available:
-					{
-						this.Presence.Type = Banter.PresenceType.Available;
-						break;
-					}
-					case Tapioca.ContactPresence.Away:
-					{
-						this.Presence.Type = Banter.PresenceType.Away;
-						break;
-					}
-					case Tapioca.ContactPresence.Busy:
-					{
-						this.Presence.Type = Banter.PresenceType.Busy;
-						break;
-					}
-					case Tapioca.ContactPresence.Hidden:
-					{
-						this.Presence.Type = Banter.PresenceType.Hidden;
-						break;
-					}
-					case Tapioca.ContactPresence.Offline:
-					{
-						this.Presence.Type = Banter.PresenceType.Offline;
-						break;
-					}
-					
-					case Tapioca.ContactPresence.XA:
-					{
-						this.Presence.Type = Banter.PresenceType.XA;
-						break;
-					}
-				}
-			
-				// call registered handlers
-				if (this.PresenceUpdated != null)
-					this.PresenceUpdated (this); 
-			}
-		}
 		#endregion		
 		
 		#region Public Methods
@@ -361,7 +261,6 @@ namespace Banter
 				AvatarReceived (this, tokens[0], avatarData.MimeType, avatarData.Data);
 		}
 
-		
 		public void SetStatus(Presence myPresence)
         {
         	if(tlpConnection.Status == org.freedesktop.Telepathy.ConnectionStatus.Connected) {

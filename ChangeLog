@@ -1,3 +1,9 @@
+2007-05-29  Brady Anderson <banderso@novell.com> 
+
+	* Banter.mds, Banter/Application.cs, Banter/ConversationManager.cs,
+	  Banter/ProviderUser.cs, Banter/Conversation.cs: Removed all code
+	  and references to Tapioca
+
 2007-05-29  Calvin Gaisford <calvinrg@gmail.com> 
 
 	* Banter/GroupWindow.cs: Added logic to disconnect the Widget event

@@ -29,7 +29,6 @@ using System.Xml;
 
 using NDesk.DBus;
 using org.freedesktop.DBus;
-using Tapioca;
 
 using Gtk;
 using Gnome;
@@ -237,41 +236,7 @@ namespace Banter
 		private void InitializePersons()
 		{
 			Logger.Debug("InitializePersons called");
-
 			persons = new Dictionary<uint,Person> ();
-
-			/*
-			try
-			{
-				Banter.Account rtcAccount = null;
-				foreach (Banter.Account account in AccountManagement.GetAccounts())
-				{
-					rtcAccount = account;
-					break;
-				}
-				
-				if (rtcAccount == null)
-					throw new ApplicationException ("No Available accounts to connect to");
-	
-				rtcAccount.Connect (false);
-				
-				if (rtcAccount.Connected == false)
-				{
-					throw new ApplicationException (
-								String.Format ("Failed to connect \"{0}\"", 
-									rtcAccount.Username));
-									//rtcAccount.TelepathyBusName));
-				}
-			}
-			catch (Exception es)
-			{
-				Console.WriteLine (es.Message);
-				Console.WriteLine (es.StackTrace);
-			}
-			finally
-			{
-			}
-			*/
 		}
 
 		private void OnImageClick (object o, ButtonPressEventArgs args) // handler for mouse click
@@ -280,11 +245,10 @@ namespace Banter
 				return;
 				
 			if (args.Event.Button == 1) {
-				Console.WriteLine ("left button clicked");
+				Logger.Debug ("left button clicked");
 			} else if (args.Event.Button == 3) //right click
    			{
    				// FIXME: Eventually get all these into UIManagerLayout.xml file
-   				Console.WriteLine ("Right button clicked");
       			Menu popupMenu = new Menu();
       			
       			if (groupWindows.Count > 0) {
@@ -337,7 +301,7 @@ namespace Banter
 
 		private void OnAccounts (object o, System.EventArgs args)
 		{
-			Console.WriteLine ("Selected Accounts");
+			Logger.Debug ("Selected Accounts");
 		}
 		
 		private void OnPreferences (object sender, EventArgs args)
@@ -348,7 +312,6 @@ namespace Banter
 		private void OnGroupWindowMenuItem (object sender, EventArgs args)
 		{
 			GroupWindowMenuItem item = sender as GroupWindowMenuItem;
-			
 			item.GroupWindow.Present ();
 		}
 
@@ -455,11 +418,8 @@ Logger.Debug ("Application.OnGroupWindowDeleted");
 			try 
 			{
 				Utilities.SetProcessName ("Banter");
-
 				BusG.Init ();
-
 				application = GetApplicationWithArgs(args);
-
 				Banter.Application.RegisterSessionManagerRestart (
 					Environment.GetEnvironmentVariable ("RTC_PATH"),
 					args);
@@ -638,17 +598,6 @@ Logger.Debug ("Application.OnGroupWindowDeleted");
 			}
 			*/
 		}		
-		
-		private void OnChatWindowDelete (object sender, DeleteEventArgs args)
-		{
-			ChatWindow cw = sender as ChatWindow;
-			if (chatWindows.ContainsValue (cw))
-			{
-				Person person = persons[cw.Conversation.PeerUser.Contact.Handle.Id];
-				if(person != null)
-					chatWindows.Remove (person.Id);
-			}
-		}
 
 		public void QuitMainLoop ()
 		{
