@@ -1,5 +1,13 @@
 2007-05-29  Calvin Gaisford <calvinrg@gmail.com> 
 
+	* Banter.mdp: Added the AvatarSelector Widget
+	* Banter/AvatarSelector.cs: New Widget for selecting Avatars
+	* Banter/GroupWindow.cs: Switched out Image and button for
+	  AvatarSelector
+	* Banter/Makefile.am: Added AvatarSelector for switching the Avatar
+
+2007-05-29  Calvin Gaisford <calvinrg@gmail.com> 
+
 	* Banter/Person.cs, Banter/ProviderUser.cs: Added a SetAvatar call
 	* Banter/GroupWindow.cs: Added a button to click on to change the
 	  avatar and code to handle the changing of the avatar
