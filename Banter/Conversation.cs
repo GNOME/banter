@@ -239,11 +239,11 @@ namespace Banter
 			txtChannel.Received += OnReceiveMessageHandler;
 		}
 		
-		private bool CreateVideoChannel ()
+		private bool SetupVideoChannel ()
 		{
 			if (videoChannel != null) return true;
 			
-			Logger.Debug ("SetupMediaChannel entered");
+			Logger.Debug ("SetupVideoChannel entered");
 			uint[] handles = new uint [] {peerUser.ID};
 			try
 			{
@@ -254,7 +254,7 @@ namespace Banter
 							HandleType.Contact,
 							handles[0],
 							true);
-					Logger.Debug("Have the Media Channel Object Path");
+					Logger.Debug("Have the Video Channel Object Path");
 					videoChannel = 
 						Bus.Session.GetObject<IChannelStreamedMedia> (
 							account.BusName, videoChannelObjectPath);
@@ -432,8 +432,16 @@ namespace Banter
 		#endregion
 		
 #region Public Methods
-		public void StartVideo (uint previewWindow, uint feedWindow)
+
+		public void SetMediaChannel (IChannelStreamedMedia channel, ObjectPath op)
 		{
+			videoChannelObjectPath = op;
+			videoChannel = channel;
+		}
+		
+		public void StartVideo (bool initiatedChat, uint previewWindow, uint feedWindow)
+		{
+			this.initiatedChat = initiatedChat;
 			this.previewWindowID = previewWindow;
 			this.peerWindowID = feedWindow;
 			//this.targetMember = targetMember;
@@ -445,10 +453,8 @@ namespace Banter
 		    	throw new ApplicationException (String.Format ("No telepathy connection exists"));
 			}
 			
-			initiatedChat = true;
-			
 			// Create the video channel
-			CreateVideoChannel ();
+			SetupVideoChannel ();
 			
 		}
 #endregion

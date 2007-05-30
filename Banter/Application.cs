@@ -564,6 +564,23 @@ Logger.Debug ("Application.OnGroupWindowDeleted");
 			}
 		}
 
+		// Temporary!
+		public void IncomingVideoConversation (Conversation conversation)
+		{
+			Logger.Debug ("IncomingVideoConversation - called");
+			
+			VideoWindow me = new VideoWindow();
+			me.Title = "Me";
+			me.Show();
+			
+			VideoWindow peer = new VideoWindow();
+			peer.Title = "You";
+			peer.Show();
+			
+			conversation.StartVideo (false, me.WindowId, peer.WindowId);	
+		}
+		
+		
 		public void InitiateVideoChat(Person person)
 		{
 			Logger.Debug ("Called to initiate Video chat with: " + person.DisplayName);
@@ -594,7 +611,7 @@ Logger.Debug ("Application.OnGroupWindowDeleted");
 					Conversation conversation = 
 						Banter.ConversationManager.Create (acct, person, true);
 						
-					conversation.StartVideo (meWindow.WindowId, youWindow.WindowId);	
+					conversation.StartVideo (true, meWindow.WindowId, youWindow.WindowId);	
 				}
 				catch (Exception ivc)
 				{

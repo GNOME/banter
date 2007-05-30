@@ -614,22 +614,87 @@ namespace Banter
 				
 				case org.freedesktop.Telepathy.ChannelType.StreamedMedia:
 				{
-					/*
 					IChannelStreamedMedia ichannel = 
 						Bus.Session.GetObject<IChannelStreamedMedia> (
-							account.TelepathyBusName, 
-							channel);
-					
+							busName,
+							channelPath);
+		
 					if (handle == 0) {
-						if (ichannel.RemotePendingMembers.Length > 0)
+					
+						if (ichannel.LocalPendingMembers.Length > 0) {
+							Logger.Debug ("Incoming media conversation");
+							handle = ichannel.LocalPendingMembers[0];
+						} else if (ichannel.RemotePendingMembers.Length > 0) {
 							handle = ichannel.RemotePendingMembers[0];
-						else if (ichannel.Members.Length > 0)
-							handle = ichannel.Members[0];
-						else
+							Logger.Debug ("Pulled the handle from ichannel.RemotePendingMembers");
 							return;
+						} else if (ichannel.Members.Length > 0) {
+							handle = ichannel.Members[0];
+							Logger.Debug ("Pulled the handle from ichannel.Members");
+							return;
+						} else {
+							Logger.Debug ("Could not resolve the remote handle");
+							return;
+						}	
+					} else {
+						Logger.Debug ("Handle was non-zero {0} - returning", handle);
+						return;
 					}
+					
+					if (handle == this.tlpConnection.SelfHandle) {
+						Logger.Debug ("Handle was me - yay");
+						uint[] meHandles = {handle};
 						
-					uint[] ids = {handle};
+						uint[] ids = {ichannel.Members[0]};
+							
+						// Check if we have an existing conversation with the peer user
+						ProviderUser pu = null;
+						try {
+							pu = ProviderUserManager.GetProviderUser (handle);
+						} catch{}
+					
+						if (pu == null) return;
+					
+						if (ConversationManager.Exist (pu) == true) {
+							Logger.Debug ("An existing conversation with {0} already exists", pu.Uri);
+							return;
+						}
+						
+						ichannel.AddMembers(meHandles, String.Empty);
+					
+						Person peer = PersonManager.GetPersonByJabberId (pu.Uri);
+						ChatWindow cw = null;
+					
+						Logger.Debug ("Peer: {0}", peer.Id);
+						Logger.Debug ("Peer Name: {0}", peer.EDSContact.GivenName);
+					
+						if (ChatWindow.AlreadyExist (peer.Id) == true) { 
+							Logger.Debug ("ChatWindow already exists with this peer");
+							ChatWindow.PresentWindow (peer.Id);
+						} else {
+							try
+							{
+								Logger.Debug ("creating conversation object");
+								conversation = ConversationManager.Create (this, peer, false);
+								IChannelText txtChannel = 
+									Bus.Session.GetObject<IChannelText> (busName, channelPath);
+							
+								conversation.SetTextChannel (txtChannel);
+								conversation.SetMediaChannel (ichannel, channelPath);
+								Logger.Debug ("created new conversation object");
+						
+								cw = new ChatWindow (conversation);
+								cw.Present();
+							}
+							catch (Exception es)
+							{
+								Logger.Debug (es.Message);
+								Logger.Debug (es.StackTrace);
+							}
+						}
+					}
+					
+					/*
 					Contact contact = contact_list.ContactLookup (ids[0]);
 					if (contact == null)
 						return;
@@ -642,7 +707,8 @@ namespace Banter
 						ChannelCreated (this, (Channel) stream_channel);
 					*/
 					break;
-				}	
+				}
+				
 				default:
 					break;
 			}

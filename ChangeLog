@@ -1,3 +1,8 @@
+2007-05-30  Brady Anderson <banderso@novell.com> 
+
+	* Banter/Account.cs, Banter/Application.cs, Banter/Conversation.cs:
+	  Added code to handle incoming video conversation
+
 2007-05-30  Calvin Gaisford <calvinrg@gmail.com> 
 
 	* Banter/AvatarSelector.cs: Added AvatarMenuItem to menu
