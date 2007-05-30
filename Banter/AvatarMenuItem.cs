@@ -20,6 +20,7 @@
 // **********************************************************************
 
 using System;
+using Gtk;
 
 namespace Banter
 {
@@ -53,21 +54,56 @@ namespace Banter
 //			this.note = note;
 //			Image = new Gtk.Image (note_icon);
 
-/*
-			if (show_pin) {
-				Gtk.HBox box = new Gtk.HBox (false, 0);
-				Gtk.Widget child = Child;
-				Remove (child);
-				box.PackStart (child, true, true, 0);
-				Add (box);
-				box.Show();
+			VBox vbox = new VBox(true, 2);
+			Widget child = Child;
+			Remove (child);
 
-				pinned = note.IsPinned;
-				pin_img = new Gtk.Image(pinned ? pindown : pinup);
-				pin_img.Show();
-				box.PackStart (pin_img, false, false, 0);
-			}
-*/
+			HBox box = new HBox (true, 2);
+			Gdk.Pixbuf pixbuf = Utilities.GetIcon("blank-photo-128", 32);
+			Image image = new Image(pixbuf.ScaleSimple(24,24,Gdk.InterpType.Bilinear));		
+			box.PackStart (image, true, true, 0);
+			image = new Image(pixbuf.ScaleSimple(24,24,Gdk.InterpType.Bilinear));
+			box.PackStart (image, true, true, 0);
+			image = new Image(pixbuf.ScaleSimple(24,24,Gdk.InterpType.Bilinear));
+			box.PackStart (image, true, true, 0);
+			image = new Image(pixbuf.ScaleSimple(24,24,Gdk.InterpType.Bilinear));
+			box.PackStart (image, true, true, 0);
+			image = new Image(pixbuf.ScaleSimple(24,24,Gdk.InterpType.Bilinear));
+			box.PackStart (image, true, true, 0);
+
+			vbox.PackStart(box, true, true, 0);
+
+			box = new HBox (true, 2);
+			image = new Image(pixbuf.ScaleSimple(24,24,Gdk.InterpType.Bilinear));
+			box.PackStart (image, true, true, 0);
+			image = new Image(pixbuf.ScaleSimple(24,24,Gdk.InterpType.Bilinear));
+			box.PackStart (image, true, true, 0);
+			image = new Image(pixbuf.ScaleSimple(24,24,Gdk.InterpType.Bilinear));
+			box.PackStart (image, true, true, 0);
+			image = new Image(pixbuf.ScaleSimple(24,24,Gdk.InterpType.Bilinear));
+			box.PackStart (image, true, true, 0);
+			image = new Image(pixbuf.ScaleSimple(24,24,Gdk.InterpType.Bilinear));
+			box.PackStart (image, true, true, 0);
+			
+			vbox.PackStart(box, true, true, 0);
+
+			box = new HBox (true, 2);
+			image = new Image(pixbuf.ScaleSimple(24,24,Gdk.InterpType.Bilinear));
+			box.PackStart (image, true, true, 0);
+			image = new Image(pixbuf.ScaleSimple(24,24,Gdk.InterpType.Bilinear));
+			box.PackStart (image, true, true, 0);
+			image = new Image(pixbuf.ScaleSimple(24,24,Gdk.InterpType.Bilinear));
+			box.PackStart (image, true, true, 0);
+			image = new Image(pixbuf.ScaleSimple(24,24,Gdk.InterpType.Bilinear));
+			box.PackStart (image, true, true, 0);
+			image = new Image(pixbuf.ScaleSimple(24,24,Gdk.InterpType.Bilinear));
+			box.PackStart (image, true, true, 0);
+			
+			vbox.PackStart(box, true, true, 0);
+
+			
+			Add (vbox);
+			box.Show();
 		}
 
 /*		static string FormatForLabel (string name)
@@ -120,6 +156,7 @@ namespace Banter
 
 		protected override bool OnMotionNotifyEvent (Gdk.EventMotion ev)
 		{
+			Logger.Debug("Mouse location {0}x{1}", ev.X, ev.Y);
 /*
 			if (!pinned && pin_img != null) {
 				if (ev.X >= pin_img.Allocation.X && 
@@ -133,15 +170,24 @@ namespace Banter
 */
 			return base.OnMotionNotifyEvent (ev);
 		}
-
+		
+		[GLib.ConnectBefore]
+		protected override bool OnEnterNotifyEvent (Gdk.EventCrossing ev)
+		{
+			Logger.Debug("Entered the MenuItem");
+			return false; //base.OnLeaveNotifyEvent(ev);
+		}
+		
+		[GLib.ConnectBefore]
 		protected override bool OnLeaveNotifyEvent (Gdk.EventCrossing ev)
 		{
+			Logger.Debug("Left the MenuItem");
 /*
 			if (!pinned && pin_img != null) {
 				pin_img.Pixbuf = pinup;
 			}
 */
-			return base.OnLeaveNotifyEvent (ev);			
+			return false; //base.OnLeaveNotifyEvent (ev);			
 		}
 	}
 }

@@ -56,20 +56,12 @@ namespace Banter
 			MenuItem item;
 			ImageMenuItem imageItem;
 			
-			item = new MenuItem("Recent Avatars");
-
-			imageItem = new ImageMenuItem("");
-			imageItem.Image = new Image(pixbuf.ScaleSimple(24,24,Gdk.InterpType.Bilinear));
-			recentMenu.Add (imageItem);
-			
-
-			imageItem = new ImageMenuItem("");
-			imageItem.Image = new Image(Utilities.GetIcon("blank-photo-128", 24));
-			recentMenu.Add (imageItem);
-
-
-			item.Submenu = recentMenu;
+			item = new MenuItem("Recent Avatars:");
+			item.Sensitive = false;
 			popupMenu.Add (item);
+
+			AvatarMenuItem amItem = new AvatarMenuItem();
+			popupMenu.Add(amItem);
 			
 			popupMenu.Add (new SeparatorMenuItem ());
 

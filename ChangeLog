@@ -1,3 +1,8 @@
+2007-05-30  Calvin Gaisford <calvinrg@gmail.com> 
+
+	* Banter/AvatarSelector.cs: Added AvatarMenuItem to menu
+	* Banter/AvatarMenuItem.cs: Updated to test adding multiple images
+
 2007-05-30  Brady Anderson <banderso@novell.com> 
 
 	* Banter/Account.cs: Added a property to expose the ObjectPath for the
