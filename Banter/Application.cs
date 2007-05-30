@@ -514,6 +514,18 @@ Logger.Debug ("Application.OnGroupWindowDeleted");
 		}
 		#endregion
 
+		#region Private Methods
+		private void OnVideoConnected (Conversation conversation, uint streamId)
+		{
+			Logger.Debug ("OnVideoConnected - called");
+			Logger.Debug ("  Stream ID: {0}", streamId);
+			
+			VideoWindow peer = new VideoWindow();
+			peer.Title = conversation.PeerUser.Alias;
+			conversation.SetPeerWindow (peer.WindowId, streamId);
+			peer.Show();
+		}
+		#endregion
 
 		#region Public Methods			
 		public void StartMainLoop ()
@@ -570,14 +582,12 @@ Logger.Debug ("Application.OnGroupWindowDeleted");
 			Logger.Debug ("IncomingVideoConversation - called");
 			
 			VideoWindow me = new VideoWindow();
-			me.Title = "Me";
+			me.Title = conversation.PeerUser.Alias;
 			me.Show();
 			
-			VideoWindow peer = new VideoWindow();
-			peer.Title = "You";
-			peer.Show();
-			
-			conversation.StartVideo (false, me.WindowId, peer.WindowId);	
+			conversation.VideoChannelConnected += OnVideoConnected;
+			conversation.SetPreviewWindow (me.WindowId);
+			conversation.StartVideo (false);	
 		}
 		
 		
@@ -585,13 +595,9 @@ Logger.Debug ("Application.OnGroupWindowDeleted");
 		{
 			Logger.Debug ("Called to initiate Video chat with: " + person.DisplayName);
 			
-			VideoWindow meWindow = new VideoWindow();
-			meWindow.Title = "Me";
-			meWindow.Show();
-			
-			VideoWindow youWindow = new VideoWindow();
-			youWindow.Title = "You";
-			youWindow.Show();
+			VideoWindow me = new VideoWindow();
+			me.Title = person.DisplayName;
+			me.Show();
 			
 			if (ChatWindow.AlreadyExist (person.Id) == true)
 				ChatWindow.PresentWindow (person.Id);
@@ -611,7 +617,9 @@ Logger.Debug ("Application.OnGroupWindowDeleted");
 					Conversation conversation = 
 						Banter.ConversationManager.Create (acct, person, true);
 						
-					conversation.StartVideo (true, meWindow.WindowId, youWindow.WindowId);	
+					conversation.VideoChannelConnected += OnVideoConnected;
+					conversation.SetPreviewWindow (me.WindowId);
+					conversation.StartVideo (true);	
 				}
 				catch (Exception ivc)
 				{
@@ -620,15 +628,6 @@ Logger.Debug ("Application.OnGroupWindowDeleted");
 				}
 			}
 			
-			
-			/*
-			if (this.conversation == null)
-			{
-				this.conversation = new Conversation (tapConnection, person);
-				this.conversation.SetVideoWindows (meWindow.WindowId, youWindow.WindowId);
-				this.conversation.StartVideoChat ();
-			}
-			*/
 		}		
 
 		public void InitiateAudioChat (Person person)

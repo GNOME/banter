@@ -1,5 +1,10 @@
 2007-05-30  Brady Anderson <banderso@novell.com> 
 
+	* Banter/Application.cs, Banter/Conversation.cs: Added event support
+	  when a video channel initializes and connects
+
+2007-05-30  Brady Anderson <banderso@novell.com> 
+
 	* Banter/Account.cs, Banter/Application.cs, Banter/Conversation.cs:
 	  Added code to handle incoming video conversation
 

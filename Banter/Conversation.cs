@@ -33,11 +33,17 @@ namespace Banter
 {
 	public delegate void MessageSentHandler (Conversation conversation, Message message);
 	public delegate void MessageReceivedHandler (Conversation conversation, Message message);
+	public delegate void VideoChannelInitializedHandler (Conversation conversation);
+	public delegate void VideoChannelConnectedHandler (Conversation conversation, uint streamId);
+	public delegate void AudioChannelInitializedHandler (Conversation conversation);
 	
 	public class Conversation : IDisposable
 	{
 		public event MessageSentHandler MessageSent;
 		public event MessageReceivedHandler MessageReceived;
+		public event VideoChannelInitializedHandler VideoChannelInitialized;
+		public event VideoChannelConnectedHandler VideoChannelConnected;
+		public event AudioChannelInitializedHandler AudioChannelInitialized;
 
 		private bool initiatedChat;
 		private uint previewWindowID;
@@ -54,6 +60,7 @@ namespace Banter
 		private IChannelStreamedMedia videoChannel;
 		private IChannelStreamedMedia audioChannel;
 		private IStreamEngine streamEngine;
+		private uint videoInputStreamId = 0;
 		
 		private ProviderUser peerUser;
 		private Presence lastPeerPresence;
@@ -84,7 +91,7 @@ namespace Banter
 			lastPeerPresence = peerUser.Presence;
 			
 			if (initiate == true)
-				this.CreateTextChannel();
+				this.CreateTextChannel ();
 		}
 		#endregion
 		
@@ -341,6 +348,9 @@ namespace Banter
 					Logger.Debug("Number of Streams Received: {0}", infos.Length);
 					Logger.Debug("Stream Info: Id{0} State{1} Direction{2} ContactHandle{3}", infos[0].Id, infos[0].State, infos[0].Direction, infos[0].ContactHandle);
 				}
+				
+				if (VideoChannelInitialized != null)
+					VideoChannelInitialized (this);
 			}
 			catch(Exception e)
 			{
@@ -382,21 +392,13 @@ namespace Banter
             Logger.Debug ("OnStreamStateChanged called - ID: {0} State: {1}", streamid, streamstate);
             
             // Audio or Video
+            videoInputStreamId = streamid;
             
             // Make sure that this stream is a Video stream
-            if (videoChannel.Handle.Id == streamid && streamstate == StreamState.Connecting)
+            if (videoChannel.Handle.Id == streamid && streamstate == StreamState.Connected)
 			{
-	   			try
-				{
-			    	Logger.Debug("Adding Output Window");
-					streamEngine.SetOutputWindow (videoChannelObjectPath, streamid, peerWindowID);
-					Logger.Debug("Preview and Output Windows are set");
-				}
-				catch(Exception e)
-				{
-					Logger.Debug(e.Message);
-					Logger.Debug(e.StackTrace);
-				}
+				if (VideoChannelConnected != null)
+					VideoChannelConnected (this, streamid);
 			}
         }
 
@@ -439,15 +441,28 @@ namespace Banter
 			videoChannel = channel;
 		}
 		
-		public void StartVideo (bool initiatedChat, uint previewWindow, uint feedWindow)
+		public void SetPreviewWindow (uint windowId)
+		{
+			previewWindowID = windowId;
+		}
+		
+		public void SetPeerWindow (uint windowId, uint streamId)
+		{
+			this.peerWindowID = windowId;
+			
+			if (streamEngine != null && 
+				videoChannelObjectPath != null &&
+				videoChannel != null) {
+				streamEngine.SetOutputWindow (
+					videoChannelObjectPath, 
+					streamId,
+					windowId);
+			}
+		}
+		
+		public void StartVideo (bool initiatedChat)
 		{
 			this.initiatedChat = initiatedChat;
-			this.previewWindowID = previewWindow;
-			this.peerWindowID = feedWindow;
-			//this.targetMember = targetMember;
-			//this.audioStreams = new Dictionary<uint,uint> ();
-			//this.videoStreams = new Dictionary<uint,uint> ();
-
 			if (tlpConnection == null) 
 			{
 		    	throw new ApplicationException (String.Format ("No telepathy connection exists"));
@@ -455,7 +470,6 @@ namespace Banter
 			
 			// Create the video channel
 			SetupVideoChannel ();
-			
 		}
 #endregion
 	}
