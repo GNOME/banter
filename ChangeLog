@@ -1,3 +1,13 @@
+2007-05-30  Calvin Gaisford <calvinrg@gmail.com> 
+
+	* Banter.mdp, Banter/Makefile.am: Added AvatarButton
+	* Banter/ComplexMenuItem.cs: Added from Banshee project.... Awesome
+	  widget!  Thanks Aaron!
+	* Banter/AvatarSelector.cs: Updated to use AvatarMenuItem
+	* Banter/AvatarMenuItem.cs: Updated to use cool new ComplexMenuItem
+	  class
+	* Banter/AvatarButton.cs: new class for use in the AvatarSelector
+
 2007-05-30  Brady Anderson <banderso@novell.com> 
 
 	* Banter/Application.cs, Banter/Conversation.cs: Added event support

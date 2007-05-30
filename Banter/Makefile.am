@@ -23,8 +23,9 @@ CSFILES = \
 	$(srcdir)/AppStyle.cs \
 	$(srcdir)/AppStyleInfo.cs \
 	$(srcdir)/AssemblyInfo.cs \
-	$(srcdir)/AvatarSelector.cs \
+	$(srcdir)/AvatarButton.cs \
 	$(srcdir)/AvatarMenuItem.cs \
+	$(srcdir)/AvatarSelector.cs \
 	$(srcdir)/NotificationArea.cs \
 	$(srcdir)/TrayLib.cs \
 	$(srcdir)/MessageStore.cs \
@@ -43,6 +44,7 @@ CSFILES = \
 	$(srcdir)/ProviderUserManager.cs \
 	$(srcdir)/Conversation.cs \
 	$(srcdir)/ConversationManager.cs \
+	$(srcdir)/ComplexMenuItem.cs \
 	$(srcdir)/ChatWindow.cs \
 	$(srcdir)/ContactStyle.cs \
 	$(srcdir)/ContactStyleInfo.cs \

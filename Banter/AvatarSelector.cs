@@ -56,10 +56,6 @@ namespace Banter
 			MenuItem item;
 			ImageMenuItem imageItem;
 			
-			item = new MenuItem("Recent Avatars:");
-			item.Sensitive = false;
-			popupMenu.Add (item);
-
 			AvatarMenuItem amItem = new AvatarMenuItem();
 			popupMenu.Add(amItem);
 			
@@ -134,6 +130,8 @@ namespace Banter
 			set {
 				if (value == null)
 					return;
+				
+				Logger.Debug("AvatarSelector: A new avatar was set for the user");
 				
 				this.pixbuf = value;
 				avatarImage.Pixbuf = pixbuf.ScaleSimple(48,48,Gdk.InterpType.Bilinear);
