@@ -1,3 +1,10 @@
+2007-05-30  Brady Anderson <banderso@novell.com> 
+
+	* Banter/Account.cs: Added a property to expose the ObjectPath for the
+	  connection
+	* Banter/Application.cs: added temporary method to start a video chat
+	* Banter/Conversation.cs: Added code to support a video conversation
+
 2007-05-30  Calvin Gaisford <calvinrg@gmail.com> 
 
 	* Banter.mdp: Added the AvatarMenuItem to display avatar choices in a

@@ -38,13 +38,23 @@ namespace Banter
 	{
 		public event MessageSentHandler MessageSent;
 		public event MessageReceivedHandler MessageReceived;
-		
+
+		private bool initiatedChat;
 		private uint previewWindowID;
 		private uint peerWindowID;
 		private List<Message> messages;
 		private Account account;
+		
+		// Telepathy connection and channels		
 		private org.freedesktop.Telepathy.IConnection tlpConnection;
+		private IChannelHandler channelHandler;
+		private ObjectPath videoChannelObjectPath;
+		private ObjectPath audioChannelObjectPath;
 		private org.freedesktop.Telepathy.IChannelText txtChannel;
+		private IChannelStreamedMedia videoChannel;
+		private IChannelStreamedMedia audioChannel;
+		private IStreamEngine streamEngine;
+		
 		private ProviderUser peerUser;
 		private Presence lastPeerPresence;
 		
@@ -213,7 +223,7 @@ namespace Banter
 			this.peerWindowID = peerID;
 		}
 		
-		private void CreateTextChannel()
+		private void CreateTextChannel ()
 		{
 			if (txtChannel != null) return;
 			
@@ -228,6 +238,219 @@ namespace Banter
 			txtChannel = Bus.Session.GetObject<IChannelText> (account.BusName, op);
 			txtChannel.Received += OnReceiveMessageHandler;
 		}
+		
+		private bool CreateVideoChannel ()
+		{
+			if (videoChannel != null) return true;
+			
+			Logger.Debug ("SetupMediaChannel entered");
+			uint[] handles = new uint [] {peerUser.ID};
+			try
+			{
+				if (this.initiatedChat == true) {
+					videoChannelObjectPath = 
+						tlpConnection.RequestChannel (
+							org.freedesktop.Telepathy.ChannelType.StreamedMedia,
+							HandleType.Contact,
+							handles[0],
+							true);
+					Logger.Debug("Have the Media Channel Object Path");
+					videoChannel = 
+						Bus.Session.GetObject<IChannelStreamedMedia> (
+							account.BusName, videoChannelObjectPath);
+					
+					if (videoChannel == null) {
+						Logger.Debug ("videoChannel is null!");
+						throw new ApplicationException ("Cannot proceed with a null video channel");
+					}
+				}
+
+				Logger.Debug("Have a Video Channel");
+				Logger.Debug("Initializing video channel with ChannelHandler");
+				
+				channelHandler = 
+		       	Bus.Session.GetObject<IChannelHandler> (
+		       		"org.freedesktop.Telepathy.StreamEngine",
+		           	new ObjectPath ("/org/freedesktop/Telepathy/StreamEngine"));
+		           
+				if (channelHandler != null) 
+				{
+					Logger.Debug("Have the channelHandler... telling it to handle the channel");
+					channelHandler.HandleChannel (
+						account.BusName,
+						account.BusPath,
+						//connectionInfo.BusName, 
+						//connectionInfo.ObjectPath,
+					    videoChannel.ChannelType, 
+					    this.videoChannelObjectPath,
+					    0,
+					    0);
+				}
+				else
+		       		Logger.Debug("Didn't get a channel handler");
+
+				StreamInfo[] lst = ((IChannelStreamedMedia) videoChannel).ListStreams();
+				Logger.Debug("StreamInfo List Length: {0}", lst.Length);
+				
+		       	foreach (StreamInfo info in lst)
+		       	{
+		       		Logger.Debug(
+		       			"Stream Info: Id:{0}, Type:{1}, ContactHandle:{2}, Direction: {3}",
+		       			info.Id,
+		       			info.Type,
+		       			info.ContactHandle,
+		       			info.Direction);
+		       				
+		       		// Save the type of the stream so we can reference it later
+		       		//SaveStream (info.Type, info.Id);
+		       }
+		       
+				videoChannel.StreamAdded += OnStreamAdded;
+				videoChannel.StreamDirectionChanged += OnStreamDirectionChanged;
+				videoChannel.StreamError += OnStreamError;
+				videoChannel.StreamRemoved += OnStreamRemoved;
+				videoChannel.StreamStateChanged += OnStreamStateChanged;
+		       
+				videoChannel.MembersChanged += OnMembersChanged;
+
+				Logger.Debug("Getting the stream_engine");
+				
+				streamEngine = 
+					Bus.Session.GetObject<IStreamEngine> (
+						"org.freedesktop.Telepathy.StreamEngine",
+		           		new ObjectPath ("/org/freedesktop/Telepathy/StreamEngine"));
+
+		        Logger.Debug("have the stream engine");
+		        
+				Logger.Debug("Adding Preview Window");
+			    streamEngine.AddPreviewWindow(previewWindowID);
+				streamEngine.Receiving += OnStreamEngineReceiving;
+
+				Logger.Debug("The numder of members is: {0}", videoChannel.Members.Length);
+
+				if (this.initiatedChat == true) {
+	//				uint[] stream_type = new uint[2];
+					uint[] streamtype = new uint[1];
+					
+	//				stream_type[0] = (uint) StreamType.Audio;
+					streamtype[0] = (uint) StreamType.Video;
+
+					Logger.Debug("Requesting streams from video channel");
+					StreamInfo[] infos = videoChannel.RequestStreams (handles[0], streamtype);
+					
+					Logger.Debug("Number of Streams Received: {0}", infos.Length);
+					Logger.Debug("Stream Info: Id{0} State{1} Direction{2} ContactHandle{3}", infos[0].Id, infos[0].State, infos[0].Direction, infos[0].ContactHandle);
+				}
+			}
+			catch(Exception e)
+			{
+				Logger.Debug("Exception in SetupMediaChannel: {0}\n{1}", e.Message, e.StackTrace);
+			}
+
+			return true;
+		}	
+		
+		
+        private void OnStreamAdded (uint streamid, uint contacthandle, org.freedesktop.Telepathy.StreamType streamtype)
+		{
+			Logger.Debug(
+				"OnStreamAdded of type: {0} with id:{1}, for contact {2}", 
+				streamtype, 
+				streamid, 
+				contacthandle);
+			//SaveStream (stream_type, stream_id);
+		}
+
+		private void OnStreamDirectionChanged (uint streamid, StreamDirection streamdirection, StreamPendingFlags pendingflags)
+        {
+			Logger.Debug("OnStreamDirectionChanged called");
+        }
+
+        private void OnStreamError (uint streamid, uint errno, string message)
+        {
+ 			Logger.Debug("OnStreamError called with message: {0}:{1}", errno, message);
+        }
+
+        private void OnStreamRemoved (uint streamid)
+        {
+			Logger.Debug("OnStreamRemoved called on stream {0}", streamid);
+			//RemoveStream (stream_id);
+        }
+
+        private void OnStreamStateChanged (uint streamid, org.freedesktop.Telepathy.StreamState streamstate)
+        {
+            Logger.Debug ("OnStreamStateChanged called - ID: {0} State: {1}", streamid, streamstate);
+            
+            // Audio or Video
+            
+            // Make sure that this stream is a Video stream
+            if (videoChannel.Handle.Id == streamid && streamstate == StreamState.Connecting)
+			{
+	   			try
+				{
+			    	Logger.Debug("Adding Output Window");
+					streamEngine.SetOutputWindow (videoChannelObjectPath, streamid, peerWindowID);
+					Logger.Debug("Preview and Output Windows are set");
+				}
+				catch(Exception e)
+				{
+					Logger.Debug(e.Message);
+					Logger.Debug(e.StackTrace);
+				}
+			}
+        }
+
+        private void OnStreamEngineReceiving (ObjectPath channelpath, uint streamid, bool state)      
+        {   
+        	Logger.Debug("OnStreamEngineReceiving: stream id: {0}", streamid);
+        }
+        
+        private void OnMembersChanged (string message, uint[] added, uint[] removed, uint[] localpending, uint[] remotepending, uint actor, uint reason)
+        {
+        	Logger.Debug ("OnMembersChanged: {0}", message);
+        	
+        	Logger.Debug ("\tAdded {0}: {1}", added.Length, PrintHandles (added));
+        	Logger.Debug ("\tRemoved {0}: {1}", removed.Length, PrintHandles (removed));
+        	Logger.Debug ("\tLocal Pending {0}: {1}", localpending.Length, PrintHandles (localpending));
+        	Logger.Debug ("\tRemote Pending {0}: {1}", remotepending.Length, PrintHandles (remotepending));
+        	Logger.Debug ("\tActor: {0}", actor);
+        	Logger.Debug ("\tReason: {0}", reason);
+        }
+		
+        private string PrintHandles (uint[] handles)
+        {
+        	string str = string.Empty;
+        	foreach (uint handle in handles) {
+        		if (str.Length > 0)
+        			str += ", ";
+        		str += string.Format ("0", handle);
+        	}
+        	
+        	return str;
+        }
+		
 		#endregion
+		
+#region Public Methods
+		public void StartVideo (uint previewWindow, uint feedWindow)
+		{
+			this.previewWindowID = previewWindow;
+			this.peerWindowID = feedWindow;
+			//this.targetMember = targetMember;
+			//this.audioStreams = new Dictionary<uint,uint> ();
+			//this.videoStreams = new Dictionary<uint,uint> ();
+
+			if (tlpConnection == null) 
+			{
+		    	throw new ApplicationException (String.Format ("No telepathy connection exists"));
+			}
+			
+			initiatedChat = true;
+			
+			// Create the video channel
+			CreateVideoChannel ();
+			
+		}
+#endregion
 	}
 }	

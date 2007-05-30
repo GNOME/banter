@@ -576,6 +576,34 @@ Logger.Debug ("Application.OnGroupWindowDeleted");
 			youWindow.Title = "You";
 			youWindow.Show();
 			
+			if (ChatWindow.AlreadyExist (person.Id) == true)
+				ChatWindow.PresentWindow (person.Id);
+			else
+			{
+				try
+				{
+					// FIXEME::temporary hack
+				
+					Banter.Account acct = null;
+					foreach (Banter.Account account in AccountManagement.GetAccounts())
+					{
+						acct = account;
+						break;
+					}
+					
+					Conversation conversation = 
+						Banter.ConversationManager.Create (acct, person, true);
+						
+					conversation.StartVideo (meWindow.WindowId, youWindow.WindowId);	
+				}
+				catch (Exception ivc)
+				{
+					Logger.Debug (ivc.Message);
+					Logger.Debug (ivc.StackTrace);
+				}
+			}
+			
+			
 			/*
 			if (this.conversation == null)
 			{

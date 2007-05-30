@@ -110,6 +110,18 @@ namespace Banter
 			get {return busName;}
 		}
 		
+		public ObjectPath BusPath
+		{
+			get
+			{
+				try {
+					return connInfo.ObjectPath;
+				} catch{};
+				
+				return null;
+			}
+		}
+		
 		public bool Default
 		{
 			get {return primary;}
