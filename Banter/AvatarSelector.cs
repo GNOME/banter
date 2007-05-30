@@ -27,7 +27,11 @@ using Mono.Unix;
 namespace Banter
 {
 //	public delegate void AvatarChangedHandler (AvatarSelector selector);
-	
+
+
+	/// <summary>
+	/// Widget used to show and change a person's avatar
+	/// </summary>
 	public class AvatarSelector : Gtk.Button
 	{
 		private Image avatarImage;

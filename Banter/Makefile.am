@@ -24,6 +24,7 @@ CSFILES = \
 	$(srcdir)/AppStyleInfo.cs \
 	$(srcdir)/AssemblyInfo.cs \
 	$(srcdir)/AvatarSelector.cs \
+	$(srcdir)/AvatarMenuItem.cs \
 	$(srcdir)/NotificationArea.cs \
 	$(srcdir)/TrayLib.cs \
 	$(srcdir)/MessageStore.cs \

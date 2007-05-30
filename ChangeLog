@@ -1,3 +1,12 @@
+2007-05-30  Calvin Gaisford <calvinrg@gmail.com> 
+
+	* Banter.mdp: Added the AvatarMenuItem to display avatar choices in a
+	  menu
+	* Banter/AvatarSelector.cs: Added comments to class
+	* Banter/AvatarMenuItem.cs: New class to show Avatars in a menu item
+	  for selecting
+	* Banter/Makefile.am: Updated to include AvatarMenuItem
+
 2007-05-29  Calvin Gaisford <calvinrg@gmail.com> 
 
 	* Banter.mdp: Added the AvatarSelector Widget
