@@ -26,19 +26,20 @@ namespace Banter
 {
 	public class AvatarButton : Button
 	{
-	    private string avatarPath;
-	    
-	    public AvatarButton(string path) : base()
+		private uint buttonIndex;
+		
+	    public AvatarButton(Gdk.Pixbuf avatar, uint index) : base()
 	    {
-	    	Gdk.Pixbuf pixbuf;
-	    	avatarPath = path;
+	    	buttonIndex = index;
 	    	
-	    	if(avatarPath != null) {
-	    		 pixbuf = new Gdk.Pixbuf(avatarPath);
+	    	Gdk.Pixbuf pixbuf;
+	    	
+	    	if(avatar != null) {
+	    		 pixbuf = avatar;
 	    	} else {
 				pixbuf = Utilities.GetIcon("blank-photo-128", 32);
 	    	}
-	        Image image = new Image(pixbuf.ScaleSimple(24,24,Gdk.InterpType.Bilinear));
+	        Image image = new Image(pixbuf.ScaleSimple(32,32,Gdk.InterpType.Bilinear));
 	        Image = image;
 	    }
 	    
@@ -57,10 +58,9 @@ namespace Banter
 	        base.OnStateChanged(previous_state);
 	    }
 */	    
-		public string Path
+		public uint Index
 		{
-			get { return avatarPath; }
-			set { this.avatarPath = value; }
+			get { return buttonIndex; }
 		}
 	}
 }

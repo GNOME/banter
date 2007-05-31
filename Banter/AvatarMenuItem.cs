@@ -29,30 +29,49 @@ namespace Banter
 	/// </summary>
 	public class AvatarMenuItem : ComplexMenuItem
 	{
+
+    	public delegate void AvatarSelectedHandler(Gdk.Pixbuf pixbuf);
+    	
+    	public event AvatarSelectedHandler AvatarSelected;    	
+	
 	    private Label description_label;
 	    
 	    public AvatarMenuItem() : base(true)
 	    {
-	        uint cols = 6;
-	        uint rows = 3;
+	    	Gdk.Pixbuf[] avatars = AvatarManager.Avatars;
+	    	
+	    	uint cols = 4;
+	    	uint rows = 5;
 	    
 	        Table table = new Table(rows, cols, false);
 	        
-			// Create a label and add it to the table
-	        Label label = new Label("Recent Avatars:");
-	        label.Xalign = 0.0f;
-	        Widget label_host = RegisterWidget(label);
-	        table.Attach(label_host, 0, 6, 0, 1, AttachOptions.Fill | AttachOptions.Expand, AttachOptions.Shrink, 0, 0);
-			
-	        for(int i = 0; i < (cols * rows); i++) {
-	            uint row = (uint)i / cols + 1;
-	            uint col = (uint)i % cols;
-	            
-	            AvatarButton button = new AvatarButton(null);
-	            button.Clicked += OnAvatarButtonClicked;
-	            Widget button_host = RegisterWidget(button);
-	            table.Attach(button_host, col, col + 1, row, row + 1, AttachOptions.Shrink, AttachOptions.Shrink, 0, 0);
-	        }
+			if(avatars.Length > 0) {
+				// Create a label and add it to the table
+		        Label label = new Label("Recent Avatars:");
+		        label.Xalign = 0.0f;
+		        Widget label_host = RegisterWidget(label);
+		        table.Attach(label_host, 0, 6, 0, 1, AttachOptions.Fill | AttachOptions.Expand, AttachOptions.Shrink, 0, 0);
+				uint curIndex = 0;
+				
+		        for(uint row = 1; row < rows; row++) {
+		        	for(uint col = 0; col < cols; col++) {				
+			            if( curIndex < avatars.Length ) {
+							AvatarButton button = new AvatarButton(avatars[curIndex], curIndex);
+							button.Clicked += OnAvatarButtonClicked;
+				            Widget button_host = RegisterWidget(button);
+				            table.Attach(button_host, col, col + 1, row, row + 1, AttachOptions.Shrink, AttachOptions.Shrink, 0, 0);
+			            }
+			            curIndex++;
+		        	}
+		        }
+		    } else {
+				// Create a label and add it to the table
+		        Label label = new Label("No Recent Avatars");
+		        label.Sensitive = false;
+		        label.Xalign = 0.0f;
+		        Widget label_host = RegisterWidget(label);
+		        table.Attach(label_host, 0, 6, 0, 1, AttachOptions.Fill | AttachOptions.Expand, AttachOptions.Shrink, 0, 0);
+		    }
 	        
 	        HBox shrinker = new HBox();
 	        shrinker.PackStart(table, false, false, 0);
@@ -63,7 +82,14 @@ namespace Banter
 	    
 	    private void OnAvatarButtonClicked(object o, EventArgs args)
 	    {
-	    	Logger.Debug("AvatarButton was clicked");
+	    	AvatarButton button = (AvatarButton) o;
+	    	
+	    	if(AvatarSelected != null) {
+		    	Gdk.Pixbuf avatar = AvatarManager.PromoteAvatar(button.Index);
+		    	if(avatar != null) {
+					AvatarSelected(avatar);
+		    	}
+		    }
 	    }
 	}
 

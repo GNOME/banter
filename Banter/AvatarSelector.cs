@@ -57,6 +57,7 @@ namespace Banter
 			ImageMenuItem imageItem;
 			
 			AvatarMenuItem amItem = new AvatarMenuItem();
+			amItem.AvatarSelected += OnAvatarSelected;
 			popupMenu.Add(amItem);
 			
 			popupMenu.Add (new SeparatorMenuItem ());
@@ -65,14 +66,6 @@ namespace Banter
 			item.Activated += OnEditPicture;
 			popupMenu.Add (item);
 			
-/*			foreach (string customMessage in customAvailableMessages.Keys) {
-				if (string.Compare (customMessage, availMsg) == 0)
-					continue; // skip the available item since it's already at the top of the list
-				item = new StatusMenuItem (new Presence (PresenceType.Available, customMessage));
-				item.Activated += OnAvailableMessageSelected;
-				popupMenu.Add (item);
-			}
-*/			
 			item = new MenuItem("Clear Recent Pictures");
 			item.Activated += OnClearRecentPictures;
 			popupMenu.Add (item);
@@ -83,19 +76,28 @@ namespace Banter
 #endregion
 
 #region Event Handlers
+		private void OnAvatarSelected(Gdk.Pixbuf avatar)
+		{
+			this.Pixbuf = avatar;
+			Logger.Debug("FIXME: This should set the avatar but telepathy is broken!");
+			// The following lines eventually call down into telepathy connection to set an avatar
+			// and it crashes the app with an error that Avatars method doesn't exist
+			//if(PersonManager.Me != null) {
+			//	PersonManager.Me.SetAvatar(avatar);
+			//}			
+		}
 		private void OnEditPicture (object sender, EventArgs args)
 		{
-			Logger.Debug("EditPicture menu selected...");
 			FileSelection fs = new FileSelection(Catalog.GetString("Select an Avatar"));
 			int fsreturn = fs.Run();
 			fs.Hide();
 			
 			if(fsreturn == -5) {
 				Gdk.Pixbuf avatar;
-				Logger.Debug("New Avatar file selected: {0}", fs.Filename);
 				try {
 					avatar = new Gdk.Pixbuf(fs.Filename);
 					this.Pixbuf = avatar;
+					AvatarManager.AddAvatar(avatar);
 				} catch(Exception ex) {
 					Logger.Debug("Exception loading image from file: {0}", fs.Filename);
 					Logger.Debug(ex.Message);
@@ -113,15 +115,9 @@ namespace Banter
 
 		private void OnClearRecentPictures (object sender, EventArgs args)
 		{
-			Logger.Debug("Clear Recent Pictures menu selected...");
+			AvatarManager.Clear();
 		}
 #endregion
-
-//#region Public Events
-//		public event StatusEntryChangedHandler PresenceChanged;
-//		public event EventHandler CustomMessagesCleared;
-//#endregion
-
 
 #region Public Properties
 		public Gdk.Pixbuf Pixbuf
@@ -130,8 +126,6 @@ namespace Banter
 			set {
 				if (value == null)
 					return;
-				
-				Logger.Debug("AvatarSelector: A new avatar was set for the user");
 				
 				this.pixbuf = value;
 				avatarImage.Pixbuf = pixbuf.ScaleSimple(48,48,Gdk.InterpType.Bilinear);

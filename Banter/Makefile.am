@@ -24,6 +24,7 @@ CSFILES = \
 	$(srcdir)/AppStyleInfo.cs \
 	$(srcdir)/AssemblyInfo.cs \
 	$(srcdir)/AvatarButton.cs \
+	$(srcdir)/AvatarManager.cs \
 	$(srcdir)/AvatarMenuItem.cs \
 	$(srcdir)/AvatarSelector.cs \
 	$(srcdir)/NotificationArea.cs \

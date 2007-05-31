@@ -1,5 +1,18 @@
 2007-05-30  Calvin Gaisford <calvinrg@gmail.com> 
 
+	* Banter.mdp: Added AvatarManager.cs to build
+	* Banter/AvatarSelector.cs: Modified to use the new AvatarMenuItem
+	  events and update the avatar
+	* Banter/AvatarMenuItem.cs: Updated to handle all events and trigger an
+	  event when a new avatar is selected
+	* Banter/AvatarManager.cs: new class to manage all cached avatars. 
+	  Currently it's in memory only.
+	* Banter/AvatarButton.cs: Changed AvatarButton to also store the index
+	  of the button to be retrieved when clicked
+	* Banter/Makefile.am: Updated to include AvatarManager.cs
+
+2007-05-30  Calvin Gaisford <calvinrg@gmail.com> 
+
 	* Banter.mdp, Banter/Makefile.am: Added AvatarButton
 	* Banter/ComplexMenuItem.cs: Added from Banshee project.... Awesome
 	  widget!  Thanks Aaron!
