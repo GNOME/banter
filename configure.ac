@@ -9,6 +9,7 @@ GNOME_COMMON_INIT
 
 AC_PROG_INSTALL
 IT_PROG_INTLTOOL([0.35])
+AC_PROG_LIBTOOL
 
 dnl pkg-config
 AC_PATH_PROG(PKG_CONFIG, pkg-config, no)
@@ -49,6 +50,8 @@ PKG_CHECK_MODULES([GNOME_KEYRING_SHARP], [gnome-keyring-sharp])
 PKG_CHECK_MODULES([GTK_DOTNET_20], [gtk-dotnet-2.0])
 PKG_CHECK_MODULES([TELEPATHY_SHARP], [telepathy-sharp])
 PKG_CHECK_MODULES([EVOLUTION_SHARP], [evolution-sharp])
+#PKG_CHECK_MODULES([WEBKITGLUE], [WebKitGdk])
+#PKG_CHECK_MODULES([GTK2], [gtk+-2.0])
 
 
 AC_ARG_ENABLE(debug,
@@ -57,10 +60,8 @@ AC_ARG_ENABLE(debug,
 		enable_debug=yes, enable_debug=no)
 AM_CONDITIONAL(ENABLE_DEBUG, test "x$enable_debug" = "xyes")
 if test "x$enable_debug" = "xyes" ; then
-	TAPIOCA_SHARP_DEBUG_LIB='tapioca-sharp.dll'
-	AC_SUBST(TAPIOCA_SHARP_DEBUG_LIB)
-	DEBUG_CONFIG_LIBRARIES=' ${pkglibdir}/tapioca-sharp.dll ${pkglibdir}/Db4objects.Db4o.dll'
-	DEBUG_CONFIG_LIBS=' -r:${pkglibdir}/tapioca-sharp.dll -r:${pkglibdir}/Db4objects.Db4o.dll'
+	DEBUG_CONFIG_LIBRARIES=' ${pkglibdir}/Db4objects.Db4o.dll'
+	DEBUG_CONFIG_LIBS=' -r:${pkglibdir}/Db4objects.Db4o.dll'
 	AC_SUBST(DEBUG_CONFIG_LIBRARIES)
 	AC_SUBST(DEBUG_CONFIG_LIBS)
 	CONFIG_REQUESTED="yes"
@@ -71,24 +72,33 @@ AC_ARG_ENABLE(release,
 		enable_release=yes, enable_release=no)
 AM_CONDITIONAL(ENABLE_RELEASE, test "x$enable_release" = "xyes")
 if test "x$enable_release" = "xyes" ; then
-	TAPIOCA_SHARP_RELEASE_LIB='tapioca-sharp.dll'
-	AC_SUBST(TAPIOCA_SHARP_RELEASE_LIB)
-	RELEASE_CONFIG_LIBRARIES=' ${pkglibdir}/tapioca-sharp.dll ${pkglibdir}/Db4objects.Db4o.dll'
-	RELEASE_CONFIG_LIBS=' -r:${pkglibdir}/tapioca-sharp.dll -r:${pkglibdir}/Db4objects.Db4o.dll'
+	RELEASE_CONFIG_LIBRARIES=' ${pkglibdir}/Db4objects.Db4o.dll'
+	RELEASE_CONFIG_LIBS=' -r:${pkglibdir}/Db4objects.Db4o.dll'
 	AC_SUBST(RELEASE_CONFIG_LIBRARIES)
 	AC_SUBST(RELEASE_CONFIG_LIBS)
 	CONFIG_REQUESTED="yes"
 fi
 if test -z "$CONFIG_REQUESTED" ; then
-	TAPIOCA_SHARP_DEBUG_LIB='tapioca-sharp.dll'
-	AC_SUBST(TAPIOCA_SHARP_DEBUG_LIB)
-	DEBUG_CONFIG_LIBRARIES=' ${pkglibdir}/tapioca-sharp.dll ${pkglibdir}/Db4objects.Db4o.dll'
-	DEBUG_CONFIG_LIBS=' -r:${pkglibdir}/tapioca-sharp.dll -r:${pkglibdir}/Db4objects.Db4o.dll'
+	DEBUG_CONFIG_LIBRARIES=' ${pkglibdir}/Db4objects.Db4o.dll'
+	DEBUG_CONFIG_LIBS=' -r:${pkglibdir}/Db4objects.Db4o.dll'
 	AC_SUBST(DEBUG_CONFIG_LIBRARIES)
 	AC_SUBST(DEBUG_CONFIG_LIBS)
 	AM_CONDITIONAL(ENABLE_DEBUG, true)
 fi
 
+### Begin GAC tool ###
+
+AC_PATH_PROG(GACUTIL, gacutil, no)
+if test "x$GACUTIL" = "xno" ; then
+        AC_MSG_ERROR([No gacutil tool found])
+fi
+
+AC_SUBST(GACUTIL)
+
+GACUTIL_FLAGS='/gacdir $(DESTDIR)$(prefix)'
+AC_SUBST(GACUTIL_FLAGS)
+
+### End GAC tool ###
 
 AC_CONFIG_FILES([
 ./Makefile
@@ -97,7 +107,9 @@ AC_CONFIG_FILES([
 ./data/images/Makefile
 ./data/Themes/Makefile
 ./po/Makefile.in
-./tapioca-sharp/Makefile
+./WebKit/Makefile
+./WebKit/webkit-sharp.pc
+./WebKit/webkitglue/Makefile
 ])
 
 AC_OUTPUT

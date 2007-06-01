@@ -9,13 +9,9 @@ DB4O_DLL = \
 
 if ENABLE_DEBUG
 CSFLAGS =  -noconfig -codepage:utf8 -warn:4 -debug -d:DEBUG
-TAPIOCA_DLL =  \
-	-r:$(top_builddir)/tapioca-sharp/bin/Debug/tapioca-sharp.dll
 endif
 if ENABLE_RELEASE
 CSFLAGS =  -noconfig -codepage:utf8 -warn:4
-TAPIOCA_DLL =  \
-	-r:$(top_builddir)/tapioca-sharp/bin/Release/tapioca-sharp.dll
 endif
 
 CSFILES = \
@@ -96,7 +92,6 @@ ASSEMBLIES =  \
 	$(GTK_DOTNET_20_LIBS) \
 	$(EVOLUTION_SHARP_LIBS) \
 	$(TELEPATHY_SHARP_LIBS) \
-	$(TAPIOCA_DLL) \
 	$(DB4O_DLL)
 
 $(TARGET): $(CSFILES) Defines.cs

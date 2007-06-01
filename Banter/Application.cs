@@ -533,19 +533,6 @@ Logger.Debug ("Application.OnGroupWindowDeleted");
 			program.Run ();
 		}
 		
-		
-		public Person GetPersonFromContact(Tapioca.Contact contact)
-		{	
-			Logger.Debug ("Application.GetPerson ({0})", contact.Uri);
-			if(persons.ContainsKey(contact.Handle.Id)) {
-				Person person = persons[contact.Handle.Id];
-				Logger.Debug("Found the person: {0}", person.DisplayName);
-				return person;
-			}
-			
-			throw new ApplicationException("Fixme: The dude is not found, create real exceptions");
-		}
-		
 		public void InitiateChat(Person person)
 		{
 			Logger.Debug ("Called to initiate chat with: " + person.DisplayName);

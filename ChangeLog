@@ -1,3 +1,10 @@
+2007-06-01  Boyd Timothy <btimothy@gmail.com> 
+
+	* configure.ac: Removed old tapioca references.
+	* Makefile.am: Ditto.
+	* Banter/Application.cs: Ditto.
+	* Banter/Makefile.am: Ditto.
+
 2007-06-01  Calvin Gaisford <calvinrg@gmail.com> 
 
 	* Banter/GroupWindow.cs, Banter/HIGMessageDialog.cs: integrated patch
