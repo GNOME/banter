@@ -9,7 +9,7 @@ Please report bugs using http://bugzilla.gnome.org/
 
 Version 0.1.5
 * Avatar UI added to GroupWindow to set and remember avatar history
-* Tarpioca sharp dependencies completely removed
+* Tapioca sharp dependencies completely removed
 * Introduced video chat with minimal success
 
 Version 0.1.4

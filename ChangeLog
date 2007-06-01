@@ -1,5 +1,9 @@
 2007-06-01  Calvin Gaisford <calvinrg@gmail.com> 
 
+	* NEWS: Fixed a typo in the NEWS doh!
+
+2007-06-01  Calvin Gaisford <calvinrg@gmail.com> 
+
 	* configure.ac: upped the version to 0.1.6 for the next iteration
 
 2007-06-01  Calvin Gaisford <calvinrg@gmail.com> 
