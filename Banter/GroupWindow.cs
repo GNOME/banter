@@ -841,8 +841,9 @@ Logger.Debug ("GroupWindow.BuildGroupButtonsView adding {0} groups",
 					Gtk.ButtonsType.OkCancel,
 					Catalog.GetString ("New group window"),
 					Catalog.GetString ("Enter the name of the new group you'd like to create."));
-			
+
 			Gtk.Entry groupNameEntry = new Entry ();
+            groupNameEntry.ActivatesDefault = true;
 			dialog.ExtraWidget = groupNameEntry;
 			
 			int returnCode = dialog.Run ();

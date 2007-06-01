@@ -1,3 +1,8 @@
+2007-06-01  Calvin Gaisford <calvinrg@gmail.com> 
+
+	* Banter/GroupWindow.cs, Banter/HIGMessageDialog.cs: integrated patch
+	  from Johnny Jacob <johnnyjacob@gmail.com> 
+
 2007-05-30  Calvin Gaisford <calvinrg@gmail.com> 
 
 	* Banter.mdp: Added AvatarManager.cs to build
