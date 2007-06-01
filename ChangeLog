@@ -1,5 +1,9 @@
 2007-06-01  Calvin Gaisford <calvinrg@gmail.com> 
 
+	* configure.ac: upped the version to 0.1.6 for the next iteration
+
+2007-06-01  Calvin Gaisford <calvinrg@gmail.com> 
+
 	* NEWS: Updated NEWS file for 0.1.5 release
 
 2007-06-01  Boyd Timothy <btimothy@gmail.com> 
