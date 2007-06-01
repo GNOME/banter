@@ -1,5 +1,9 @@
 2007-06-01  Boyd Timothy <btimothy@gmail.com> 
 
+	* configure.ac: Removed references to WebKit altogether.
+
+2007-06-01  Boyd Timothy <btimothy@gmail.com> 
+
 	* configure.ac: Commented-out accidental inclusions of WebKit.
 
 2007-06-01  Boyd Timothy <btimothy@gmail.com> 
