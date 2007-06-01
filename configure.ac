@@ -107,9 +107,9 @@ AC_CONFIG_FILES([
 ./data/images/Makefile
 ./data/Themes/Makefile
 ./po/Makefile.in
-./WebKit/Makefile
-./WebKit/webkit-sharp.pc
-./WebKit/webkitglue/Makefile
+#./WebKit/Makefile
+#./WebKit/webkit-sharp.pc
+#./WebKit/webkitglue/Makefile
 ])
 
 AC_OUTPUT
