@@ -285,16 +285,21 @@ namespace Banter
 		
 		protected void SetupMe ()
 		{
+			Logger.Debug ("SetupMe - called");
 			string[] aliasNames = null;
+			uint[] meHandles = { tlpConnection.SelfHandle };
 	
 			try {
+				// Get my capabilities
+				CapabilityInfo[] caps = tlpConnection.GetCapabilities (meHandles);
+				foreach (CapabilityInfo cap in caps)
+					Logger.Debug ("Caps - channel type: {0}", cap.ChannelType);
+				
+				// Request my alias
+				if (aliasing == true)
+					aliasNames = tlpConnection.RequestAliases (meHandles);
 
 				string uri = options["account"] as string;
-				if (aliasing == true) {
-					uint[] ids = { tlpConnection.SelfHandle };
-					aliasNames = tlpConnection.RequestAliases (ids);
-				}	
-
 				string meKey = ProviderUserManager.CreateKey (uri, protocol);
 				ProviderUser me = null;				
 				try {

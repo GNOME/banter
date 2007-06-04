@@ -174,36 +174,6 @@ namespace Banter
 		#endregion
 		
 		#region Public Methods
-		public void Dispose()
-		{
-			if (txtChannel != null)	{
-				txtChannel.Close();
-				txtChannel = null;
-			}
-		}
-		
-		public Banter.Message[] GetReceivedMessages()
-		{
-			return messages.ToArray();
-		}
-		
-		public void SendMessage (Message message)
-		{
-			// FIXME::Throw exception
-			if (tlpConnection == null) return;
-			if (txtChannel == null) return;
-			if (message == null) return;
-			
-			this.txtChannel.Send (org.freedesktop.Telepathy.MessageType.Normal, message.Text);
-
-			if (current != 0)
-				last = current;
-				
-			current = tlpConnection.SelfHandle;
-			
-			if (MessageSent != null)
-				MessageSent (this, message);
-		}
 		
 		public void SetTextChannel (IChannelText channel)
 		{
@@ -255,16 +225,42 @@ namespace Banter
 			try
 			{
 				if (this.initiatedChat == true) {
-					videoChannelObjectPath = 
-						tlpConnection.RequestChannel (
-							org.freedesktop.Telepathy.ChannelType.StreamedMedia,
-							HandleType.Contact,
-							handles[0],
-							true);
-					Logger.Debug("Have the Video Channel Object Path");
-					videoChannel = 
-						Bus.Session.GetObject<IChannelStreamedMedia> (
-							account.BusName, videoChannelObjectPath);
+				
+					try {
+						videoChannelObjectPath = 
+							tlpConnection.RequestChannel (
+								org.freedesktop.Telepathy.ChannelType.StreamedMedia,
+								HandleType.Contact,
+								handles[0],
+								true);
+								
+						Logger.Debug("Have the Video Channel Object Path");
+						videoChannel = 
+							Bus.Session.GetObject<IChannelStreamedMedia> (
+								account.BusName, videoChannelObjectPath);
+						
+					} catch (Exception vrequest) {
+					
+						switch (vrequest.Message.Split (':')[0]) {
+							case "org.freedesktop.Telepathy.Error.NotAvailable":
+							{
+								IndicateSystemMessage (
+									String.Format (
+										"{0} does not have video capability", 
+										this.PeerUser.Alias));
+								break;
+							}
+							
+							default:
+							{
+								Logger.Debug ("Caught an unsuspected exception");
+								break;
+							}
+						}
+						
+						Logger.Debug (vrequest.Message);
+						Logger.Debug (vrequest.StackTrace);
+					}
 					
 					if (videoChannel == null) {
 						Logger.Debug ("videoChannel is null!");
@@ -394,12 +390,35 @@ namespace Banter
             // Audio or Video
             videoInputStreamId = streamid;
             
-            // Make sure that this stream is a Video stream
-            if (videoChannel.Handle.Id == streamid && streamstate == StreamState.Connected)
-			{
-				if (VideoChannelConnected != null)
-					VideoChannelConnected (this, streamid);
-			}
+            if (videoChannel.Handle.Id == streamid ) {
+            	switch (streamstate ) {
+            		case StreamState.Connecting:
+            		{
+            			IndicateSystemMessage ("Video chat connecting...");
+            			break;
+            		}
+            		
+            		case StreamState.Connected:
+            		{
+            			IndicateSystemMessage ("Video chat connected!");
+						if (VideoChannelConnected != null)
+							VideoChannelConnected (this, streamid);
+            			break;
+            		}
+            		
+            		case StreamState.Playing:
+            		{
+            			IndicateSystemMessage ("Video chat playing");
+            			break;
+            		}
+            		
+            		case StreamState.Stopped:
+            		{
+            			IndicateSystemMessage ("Video chat stopped");
+            			break;
+            		}
+            	}
+            }
         }
 
         private void OnStreamEngineReceiving (ObjectPath channelpath, uint streamid, bool state)      
@@ -433,8 +452,52 @@ namespace Banter
 		
 		#endregion
 		
-#region Public Methods
+		#region Public Methods
+		public void Dispose()
+		{
+			if (txtChannel != null)	{
+				txtChannel.Close();
+				txtChannel = null;
+			}
+		}
+		
+		public Banter.Message[] GetReceivedMessages()
+		{
+			return messages.ToArray();
+		}
+		
+		/// <summary>
+		/// Method to indicate a local system message
+		/// </summary>
+		public void IndicateSystemMessage (string message)
+		{
+			if (message == null || message == String.Empty)
+				return;
 
+			if (MessageSent == null)
+				return;
+				
+			MessageSent (this, new SystemMessage (message));
+		}
+		
+		public void SendMessage (Message message)
+		{
+			// FIXME::Throw exception
+			if (tlpConnection == null) return;
+			if (txtChannel == null) return;
+			if (message == null) return;
+			
+			this.txtChannel.Send (org.freedesktop.Telepathy.MessageType.Normal, message.Text);
+
+			if (current != 0)
+				last = current;
+				
+			current = tlpConnection.SelfHandle;
+			
+			if (MessageSent != null)
+				MessageSent (this, message);
+		}
+		
 		public void SetMediaChannel (IChannelStreamedMedia channel, ObjectPath op)
 		{
 			videoChannelObjectPath = op;
@@ -464,13 +527,14 @@ namespace Banter
 		{
 			this.initiatedChat = initiatedChat;
 			if (tlpConnection == null) 
-			{
-		    	throw new ApplicationException (String.Format ("No telepathy connection exists"));
-			}
+				throw new ApplicationException (String.Format ("No telepathy connection exists"));
+				
+			// FIXME::localize
+			this.IndicateSystemMessage ("Starting video chat");
 			
 			// Create the video channel
 			SetupVideoChannel ();
 		}
-#endregion
+		#endregion
 	}
 }	

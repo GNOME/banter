@@ -614,7 +614,6 @@ Logger.Debug ("Application.OnGroupWindowDeleted");
 					Logger.Debug (ivc.StackTrace);
 				}
 			}
-			
 		}		
 
 		public void InitiateAudioChat (Person person)

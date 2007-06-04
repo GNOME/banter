@@ -1,3 +1,11 @@
+2007-06-04  Brady Anderson <banderso@novell.com> 
+
+	* Banter/Account.cs: added some debug code to check capabilities
+	* Banter/Application.cs: removed dead lines
+	* Banter/Conversation.cs: Added IndicateSystemMessage method
+	
+	  Added system messages for video chat state changes
+
 2007-06-01  Calvin Gaisford <calvinrg@gmail.com> 
 
 	* NEWS: Fixed a typo in the NEWS doh!
