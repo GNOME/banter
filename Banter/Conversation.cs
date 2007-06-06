@@ -386,7 +386,7 @@ namespace Banter
 
 		        Logger.Debug("have the stream engine");
 		        
-				Logger.Debug("Adding Preview Window");
+				Logger.Debug("Adding Preview Window {0}", previewWindowID);
 			    streamEngine.AddPreviewWindow(previewWindowID);
 			    
 				streamEngine.Receiving += OnStreamEngineReceiving;
@@ -460,8 +460,9 @@ namespace Banter
 	       	switch (streamstate ) {
 	       		case StreamState.Connecting:
 	       		{
-					if(videoStreams.ContainsKey(streamid) ) {
+					if(videoStreams.ContainsKey(streamid)) {
 						Logger.Debug("Stream State: Connecting and we found the streamid {0}", streamid);
+						Logger.Debug("Setting output window {0}", peerWindowID);
 						streamEngine.SetOutputWindow (
 							this.videoChannelObjectPath, 
 							streamid,
@@ -592,6 +593,8 @@ namespace Banter
 		
 		public void SetPeerWindow (uint windowId, uint streamId)
 		{
+			Logger.Debug("SetPeerWindow was called with windowID {0}", windowId);
+			
 			this.peerWindowID = windowId;
 			
 			if (streamEngine != null && 

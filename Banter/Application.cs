@@ -522,7 +522,7 @@ Logger.Debug ("Application.OnGroupWindowDeleted");
 			
 			VideoWindow peer = new VideoWindow();
 			peer.Title = conversation.PeerUser.Alias;
-			conversation.SetPeerWindow (peer.WindowId, streamId);
+			//conversation.SetPeerWindow (peer.WindowId, streamId);
 			peer.Show();
 		}
 		
@@ -533,7 +533,7 @@ Logger.Debug ("Application.OnGroupWindowDeleted");
 			
 			VideoWindow peer = new VideoWindow();
 			peer.Title = conversation.PeerUser.Alias;
-			conversation.SetPeerWindow (peer.WindowId, streamId);
+			//conversation.SetPeerWindow (peer.WindowId, streamId);
 			peer.Show();
 		}
 		#endregion
@@ -593,7 +593,12 @@ Logger.Debug ("Application.OnGroupWindowDeleted");
 			Logger.Debug ("Called to initiate Video chat with: " + person.DisplayName);
 			
 			VideoWindow me = new VideoWindow();
-			me.Title = person.DisplayName;
+			if(PersonManager.Me != null) {
+				me.Title = PersonManager.Me.DisplayName;
+			} else {
+				me.Title = Catalog.GetString("Me");
+			}
+			// me.Title = person.DisplayName;
 			me.Show();
 
 			VideoWindow peer = new VideoWindow();

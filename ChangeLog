@@ -1,5 +1,12 @@
 2007-06-06  Calvin Gaisford <calvinrg@gmail.com> 
 
+	* Banter/Account.cs: Pulled the peer out of the correct location to
+	  display the name on the video chat window
+	* Banter/Application.cs: Set the Peer window names correctly
+	* Banter/Conversation.cs: Added debug messages
+
+2007-06-06  Calvin Gaisford <calvinrg@gmail.com> 
+
 	* Banter/Conversation.cs: Saved off videoStreams
 
 2007-06-06  Calvin Gaisford <calvinrg@gmail.com> 

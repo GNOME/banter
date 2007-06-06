@@ -30,6 +30,7 @@ using System.Threading;
 using NDesk.DBus;
 using org.freedesktop.DBus;
 using org.freedesktop.Telepathy;
+using Mono.Unix;
 
 namespace Banter
 {
@@ -632,11 +633,25 @@ namespace Banter
 				
 				case org.freedesktop.Telepathy.ChannelType.StreamedMedia:
 				{
+					uint peerHandle;
+					
 					IChannelStreamedMedia ichannel = 
 						Bus.Session.GetObject<IChannelStreamedMedia> (
 							busName,
 							channelPath);
-		
+					
+					if(ichannel.Members.Length > 0) {
+						foreach(uint ch in ichannel.Members) {
+							Logger.Debug("Member in ichannel.Members {0}", ch);
+						}
+
+					}
+					if(ichannel.Members.Length > 0) {
+						peerHandle = ichannel.Members[0];
+					}
+					else
+						return;
+					
 					if (handle == 0) {
 					
 						if (ichannel.LocalPendingMembers.Length > 0) {
@@ -666,25 +681,30 @@ namespace Banter
 						uint[] ids = {ichannel.Members[0]};
 							
 						// Check if we have an existing conversation with the peer user
-						ProviderUser pu = null;
+						ProviderUser puMe = null;
+						ProviderUser puPeer = null;
+						
 						try {
-							pu = ProviderUserManager.GetProviderUser (handle);
+							puMe = ProviderUserManager.GetProviderUser (handle);
+							puPeer = ProviderUserManager.GetProviderUser(peerHandle);
 						} catch{}
 					
-						if (pu == null) return;
+						if (puMe == null) return;
+						if (puPeer == null) return;
 					
-						if (ConversationManager.Exist (pu) == true) {
-							Logger.Debug ("An existing conversation with {0} already exists", pu.Uri);
+					
+						if (ConversationManager.Exist (puPeer) == true) {
+							Logger.Debug ("An existing conversation with {0} already exists", puPeer.Uri);
 							return;
 						}
-						
+
 						ichannel.AddMembers(meHandles, String.Empty);
 					
-						Person peer = PersonManager.GetPersonByJabberId (pu.Uri);
+						Person peer = PersonManager.GetPersonByJabberId (puPeer.Uri);
 						ChatWindow cw = null;
 					
 						Logger.Debug ("Peer: {0}", peer.Id);
-						Logger.Debug ("Peer Name: {0}", peer.EDSContact.GivenName);
+						Logger.Debug ("Peer Name: {0}", peer.DisplayName);
 					
 						if (ChatWindow.AlreadyExist (peer.Id) == true) { 
 							Logger.Debug ("ChatWindow already exists with this peer");
@@ -702,7 +722,13 @@ namespace Banter
 								Logger.Debug ("created new conversation object");
 								
 								VideoWindow meWindow = new VideoWindow();
-								meWindow.Title = peer.DisplayName;
+
+								if(PersonManager.Me != null) {
+									meWindow.Title = PersonManager.Me.DisplayName;
+								} else {
+									meWindow.Title = Catalog.GetString("Me");
+								}
+								//meWindow.Title = peer.DisplayName;
 								meWindow.Realize();
 								meWindow.Show();
 
