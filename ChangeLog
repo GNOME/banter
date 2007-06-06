@@ -1,5 +1,9 @@
 2007-06-06  Calvin Gaisford <calvinrg@gmail.com> 
 
+	* Banter/Application.cs: Fixed lagging references to VideoWindow
+
+2007-06-06  Calvin Gaisford <calvinrg@gmail.com> 
+
 	* Banter.mdp: Added VideoView and removed VideoWindow
 	* Banter/Account.cs, Banter/Application.cs, Banter/Conversation.cs:
 	  Modified to use ChatWindow

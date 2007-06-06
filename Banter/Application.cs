@@ -520,10 +520,10 @@ Logger.Debug ("Application.OnGroupWindowDeleted");
 			Logger.Debug ("OnVideoConnected - called");
 			Logger.Debug ("  Stream ID: {0}", streamId);
 			
-			VideoWindow peer = new VideoWindow();
-			peer.Title = conversation.PeerUser.Alias;
+			//VideoWindow peer = new VideoWindow();
+			//peer.Title = conversation.PeerUser.Alias;
 			//conversation.SetPeerWindow (peer.WindowId, streamId);
-			peer.Show();
+			//peer.Show();
 		}
 		
 		private void OnVideoAdded (Conversation conversation, uint streamId)
@@ -531,10 +531,10 @@ Logger.Debug ("Application.OnGroupWindowDeleted");
 			Logger.Debug ("OnVideoAdded - called");
 			Logger.Debug ("  Stream ID: {0}", streamId);
 			
-			VideoWindow peer = new VideoWindow();
-			peer.Title = conversation.PeerUser.Alias;
+			//VideoWindow peer = new VideoWindow();
+			//peer.Title = conversation.PeerUser.Alias;
 			//conversation.SetPeerWindow (peer.WindowId, streamId);
-			peer.Show();
+			//peer.Show();
 		}
 		#endregion
 
@@ -579,14 +579,14 @@ Logger.Debug ("Application.OnGroupWindowDeleted");
 		{
 			Logger.Debug ("IncomingVideoConversation - called");
 			
-			VideoWindow me = new VideoWindow();
-			me.Title = conversation.PeerUser.Alias;
-			me.Show();
+			//VideoWindow me = new VideoWindow();
+			//me.Title = conversation.PeerUser.Alias;
+			//me.Show();
 			
-			conversation.VideoChannelConnected += OnVideoConnected;
-			conversation.SetPreviewWindow (me.PreviewWindowId);
-			conversation.SetPeerWindow (me.WindowId);
-			conversation.StartVideo (false);	
+			//conversation.VideoChannelConnected += OnVideoConnected;
+			//conversation.SetPreviewWindow (me.PreviewWindowId);
+			//conversation.SetPeerWindow (me.WindowId);
+			//conversation.StartVideo (false);	
 		}
 		
 		public void InitiateVideoChat(Person person)
