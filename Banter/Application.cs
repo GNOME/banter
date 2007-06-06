@@ -548,10 +548,10 @@ Logger.Debug ("Application.OnGroupWindowDeleted");
 		{
 			Logger.Debug ("Called to initiate chat with: " + person.DisplayName);
 			
-			//if (ChatWindow.AlreadyExist (person.Id) == true)
-			//	ChatWindow.PresentWindow (person.Id);
-			//else
-			//{
+			if (ChatWindow.AlreadyExist (person.Id) == true)
+				ChatWindow.PresentWindow (person.Id);
+			else
+			{
 				try
 				{
 					// FIXEME::temporary hack
@@ -571,7 +571,7 @@ Logger.Debug ("Application.OnGroupWindowDeleted");
 					Console.WriteLine (es.Message);
 					Console.WriteLine (es.StackTrace);
 				}
-			//}
+			}
 		}
 
 		// Temporary!
@@ -600,11 +600,11 @@ Logger.Debug ("Application.OnGroupWindowDeleted");
 			peer.Title = person.DisplayName;
 			peer.Show();
 			
-			if (ChatWindow.AlreadyExist (person.Id) == true) {
-				ChatWindow.PresentWindow (person.Id);
-			}	
-			else
-			{
+			//if (ChatWindow.AlreadyExist (person.Id) == true) {
+			//	ChatWindow.PresentWindow (person.Id);
+			//}	
+			//else
+			//{
 				try
 				{
 					// FIXEME::temporary hack
@@ -631,7 +631,7 @@ Logger.Debug ("Application.OnGroupWindowDeleted");
 					Logger.Debug (ivc.Message);
 					Logger.Debug (ivc.StackTrace);
 				}
-			}
+			//}
 		}		
 
 		public void InitiateAudioChat (Person person)
