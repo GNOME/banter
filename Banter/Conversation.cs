@@ -35,6 +35,7 @@ namespace Banter
 	public delegate void MessageReceivedHandler (Conversation conversation, Message message);
 	public delegate void VideoChannelInitializedHandler (Conversation conversation);
 	public delegate void VideoChannelConnectedHandler (Conversation conversation, uint streamId);
+	public delegate void VideoStreamAddedHandler (Conversation conversation, uint streamId);
 	public delegate void AudioChannelInitializedHandler (Conversation conversation);
 	
 	public class Conversation : IDisposable
@@ -43,6 +44,7 @@ namespace Banter
 		public event MessageReceivedHandler MessageReceived;
 		public event VideoChannelInitializedHandler VideoChannelInitialized;
 		public event VideoChannelConnectedHandler VideoChannelConnected;
+		public event VideoStreamAddedHandler VideoStreamAdded;
 		public event AudioChannelInitializedHandler AudioChannelInitialized;
 
 		private bool initiatedChat;
@@ -184,6 +186,7 @@ namespace Banter
 			txtChannel.Closed += OnTextChannelClosed;
 			
 			// Check for any pending messages and add them to our list
+			/*
 			TextMessage txtMessage;
 			PendingMessageInfo[] msgInfos = txtChannel.ListPendingMessages (true);
 			foreach (PendingMessageInfo info in msgInfos) {
@@ -192,6 +195,7 @@ namespace Banter
 				txtMessage.From = peerUser.Uri;
 				messages.Add (txtMessage);
 			}
+			*/
 		}
 		
 		public void SetVideoWindows (uint meID, uint peerID)
@@ -282,8 +286,6 @@ namespace Banter
 					channelHandler.HandleChannel (
 						account.BusName,
 						account.BusPath,
-						//connectionInfo.BusName, 
-						//connectionInfo.ObjectPath,
 					    videoChannel.ChannelType, 
 					    this.videoChannelObjectPath,
 					    0,
@@ -297,6 +299,11 @@ namespace Banter
 				
 		       	foreach (StreamInfo info in lst)
 		       	{
+					streamEngine.SetOutputWindow (
+						videoChannelObjectPath, 
+						info.Id,
+						this.peerWindowID);
+		       	
 		       		Logger.Debug(
 		       			"Stream Info: Id:{0}, Type:{1}, ContactHandle:{2}, Direction: {3}",
 		       			info.Id,
@@ -327,6 +334,7 @@ namespace Banter
 		        
 				Logger.Debug("Adding Preview Window");
 			    streamEngine.AddPreviewWindow(previewWindowID);
+			    
 				streamEngine.Receiving += OnStreamEngineReceiving;
 
 				Logger.Debug("The numder of members is: {0}", videoChannel.Members.Length);
@@ -364,6 +372,10 @@ namespace Banter
 				streamtype, 
 				streamid, 
 				contacthandle);
+				
+			if (streamtype == StreamType.Video )
+				if (VideoStreamAdded != null)
+					VideoStreamAdded (this, streamid);
 			//SaveStream (stream_type, stream_id);
 		}
 
@@ -390,7 +402,7 @@ namespace Banter
             // Audio or Video
             videoInputStreamId = streamid;
             
-            if (videoChannel.Handle.Id == streamid ) {
+            //if (videoChannel.Handle.Id == streamid ) {
             	switch (streamstate ) {
             		case StreamState.Connecting:
             		{
@@ -418,7 +430,7 @@ namespace Banter
             			break;
             		}
             	}
-            }
+          //  }
         }
 
         private void OnStreamEngineReceiving (ObjectPath channelpath, uint streamid, bool state)      
@@ -507,6 +519,11 @@ namespace Banter
 		public void SetPreviewWindow (uint windowId)
 		{
 			previewWindowID = windowId;
+		}
+		
+		public void SetPeerWindow (uint windowId)
+		{
+			this.peerWindowID = windowId;
 		}
 		
 		public void SetPeerWindow (uint windowId, uint streamId)

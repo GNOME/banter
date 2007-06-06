@@ -525,6 +525,17 @@ Logger.Debug ("Application.OnGroupWindowDeleted");
 			conversation.SetPeerWindow (peer.WindowId, streamId);
 			peer.Show();
 		}
+		
+		private void OnVideoAdded (Conversation conversation, uint streamId)
+		{
+			Logger.Debug ("OnVideoAdded - called");
+			Logger.Debug ("  Stream ID: {0}", streamId);
+			
+			VideoWindow peer = new VideoWindow();
+			peer.Title = conversation.PeerUser.Alias;
+			conversation.SetPeerWindow (peer.WindowId, streamId);
+			peer.Show();
+		}
 		#endregion
 
 		#region Public Methods			
@@ -585,6 +596,10 @@ Logger.Debug ("Application.OnGroupWindowDeleted");
 			VideoWindow me = new VideoWindow();
 			me.Title = person.DisplayName;
 			me.Show();
+
+			VideoWindow peer = new VideoWindow();
+			peer.Title = person.DisplayName;
+			peer.Show();
 			
 			if (ChatWindow.AlreadyExist (person.Id) == true)
 				ChatWindow.PresentWindow (person.Id);
@@ -604,8 +619,11 @@ Logger.Debug ("Application.OnGroupWindowDeleted");
 					Conversation conversation = 
 						Banter.ConversationManager.Create (acct, person, true);
 						
-					conversation.VideoChannelConnected += OnVideoConnected;
+					//conversation.VideoChannelConnected += OnVideoConnected;
+					//conversation.VideoStreamAdded += OnVideoAdded;
 					conversation.SetPreviewWindow (me.WindowId);
+					conversation.SetPeerWindow (peer.WindowId);
+					
 					conversation.StartVideo (true);	
 				}
 				catch (Exception ivc)

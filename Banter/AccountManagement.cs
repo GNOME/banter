@@ -30,6 +30,7 @@ using System.Threading;
 
 using NDesk.DBus;
 using org.freedesktop.DBus;
+using org.freedesktop.Telepathy;
 
 //using GConf;
 using Gnome.Keyring;
@@ -160,7 +161,7 @@ namespace Banter
 		/// <summary>
 		/// Account Management Shutdown Thread.
 		/// </summary>
-		static private void ShutdownThread()
+		static private void ShutdownThread ()
 		{
 			foreach (Banter.Account account in AccountManagement.GetAccounts())
 			{
@@ -171,7 +172,7 @@ namespace Banter
 		/// <summary>
 		/// Account Management Startup Thread.
 		/// </summary>
-		static private void StartupThread()
+		static private void StartupThread ()
 		{
 			Logger.Debug ("AccountManagement::StartupThread - running");
 			
@@ -223,6 +224,37 @@ namespace Banter
 			
 			// Everything appears to have a value
 			return true;
+		}
+		
+		/// <summary>
+		/// Private static method to get an existing
+		/// telepathy connection, if one exists
+		/// </summary>
+		private static IConnection GetExistingConnection (string tpManager, string accountName)
+		{
+			Logger.Debug ("GetExistingConnection - called");
+			IConnection iconn = null;
+			string fullBusName = tpManager +"/"; 
+			string objectPath = fullBusName.Replace ('.', '/');	
+				
+			fullBusName += accountName;
+			objectPath += accountName;
+			
+			Logger.Debug ("  BusName:{0}", fullBusName);
+			Logger.Debug ("  Object Path: {0}", objectPath);
+			ObjectPath op = new ObjectPath (objectPath);
+			
+			try {
+				iconn =	Bus.Session.GetObject<IConnection> (fullBusName, op);
+				if (iconn != null) {
+					Logger.Debug ("Found an existing connection");
+					Logger.Debug ("  protocol: {0}", iconn.Protocol);
+					Logger.Debug ("  status: {0}", iconn.Status.ToString());
+				}
+			} catch{}
+
+			return null;
+			//return iconn;			
 		}
 		
 		private static bool GetCredentialsHack (string type, out string username, out string password)
@@ -338,33 +370,50 @@ namespace Banter
 			
 			server = Preferences.Get (Preferences.GoogleTalkServer) as string;
 			port = Preferences.Get (Preferences.GoogleTalkPort) as string;
-
-        	Banter.JabberAccount account = 
-        		new Banter.JabberAccount (
-        				"Google Talk",
-        				Banter.ProtocolName.Jabber,
-        				username,
-        				password,
-        				server,
-        				port,
-        				false,
-        				true,
-        				false);
-			account.Default = true;
-				
-			try
-			{
-				accounts.Add (account);
-				
-				if (connect == true)
-					account.Connect (true);
-					
-			} catch (Exception es){
-				Logger.Debug (es.Message);
-				Logger.Debug (es.StackTrace);
-			} finally {
 			
-			}
+			// Check if a connection already exists to the targ account
+			Banter.JabberAccount account;
+			IConnection existingConnection = null;
+			
+			/*
+				AccountManagement.GetExistingConnection(
+					"org.freedesktop.Telepathy.ConnectionManager.gabble",
+					//Banter.ProtocolName.Jabber,
+					username);
+			*/
+					
+			if (existingConnection != null) {
+				// call Account constructor for existing connection
+				account = new JabberAccount (existingConnection);
+				accounts.Add (account);
+			} else {
+	        	account = 
+	        		new Banter.JabberAccount (
+	        				"Google Talk",
+	        				Banter.ProtocolName.Jabber,
+	        				username,
+	        				password,
+	        				server,
+	        				port,
+	        				false,
+	        				true,
+	        				false);
+	        				
+				account.Default = true;
+				try
+				{
+					accounts.Add (account);
+					
+					if (connect == true)
+						account.Connect (true);
+					
+				} catch (Exception es){
+					Logger.Debug (es.Message);
+					Logger.Debug (es.StackTrace);
+				} finally {
+			
+				}
+	        }
 		}
 #endregion
  	}

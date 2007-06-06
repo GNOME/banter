@@ -183,6 +183,13 @@ namespace Banter
 		{
 			this.protocol = protocol;
 		}
+		
+		/// <summary>
+		/// Construct using an existing telepathy connection
+		/// </summary>
+		public Account (IConnection connection)
+		{
+		}
 		#endregion
 
 		/// <summary>
@@ -790,6 +797,10 @@ namespace Banter
 		}
 		
 		#region Constructors
+		public JabberAccount (IConnection connection) : base (connection)
+		{
+		}
+		
 		public JabberAccount (
 				//TelepathyProvider provider,
 				string accountname,
@@ -824,7 +835,6 @@ namespace Banter
 			options.Add ("ignore-ssl-errors", true);
 			
 			TelepathyConnectionSetup ();
-			//TapiocaSetup();
 		}
 		#endregion
 		
