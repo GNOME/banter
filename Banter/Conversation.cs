@@ -69,6 +69,8 @@ namespace Banter
 		
 		private uint current;
 		private uint last;
+		
+		private System.Collections.Generic.Dictionary<uint, uint> videoStreams;
 	
 		public ProviderUser PeerUser
 		{
@@ -88,6 +90,7 @@ namespace Banter
 			this.peerUser = peerUser;
 			this.messages = new List<Message> ();
 			last = 999;
+			this.videoStreams = new Dictionary<uint,uint> ();
 
 			peerUser.PresenceUpdated += OnPeerPresenceUpdated;
 			lastPeerPresence = peerUser.Presence;
@@ -105,6 +108,7 @@ namespace Banter
 			this.messages = new List<Message> ();
 			last = 999;
 			this.initiatedChat = initiate;
+			this.videoStreams = new Dictionary<uint,uint> ();
 
 			peerUser.PresenceUpdated += OnPeerPresenceUpdated;
 			lastPeerPresence = peerUser.Presence;
@@ -186,6 +190,33 @@ namespace Banter
 		{
 			this.txtChannel = null;
 		}
+		
+		
+		// Save stream types and ids off for later so handlers can know
+        // what type of streams they are.
+        private void SaveStream (StreamType type, uint id)
+        {
+            switch (type) {
+            case StreamType.Audio:
+ 				Logger.Debug("SaveStream called on a non-Video Stream");
+                break;
+            case StreamType.Video:
+                if (videoStreams.ContainsKey (id) == false) {
+                    Logger.Debug ("Saving video stream id: {0}", id);
+                    videoStreams [id] = id;
+                }
+                break;
+            }
+        }
+
+        private void RemoveStream (uint id)
+        {
+            if (videoStreams.ContainsKey (id)) {
+                Logger.Debug ("Removing video stream: {0}", id);
+                videoStreams.Remove (id);
+            }
+        }
+
 		
 		#endregion
 		
@@ -317,14 +348,19 @@ namespace Banter
 				else
 		       		Logger.Debug("Didn't get a channel handler");
 
-				/*
 				StreamInfo[] lst = ((IChannelStreamedMedia) videoChannel).ListStreams();
 				Logger.Debug("StreamInfo List Length: {0}", lst.Length);
 				
 				uint tempStreamId;
 		       	foreach (StreamInfo info in lst)
 		       	{
-		       		Logger.Debug ("Setting peer Window ID - Object Path: {0}", this.videoChannelObjectPath.ToString());
+		       		Logger.Debug("Stream Info: Id:{0}, Type:{1}, ContactHandle:{2}, Direction: {3}",
+                            info.Id, info.Type, info.ContactHandle, info.Direction);
+
+                    // Save the type of the stream so we can reference it later
+                    SaveStream (info.Type, info.Id);	       	
+
+/*		       		Logger.Debug ("Setting peer Window ID - Object Path: {0}", this.videoChannelObjectPath.ToString());
 		       		Logger.Debug ("info ID: {0}  Contact Handle: {1}", info.Id, info.ContactHandle);
 		       		tempStreamId = info.Id;
 		       	
@@ -337,8 +373,8 @@ namespace Banter
 		       				
 		       		// Save the type of the stream so we can reference it later
 		       		//SaveStream (info.Type, info.Id);
-		       }
 		       */
+		       }
 		       
 
 				Logger.Debug("Getting the stream_engine");
@@ -390,11 +426,12 @@ namespace Banter
 				streamtype, 
 				streamid, 
 				contacthandle);
+
+			SaveStream (streamtype, streamid);
 				
 			if (streamtype == StreamType.Video )
 				if (VideoStreamAdded != null)
 					VideoStreamAdded (this, streamid);
-			//SaveStream (stream_type, stream_id);
 		}
 
 		private void OnStreamDirectionChanged (uint streamid, StreamDirection streamdirection, StreamPendingFlags pendingflags)
@@ -410,25 +447,28 @@ namespace Banter
         private void OnStreamRemoved (uint streamid)
         {
 			Logger.Debug("OnStreamRemoved called on stream {0}", streamid);
-			//RemoveStream (stream_id);
+			RemoveStream (streamid);
         }
 
         private void OnStreamStateChanged (uint streamid, org.freedesktop.Telepathy.StreamState streamstate)
         {
             Logger.Debug ("OnStreamStateChanged called - ID: {0} State: {1}", streamid, streamstate);
-            
+ 
             // Audio or Video
             videoInputStreamId = streamid;
             
 	       	switch (streamstate ) {
 	       		case StreamState.Connecting:
 	       		{
-	       			//IndicateSystemMessage ("Video chat connecting...");
+					if(videoStreams.ContainsKey(streamid) ) {
+						Logger.Debug("Stream State: Connecting and we found the streamid {0}", streamid);
 						streamEngine.SetOutputWindow (
 							this.videoChannelObjectPath, 
 							streamid,
 							this.peerWindowID);
-	       			
+	       			}
+	       			else
+						Logger.Debug("Stream State: Connecting but stream ID NOT found {0}", streamid);	       			
 	       			break;
 	       		}
 	       		
