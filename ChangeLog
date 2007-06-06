@@ -1,5 +1,17 @@
 2007-06-06  Calvin Gaisford <calvinrg@gmail.com> 
 
+	* Banter.mdp: Added VideoView and removed VideoWindow
+	* Banter/Account.cs, Banter/Application.cs, Banter/Conversation.cs:
+	  Modified to use ChatWindow
+	* Banter/VideoView.cs: new class to display video chat
+	* Banter/ConversationManager.cs: Removed CreateVideoChat as they are
+	  all the same now
+	* Banter/ChatWindow.cs: Modified to hold a videoview
+	* Banter/VideoWindow.cs: replaced by VideoView Widget
+	* Banter/Makefile.am: Removed VideoWindow added VideoView
+
+2007-06-06  Calvin Gaisford <calvinrg@gmail.com> 
+
 	* Banter/Account.cs: Pulled the peer out of the correct location to
 	  display the name on the video chat window
 	* Banter/Application.cs: Set the Peer window names correctly

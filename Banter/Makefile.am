@@ -57,7 +57,7 @@ CSFILES = \
 	$(srcdir)/XmlFilePreferencesProvider.cs \
 	$(srcdir)/Logger.cs \
 	$(srcdir)/ActionManager.cs \
-	$(srcdir)/VideoWindow.cs \
+	$(srcdir)/VideoView.cs \
 	$(srcdir)/Avatar.cs \
 	$(srcdir)/AvatarRequirements.cs \
 	$(srcdir)/GroupWindow.cs \

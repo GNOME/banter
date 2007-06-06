@@ -1,5 +1,5 @@
 //***********************************************************************
-// *  $RCSfile$ - VideoWindow.cs
+// *  $RCSfile$ - VideoView.cs
 // *
 // *  Copyright (C) 2007 Novell, Inc.
 // *
@@ -26,7 +26,7 @@ using Gdk;
 
 namespace Banter
 {
-	public class VideoWindow : Gtk.Window
+	public class VideoView : Gtk.EventBox
 	{
 		public enum PreviewPos 
 		{
@@ -57,23 +57,24 @@ namespace Banter
 			}
 		}	
 		
-		public VideoWindow()
-			: base ("Video")
+		public VideoView()
 		{
-			preview_pos = PreviewPos.ButtonLeft;
+			preview_pos = PreviewPos.ButtonRight;
 			
-			this.WidthRequest = 250; // 500;
-			this.HeightRequest = 187; // 375;
+			this.WidthRequest = 500; //250;
+			this.HeightRequest = 375; //187;
 			
 			preview = new Gtk.DrawingArea ();
-			preview.WidthRequest = 150; //150;
-			preview.HeightRequest = 150; //112;
+			preview.WidthRequest = 150;
+			preview.HeightRequest = 112;
 			preview.ModifyBg (Gtk.StateType.Normal, new Gdk.Color (0,0,0));
 			preview.ModifyBg (Gtk.StateType.Active, new Gdk.Color (0,0,0));
+			preview.Show();
 			
 			fix = new Gtk.Fixed ();
 			fix.Put (preview, space, space);
-			this.Add (fix);			
+			fix.Show();
+			this.Add (fix);	
 			
 			this.SizeRequested += OnsizeRequested;
 			this.QueueResize ();
@@ -84,7 +85,7 @@ namespace Banter
 		{	
 			int w, h;
 			
-			this.GetSize (out w, out h);			
+			this.GetSizeRequest(out w, out h);
 			switch (preview_pos)
 			{
 				case PreviewPos.TopLeft:
@@ -103,9 +104,11 @@ namespace Banter
 					break;
 			
 			}
+
 			preview.Show ();
 			return false;
 		}
+		
 		protected void OnsizeRequested(object o, SizeRequestedArgs args)
 		{
 			if (!moving) {
@@ -116,13 +119,21 @@ namespace Banter
 				moving = false;
 		}
 		
-		protected override bool OnKeyReleaseEvent (Gdk.EventKey args)
+/*		protected override bool OnKeyReleaseEvent (Gdk.EventKey args)
 		{
 			if (args.Key == Gdk.Key.F) {				
 				this.Fullscreen ();
 			}
 			return true;
 		}
+*/
+#region Overrides
+		protected override bool OnButtonPressEvent (Gdk.EventButton evnt)
+		{
+			Logger.Debug("User clicked somewhere on video");
+			return false;
+		}
+#endregion
 
 
 		[DllImport ("gdk-x11-2.0")]

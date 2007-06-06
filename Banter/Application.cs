@@ -584,7 +584,8 @@ Logger.Debug ("Application.OnGroupWindowDeleted");
 			me.Show();
 			
 			conversation.VideoChannelConnected += OnVideoConnected;
-			conversation.SetPreviewWindow (me.WindowId);
+			conversation.SetPreviewWindow (me.PreviewWindowId);
+			conversation.SetPeerWindow (me.WindowId);
 			conversation.StartVideo (false);	
 		}
 		
@@ -592,24 +593,11 @@ Logger.Debug ("Application.OnGroupWindowDeleted");
 		{
 			Logger.Debug ("Called to initiate Video chat with: " + person.DisplayName);
 			
-			VideoWindow me = new VideoWindow();
-			if(PersonManager.Me != null) {
-				me.Title = PersonManager.Me.DisplayName;
-			} else {
-				me.Title = Catalog.GetString("Me");
-			}
-			// me.Title = person.DisplayName;
-			me.Show();
-
-			VideoWindow peer = new VideoWindow();
-			peer.Title = person.DisplayName;
-			peer.Show();
-			
-			//if (ChatWindow.AlreadyExist (person.Id) == true) {
-			//	ChatWindow.PresentWindow (person.Id);
-			//}	
-			//else
-			//{
+			if (ChatWindow.AlreadyExist (person.Id) == true) {
+				ChatWindow.PresentWindow (person.Id);
+			}	
+			else
+			{
 				try
 				{
 					// FIXEME::temporary hack
@@ -622,21 +610,21 @@ Logger.Debug ("Application.OnGroupWindowDeleted");
 					}
 					
 					Conversation conversation = 
-						Banter.ConversationManager.CreateVideo (acct, person, true);
+						Banter.ConversationManager.Create (acct, person, true);
 						
 					//conversation.VideoChannelConnected += OnVideoConnected;
 					//conversation.VideoStreamAdded += OnVideoAdded;
-					conversation.SetPreviewWindow (me.WindowId);
-					conversation.SetPeerWindow (peer.WindowId);
+					//conversation.SetPreviewWindow (me.WindowId);
+					//conversation.SetPeerWindow (peer.WindowId);
 					
-					conversation.StartVideo (true);	
+					//conversation.StartVideo (true);	
 				}
 				catch (Exception ivc)
 				{
 					Logger.Debug (ivc.Message);
 					Logger.Debug (ivc.StackTrace);
 				}
-			//}
+			}
 		}		
 
 		public void InitiateAudioChat (Person person)

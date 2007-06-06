@@ -40,7 +40,6 @@
     <File name="./Banter/Logger.cs" subtype="Code" buildaction="Compile" />
     <File name="./Banter/ActionManager.cs" subtype="Code" buildaction="Compile" />
     <File name="./Banter/UIManagerLayout.xml" subtype="Code" buildaction="EmbedAsResource" />
-    <File name="./Banter/VideoWindow.cs" subtype="Code" buildaction="Compile" />
     <File name="./Banter/Avatar.cs" subtype="Code" buildaction="Compile" />
     <File name="./Banter/AvatarRequirements.cs" subtype="Code" buildaction="Compile" />
     <File name="./data/images" subtype="Directory" buildaction="Compile" />
@@ -73,6 +72,7 @@
     <File name="./Banter/AvatarMenuItem.cs" subtype="Code" buildaction="Compile" />
     <File name="./Banter/AvatarButton.cs" subtype="Code" buildaction="Compile" />
     <File name="./Banter/AvatarManager.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Banter/VideoView.cs" subtype="Code" buildaction="Compile" />
   </Contents>
   <References>
     <ProjectReference type="Gac" localcopy="True" refto="System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />

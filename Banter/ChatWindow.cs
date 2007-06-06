@@ -45,10 +45,12 @@ namespace Banter
 		VBox audioVBox;
 		VPaned messagesVPaned;
 		MessagesView messagesView;
+		VideoView videoView;
 		VBox typingVBox;
 		Toolbar typingToolbar;
 		ScrolledWindow typingScrolledWindow;
 		TextView typingTextView;
+		string peerId;
 		
 		static private Dictionary <string, ChatWindow> chatWindows;
 		
@@ -74,12 +76,13 @@ namespace Banter
 
 			Person peer = PersonManager.GetPersonByJabberId (conv.PeerUser.Uri);
 			chatWindows[peer.Id] = this;
+			peerId = peer.Id;
 			
 			// Update the window title
 			if (peer.DisplayName != null)
 				Title = string.Format ("Chat with {0}", peer.DisplayName);
 			
-			this.DefaultSize = new Gdk.Size (400, 800); 
+			this.DefaultSize = new Gdk.Size (400, 600); 
 			
 			SetUpWidgets (peer);
 			Realized += WindowRealized;
@@ -130,7 +133,13 @@ namespace Banter
 			hbox.PackStart (showPersonDetailsButton);
 			
 			videoVBox = new VBox (false, 0);
-			videoVBox.Visible = false;
+			// videoVBox.Visible = false;
+			videoView = new VideoView();
+			videoView.WidthRequest = 500; //250;
+			videoView.HeightRequest = 375; //187;
+			videoView.Show();
+			videoVBox.PackStart(videoView, true, true, 0);
+			videoVBox.Show();
 			rightPaneVBox.PackStart (videoVBox, false, false, 0);
 			
 			audioVBox = new VBox (false, 0);
@@ -305,6 +314,9 @@ Logger.Debug ("OnMessageSent called: {0}", message.Text);
 				conv.MessageSent -= OnMessageSent;
 				*/
 			}
+			if(ChatWindow.chatWindows.ContainsKey(peerId)) {
+				ChatWindow.chatWindows.Remove(peerId);
+			}
 		}
 		
 		private bool HandleMessageTrigger()
@@ -370,6 +382,16 @@ Logger.Debug ("OnMessageSent called: {0}", message.Text);
 #endregion
 
 #region Public Properties
+		public uint PreviewWindowId
+		{
+			get { return videoView.PreviewWindowId; }
+		}
+		
+		public uint VideoWindowId
+		{
+			get { return videoView.WindowId; }
+		}	
+
 		public Conversation Conversation
 		{
 			get { return conv; }
@@ -403,8 +425,12 @@ Logger.Debug ("OnMessageSent called: {0}", message.Text);
 
 		static public bool AlreadyExist (string peerId)
 		{
-			Logger.Debug ("ChatWindow::AlreadyExists - called");
-			if (ChatWindow.chatWindows.ContainsKey (peerId)) return true;
+			if (ChatWindow.chatWindows.ContainsKey (peerId)) {
+				Logger.Debug("ChatWindow exists for peerID {0}", peerId);
+				return true;
+			}
+
+			Logger.Debug("ChatWindow doesn't exist for peerID {0}", peerId);
 			return false;
 		}
 
@@ -419,5 +445,6 @@ Logger.Debug ("OnMessageSent called: {0}", message.Text);
 		}
 		
 #endregion
+
 	}
 }
