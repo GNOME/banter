@@ -617,7 +617,7 @@ Logger.Debug ("Application.OnGroupWindowDeleted");
 					}
 					
 					Conversation conversation = 
-						Banter.ConversationManager.Create (acct, person, true);
+						Banter.ConversationManager.CreateVideo (acct, person, true);
 						
 					//conversation.VideoChannelConnected += OnVideoConnected;
 					//conversation.VideoStreamAdded += OnVideoAdded;

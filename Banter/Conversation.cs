@@ -95,6 +95,18 @@ namespace Banter
 			if (initiate == true)
 				this.CreateTextChannel ();
 		}
+		
+		internal Conversation (Account account, Person peer, ProviderUser peerUser, bool initiate, bool isVideo)
+		{
+			this.account = account;
+			this.tlpConnection = account.TlpConnection;
+			this.peerUser = peerUser;
+			this.messages = new List<Message> ();
+			last = 999;
+
+			peerUser.PresenceUpdated += OnPeerPresenceUpdated;
+			lastPeerPresence = peerUser.Presence;
+		}		
 		#endregion
 		
 		#region Private Methods
