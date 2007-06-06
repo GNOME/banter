@@ -222,9 +222,17 @@ namespace Banter
 		
 		private bool SetupVideoChannel ()
 		{
-			if (videoChannel != null) return true;
+			if (initiatedChat == true && videoChannel != null) return true;
 			
 			Logger.Debug ("SetupVideoChannel entered");
+
+			videoChannel.StreamAdded += OnStreamAdded;
+			videoChannel.StreamDirectionChanged += OnStreamDirectionChanged;
+			videoChannel.StreamError += OnStreamError;
+			videoChannel.StreamRemoved += OnStreamRemoved;
+			videoChannel.StreamStateChanged += OnStreamStateChanged;
+			videoChannel.MembersChanged += OnMembersChanged;
+
 			uint[] handles = new uint [] {peerUser.ID};
 			try
 			{
@@ -276,9 +284,9 @@ namespace Banter
 				Logger.Debug("Initializing video channel with ChannelHandler");
 				
 				channelHandler = 
-		       	Bus.Session.GetObject<IChannelHandler> (
-		       		"org.freedesktop.Telepathy.StreamEngine",
-		           	new ObjectPath ("/org/freedesktop/Telepathy/StreamEngine"));
+			       	Bus.Session.GetObject<IChannelHandler> (
+			       		"org.freedesktop.Telepathy.StreamEngine",
+			           	new ObjectPath ("/org/freedesktop/Telepathy/StreamEngine"));
 		           
 				if (channelHandler != null) 
 				{
@@ -294,15 +302,16 @@ namespace Banter
 				else
 		       		Logger.Debug("Didn't get a channel handler");
 
+				/*
 				StreamInfo[] lst = ((IChannelStreamedMedia) videoChannel).ListStreams();
 				Logger.Debug("StreamInfo List Length: {0}", lst.Length);
 				
+				uint tempStreamId;
 		       	foreach (StreamInfo info in lst)
 		       	{
-					streamEngine.SetOutputWindow (
-						videoChannelObjectPath, 
-						info.Id,
-						this.peerWindowID);
+		       		Logger.Debug ("Setting peer Window ID - Object Path: {0}", this.videoChannelObjectPath.ToString());
+		       		Logger.Debug ("info ID: {0}  Contact Handle: {1}", info.Id, info.ContactHandle);
+		       		tempStreamId = info.Id;
 		       	
 		       		Logger.Debug(
 		       			"Stream Info: Id:{0}, Type:{1}, ContactHandle:{2}, Direction: {3}",
@@ -314,14 +323,8 @@ namespace Banter
 		       		// Save the type of the stream so we can reference it later
 		       		//SaveStream (info.Type, info.Id);
 		       }
+		       */
 		       
-				videoChannel.StreamAdded += OnStreamAdded;
-				videoChannel.StreamDirectionChanged += OnStreamDirectionChanged;
-				videoChannel.StreamError += OnStreamError;
-				videoChannel.StreamRemoved += OnStreamRemoved;
-				videoChannel.StreamStateChanged += OnStreamStateChanged;
-		       
-				videoChannel.MembersChanged += OnMembersChanged;
 
 				Logger.Debug("Getting the stream_engine");
 				
@@ -358,7 +361,7 @@ namespace Banter
 			}
 			catch(Exception e)
 			{
-				Logger.Debug("Exception in SetupMediaChannel: {0}\n{1}", e.Message, e.StackTrace);
+				Logger.Debug("Exception in StartVideoChannel: {0}\n{1}", e.Message, e.StackTrace);
 			}
 
 			return true;
@@ -402,35 +405,38 @@ namespace Banter
             // Audio or Video
             videoInputStreamId = streamid;
             
-            //if (videoChannel.Handle.Id == streamid ) {
-            	switch (streamstate ) {
-            		case StreamState.Connecting:
-            		{
-            			IndicateSystemMessage ("Video chat connecting...");
-            			break;
-            		}
-            		
-            		case StreamState.Connected:
-            		{
-            			IndicateSystemMessage ("Video chat connected!");
+	       	switch (streamstate ) {
+	       		case StreamState.Connecting:
+	       		{
+	       			//IndicateSystemMessage ("Video chat connecting...");
+						streamEngine.SetOutputWindow (
+							this.videoChannelObjectPath, 
+							streamid,
+							this.peerWindowID);
+	       			
+	       			break;
+	       		}
+	       		
+	       		case StreamState.Connected:
+	       		{
+	       			//IndicateSystemMessage ("Video chat connected!");
 						if (VideoChannelConnected != null)
 							VideoChannelConnected (this, streamid);
-            			break;
-            		}
-            		
-            		case StreamState.Playing:
-            		{
-            			IndicateSystemMessage ("Video chat playing");
-            			break;
-            		}
-            		
-            		case StreamState.Stopped:
-            		{
-            			IndicateSystemMessage ("Video chat stopped");
-            			break;
-            		}
-            	}
-          //  }
+	       			break;
+	       		}
+	       		
+	       		case StreamState.Playing:
+	       		{
+	       			//IndicateSystemMessage ("Video chat playing");
+	       			break;
+	       		}
+	       		
+	       		case StreamState.Stopped:
+	       		{
+	       			//IndicateSystemMessage ("Video chat stopped");
+	       			break;
+	       		}
+	       	}
         }
 
         private void OnStreamEngineReceiving (ObjectPath channelpath, uint streamid, bool state)      
@@ -512,6 +518,8 @@ namespace Banter
 		
 		public void SetMediaChannel (IChannelStreamedMedia channel, ObjectPath op)
 		{
+			Logger.Debug ("SetMediaChannel - called");
+			Logger.Debug ("  Object Path: {0}", op.ToString() );
 			videoChannelObjectPath = op;
 			videoChannel = channel;
 		}
@@ -524,6 +532,7 @@ namespace Banter
 		public void SetPeerWindow (uint windowId)
 		{
 			this.peerWindowID = windowId;
+			Logger.Debug ("peer window ID private: {0}", this.peerWindowID);
 		}
 		
 		public void SetPeerWindow (uint windowId, uint streamId)
@@ -547,7 +556,7 @@ namespace Banter
 				throw new ApplicationException (String.Format ("No telepathy connection exists"));
 				
 			// FIXME::localize
-			this.IndicateSystemMessage ("Starting video chat");
+			//this.IndicateSystemMessage ("Starting video chat");
 			
 			// Create the video channel
 			SetupVideoChannel ();

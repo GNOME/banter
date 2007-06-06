@@ -548,10 +548,10 @@ Logger.Debug ("Application.OnGroupWindowDeleted");
 		{
 			Logger.Debug ("Called to initiate chat with: " + person.DisplayName);
 			
-			if (ChatWindow.AlreadyExist (person.Id) == true)
-				ChatWindow.PresentWindow (person.Id);
-			else
-			{
+			//if (ChatWindow.AlreadyExist (person.Id) == true)
+			//	ChatWindow.PresentWindow (person.Id);
+			//else
+			//{
 				try
 				{
 					// FIXEME::temporary hack
@@ -571,7 +571,7 @@ Logger.Debug ("Application.OnGroupWindowDeleted");
 					Console.WriteLine (es.Message);
 					Console.WriteLine (es.StackTrace);
 				}
-			}
+			//}
 		}
 
 		// Temporary!
@@ -588,7 +588,6 @@ Logger.Debug ("Application.OnGroupWindowDeleted");
 			conversation.StartVideo (false);	
 		}
 		
-		
 		public void InitiateVideoChat(Person person)
 		{
 			Logger.Debug ("Called to initiate Video chat with: " + person.DisplayName);
@@ -601,8 +600,9 @@ Logger.Debug ("Application.OnGroupWindowDeleted");
 			peer.Title = person.DisplayName;
 			peer.Show();
 			
-			if (ChatWindow.AlreadyExist (person.Id) == true)
+			if (ChatWindow.AlreadyExist (person.Id) == true) {
 				ChatWindow.PresentWindow (person.Id);
+			}	
 			else
 			{
 				try

@@ -1,5 +1,11 @@
 2007-06-06  Brady Anderson <banderso@novell.com> 
 
+	* Banter/Account.cs, Banter/Application.cs: debugging video
+	  conversation
+	* Banter/Conversation.cs: debugging video conversation
+
+2007-06-06  Brady Anderson <banderso@novell.com> 
+
 	* Banter/AccountManagement.cs, Banter/Account.cs,
 	  Banter/Application.cs, Banter/Conversation.cs:
 	  debugging/prototyping peer video window

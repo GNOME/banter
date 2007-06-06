@@ -107,7 +107,13 @@ namespace Banter
 		
 		public string BusName
 		{
-			get {return busName;}
+			get
+			{
+				try {
+					return connInfo.BusName;
+				} catch{}
+				return busName;
+			}
 		}
 		
 		public ObjectPath BusPath
@@ -598,10 +604,10 @@ namespace Banter
 					Logger.Debug ("Peer: {0}", peer.Id);
 					Logger.Debug ("Peer Name: {0}", peer.EDSContact.GivenName);
 					
-					if (ChatWindow.AlreadyExist (peer.Id) == true) { 
-						Logger.Debug ("ChatWindow already exists with this peer");
-						ChatWindow.PresentWindow (peer.Id);
-					} else {
+//					if (ChatWindow.AlreadyExist (peer.Id) == true) { 
+//						Logger.Debug ("ChatWindow already exists with this peer");
+//						ChatWindow.PresentWindow (peer.Id);
+//					} else {
 						try
 						{
 							Logger.Debug ("creating conversation object");
@@ -620,7 +626,7 @@ namespace Banter
 							Logger.Debug (es.Message);
 							Logger.Debug (es.StackTrace);
 						}
-					}
+					//}
 					break;
 				}
 				
@@ -694,9 +700,26 @@ namespace Banter
 								conversation.SetTextChannel (txtChannel);
 								conversation.SetMediaChannel (ichannel, channelPath);
 								Logger.Debug ("created new conversation object");
+								
+								VideoWindow meWindow = new VideoWindow();
+								meWindow.Title = peer.DisplayName;
+								meWindow.Realize();
+								meWindow.Show();
+
+								VideoWindow peerWindow = new VideoWindow();
+								peerWindow.Title = peer.DisplayName;
+								peerWindow.Realize();
+								peerWindow.Show();
+			
+								conversation.SetPreviewWindow (meWindow.WindowId);
+								Logger.Debug ("Peer Window ID: {0}", peerWindow.WindowId);
+								conversation.SetPeerWindow (peerWindow.WindowId);
+								conversation.StartVideo (false);
 						
+								/*
 								cw = new ChatWindow (conversation);
 								cw.Present();
+								*/
 							}
 							catch (Exception es)
 							{
