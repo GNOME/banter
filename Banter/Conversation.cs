@@ -91,6 +91,7 @@ namespace Banter
 
 			peerUser.PresenceUpdated += OnPeerPresenceUpdated;
 			lastPeerPresence = peerUser.Presence;
+			this.initiatedChat = initiate;
 			
 			if (initiate == true)
 				this.CreateTextChannel ();
@@ -103,6 +104,7 @@ namespace Banter
 			this.peerUser = peerUser;
 			this.messages = new List<Message> ();
 			last = 999;
+			this.initiatedChat = initiate;
 
 			peerUser.PresenceUpdated += OnPeerPresenceUpdated;
 			lastPeerPresence = peerUser.Presence;
@@ -238,13 +240,6 @@ namespace Banter
 			
 			Logger.Debug ("SetupVideoChannel entered");
 
-			videoChannel.StreamAdded += OnStreamAdded;
-			videoChannel.StreamDirectionChanged += OnStreamDirectionChanged;
-			videoChannel.StreamError += OnStreamError;
-			videoChannel.StreamRemoved += OnStreamRemoved;
-			videoChannel.StreamStateChanged += OnStreamStateChanged;
-			videoChannel.MembersChanged += OnMembersChanged;
-
 			uint[] handles = new uint [] {peerUser.ID};
 			try
 			{
@@ -293,6 +288,14 @@ namespace Banter
 				}
 
 				Logger.Debug("Have a Video Channel");
+
+				videoChannel.StreamAdded += OnStreamAdded;
+				videoChannel.StreamDirectionChanged += OnStreamDirectionChanged;
+				videoChannel.StreamError += OnStreamError;
+				videoChannel.StreamRemoved += OnStreamRemoved;
+				videoChannel.StreamStateChanged += OnStreamStateChanged;
+				videoChannel.MembersChanged += OnMembersChanged;
+
 				Logger.Debug("Initializing video channel with ChannelHandler");
 				
 				channelHandler = 

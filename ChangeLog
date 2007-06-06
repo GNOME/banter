@@ -1,5 +1,9 @@
 2007-06-06  Calvin Gaisford <calvinrg@gmail.com> 
 
+	* Banter/Conversation.cs: fixed up initializer
+
+2007-06-06  Calvin Gaisford <calvinrg@gmail.com> 
+
 	* Banter/Application.cs, Banter/ConversationManager.cs,
 	  Banter/Conversation.cs: Added create video
 
