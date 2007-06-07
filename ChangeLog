@@ -1,5 +1,10 @@
 2007-06-07  Calvin Gaisford <calvinrg@gmail.com> 
 
+	* Banter/Application.cs: Added call to init the ChatWIndowManager when
+	  the app launches
+
+2007-06-07  Calvin Gaisford <calvinrg@gmail.com> 
+
 	* Banter/ChatWindowManager.cs: Changed peerID to be a uint from a
 	  ProviderUser
 	* Banter/ChatWindow.cs: Removed calls that used to manage chat windows

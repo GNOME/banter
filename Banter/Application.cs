@@ -109,8 +109,9 @@ namespace Banter
 						Gnome.Modules.UI,
 						args);
 
-			// Call Init before anything so the people objects are in place
+			// Initialize the singleton classes to be used in the app
 			PersonManager.Instance.Init();
+			ChatWindowManager.Instance.Init();
 			
 			// Create and start up the Person Sync
 			personSync = new PersonSync();
