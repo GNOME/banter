@@ -578,6 +578,7 @@ namespace Banter
 		{
 			if (txtChannel == null) return;
 			txtChannel.Received -= OnReceiveMessageHandler;
+			txtChannel.Close();
 			txtChannel = null;
 		}
 		
@@ -586,6 +587,9 @@ namespace Banter
 		/// </summary>
 		public void RemoveAudioChannel ()
 		{
+			if (audioChannel == null) return;
+			audioChannel.Close();
+			audioChannel = null;
 		}
 		
 		/// <summary>
@@ -594,6 +598,9 @@ namespace Banter
 		/// </summary>
 		public void RemoveAudioVideoChannels ()
 		{
+			if (videoChannel == null) return;
+			videoChannel.Close();
+			videoChannel = null;
 		}
 		
 		/// <summary>
