@@ -150,6 +150,7 @@ namespace Banter
 
 		{
 			Conversation conversation = null;
+			ChatType chattype = ChatType.Text;
 			ProviderUser peerUser = null;
 			
 			switch (channelType)
@@ -227,6 +228,7 @@ namespace Banter
 						conversation = 
 							new Conversation (account, peerUser, channelPath, mediaChannel);
 						conversations.Add (conversation);
+						chattype = ChatType.Video;
 						Logger.Debug ("created new conversation object");
 					}
 					catch (Exception es)
@@ -331,6 +333,11 @@ namespace Banter
 				default:
 					break;
 			}
+			
+			// If successfully created a conversation and have registered consumers
+			// of the callback event - fire the rocket
+			if (conversation != null & NewIncomingConversation != null)
+				NewIncomingConversation (conversation, chattype);
 		}
 	}
 }	
