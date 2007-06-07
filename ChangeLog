@@ -1,5 +1,10 @@
 2007-06-07  Brady Anderson <brady.anderson@gmail.com> 
 
+	* Banter/AccountManagement.cs: Added OnIncomingConversation event and
+	  matching delegate
+
+2007-06-07  Brady Anderson <brady.anderson@gmail.com> 
+
 	* Banter/Conversation.cs: added new properties, events and methods 
 
 2007-06-06  Calvin Gaisford <calvinrg@gmail.com> 
