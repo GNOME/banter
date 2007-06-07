@@ -164,7 +164,7 @@ namespace Banter
 				ChatWindow cw = new ChatWindow(person, person.ProviderUser, type);
 				ChatWindowManager.Instance.chatWindows[person.ProviderUser.ID] = cw;
 				cw.DeleteEvent += ChatWindowManager.Instance.OnChatWindowDeleted;
-				cw.ShowAll();
+				cw.Present();
 			}
 		}		
 		#endregion

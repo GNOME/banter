@@ -1,3 +1,10 @@
+2007-06-07  Calvin Gaisford <calvinrg@gmail.com> 
+
+	* Banter/VideoView.cs: minor correction
+	* Banter/ChatWindowManager.cs: Changed ShowAll to Present
+	* Banter/ChatWindow.cs: Fixed the way the window was connecting up the
+	  stream... well, when it did it
+
 2007-06-07  Brady Anderson <brady.anderson@gmail.com> 
 
 	* Banter/Account.cs, Banter/ConversationManager.cs,

@@ -66,6 +66,7 @@ namespace Banter
 		public ChatWindow (Person person, ProviderUser providerUser, ChatType type) : 
 			base (WindowType.Toplevel)
 		{
+			Logger.Debug("ChatWindow is being created with the ChatType: {0}", type.ToString());
 			this.chatType = type;
 			conv = ConversationManager.Create(providerUser);
 
@@ -98,6 +99,8 @@ namespace Banter
 		public ChatWindow (Conversation conversation, ChatType type) :
 			base (WindowType.Toplevel)
 		{
+			Logger.Debug("ChatWindow is being created with the ChatType: {0}", type.ToString());
+			
 			this.chatType = type;
 			conv = conversation;
 
@@ -241,7 +244,7 @@ namespace Banter
 			typingTextView.Show ();
 			typingScrolledWindow.Add (typingTextView);
 			
-			Realized += WindowRealized;
+			Shown += OnWindowShown;
 			DeleteEvent += WindowDeleted;			
 		}
 	
@@ -445,12 +448,12 @@ namespace Banter
 			conv.SendMessage (msg);
 		}
 		
-		
+
 		///<summary>
-		///	WindowRealized
+		///	OnVideoViewRealized
 		/// Handles all setup of the window after it's been realized on the screen
 		///</summary>			
-		private void WindowRealized (object sender, EventArgs args)
+		private void OnWindowShown (object sender, EventArgs args)
 		{
 			SetupConversationEvents();
 
@@ -460,12 +463,12 @@ namespace Banter
 					// do nothing, text doesn't need to setup streams
 					break;
 				case ChatType.Audio:
-					Logger.Debug("ChatWindow setting up video windows and alling StartAudioVideoStreams");
+					Logger.Debug("ChatWindow setting up video windows and calling StartAudioVideoStreams");
 					conv.StartAudioStream();
 					break;
 				case ChatType.Video:
 					if(this.videoView != null) {
-						Logger.Debug("ChatWindow setting up video windows and alling StartAudioVideoStreams");
+						Logger.Debug("ChatWindow setting up video windows and calling StartAudioVideoStreams");
 						//conv.SetPreviewWindow(videoView.PreviewWindowId);
 						//conv.SetPeerWindow(videoView.WindowId);
 						conv.StartAudioVideoStreams(videoView.PreviewWindowId, videoView.WindowId);

@@ -45,16 +45,12 @@ namespace Banter
 		
 		public uint PreviewWindowId
 		{
-			get {
-				return gdk_x11_drawable_get_xid (preview.GdkWindow.Handle);
-			}
+			get { return gdk_x11_drawable_get_xid (preview.GdkWindow.Handle); }
 		}
 		
 		public uint WindowId
 		{
-			get {
-				return gdk_x11_drawable_get_xid (this.GdkWindow.Handle);
-			}
+			get { return gdk_x11_drawable_get_xid (this.GdkWindow.Handle); }
 		}	
 		
 		public VideoView()
