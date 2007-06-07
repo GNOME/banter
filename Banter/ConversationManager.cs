@@ -118,6 +118,23 @@ namespace Banter
 			return conversation;
 		}
 		
+		static public void Destroy (Conversation conversation)
+		{
+			lock (lckr)
+			{
+				// Check if a conversation already exists
+				foreach (Conversation c in ConversationManager.conversations)
+				{
+					if (c == conversation)
+						conversations.Remove (c);
+				}
+			}
+			
+			conversation.RemoveAudioVideoChannels ();
+			conversation.RemoveTextChannel ();
+			conversation.RemoveAudioChannel ();
+		}
+		
 		static internal void AddConversation (Conversation conversation)
 		{
 			lock (lckr)

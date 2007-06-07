@@ -62,7 +62,7 @@ namespace Banter
 		// request from a peer.
 		private bool initiated;
 		
-		//private uint previewWindowID;
+		private uint previewWindowID;
 		private uint peerWindowID;
 		private List<Message> messages;
 		private Account account;
@@ -415,6 +415,8 @@ namespace Banter
 	       		case StreamState.Playing:
 	       		{
 	       			//IndicateSystemMessage ("Video chat playing");
+	       			
+					//streamEngine.AddPreviewWindow (this.previewWindowID);
 	       			break;
 	       		}
 	       		
@@ -503,6 +505,7 @@ namespace Banter
 				MessageSent (this, message);
 		}
 		
+		/*
 		public void SetMediaChannel (IChannelStreamedMedia channel, ObjectPath op)
 		{
 			Logger.Debug ("SetMediaChannel - called");
@@ -510,6 +513,7 @@ namespace Banter
 			videoChannelObjectPath = op;
 			videoChannel = channel;
 		}
+		*/
 		
 		/// New methods 6/7
 		
@@ -622,6 +626,7 @@ namespace Banter
 				throw new ApplicationException ("Video Channel does not exist");
 				
 			this.peerWindowID = peerwindowId;
+			this.previewWindowID = previewWindowId;
 			
 			IChannelHandler	channelHandler = 
 				Bus.Session.GetObject<IChannelHandler> (
@@ -684,15 +689,14 @@ namespace Banter
 			Logger.Debug("The numder of members is: {0}", videoChannel.Members.Length);
 
 			if (this.initiated == true) {
-	//				uint[] stream_type = new uint[2];
-				uint[] streamtype = new uint[1];
+				uint[] streamtypes = new uint[2];
 					
-	//				stream_type[0] = (uint) StreamType.Audio;
-				streamtype[0] = (uint) StreamType.Video;
+				streamtypes[0] = (uint) StreamType.Audio;
+				streamtypes[1] = (uint) StreamType.Video;
 
 				Logger.Debug("Requesting streams from video channel");
 				uint[] handles = new uint [] {peerUser.ID};
-				StreamInfo[] infos = videoChannel.RequestStreams (handles[0], streamtype);
+				StreamInfo[] infos = videoChannel.RequestStreams (handles[0], streamtypes);
 					
 				Logger.Debug("Number of Streams Received: {0}", infos.Length);
 				Logger.Debug("Stream Info: Id{0} State{1} Direction{2} ContactHandle{3}", infos[0].Id, infos[0].State, infos[0].Direction, infos[0].ContactHandle);

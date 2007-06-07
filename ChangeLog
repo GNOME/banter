@@ -1,3 +1,7 @@
+2007-06-07  Brady Anderson <brady.anderson@gmail.com> 
+
+	
+
 2007-06-07  Calvin Gaisford <calvinrg@gmail.com> 
 
 	* Banter/ChatWindow.cs: Added check so we dont' connect more than once
