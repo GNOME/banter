@@ -96,6 +96,8 @@ namespace Banter
 		/// </summary>			
 		private void OnNewIncomingConversation (Conversation conversation, ChatType chatType)
 		{
+			Logger.Debug("ChatWindowManager.OnNewIncomingConversation was called");
+			
 			if(conversation.PeerUser == null) {
 				Logger.Error("NewIncomingConversation event had a conversation with null PeerUser");
 				return;
