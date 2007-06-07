@@ -1,3 +1,7 @@
+2007-06-07  Brady Anderson <brady.anderson@gmail.com> 
+
+	* Banter/Conversation.cs: filled out StartAudioVideoStream method
+
 2007-06-07  Calvin Gaisford <calvinrg@gmail.com> 
 
 	* Banter.mdp, Banter.mds: Removed old projects that were causing build

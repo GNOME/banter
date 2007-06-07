@@ -40,7 +40,8 @@ namespace Banter
 
 	public delegate void NewAudioChannelHandler (Conversation conversation);
 	public delegate void NewVideoChannelHandler (Conversation conversation);
-	public delegate void NewTextChannelHandler (Conversation conversation);
+	public delegate void TextChannelOpenedHandler (Conversation conversation);
+	public delegate void TextChannelClosedHandler (Conversation conversation);
 	
 	public class Conversation : IDisposable
 	{
@@ -53,7 +54,8 @@ namespace Banter
 		
 		public event NewAudioChannelHandler NewAudioChannel;
 		public event NewVideoChannelHandler NewVideoChannel;
-		public event NewTextChannelHandler NewTextChannel;
+		public event TextChannelOpenedHandler NewTextChannel;
+		public event TextChannelClosedHandler TextChannelClosed;
 
 		// True the conversation was initiated locally
 		// False the conversation was initiated by an incoming
@@ -143,9 +145,14 @@ namespace Banter
 			lastPeerPresence = peerUser.Presence;
 			this.initiated = false;
 
-			// Figure out the streamed media type			
-			
-			
+			// Figure out the streamed media type
+			videoChannel = channel;
+			videoChannel.StreamAdded += OnStreamAdded;
+			videoChannel.StreamDirectionChanged += OnStreamDirectionChanged;
+			videoChannel.StreamError += OnStreamError;
+			videoChannel.StreamRemoved += OnStreamRemoved;
+			videoChannel.StreamStateChanged += OnStreamStateChanged;
+			videoChannel.MembersChanged += OnMembersChanged;
 		}
 
 
@@ -165,6 +172,17 @@ namespace Banter
 			txtChannel = channel;
 			txtChannel.Received += OnReceiveMessageHandler;
 			txtChannel.Closed += OnTextChannelClosed;
+			
+			// Check for any pending messages and add them to our list
+//			TextMessage txtMessage;
+//			PendingMessageInfo[] msgInfos = txtChannel.ListPendingMessages (true);
+//			foreach (PendingMessageInfo info in msgInfos) {
+//				Logger.Debug ("Pending Message: {0}", info.Message);
+//				txtMessage = new TextMessage (info.Message);
+//				txtMessage.From = peerUser.Uri;
+//				messages.Add (txtMessage);
+//			}
+			
 		}
 
 		
@@ -261,6 +279,8 @@ namespace Banter
 		
 		private void OnTextChannelClosed()
 		{
+			if (TextChannelClosed != null)
+				TextChannelClosed (this);
 			this.txtChannel = null;
 		}
 		
@@ -289,39 +309,16 @@ namespace Banter
                 videoStreams.Remove (id);
             }
         }
-
-		
 		#endregion
 		
 		#region Public Methods
-		
-		public void SetTextChannel (IChannelText channel)
-		{
-			if (txtChannel != null) return;
-			txtChannel = channel;
-			
-			txtChannel.Received += OnReceiveMessageHandler;
-			txtChannel.Closed += OnTextChannelClosed;
-			
-			// Check for any pending messages and add them to our list
-			/*
-			TextMessage txtMessage;
-			PendingMessageInfo[] msgInfos = txtChannel.ListPendingMessages (true);
-			foreach (PendingMessageInfo info in msgInfos) {
-				Logger.Debug ("Pending Message: {0}", info.Message);
-				txtMessage = new TextMessage (info.Message);
-				txtMessage.From = peerUser.Uri;
-				messages.Add (txtMessage);
-			}
-			*/
-		}
-		
 		public void SetVideoWindows (uint meID, uint peerID)
 		{
 			this.previewWindowID = meID;
 			this.peerWindowID = peerID;
 		}
 		
+		/*
 		private void CreateTextChannel ()
 		{
 			if (txtChannel != null) return;
@@ -337,6 +334,7 @@ namespace Banter
 			txtChannel = Bus.Session.GetObject<IChannelText> (account.BusName, op);
 			txtChannel.Received += OnReceiveMessageHandler;
 		}
+		*/
 		
 		private bool SetupVideoChannel ()
 		{
@@ -680,6 +678,7 @@ namespace Banter
 			}
 		}
 		
+		/*
 		public void StartVideo (bool initiatedChat)
 		{
 			this.initiated = initiatedChat;
@@ -692,6 +691,7 @@ namespace Banter
 			// Create the video channel
 			SetupVideoChannel ();
 		}
+		*/
 		
 		
 		/// New methods 6/7
@@ -739,6 +739,7 @@ namespace Banter
 		{
 			if (txtChannel == null) return;
 			txtChannel.Received -= OnReceiveMessageHandler;
+			txtChannel = null;
 		}
 		
 		/// <summary>
@@ -767,8 +768,90 @@ namespace Banter
 		/// Method to start streaming the audio and 
 		/// video channels
 		/// </summary>
-		public void StartAudioVideoStreams ()
+		public void StartAudioVideoStreams (uint windowId)
 		{
+			if (videoChannel == null)
+				throw new ApplicationException ("Video Channel does not exist");
+				
+			IChannelHandler	channelHandler = 
+				Bus.Session.GetObject<IChannelHandler> (
+			    	"org.freedesktop.Telepathy.StreamEngine",
+			    	new ObjectPath ("/org/freedesktop/Telepathy/StreamEngine"));
+			    	
+			if (channelHandler == null)
+				throw new ApplicationException ("Failed get a channel handler");
+		           
+			Logger.Debug("Have the channelHandler... telling it to handle the channel");
+			channelHandler.HandleChannel (
+				account.BusName,
+				account.BusPath,
+			    videoChannel.ChannelType, 
+			    this.videoChannelObjectPath,
+			    0,
+			    0);
+
+			StreamInfo[] lst = ((IChannelStreamedMedia) videoChannel).ListStreams();
+			Logger.Debug("StreamInfo List Length: {0}", lst.Length);
+				
+			uint tempStreamId;
+	       	foreach (StreamInfo info in lst) {
+	       		Logger.Debug("Stream Info: Id:{0}, Type:{1}, ContactHandle:{2}, Direction: {3}",
+                           info.Id, info.Type, info.ContactHandle, info.Direction);
+
+				// Save the type of the stream so we can reference it later
+                SaveStream (info.Type, info.Id);	       	
+
+				/*
+	       		Logger.Debug ("Setting peer Window ID - Object Path: {0}", this.videoChannelObjectPath.ToString());
+	       		Logger.Debug ("info ID: {0}  Contact Handle: {1}", info.Id, info.ContactHandle);
+	       		tempStreamId = info.Id;
+	       	
+	       		Logger.Debug(
+	       			"Stream Info: Id:{0}, Type:{1}, ContactHandle:{2}, Direction: {3}",
+	       			info.Id,
+	       			info.Type,
+	       			info.ContactHandle,
+	       			info.Direction);
+	       				
+	       		// Save the type of the stream so we can reference it later
+	       		//SaveStream (info.Type, info.Id);
+		       */
+			}
+		       
+			Logger.Debug("Getting the stream_engine");
+				
+			streamEngine = 
+				Bus.Session.GetObject<IStreamEngine> (
+					"org.freedesktop.Telepathy.StreamEngine",
+	           		new ObjectPath ("/org/freedesktop/Telepathy/StreamEngine"));
+
+	        Logger.Debug("have the stream engine");
+		        
+			Logger.Debug("Adding Preview Window {0}", windowId);
+		    streamEngine.AddPreviewWindow(windowId);
+			streamEngine.Receiving += OnStreamEngineReceiving;
+
+			Logger.Debug("The numder of members is: {0}", videoChannel.Members.Length);
+
+			if (this.initiated == true) {
+	//				uint[] stream_type = new uint[2];
+				uint[] streamtype = new uint[1];
+					
+	//				stream_type[0] = (uint) StreamType.Audio;
+				streamtype[0] = (uint) StreamType.Video;
+
+				Logger.Debug("Requesting streams from video channel");
+				uint[] handles = new uint [] {peerUser.ID};
+				StreamInfo[] infos = videoChannel.RequestStreams (handles[0], streamtype);
+					
+				Logger.Debug("Number of Streams Received: {0}", infos.Length);
+				Logger.Debug("Stream Info: Id{0} State{1} Direction{2} ContactHandle{3}", infos[0].Id, infos[0].State, infos[0].Direction, infos[0].ContactHandle);
+			}
+			
+			/*
+			if (VideoChannelInitialized != null)
+				VideoChannelInitialized (this);
+			*/
 		}
 		#endregion
 	}
