@@ -77,7 +77,6 @@ namespace Banter
 		private IChannelStreamedMedia videoChannel;
 		private IChannelStreamedMedia audioChannel;
 		private IStreamEngine streamEngine;
-		private uint videoInputStreamId = 0;
 		
 		private uint textStreamId = 0;
 		private uint audioStreamId = 0;
@@ -384,9 +383,6 @@ namespace Banter
         private void OnStreamStateChanged (uint streamid, org.freedesktop.Telepathy.StreamState streamstate)
         {
             Logger.Debug ("OnStreamStateChanged called - ID: {0} State: {1}", streamid, streamstate);
- 
-            // Audio or Video
-            videoInputStreamId = streamid;
             
 	       	switch (streamstate ) {
 	       		case StreamState.Connecting:
@@ -407,8 +403,10 @@ namespace Banter
 	       		case StreamState.Connected:
 	       		{
 	       			//IndicateSystemMessage ("Video chat connected!");
+					if(videoStreams.ContainsKey(streamid)) {
 						if (VideoChannelConnected != null)
 							VideoChannelConnected (this, streamid);
+					}
 	       			break;
 	       		}
 	       		

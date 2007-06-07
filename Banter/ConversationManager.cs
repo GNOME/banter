@@ -125,8 +125,10 @@ namespace Banter
 				// Check if a conversation already exists
 				foreach (Conversation c in ConversationManager.conversations)
 				{
-					if (c == conversation)
+					if (c == conversation) {
 						conversations.Remove (c);
+						break;
+					}
 				}
 			}
 			

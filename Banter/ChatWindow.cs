@@ -367,8 +367,8 @@ namespace Banter
 		private void WindowDeleted (object sender, DeleteEventArgs args)
 		{
 			if (conv != null) {
-				Logger.Debug("FIXME: Call ConversationManager to clean up conversation");
-				// ConversationManager.DestroyConversation(conv);
+				ConversationManager.Destroy(conv);
+				conv = null;
 			}
 		}
 		
