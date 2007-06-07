@@ -1,5 +1,11 @@
 2007-06-07  Brady Anderson <brady.anderson@gmail.com> 
 
+	* Banter/Account.cs: Removed code that calls ChatWindow
+	* Banter/ConversationManager.cs: fixed up the events to pass the
+	  ChatType
+
+2007-06-07  Brady Anderson <brady.anderson@gmail.com> 
+
 	* Banter/AccountManagement.cs: new method to get account by name
 	* Banter/ConversationManager.cs: use new method for initiating and
 	  added a method to add a conversation to the list

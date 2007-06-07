@@ -32,7 +32,7 @@ namespace Banter
 {
 	//public delegate void MessageSentHandler (Conversation conversation, Message message);
 	//public delegate void MessageReceivedHandler (Conversation conversation, Message message);
-	public delegate void NewIncomingConversation (Conversation conversation ); //, channel
+	public delegate void NewIncomingConversation (Conversation conversation, ChatType chatType); //, channel
 	
 	public class ConversationManager
 	{

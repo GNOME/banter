@@ -605,10 +605,10 @@ namespace Banter
 					Logger.Debug ("Peer: {0}", peer.Id);
 					Logger.Debug ("Peer Name: {0}", peer.EDSContact.GivenName);
 					
-					if (ChatWindow.AlreadyExist (peer.Id) == true) { 
-						Logger.Debug ("ChatWindow already exists with this peer");
-						ChatWindow.PresentWindow (peer.Id);
-					} else {
+//					if (ChatWindow.AlreadyExist (peer.Id) == true) { 
+//						Logger.Debug ("ChatWindow already exists with this peer");
+//						ChatWindow.PresentWindow (peer.Id);
+//					} else {
 						try
 						{
 							Logger.Debug ("creating conversation object");
@@ -619,8 +619,8 @@ namespace Banter
 							conversation.SetTextChannel (txtChannel);
 							Logger.Debug ("created new conversation object");
 						
-							cw = new ChatWindow (conversation);
-							cw.Present();
+							//cw = new ChatWindow (conversation);
+							//cw.Present();
 						}
 						catch (Exception es)
 						{
@@ -629,7 +629,7 @@ namespace Banter
 						}
 					}
 					break;
-				}
+	//			}
 				
 				case org.freedesktop.Telepathy.ChannelType.StreamedMedia:
 				{
@@ -706,10 +706,10 @@ namespace Banter
 						Logger.Debug ("Peer: {0}", peer.Id);
 						Logger.Debug ("Peer Name: {0}", peer.DisplayName);
 					
-						if (ChatWindow.AlreadyExist (peer.Id) == true) { 
-							Logger.Debug ("ChatWindow already exists with this peer");
-							ChatWindow.PresentWindow (peer.Id);
-						} else {
+//						if (ChatWindow.AlreadyExist (peer.Id) == true) { 
+//							Logger.Debug ("ChatWindow already exists with this peer");
+//							ChatWindow.PresentWindow (peer.Id);
+//						} else {
 							try
 							{
 								Logger.Debug ("creating conversation object");
@@ -721,8 +721,8 @@ namespace Banter
 								conversation.SetMediaChannel (ichannel, channelPath);
 								Logger.Debug ("created new conversation object");
 								
-								cw = new ChatWindow (conversation);
-								cw.Present();
+								//cw = new ChatWindow (conversation);
+								//cw.Present();
 								
 								conversation.SetPreviewWindow (cw.PreviewWindowId);
 								conversation.SetPeerWindow (cw.VideoWindowId);
@@ -733,7 +733,7 @@ namespace Banter
 								Logger.Debug (es.Message);
 								Logger.Debug (es.StackTrace);
 							}
-						}
+//						}
 					}
 					
 					/*
