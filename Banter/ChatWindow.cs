@@ -83,9 +83,6 @@ namespace Banter
 					break;
 			}
 
-			conv.MessageReceived += OnTextMessageReceived;
-			conv.MessageSent += OnTextMessageSent;
-
 			peerPerson = person;
 			peerProviderUser = providerUser;
 			
@@ -106,9 +103,6 @@ namespace Banter
 
 			// no need to Add any channels, they will be set up already
 
-			conv.MessageReceived += OnTextMessageReceived;
-			conv.MessageSent += OnTextMessageSent;
-
 			peerProviderUser = conv.PeerUser;
 			peerPerson = PersonManager.GetPerson(peerProviderUser);
 			
@@ -117,8 +111,22 @@ namespace Banter
 		#endregion
 
 
-
 		#region Private Methods
+		///<summary>
+		///	SetupConversationEvents
+		/// Connects all conversation event handlers
+		///</summary>			
+		void SetupConversationEvents()
+		{
+			conv.MessageReceived += OnTextMessageReceived;
+			conv.MessageSent += OnTextMessageSent;
+			
+			conv.NewAudioChannel += OnNewAudioChannel;
+			conv.NewVideoChannel += OnNewVideoChannel;
+			conv.NewTextChannel += OnNewTextChannel;			
+		}
+		
+		
 		///<summary>
 		///	InitWindow
 		/// Sets up the widgets and events in the chat window
@@ -245,13 +253,12 @@ namespace Banter
 		#endregion
 
 
-
 		#region EventHandlers
 		///<summary>
 		///	OnTextMessageReceived
 		/// Handles all incoming TextMessages and places them into the text chat area
 		///</summary>
-		void OnTextMessageReceived (Conversation conversation, Message message)
+		private void OnTextMessageReceived (Conversation conversation, Message message)
 		{
 			string avatarPath = null;
 			Logger.Debug ("OnMessageReceived called: {0}", message.Text);
@@ -275,7 +282,7 @@ namespace Banter
 		///	OnTextMessageSent
 		/// Deals with all TextMessages sent
 		///</summary>
-		void OnTextMessageSent (Conversation conversation, Message message)
+		private void OnTextMessageSent (Conversation conversation, Message message)
 		{
 			string avatarPath = null;
 			Logger.Debug ("OnMessageSent called: {0}", message.Text);
@@ -343,6 +350,7 @@ namespace Banter
 			args.RetVal = retVal;
 		}
 		
+		
 		///<summary>
 		///	WindowDeleted
 		/// Cleans up the conversation object with the ConversationManager
@@ -355,6 +363,41 @@ namespace Banter
 			}
 		}
 		
+
+		///<summary>
+		///	OnNewAudioChannel
+		/// Handles the new Audio Channel event on a conversation
+		///</summary>
+		private void OnNewAudioChannel (Conversation conversation)
+		{
+			// code goes here
+		}
+		
+		
+		///<summary>
+		///	OnNewVideoChannel
+		/// Handles the new Video Channel event on a conversation
+		///</summary>
+		private void OnNewVideoChannel (Conversation conversation)
+		{
+			// code goes here
+		}
+		
+		
+		///<summary>
+		///	OnNewTextChannel
+		/// Handles the new Text Channel event on a conversation
+		///</summary>
+		private void OnNewTextChannel (Conversation conversation)
+		{
+			// code goes here
+		}
+
+		
+		///<summary>
+		///	HandleMessageTrigger
+		/// Handles all message triggers in the Text Chat window
+		///</summary>	
 		private bool HandleMessageTrigger()
 		{
 			bool handled = false;
@@ -376,6 +419,11 @@ namespace Banter
 			return handled;
 		}
 		
+
+		///<summary>
+		///	SendMessage
+		/// Sends Messages
+		///</summary>			
 		private void SendMessage ()
 		{
 			/*
@@ -393,8 +441,15 @@ namespace Banter
 			conv.SendMessage (msg);
 		}
 		
+		
+		///<summary>
+		///	WindowRealized
+		/// Handles all setup of the window after it's been realized on the screen
+		///</summary>			
 		private void WindowRealized (object sender, EventArgs args)
 		{
+			SetupConversationEvents();
+
 			switch(chatType) {
 				default:
 				case ChatType.Text:
@@ -402,14 +457,14 @@ namespace Banter
 					break;
 				case ChatType.Audio:
 					Logger.Debug("ChatWindow setting up video windows and alling StartAudioVideoStreams");
-					// conv.StartAudioStream();
+					conv.StartAudioStream();
 					break;
 				case ChatType.Video:
 					if(this.videoView != null) {
 						Logger.Debug("ChatWindow setting up video windows and alling StartAudioVideoStreams");
-						conv.SetPreviewWindow(videoView.PreviewWindowId);
-						conv.SetPeerWindow(videoView.WindowId);
-						// conv.StartAudioVideoStreams();
+						//conv.SetPreviewWindow(videoView.PreviewWindowId);
+						//conv.SetPeerWindow(videoView.WindowId);
+						conv.StartAudioVideoStreams(videoView.PreviewWindowId, videoView.WindowId);
 					} else {
 						Logger.Debug("ChatWindow didn't have a videoWindow created");
 					}
@@ -426,7 +481,12 @@ namespace Banter
 		}
 		#endregion
 
+
 		#region Public Methods
+		///<summary>
+		///	Present
+		/// Presents the window
+		///</summary>			
 		public new void Present ()
 		{
 			if (everShown == false) {
@@ -438,12 +498,22 @@ namespace Banter
 		}
 		#endregion
 
+
 		#region Public Properties
+		///<summary>
+		///	PeerProviderUserID
+		/// The Id of the peer that is part of this chat
+		///</summary>		
 		public uint PeerProviderUserID
 		{
 			get { return this.peerProviderUser.ID; }
 		}
-		
+
+
+		///<summary>
+		///	PreviewWindowId
+		/// Obsolete: the Id of the PreviewWindow
+		///</summary>			
 		public uint PreviewWindowId
 		{
 			get 
@@ -452,7 +522,12 @@ namespace Banter
 				return videoView.PreviewWindowId; 
 			}
 		}
-		
+
+
+		///<summary>
+		///	VideoWindowId
+		/// Obsolete: the Id of the VideoWindow
+		///</summary>		
 		public uint VideoWindowId
 		{
 			get

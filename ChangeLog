@@ -1,3 +1,8 @@
+2007-06-07  Calvin Gaisford <calvinrg@gmail.com> 
+
+	* Banter/ChatWindow.cs: Added handlers for new channels on
+	  conversations and changed to the new StartAudioVideoStream method
+
 2007-06-07  Brady Anderson <brady.anderson@gmail.com> 
 
 	* Banter/Conversation.cs: filled out StartAudioVideoStream method
