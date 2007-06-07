@@ -55,6 +55,7 @@ namespace Banter
 		private ChatType chatType;
 		private Person peerPerson;
 		private ProviderUser peerProviderUser;
+		private bool hasBeenShown;
 		#endregion
 		
 
@@ -136,6 +137,7 @@ namespace Banter
 		///</summary>	
 		void InitWindow()
 		{
+			hasBeenShown = false;
 			everShown = false;
 			shiftKeyPressed = false;
 			
@@ -455,6 +457,11 @@ namespace Banter
 		///</summary>			
 		private void OnWindowShown (object sender, EventArgs args)
 		{
+			if(hasBeenShown)
+				return;
+			
+			hasBeenShown = true;
+			
 			SetupConversationEvents();
 
 			switch(chatType) {
@@ -469,8 +476,6 @@ namespace Banter
 				case ChatType.Video:
 					if(this.videoView != null) {
 						Logger.Debug("ChatWindow setting up video windows and calling StartAudioVideoStreams");
-						//conv.SetPreviewWindow(videoView.PreviewWindowId);
-						//conv.SetPeerWindow(videoView.WindowId);
 						conv.StartAudioVideoStreams(videoView.PreviewWindowId, videoView.WindowId);
 					} else {
 						Logger.Debug("ChatWindow didn't have a videoWindow created");
