@@ -149,6 +149,7 @@ namespace Banter
 						bool suppressHandler)
 
 		{
+			Logger.Debug ("ConversationManager::ProcessNewChannel - called");
 			Conversation conversation = null;
 			ChatType chattype = ChatType.Text;
 			ProviderUser peerUser = null;

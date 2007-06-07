@@ -1,3 +1,8 @@
+2007-06-07  Brady Anderson <brady.anderson@gmail.com> 
+
+	* Banter/Account.cs, Banter/ConversationManager.cs,
+	  Banter/Conversation.cs, Banter/ChatWindow.cs: debug messages
+
 2007-06-07  Calvin Gaisford <calvinrg@gmail.com> 
 
 	* Banter/ChatWindow.cs: updated sizing of internal widgets (hacked a

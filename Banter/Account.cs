@@ -573,18 +573,20 @@ namespace Banter
 						uint handle,
 						bool suppressHandler)
 		{	
+			Logger.Debug ("Account::OnNewChannel - called");
 			Logger.Debug ("New Channel {0}", channelType);
 			Logger.Debug ("Handle Type: {0}", handleType.ToString());
 			Logger.Debug ("Handle: {0}", handle);
 			Logger.Debug ("Suppress Handler: {0}", suppressHandler);
 			
-			ConversationManager.ProcessNewChannel (
-				this,
-				channelPath,
-				channelType,
-				handleType,
-				handle,
-				suppressHandler);
+			if (suppressHandler == false)
+				ConversationManager.ProcessNewChannel (
+					this,
+					channelPath,
+					channelType,
+					handleType,
+					handle,
+					suppressHandler);
 				
 			return;
 			

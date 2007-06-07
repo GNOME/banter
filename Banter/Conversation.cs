@@ -62,7 +62,7 @@ namespace Banter
 		// request from a peer.
 		private bool initiated;
 		
-		private uint previewWindowID;
+		//private uint previewWindowID;
 		private uint peerWindowID;
 		private List<Message> messages;
 		private Account account;
@@ -330,11 +330,6 @@ namespace Banter
 		#endregion
 		
 		#region Public Methods
-		public void SetVideoWindows (uint meID, uint peerID)
-		{
-			this.previewWindowID = meID;
-			this.peerWindowID = peerID;
-		}
 		
 		/*
 		private void CreateTextChannel ()
@@ -353,159 +348,6 @@ namespace Banter
 			txtChannel.Received += OnReceiveMessageHandler;
 		}
 		*/
-		
-		private bool SetupVideoChannel ()
-		{
-			if (initiated == true && videoChannel != null) return true;
-			
-			Logger.Debug ("SetupVideoChannel entered");
-
-			uint[] handles = new uint [] {peerUser.ID};
-			try
-			{
-				if (this.initiated == true) {
-				
-					try {
-						videoChannelObjectPath = 
-							tlpConnection.RequestChannel (
-								org.freedesktop.Telepathy.ChannelType.StreamedMedia,
-								HandleType.Contact,
-								handles[0],
-								true);
-								
-						Logger.Debug("Have the Video Channel Object Path");
-						videoChannel = 
-							Bus.Session.GetObject<IChannelStreamedMedia> (
-								account.BusName, videoChannelObjectPath);
-						
-					} catch (Exception vrequest) {
-					
-						switch (vrequest.Message.Split (':')[0]) {
-							case "org.freedesktop.Telepathy.Error.NotAvailable":
-							{
-								IndicateSystemMessage (
-									String.Format (
-										"{0} does not have video capability", 
-										this.PeerUser.Alias));
-								break;
-							}
-							
-							default:
-							{
-								Logger.Debug ("Caught an unsuspected exception");
-								break;
-							}
-						}
-						
-						Logger.Debug (vrequest.Message);
-						Logger.Debug (vrequest.StackTrace);
-					}
-					
-					if (videoChannel == null) {
-						Logger.Debug ("videoChannel is null!");
-						throw new ApplicationException ("Cannot proceed with a null video channel");
-					}
-				}
-
-				Logger.Debug("Have a Video Channel");
-
-				videoChannel.StreamAdded += OnStreamAdded;
-				videoChannel.StreamDirectionChanged += OnStreamDirectionChanged;
-				videoChannel.StreamError += OnStreamError;
-				videoChannel.StreamRemoved += OnStreamRemoved;
-				videoChannel.StreamStateChanged += OnStreamStateChanged;
-				videoChannel.MembersChanged += OnMembersChanged;
-
-				Logger.Debug("Initializing video channel with ChannelHandler");
-				
-				channelHandler = 
-			       	Bus.Session.GetObject<IChannelHandler> (
-			       		"org.freedesktop.Telepathy.StreamEngine",
-			           	new ObjectPath ("/org/freedesktop/Telepathy/StreamEngine"));
-		           
-				if (channelHandler != null) 
-				{
-					Logger.Debug("Have the channelHandler... telling it to handle the channel");
-					channelHandler.HandleChannel (
-						account.BusName,
-						account.BusPath,
-					    videoChannel.ChannelType, 
-					    this.videoChannelObjectPath,
-					    0,
-					    0);
-				}
-				else
-		       		Logger.Debug("Didn't get a channel handler");
-
-				StreamInfo[] lst = ((IChannelStreamedMedia) videoChannel).ListStreams();
-				Logger.Debug("StreamInfo List Length: {0}", lst.Length);
-				
-				uint tempStreamId;
-		       	foreach (StreamInfo info in lst)
-		       	{
-		       		Logger.Debug("Stream Info: Id:{0}, Type:{1}, ContactHandle:{2}, Direction: {3}",
-                            info.Id, info.Type, info.ContactHandle, info.Direction);
-
-                    // Save the type of the stream so we can reference it later
-                    SaveStream (info.Type, info.Id);	       	
-
-/*		       		Logger.Debug ("Setting peer Window ID - Object Path: {0}", this.videoChannelObjectPath.ToString());
-		       		Logger.Debug ("info ID: {0}  Contact Handle: {1}", info.Id, info.ContactHandle);
-		       		tempStreamId = info.Id;
-		       	
-		       		Logger.Debug(
-		       			"Stream Info: Id:{0}, Type:{1}, ContactHandle:{2}, Direction: {3}",
-		       			info.Id,
-		       			info.Type,
-		       			info.ContactHandle,
-		       			info.Direction);
-		       				
-		       		// Save the type of the stream so we can reference it later
-		       		//SaveStream (info.Type, info.Id);
-		       */
-		       }
-		       
-
-				Logger.Debug("Getting the stream_engine");
-				
-				streamEngine = 
-					Bus.Session.GetObject<IStreamEngine> (
-						"org.freedesktop.Telepathy.StreamEngine",
-		           		new ObjectPath ("/org/freedesktop/Telepathy/StreamEngine"));
-
-		        Logger.Debug("have the stream engine");
-		        
-				Logger.Debug("Adding Preview Window {0}", previewWindowID);
-			    streamEngine.AddPreviewWindow(previewWindowID);
-			    
-				streamEngine.Receiving += OnStreamEngineReceiving;
-
-				Logger.Debug("The numder of members is: {0}", videoChannel.Members.Length);
-
-				if (this.initiated == true) {
-	//				uint[] stream_type = new uint[2];
-					uint[] streamtype = new uint[1];
-					
-	//				stream_type[0] = (uint) StreamType.Audio;
-					streamtype[0] = (uint) StreamType.Video;
-
-					Logger.Debug("Requesting streams from video channel");
-					StreamInfo[] infos = videoChannel.RequestStreams (handles[0], streamtype);
-					
-					Logger.Debug("Number of Streams Received: {0}", infos.Length);
-					Logger.Debug("Stream Info: Id{0} State{1} Direction{2} ContactHandle{3}", infos[0].Id, infos[0].State, infos[0].Direction, infos[0].ContactHandle);
-				}
-				
-				if (VideoChannelInitialized != null)
-					VideoChannelInitialized (this);
-			}
-			catch(Exception e)
-			{
-				Logger.Debug("Exception in StartVideoChannel: {0}\n{1}", e.Message, e.StackTrace);
-			}
-
-			return true;
-		}	
 		
 		
         private void OnStreamAdded (uint streamid, uint contacthandle, org.freedesktop.Telepathy.StreamType streamtype)
@@ -678,14 +520,15 @@ namespace Banter
 		{
 			if (txtChannel != null) return;
 			
-			ObjectPath op = 
+			txtChannelObjectPath = 
 				tlpConnection.RequestChannel (
 					org.freedesktop.Telepathy.ChannelType.Text, 
 					HandleType.Contact,
 					this.peerUser.ID, 
 					true);
 				
-			txtChannel = Bus.Session.GetObject<IChannelText> (account.BusName, op);
+			txtChannel = 
+				Bus.Session.GetObject<IChannelText> (account.BusName, txtChannelObjectPath);
 			txtChannel.Received += OnReceiveMessageHandler;
 			txtChannel.Closed += OnTextChannelClosed;
 		}
@@ -705,6 +548,27 @@ namespace Banter
 		/// </summary>
 		public void AddAudioVideoChannels ()
 		{
+			if (videoChannel != null) return;
+			
+			Logger.Debug ("Requesting video channel");
+			videoChannelObjectPath = 
+				tlpConnection.RequestChannel (
+					org.freedesktop.Telepathy.ChannelType.StreamedMedia, 
+					HandleType.Contact,
+					this.peerUser.ID, 
+					true);
+				
+			videoChannel = 
+				Bus.Session.GetObject<IChannelStreamedMedia> (
+					account.BusName, 
+					videoChannelObjectPath);
+				
+			videoChannel.StreamAdded += OnStreamAdded;
+			videoChannel.StreamDirectionChanged += OnStreamDirectionChanged;
+			videoChannel.StreamError += OnStreamError;
+			videoChannel.StreamRemoved += OnStreamRemoved;
+			videoChannel.StreamStateChanged += OnStreamStateChanged;
+			videoChannel.MembersChanged += OnMembersChanged;
 		}
 		
 		/// <summary>
@@ -745,6 +609,8 @@ namespace Banter
 		/// </summary>
 		public void StartAudioVideoStreams (uint previewWindowId, uint peerwindowId)
 		{
+			Logger.Debug ("StartAudioVideoStreams - called");
+			
 			if (videoChannel == null)
 				throw new ApplicationException ("Video Channel does not exist");
 				
@@ -757,7 +623,7 @@ namespace Banter
 			    	
 			if (channelHandler == null)
 				throw new ApplicationException ("Failed get a channel handler");
-		           
+		        
 			Logger.Debug("Have the channelHandler... telling it to handle the channel");
 			channelHandler.HandleChannel (
 				account.BusName,
