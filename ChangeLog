@@ -1,3 +1,8 @@
+2007-06-07  Calvin Gaisford <calvinrg@gmail.com> 
+
+	* Banter/ChatWindow.cs: updated sizing of internal widgets (hacked a
+	  bit)
+
 2007-06-07  Brady Anderson <brady.anderson@gmail.com> 
 
 	oops, forgot to call the IncomingConversation event

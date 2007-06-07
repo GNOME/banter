@@ -200,7 +200,11 @@ namespace Banter
 			
 			messagesVPaned = new VPaned ();
 			messagesVPaned.CanFocus = true;
-			messagesVPaned.Position = 600;
+			// This is lame, fix the way this is all calculated
+			if(videoView != null)
+				messagesVPaned.Position = 100;
+			else
+				messagesVPaned.Position = 400;
 			messagesVPaned.Show ();
 			rightPaneVBox.PackStart (messagesVPaned, true, true, 0);
 			
