@@ -181,7 +181,8 @@ namespace Banter
 					try
 					{
 						Logger.Debug ("creating conversation object");
-						conversation = new Conversation (account, peerUser, txtChannel);
+						conversation = 
+							new Conversation (account, peerUser, channelPath, txtChannel);
 						conversations.Add (conversation);
 						Logger.Debug ("created new conversation object");
 					}
@@ -223,7 +224,8 @@ namespace Banter
 					try
 					{
 						Logger.Debug ("creating conversation object");
-						conversation = new Conversation (account, peerUser, mediaChannel);
+						conversation = 
+							new Conversation (account, peerUser, channelPath, mediaChannel);
 						conversations.Add (conversation);
 						Logger.Debug ("created new conversation object");
 					}
@@ -232,7 +234,6 @@ namespace Banter
 						Logger.Debug (es.Message);
 						Logger.Debug (es.StackTrace);
 					}
-					
 					break;
 					
 					/*

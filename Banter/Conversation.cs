@@ -70,6 +70,7 @@ namespace Banter
 		// Telepathy connection and channels		
 		private org.freedesktop.Telepathy.IConnection tlpConnection;
 		private IChannelHandler channelHandler;
+		private ObjectPath txtChannelObjectPath;
 		private ObjectPath videoChannelObjectPath;
 		private ObjectPath audioChannelObjectPath;
 		private org.freedesktop.Telepathy.IChannelText txtChannel;
@@ -131,12 +132,20 @@ namespace Banter
 			this.initiated = true;
 		}
 		
-		
-		internal Conversation (Account account, ProviderUser providerUser, IChannelStreamedMedia channel)
+		/// <summary>
+		/// Constructor for a conversation initiated
+		/// from a media channel via a remote user
+		/// </summary>
+		internal Conversation (
+			Account account, 
+			ProviderUser providerUser,
+			ObjectPath objectpath,
+			IChannelStreamedMedia channel)
 		{
 			this.account = account;
 			this.tlpConnection = this.account.TlpConnection;
 			this.peerUser = providerUser;
+			videoChannelObjectPath = objectpath;
 			this.messages = new List<Message> ();
 			last = 999;
 			this.videoStreams = new Dictionary<uint,uint> ();
@@ -156,11 +165,20 @@ namespace Banter
 		}
 
 
-		internal Conversation (Account account, ProviderUser providerUser, IChannelText channel)
+		/// <summary>
+		/// Constructor for a conversation initiated
+		/// from a text channel via a remote user
+		/// </summary>
+		internal Conversation (
+			Account account, 
+			ProviderUser providerUser,
+			ObjectPath objectpath,
+			IChannelText channel)
 		{
 			this.account = account;
 			this.tlpConnection = this.account.TlpConnection;
 			this.peerUser = providerUser;
+			this.txtChannelObjectPath = objectpath;
 			this.messages = new List<Message> ();
 			last = 999;
 			this.videoStreams = new Dictionary<uint,uint> ();
@@ -651,49 +669,6 @@ namespace Banter
 			videoChannel = channel;
 		}
 		
-		public void SetPreviewWindow (uint windowId)
-		{
-			previewWindowID = windowId;
-		}
-		
-		public void SetPeerWindow (uint windowId)
-		{
-			this.peerWindowID = windowId;
-			Logger.Debug ("peer window ID private: {0}", this.peerWindowID);
-		}
-		
-		public void SetPeerWindow (uint windowId, uint streamId)
-		{
-			Logger.Debug("SetPeerWindow was called with windowID {0}", windowId);
-			
-			this.peerWindowID = windowId;
-			
-			if (streamEngine != null && 
-				videoChannelObjectPath != null &&
-				videoChannel != null) {
-				streamEngine.SetOutputWindow (
-					videoChannelObjectPath, 
-					streamId,
-					windowId);
-			}
-		}
-		
-		/*
-		public void StartVideo (bool initiatedChat)
-		{
-			this.initiated = initiatedChat;
-			if (tlpConnection == null) 
-				throw new ApplicationException (String.Format ("No telepathy connection exists"));
-				
-			// FIXME::localize
-			//this.IndicateSystemMessage ("Starting video chat");
-			
-			// Create the video channel
-			SetupVideoChannel ();
-		}
-		*/
-		
-		
 		/// New methods 6/7
 		
 		/// <summary>
@@ -768,11 +743,13 @@ namespace Banter
 		/// Method to start streaming the audio and 
 		/// video channels
 		/// </summary>
-		public void StartAudioVideoStreams (uint windowId)
+		public void StartAudioVideoStreams (uint previewWindowId, uint peerwindowId)
 		{
 			if (videoChannel == null)
 				throw new ApplicationException ("Video Channel does not exist");
 				
+			this.peerWindowID = peerwindowId;
+			
 			IChannelHandler	channelHandler = 
 				Bus.Session.GetObject<IChannelHandler> (
 			    	"org.freedesktop.Telepathy.StreamEngine",
@@ -827,8 +804,8 @@ namespace Banter
 
 	        Logger.Debug("have the stream engine");
 		        
-			Logger.Debug("Adding Preview Window {0}", windowId);
-		    streamEngine.AddPreviewWindow(windowId);
+			Logger.Debug("Adding Preview Window {0}", previewWindowId);
+		    streamEngine.AddPreviewWindow(previewWindowId);
 			streamEngine.Receiving += OnStreamEngineReceiving;
 
 			Logger.Debug("The numder of members is: {0}", videoChannel.Members.Length);
