@@ -26,6 +26,10 @@ using Mono.Unix;
 
 namespace Banter
 {
+	///<summary>
+	///	ChatWindow
+	/// The window used to handle all text, audio, and video chatting in Banter
+	///</summary>
 	public class ChatWindow : Gtk.Window 
 	{
 		//Application app;
@@ -51,15 +55,35 @@ namespace Banter
 		ScrolledWindow typingScrolledWindow;
 		TextView typingTextView;
 		uint peerProviderUserID;
-		
+		ChatType chatType;
+
+
+		///<summary>
+		///	Constructor
+		/// Creates a ChatWindow and a conversation according to the type requested
+		///</summary>		
 		public ChatWindow (Person person, ProviderUser providerUser, ChatType type) : 
 			base (WindowType.Toplevel)
 		{
-						
+			this.chatType = type;
+			conv = ConversationManager.Create(providerUser);
 
-			//conv = conversation;
-			//conv.MessageReceived += OnTapiocaMessageReceived;
-			//conv.MessageSent += OnTapiocaMessageSent;
+			switch(chatType) {
+				case ChatType.Text:
+//					conv.AddTextChannel();
+					break;
+				case ChatType.Audio:
+//					conv.AddAudioChannel();
+//					conv.AddTextChannel();
+					break;
+				case ChatType.Video:
+//					conv.AddAudioVideoChannels();
+//					conv.AddTextChannel();
+					break;
+			}
+
+			conv.MessageReceived += OnTextMessageReceived;
+			conv.MessageSent += OnTextMessageSent;
 			
 			everShown = false;
 			//lastSender = null;
@@ -82,6 +106,10 @@ namespace Banter
 
 		
 #region Private Methods
+		///<summary>
+		///	SetUpWidgets
+		/// Sets up the widgets in the chat window
+		///</summary>	
 		void SetUpWidgets (Person peer)
 		{
 			hpaned = new HPaned ();
@@ -124,19 +152,22 @@ namespace Banter
 			hbox.PackStart (showPersonDetailsButton);
 			
 			videoVBox = new VBox (false, 0);
-			// videoVBox.Visible = false;
-			videoView = new VideoView();
-			videoView.WidthRequest = 500; //250;
-			videoView.HeightRequest = 375; //187;
-			videoView.Show();
-			videoVBox.PackStart(videoView, true, true, 0);
-			videoVBox.Show();
+			if(this.chatType == ChatType.Video) {
+				videoView = new VideoView();
+				videoView.WidthRequest = 500; //250;
+				videoView.HeightRequest = 375; //187;
+				videoView.Show();
+				videoVBox.PackStart(videoView, true, true, 0);
+				videoVBox.Show();
+			} else {
+				videoVBox.Visible = false;
+			}
+
 			rightPaneVBox.PackStart (videoVBox, false, false, 0);
 			
 			audioVBox = new VBox (false, 0);
 			audioVBox.Visible = false;
 			rightPaneVBox.PackStart (audioVBox, false, false, 0);
-			
 			
 			messagesVPaned = new VPaned ();
 			messagesVPaned.CanFocus = true;
@@ -180,40 +211,11 @@ namespace Banter
 #endregion
 
 #region EventHandlers
-
-		/*
-		// When this event is received, the message should be added to the GUI.
-		// Additionally, depending on the user preferences, the status of the
-		// window should changes so that it blinks/etc. as desired.
-		void OnMessageReceived (Conversation conversation, Message message)
-		{
-Logger.Debug ("OnMessageReceived called: {0}", message.Text);
-			// FIXME: This should eventually pull the from off of the Message
-			Person sender = null;
-			try {
-				sender = app.GetPerson (conversation.Peer);
-			} catch (Exception e) {
-				Console.WriteLine ("Application.GetPerson () threw an exception: {0}\n{1}", e.Message, e.StackTrace);
-			}
-			
-			Logger.Debug ("Peer Handle: {0}", conversation.Peer.Handle);
-			Logger.Debug ("Peer Screenname: {0}", conversation.Peer.ScreenName);
-			Logger.Debug ("Sender: {0}", sender.DisplayName);
-			Logger.Debug ("lastSender: {0}", lastSender == null ? "null" : lastSender.DisplayName);
-			Logger.Debug ("Sender is Self? {0}", sender.IsSelf);
-			
-			bool contentIsSimilar =
-				(lastSender == null || lastSender != sender || message is TextMessage == false) ?
-					false : true;
-			AddMessage (message, true, contentIsSimilar);
-			lastSender = sender;
-		}
-		*/
-		
-		// When this event is received, the message should be added to the GUI.
-		// Additionally, depending on the user preferences, the status of the
-		// window should changes so that it blinks/etc. as desired.
-		void OnTapiocaMessageReceived (Conversation conversation, Message message)
+		///<summary>
+		///	OnTextMessageReceived
+		/// Handles all incoming TextMessages and places them into the text chat area
+		///</summary>
+		void OnTextMessageReceived (Conversation conversation, Message message)
 		{
 			string avatarPath = null;
 			Logger.Debug ("OnMessageReceived called: {0}", message.Text);
@@ -233,8 +235,11 @@ Logger.Debug ("OnMessageReceived called: {0}", message.Text);
 		}
 		
 
-
-		void OnTapiocaMessageSent (Conversation conversation, Message message)
+		///<summary>
+		///	OnTextMessageSent
+		/// Deals with all TextMessages sent
+		///</summary>
+		void OnTextMessageSent (Conversation conversation, Message message)
 		{
 			string avatarPath = null;
 Logger.Debug ("OnMessageSent called: {0}", message.Text);
@@ -246,12 +251,22 @@ Logger.Debug ("OnMessageSent called: {0}", message.Text);
 			*/
 			AddMessage (message, false, conversation.CurrentMessageSameAsLast, avatarPath);
 		}
-		
+
+
+		///<summary>
+		///	AddMessage
+		/// Addes messages to the messagesView
+		///</summary>		
 		void AddMessage (Message message, bool incoming, bool contentIsSimilar, string avatarPath)
 		{
 			messagesView.AddMessage (message, incoming, contentIsSimilar, avatarPath);
 		}
 
+
+		///<summary>
+		///	OnTypingTextViewKeyPressEvent
+		/// Handles typing events in the ChatWindow
+		///</summary>	
 		[GLib.ConnectBeforeAttribute]
 		protected virtual void OnTypingTextViewKeyPressEvent(object sender, KeyPressEventArgs args)
 		{
@@ -281,6 +296,11 @@ Logger.Debug ("OnMessageSent called: {0}", message.Text);
 			args.RetVal = retVal;
 		}
 
+
+		///<summary>
+		///	OnTypingTextViewKeyReleaseEvent
+		/// Handles typing events in the ChatWindow
+		///</summary>	
 		[GLib.ConnectBeforeAttribute]
 		protected virtual void OnTypingTextViewKeyReleaseEvent(object sender, KeyReleaseEventArgs args)
 		{
@@ -297,13 +317,15 @@ Logger.Debug ("OnMessageSent called: {0}", message.Text);
 			args.RetVal = retVal;
 		}
 		
+		///<summary>
+		///	WindowDeleted
+		/// Cleans up the conversation object with the ConversationManager
+		///</summary>	
 		private void WindowDeleted (object sender, DeleteEventArgs args)
 		{
 			if (conv != null) {
-				/*
-				conv.MessageReceived -= OnMessageReceived;
-				conv.MessageSent -= OnMessageSent;
-				*/
+				Logger.Debug("FIXME: Call ConversationManager to clean up conversation");
+				// ConversationManager.DestroyConversation(conv);
 			}
 		}
 		
@@ -347,10 +369,31 @@ Logger.Debug ("OnMessageSent called: {0}", message.Text);
 		
 		private void WindowRealized (object sender, EventArgs args)
 		{
-			// Check for any existing messages
+			switch(chatType) {
+				default:
+				case ChatType.Text:
+					// do nothing, text doesn't need to setup streams
+					break;
+				case ChatType.Audio:
+					Logger.Debug("ChatWindow setting up video windows and alling StartAudioVideoStreams");
+					// conv.StartAudioStream();
+					break;
+				case ChatType.Video:
+					if(this.videoView != null) {
+						Logger.Debug("ChatWindow setting up video windows and alling StartAudioVideoStreams");
+						conv.SetPreviewWindow(videoView.PreviewWindowId);
+						conv.SetPeerWindow(videoView.WindowId);
+						// conv.StartAudioVideoStreams();
+					} else {
+						Logger.Debug("ChatWindow didn't have a videoWindow created");
+					}
+					break;
+			}		
+		
+			// Check for any existing messages including previous chat log
 			Message[] messages = conv.GetReceivedMessages();
 			foreach (Message msg in messages)
-				OnTapiocaMessageReceived (conv, msg);
+				OnTextMessageReceived (conv, msg);
 				
 			// Set the default focus to the TextView where users should type
 			typingTextView.GrabFocus ();
@@ -377,41 +420,21 @@ Logger.Debug ("OnMessageSent called: {0}", message.Text);
 		
 		public uint PreviewWindowId
 		{
-			get { return videoView.PreviewWindowId; }
+			get 
+			{
+				Logger.Debug("FIXME: Take this property out, nobody needs and you shouldn't be calling it");
+				return videoView.PreviewWindowId; 
+			}
 		}
 		
 		public uint VideoWindowId
 		{
-			get { return videoView.WindowId; }
-		}	
-
-		public Conversation Conversation
-		{
-			get { return conv; }
-			
-			/*
-			set {
-				if (conv != null) {
-					// Unregister event handlers on the old conversation
-					conv.MessageReceived -= OnTapiocaMessageReceived;
-					conv.MessageSent -= OnTapiocaMessageSent;
-				}
-				
-				if (value != null) {
-					conv = value;
-					conv.MessageReceived += OnTapiocaMessageReceived;
-					conv.MessageSent += OnTapiocaMessageSent;
-					
-					// Update the window title
-					try {
-						Person peer = 
-							Application.Instance.GetPersonFromContact (conv.PeerContact);
-						Title = string.Format ("Chat with {0}", peer.DisplayName);
-					} catch {}
-				}
+			get
+			{ 
+				Logger.Debug("FIXME: Take this property out, nobody needs and you shouldn't be calling it");
+				return videoView.WindowId; 
 			}
-			*/
-		}
+		}	
 #endregion
 
 	}

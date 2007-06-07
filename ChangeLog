@@ -1,5 +1,9 @@
 2007-06-07  Calvin Gaisford <calvinrg@gmail.com> 
 
+	* Banter/ChatWindow.cs: Cleaned up calls to handle all conversations
+
+2007-06-07  Calvin Gaisford <calvinrg@gmail.com> 
+
 	* Banter/Application.cs: Added call to init the ChatWIndowManager when
 	  the app launches
 
