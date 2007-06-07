@@ -37,6 +37,10 @@ namespace Banter
 	public delegate void VideoChannelConnectedHandler (Conversation conversation, uint streamId);
 	public delegate void VideoStreamAddedHandler (Conversation conversation, uint streamId);
 	public delegate void AudioChannelInitializedHandler (Conversation conversation);
+
+	public delegate void NewAudioChannel (Conversation conversation);
+	public delegate void NewVideoChannel (Conversation conversation);
+	public delegate void NewTextChannel (Conversation conversation);
 	
 	public class Conversation : IDisposable
 	{
@@ -46,8 +50,16 @@ namespace Banter
 		public event VideoChannelConnectedHandler VideoChannelConnected;
 		public event VideoStreamAddedHandler VideoStreamAdded;
 		public event AudioChannelInitializedHandler AudioChannelInitialized;
+		
+		public event NewAudioChannel OnNewAudioChannel;
+		public event NewVideoChannel OnNewVideoChannel;
+		public event NewTextChannel OnNewTextChannel;
 
-		private bool initiatedChat;
+		// True the conversation was initiated locally
+		// False the conversation was initiated by an incoming
+		// request from a peer.
+		private bool initiated;
+		
 		private uint previewWindowID;
 		private uint peerWindowID;
 		private List<Message> messages;
@@ -64,6 +76,10 @@ namespace Banter
 		private IStreamEngine streamEngine;
 		private uint videoInputStreamId = 0;
 		
+		private uint textStreamId = 0;
+		private uint audioStreamId = 0;
+		private uint videoStreamId = 0;
+		
 		private ProviderUser peerUser;
 		private Presence lastPeerPresence;
 		
@@ -72,6 +88,21 @@ namespace Banter
 		
 		private System.Collections.Generic.Dictionary<uint, uint> videoStreams;
 	
+		public bool ActiveTextChannel
+		{
+			get {return (textStreamId != 0) ? true : false;}			
+		}
+
+		public bool ActiveAudioChannel
+		{
+			get {return (audioStreamId != 0) ? true : false;}			
+		}
+		
+		public bool ActiveVideoChannel
+		{
+			get {return (videoStreamId != 0) ? true : false;}			
+		}
+		
 		public ProviderUser PeerUser
 		{
 			get {return peerUser;}
@@ -94,11 +125,13 @@ namespace Banter
 
 			peerUser.PresenceUpdated += OnPeerPresenceUpdated;
 			lastPeerPresence = peerUser.Presence;
-			this.initiatedChat = initiate;
+			this.initiated = initiate;
 			
+			/*
 			if (initiate == true)
 				this.CreateTextChannel ();
-		}	
+			*/
+		}
 		#endregion
 		
 		#region Private Methods
@@ -253,14 +286,14 @@ namespace Banter
 		
 		private bool SetupVideoChannel ()
 		{
-			if (initiatedChat == true && videoChannel != null) return true;
+			if (initiated == true && videoChannel != null) return true;
 			
 			Logger.Debug ("SetupVideoChannel entered");
 
 			uint[] handles = new uint [] {peerUser.ID};
 			try
 			{
-				if (this.initiatedChat == true) {
+				if (this.initiated == true) {
 				
 					try {
 						videoChannelObjectPath = 
@@ -379,7 +412,7 @@ namespace Banter
 
 				Logger.Debug("The numder of members is: {0}", videoChannel.Members.Length);
 
-				if (this.initiatedChat == true) {
+				if (this.initiated == true) {
 	//				uint[] stream_type = new uint[2];
 					uint[] streamtype = new uint[1];
 					
@@ -595,7 +628,7 @@ namespace Banter
 		
 		public void StartVideo (bool initiatedChat)
 		{
-			this.initiatedChat = initiatedChat;
+			this.initiated = initiatedChat;
 			if (tlpConnection == null) 
 				throw new ApplicationException (String.Format ("No telepathy connection exists"));
 				
@@ -605,6 +638,56 @@ namespace Banter
 			// Create the video channel
 			SetupVideoChannel ();
 		}
+		
+		
+		/// New methods 6/7
+		
+		/// <summary>
+		/// Method to close an existing text channel
+		/// </summary>
+		public void CloseTextChannel ()
+		{
+		}
+		
+		/// <summary>
+		/// Method to close an existing audio channel
+		/// </summary>
+		public void CloseAudioChannel ()
+		{
+		}
+		
+		/// <summary>
+		/// Method to close existing audio and
+		/// video channels
+		/// </summary>
+		public void CloseAudioVideoChannels ()
+		{
+		}
+		
+		/// <summary>
+		/// Method to open and setup a text channel
+		/// </summary>
+		public void OpenTextChannel ()
+		{
+		}
+
+		/// <summary>
+		/// Method to open and connect and audio
+		/// channel with a peer
+		/// </summary>
+		public void OpenAudioChannel ()
+		{
+		}
+		
+		/// <summary>
+		/// Method to open and connect an
+		/// audio and open and connect a video
+		/// channel with a peer
+		/// </summary>
+		public void OpenAudioVideoChannels ()
+		{
+		}
+		
 		#endregion
 	}
 }	
