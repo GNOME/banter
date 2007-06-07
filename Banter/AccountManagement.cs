@@ -72,6 +72,17 @@ namespace Banter
 	   	{
 	   		return accounts;
 	   	}
+
+		static internal Account GetAccountByName (string name)
+		{
+			foreach (Banter.Account account in AccountManagement.accounts)
+			{
+				if (account.Name.ToLower() == name.ToLower())
+					return account;
+			}
+			
+			throw new ApplicationException (String.Format ("Specified account: {0} not found"));
+		}
 	   	
 	   	static internal bool InitializedFinished ()
 	   	{

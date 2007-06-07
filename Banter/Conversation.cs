@@ -112,8 +112,23 @@ namespace Banter
 		{
 			get { return (current == last) ? true : false;}
 		}
-	
-		#region Constructors	
+		
+		#region Constructors
+
+		internal Conversation (ProviderUser providerUser)
+		{
+			this.account = AccountManagement.GetAccountByName (providerUser.AccountName);
+			this.tlpConnection = this.account.TlpConnection;
+			this.peerUser = providerUser;
+			this.messages = new List<Message> ();
+			last = 999;
+			this.videoStreams = new Dictionary<uint,uint> ();
+
+			peerUser.PresenceUpdated += OnPeerPresenceUpdated;
+			lastPeerPresence = peerUser.Presence;
+			this.initiated = true;
+		}
+		
 		internal Conversation (Account account, Person peer, ProviderUser peerUser, bool initiate)
 		{
 			this.account = account;

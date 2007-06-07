@@ -32,12 +32,14 @@ namespace Banter
 {
 	//public delegate void MessageSentHandler (Conversation conversation, Message message);
 	//public delegate void MessageReceivedHandler (Conversation conversation, Message message);
+	public delegate void NewIncomingConversation (Conversation conversation ); //, channel
 	
 	public class ConversationManager
 	{
-		
 		static private IList <Conversation> conversations = null;
 		static private System.Object lckr = null;
+		
+		static public NewIncomingConversation OnNewIncomingConversation;
 		
 		static ConversationManager()
 		{
@@ -88,6 +90,50 @@ namespace Banter
 			}
 			
 			return conversation;
+		}
+		
+		static public Conversation Create (ProviderUser provideruser)
+		{
+			Conversation conversation = null;
+			lock (lckr)
+			{
+				// Check if a conversation already exists
+				foreach (Conversation c in ConversationManager.conversations)
+				{
+					if (provideruser.Uri.CompareTo (c.PeerUser.Uri) == 0) {
+						conversation = c;
+						break;
+					}
+				}
+
+				if (conversation == null)
+				{
+					Logger.Debug ("Conversation with {0} doesn't exist", provideruser.Uri);
+					conversation = new Conversation (provideruser);
+					conversations.Add (conversation);
+				}
+			}
+			
+			return conversation;
+		}
+		
+		static internal void AddConversation (Conversation conversation)
+		{
+			lock (lckr)
+			{
+				// Check if a conversation already exists
+				foreach (Conversation c in ConversationManager.conversations)
+				{
+					if (conversation.PeerUser.Uri.CompareTo (c.PeerUser.Uri) == 0) {
+						throw new ApplicationException ("Conversation with user already exists");
+					}
+				}
+
+				Logger.Debug (
+					"Adding an incoming conversation with {0} to the list", 
+					conversation.PeerUser.Uri);
+				conversations.Add (conversation);
+			}
 		}
 	}
 }	

@@ -1,3 +1,10 @@
+2007-06-07  Brady Anderson <brady.anderson@gmail.com> 
+
+	* Banter/AccountManagement.cs: new method to get account by name
+	* Banter/ConversationManager.cs: use new method for initiating and
+	  added a method to add a conversation to the list
+	* Banter/Conversation.cs: new constructor for initiating
+
 2007-06-07  Calvin Gaisford <calvinrg@gmail.com> 
 
 	* Banter.mdp: 
