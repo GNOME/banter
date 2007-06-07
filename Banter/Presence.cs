@@ -141,22 +141,16 @@ namespace Banter
 			{
 				case PresenceType.Offline:
 					return Catalog.GetString ("Offline");
-					break;
 				case PresenceType.Available:
 					return Catalog.GetString ("Available");	           
-					break;
 				case PresenceType.Away:
 					return Catalog.GetString ("Away");	           
-					break;
 				case PresenceType.XA:
 					return Catalog.GetString ("XA");	           
-					break;
 				case PresenceType.Hidden:
 					return Catalog.GetString ("Hidden");	           
-					break;
 				case PresenceType.Busy:
 					return Catalog.GetString ("Busy");	           
-					break;
 			}
 			return String.Empty;
 		}

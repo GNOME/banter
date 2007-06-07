@@ -47,7 +47,6 @@ namespace Banter
 		private Widget child;
 		private WebControl webControl;
 		private bool updateNeeded;
-		private int webControlHeight;
 		private bool widgetRendered;
 		private string widgetHtml;
 		private Person person;

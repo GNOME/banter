@@ -30,7 +30,7 @@ namespace Banter
 	{
 		#region fields
 		private VBox vbox;
-		private Widget parentWidget;
+//		private Widget parentWidget;
 //		private bool alreadyDisposed;
 		private Dictionary<int, PersonCard> personCardMap;
 		private TreeModel model;
@@ -103,7 +103,7 @@ namespace Banter
 			this.ModifyBg (StateType.Normal, this.Style.Base (StateType.Normal));
 			this.ModifyBase (StateType.Normal, this.Style.Base (StateType.Normal));
 			this.CanFocus = true;
-			this.parentWidget = parentWidget;
+			// this.parentWidget = parentWidget;
 //			this.alreadyDisposed = false;
 			
 			vbox = new VBox (false, 0);

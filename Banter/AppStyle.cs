@@ -68,7 +68,7 @@ namespace Banter
 		{
 			try {
 				AppStyle appStyle = new AppStyle(path);
-			} catch (Exception e) {
+			} catch {
 				return false;
 			}
 			return true;

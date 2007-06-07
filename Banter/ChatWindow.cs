@@ -32,32 +32,33 @@ namespace Banter
 	///</summary>
 	public class ChatWindow : Gtk.Window 
 	{
-		//Application app;
+		#region Private Types
+		private Conversation conv;
+		private bool everShown;
+		private bool shiftKeyPressed;
 		
-		Conversation conv;
-		bool everShown;
-		//Person lastSender;
-		bool shiftKeyPressed;
+		// Widgets
+		private HPaned hpaned;
+		private VBox leftPaneVBox;
+		private VBox rightPaneVBox;
+		private VBox personControlVBox;
+		private Button showPersonDetailsButton;
+		private VBox videoVBox;
+		private VBox audioVBox;
+		private VPaned messagesVPaned;
+		private MessagesView messagesView;
+		private VideoView videoView;
+		private VBox typingVBox;
+		private Toolbar typingToolbar;
+		private ScrolledWindow typingScrolledWindow;
+		private TextView typingTextView;
+		private ChatType chatType;
+		private Person peerPerson;
+		private ProviderUser peerProviderUser;
+		#endregion
 		
-		// Internal Widgets
-		HPaned hpaned;
-		VBox leftPaneVBox;
-		VBox rightPaneVBox;
-		VBox personControlVBox;
-		Button showPersonDetailsButton;
-		VBox videoVBox;
-		VBox audioVBox;
-		VPaned messagesVPaned;
-		MessagesView messagesView;
-		VideoView videoView;
-		VBox typingVBox;
-		Toolbar typingToolbar;
-		ScrolledWindow typingScrolledWindow;
-		TextView typingTextView;
-		uint peerProviderUserID;
-		ChatType chatType;
 
-
+		#region Constructors
 		///<summary>
 		///	Constructor
 		/// Creates a ChatWindow and a conversation according to the type requested
@@ -70,48 +71,68 @@ namespace Banter
 
 			switch(chatType) {
 				case ChatType.Text:
-//					conv.AddTextChannel();
+					conv.AddTextChannel();
 					break;
 				case ChatType.Audio:
-//					conv.AddAudioChannel();
-//					conv.AddTextChannel();
+					conv.AddAudioChannel();
+					conv.AddTextChannel();
 					break;
 				case ChatType.Video:
-//					conv.AddAudioVideoChannels();
-//					conv.AddTextChannel();
+					conv.AddAudioVideoChannels();
+					conv.AddTextChannel();
 					break;
 			}
 
 			conv.MessageReceived += OnTextMessageReceived;
 			conv.MessageSent += OnTextMessageSent;
-			
-			everShown = false;
-			//lastSender = null;
-			shiftKeyPressed = false;
 
-			Person peer = PersonManager.GetPersonByJabberId (conv.PeerUser.Uri);
-			//chatWindows[peer.Id] = this;
-			peerProviderUserID = providerUser.ID;
+			peerPerson = person;
+			peerProviderUser = providerUser;
+			
+			InitWindow();
+		}
+		
+		
+		///<summary>
+		///	Constructor
+		/// Creates a ChatWindow based on an existing conversation.  This mainly used on
+		/// incoming conversations.
+		///</summary>		
+		public ChatWindow (Conversation conversation, ChatType type) :
+			base (WindowType.Toplevel)
+		{
+			this.chatType = type;
+			conv = conversation;
+
+			// no need to Add any channels, they will be set up already
+
+			conv.MessageReceived += OnTextMessageReceived;
+			conv.MessageSent += OnTextMessageSent;
+
+			peerProviderUser = conv.PeerUser;
+			peerPerson = PersonManager.GetPerson(peerProviderUser);
+			
+			InitWindow();
+		}		
+		#endregion
+
+
+
+		#region Private Methods
+		///<summary>
+		///	InitWindow
+		/// Sets up the widgets and events in the chat window
+		///</summary>	
+		void InitWindow()
+		{
+			everShown = false;
+			shiftKeyPressed = false;
 			
 			// Update the window title
-			if (peer.DisplayName != null)
-				Title = string.Format ("Chat with {0}", peer.DisplayName);
+			Title = string.Format ("Chat with {0}", peerPerson.DisplayName);	
 			
-			this.DefaultSize = new Gdk.Size (400, 600); 
-			
-			SetUpWidgets (peer);
-			Realized += WindowRealized;
-			DeleteEvent += WindowDeleted;		
-		}
-
+			this.DefaultSize = new Gdk.Size (400, 600); 			
 		
-#region Private Methods
-		///<summary>
-		///	SetUpWidgets
-		/// Sets up the widgets in the chat window
-		///</summary>	
-		void SetUpWidgets (Person peer)
-		{
 			hpaned = new HPaned ();
 			hpaned.CanFocus = true;
 			hpaned.Position = 220;
@@ -133,7 +154,7 @@ namespace Banter
 			personControlVBox.Show ();
 			rightPaneVBox.PackStart (personControlVBox, false, false, 0);
 			
-			PersonCard card = new PersonCard(peer);
+			PersonCard card = new PersonCard(peerPerson);
 			card.Size = PersonCardSize.Medium;
 			// Not sure why but we need to call ShowAll on the PersonCard for it to display
 			card.ShowAll();
@@ -207,10 +228,25 @@ namespace Banter
 			typingTextView.KeyReleaseEvent += OnTypingTextViewKeyReleaseEvent;
 			typingTextView.Show ();
 			typingScrolledWindow.Add (typingTextView);
+			
+			Realized += WindowRealized;
+			DeleteEvent += WindowDeleted;			
 		}
-#endregion
+	
+	
+		///<summary>
+		///	AddMessage
+		/// Addes messages to the messagesView
+		///</summary>		
+		private void AddMessage (Message message, bool incoming, bool contentIsSimilar, string avatarPath)
+		{
+			messagesView.AddMessage (message, incoming, contentIsSimilar, avatarPath);
+		}	
+		#endregion
 
-#region EventHandlers
+
+
+		#region EventHandlers
 		///<summary>
 		///	OnTextMessageReceived
 		/// Handles all incoming TextMessages and places them into the text chat area
@@ -242,7 +278,7 @@ namespace Banter
 		void OnTextMessageSent (Conversation conversation, Message message)
 		{
 			string avatarPath = null;
-Logger.Debug ("OnMessageSent called: {0}", message.Text);
+			Logger.Debug ("OnMessageSent called: {0}", message.Text);
 
 			/*
 			Person person = PersonManager.GetPersonByJabberId(conversation.MeContact.Uri);
@@ -250,16 +286,6 @@ Logger.Debug ("OnMessageSent called: {0}", message.Text);
 				avatarPath = person.GetScaledAvatar(36);
 			*/
 			AddMessage (message, false, conversation.CurrentMessageSameAsLast, avatarPath);
-		}
-
-
-		///<summary>
-		///	AddMessage
-		/// Addes messages to the messagesView
-		///</summary>		
-		void AddMessage (Message message, bool incoming, bool contentIsSimilar, string avatarPath)
-		{
-			messagesView.AddMessage (message, incoming, contentIsSimilar, avatarPath);
 		}
 
 
@@ -398,9 +424,9 @@ Logger.Debug ("OnMessageSent called: {0}", message.Text);
 			// Set the default focus to the TextView where users should type
 			typingTextView.GrabFocus ();
 		}
-#endregion
+		#endregion
 
-#region Public Methods
+		#region Public Methods
 		public new void Present ()
 		{
 			if (everShown == false) {
@@ -410,12 +436,12 @@ Logger.Debug ("OnMessageSent called: {0}", message.Text);
 				base.Present ();
 			}
 		}
-#endregion
+		#endregion
 
-#region Public Properties
+		#region Public Properties
 		public uint PeerProviderUserID
 		{
-			get { return this.peerProviderUserID; }
+			get { return this.peerProviderUser.ID; }
 		}
 		
 		public uint PreviewWindowId
@@ -435,7 +461,7 @@ Logger.Debug ("OnMessageSent called: {0}", message.Text);
 				return videoView.WindowId; 
 			}
 		}	
-#endregion
+		#endregion
 
 	}
 }

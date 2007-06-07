@@ -1069,7 +1069,7 @@ Logger.Debug ("GroupWindow.BuildGroupButtonsView adding {0} groups",
 			ShowAll ();
 		}
 		
-		public event GroupButtonClickedHandler Clicked;
+		public new event GroupButtonClickedHandler Clicked;
 		public event GroupButtonClickedHandler RightClicked;
 		
 		public PersonGroup PersonGroup

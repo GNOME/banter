@@ -51,8 +51,6 @@ namespace Banter
 		//private NotificationArea tray;
 		private Gdk.Pixbuf appPixBuf;
 		private Gnome.Program program = null;
-		private Dictionary <uint, Person> persons;
-		private Dictionary <string, ChatWindow> chatWindows;
 		private PreferencesDialog preferencesDialog;
 		
 		private Dictionary<GroupWindow, GroupWindow> groupWindows;
@@ -130,7 +128,6 @@ namespace Banter
 			application = this;
 			
 			groupWindows = new Dictionary<GroupWindow, GroupWindow> ();
-			chatWindows = new Dictionary<string,ChatWindow> ();
 
 			GLib.Idle.Add(InitializeIdle);
 		}
@@ -195,7 +192,6 @@ namespace Banter
 		private void OnAccountManagementReadyEvent ()
 		{
 			Logger.Debug ("OnAccountManagementReady() called");
-			InitializePersons();
 			initialized = true;
 			
 			GLib.Idle.Add (OpenSavedGroupWindows);
@@ -232,12 +228,6 @@ namespace Banter
 			}
 			
 			return false; // Prevent GLib.Idle from calling this method again
-		}
-
-		private void InitializePersons()
-		{
-			Logger.Debug("InitializePersons called");
-			persons = new Dictionary<uint,Person> ();
 		}
 
 		private void OnImageClick (object o, ButtonPressEventArgs args) // handler for mouse click
@@ -515,29 +505,6 @@ Logger.Debug ("Application.OnGroupWindowDeleted");
 		}
 		#endregion
 
-		#region Private Methods
-		private void OnVideoConnected (Conversation conversation, uint streamId)
-		{
-			Logger.Debug ("OnVideoConnected - called");
-			Logger.Debug ("  Stream ID: {0}", streamId);
-			
-			//VideoWindow peer = new VideoWindow();
-			//peer.Title = conversation.PeerUser.Alias;
-			//conversation.SetPeerWindow (peer.WindowId, streamId);
-			//peer.Show();
-		}
-		
-		private void OnVideoAdded (Conversation conversation, uint streamId)
-		{
-			Logger.Debug ("OnVideoAdded - called");
-			Logger.Debug ("  Stream ID: {0}", streamId);
-			
-			//VideoWindow peer = new VideoWindow();
-			//peer.Title = conversation.PeerUser.Alias;
-			//conversation.SetPeerWindow (peer.WindowId, streamId);
-			//peer.Show();
-		}
-		#endregion
 
 		#region Public Methods			
 		public void StartMainLoop ()

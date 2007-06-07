@@ -41,7 +41,6 @@ namespace Banter
 	public class Person
 	{
 		#region Private Types
-		private string photoFile = String.Empty;
 		private Evolution.Contact edsContact;
 		private string cachePath;
 		private Gdk.Pixbuf avatar;

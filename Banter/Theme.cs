@@ -32,7 +32,7 @@ namespace Banter
 	{
 		#region Private Types
 		private string themePath;
-		private string name;
+		// private string name;
 		#endregion
 
 
@@ -40,10 +40,10 @@ namespace Banter
 		///<summary>
 		///	Returns the name of the Style
 		///</summary>			
-		public string Name
-		{
-			get { return name; }
-		}
+		// public string Name
+		// {
+		// 	get { return name; }
+		// }
 		#endregion
 
 
@@ -73,7 +73,7 @@ namespace Banter
 		{
 			try {
 				AppStyle appStyle = new AppStyle(path);
-			} catch (Exception e) {
+			} catch {
 				return false;
 			}
 			return true;

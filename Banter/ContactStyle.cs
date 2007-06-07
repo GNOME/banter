@@ -342,7 +342,7 @@ namespace Banter
 				htmlReader = new System.IO.StreamReader(System.IO.Path.Combine(stylePath, "large/contact.html"));
 				largePersonHtml = htmlReader.ReadToEnd();
 			}
-			catch (Exception e) {
+			catch {
 				// must be an invalid Theme
 				throw new ApplicationException("Theme missing large/contact.html");
 			}
@@ -352,7 +352,7 @@ namespace Banter
 				htmlReader = new System.IO.StreamReader(System.IO.Path.Combine(stylePath, "large/action.html"));
 				largeActionHtml = htmlReader.ReadToEnd();
 			}
-			catch (Exception e) {
+			catch {
 				// must be an invalid Theme
 				throw new ApplicationException("Theme missing large/action.html");
 			}
@@ -361,7 +361,7 @@ namespace Banter
 				htmlReader = new System.IO.StreamReader(System.IO.Path.Combine(stylePath, "large/datasection.html"));
 				largeDataSectionHtml = htmlReader.ReadToEnd();
 			}
-			catch (Exception e) {
+			catch {
 				// must be an invalid Theme
 				throw new ApplicationException("Theme missing large/datasection.html");
 			}
@@ -370,7 +370,7 @@ namespace Banter
 				htmlReader = new System.IO.StreamReader(System.IO.Path.Combine(stylePath, "large/singledataentry.html"));
 				largeSingleDataEntryHtml = htmlReader.ReadToEnd();
 			}
-			catch (Exception e) {
+			catch {
 				// must be an invalid Theme
 				throw new ApplicationException("Theme missing large/singledataentry.html");
 			}
@@ -379,7 +379,7 @@ namespace Banter
 				htmlReader = new System.IO.StreamReader(System.IO.Path.Combine(stylePath, "large/titledataentry.html"));
 				largeTitleDataEntryHtml = htmlReader.ReadToEnd();
 			}
-			catch (Exception e) {
+			catch {
 				// must be an invalid Theme
 				throw new ApplicationException("Theme missing large/titledataentry.html");
 			}			
@@ -424,7 +424,7 @@ namespace Banter
 				htmlReader = new System.IO.StreamReader(System.IO.Path.Combine(stylePath, "medium/contact.html"));
 				mediumPersonHtml = htmlReader.ReadToEnd();
 			}
-			catch (Exception e) {
+			catch {
 				// must be an invalid Theme
 				throw new ApplicationException("Theme missing medium/contact.html");
 			}
@@ -434,7 +434,7 @@ namespace Banter
 				htmlReader = new System.IO.StreamReader(System.IO.Path.Combine(stylePath, "medium/action.html"));
 				mediumActionHtml = htmlReader.ReadToEnd();
 			}
-			catch (Exception e) {
+			catch {
 				// must be an invalid Theme
 				throw new ApplicationException("Theme missing medium/action.html");
 			}
@@ -477,7 +477,7 @@ namespace Banter
 				htmlReader = new System.IO.StreamReader(System.IO.Path.Combine(stylePath, "small/contact.html"));
 				smallPersonHtml = htmlReader.ReadToEnd();
 			}
-			catch (Exception e) {
+			catch {
 				// must be an invalid Theme
 				throw new ApplicationException("Theme missing small/contact.html");
 			}
@@ -487,7 +487,7 @@ namespace Banter
 				htmlReader = new System.IO.StreamReader(System.IO.Path.Combine(stylePath, "small/action.html"));
 				smallActionHtml = htmlReader.ReadToEnd();
 			}
-			catch (Exception e) {
+			catch {
 				// must be an invalid Theme
 				throw new ApplicationException("Theme missing small/action.html");
 			}

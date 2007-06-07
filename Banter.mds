@@ -1,28 +1,17 @@
 <Combine name="Banter" fileversion="2.0" outputpath="./build/bin/" MakePkgConfig="False" MakeLibPC="True">
   <Configurations active="Debug">
     <Configuration name="Debug" ctype="CombineConfiguration">
-      <Entry build="False" name="TelepathyTest" configuration="Debug" />
-      <Entry build="False" name="StreamObjectTest" configuration="Debug" />
-      <Entry build="True" name="tapioca-sharp" configuration="Debug" />
       <Entry build="True" name="Banter" configuration="Debug" />
     </Configuration>
     <Configuration name="Release" ctype="CombineConfiguration">
-      <Entry build="False" name="TelepathyTest" configuration="Release" />
-      <Entry build="False" name="StreamObjectTest" configuration="Release" />
-      <Entry build="True" name="tapioca-sharp" configuration="Release" />
       <Entry build="True" name="Banter" configuration="Release" />
     </Configuration>
   </Configurations>
   <StartMode startupentry="Banter" single="True">
-    <Execute type="None" entry="TelepathyTest" />
     <Execute type="None" entry="StreamObjectTest" />
-    <Execute type="None" entry="tapioca-sharp" />
     <Execute type="None" entry="Banter" />
   </StartMode>
   <Entries>
-    <Entry filename="./test/TelepathyTest/TelepathyTest.mdp" />
-    <Entry filename="./test/StreamObjectTest/StreamObjectTest.mdp" />
-    <Entry filename="./tapioca-sharp/tapioca-sharp.mdp" />
     <Entry filename="./Banter.mdp" />
   </Entries>
 </Combine>

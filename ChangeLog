@@ -1,3 +1,18 @@
+2007-06-07  Calvin Gaisford <calvinrg@gmail.com> 
+
+	* Banter.mdp, Banter.mds: Removed old projects that were causing build
+	  issues
+	* Banter/Theme.cs, Banter/Presence.cs, Banter/Person.cs,
+	  Banter/ContactStyle.cs, Banter/PersonCard.cs, Banter/PersonView.cs:
+	  removed build warnings
+	* Banter/ChatWindowManager.cs: Handles incoming conversations
+	* Banter/Application.cs:  removed old code that was hacked in so I
+	  hacked it back out
+	* Banter/ChatWindow.cs: Added code to deal with new chat windows
+	  initiated by a peer
+	* Banter/GroupWindow.cs: fixed build warnings
+	* Banter/AppStyle.cs: removed a ton of build warnings
+
 2007-06-07  Brady Anderson <brady.anderson@gmail.com> 
 
 	* Banter/Account.cs: added call back into ConversationManager for

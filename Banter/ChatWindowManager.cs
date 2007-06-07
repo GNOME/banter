@@ -76,6 +76,7 @@ namespace Banter
 		private ChatWindowManager ()
 		{
 			chatWindows = new Dictionary<uint,ChatWindow> ();
+			ConversationManager.NewIncomingConversation += OnNewIncomingConversation;
 		}
 		#endregion	
 
@@ -87,7 +88,29 @@ namespace Banter
 			
 			if(chatWindows.ContainsKey(cw.PeerProviderUserID))
 				chatWindows.Remove(cw.PeerProviderUserID);
-		}		
+		}
+
+		/// <summary>
+		/// OnNewIncomingConversation
+		/// Handles new conversations initiated by a peer
+		/// </summary>			
+		private void OnNewIncomingConversation (Conversation conversation, ChatType chatType)
+		{
+			if(conversation.PeerUser == null) {
+				Logger.Error("NewIncomingConversation event had a conversation with null PeerUser");
+				return;
+			}
+			
+			// If we have a ChatWindow for this conversation, don't do anything... the ChatWindow
+			// will handle the change
+			if(chatWindows.ContainsKey(conversation.PeerUser.ID))
+				return;
+
+			ChatWindow cw = new ChatWindow(conversation, chatType);
+			chatWindows[conversation.PeerUser.ID] = cw;
+			cw.DeleteEvent += ChatWindowManager.Instance.OnChatWindowDeleted;
+			cw.ShowAll();
+		}
 		#endregion
 		
 
@@ -139,6 +162,7 @@ namespace Banter
 				ChatWindow cw = new ChatWindow(person, person.ProviderUser, type);
 				ChatWindowManager.Instance.chatWindows[person.ProviderUser.ID] = cw;
 				cw.DeleteEvent += ChatWindowManager.Instance.OnChatWindowDeleted;
+				cw.ShowAll();
 			}
 		}		
 		#endregion
