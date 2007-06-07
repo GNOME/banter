@@ -305,9 +305,6 @@ Logger.Debug ("OnMessageSent called: {0}", message.Text);
 				conv.MessageSent -= OnMessageSent;
 				*/
 			}
-			if(ChatWindow.chatWindows.ContainsKey(peerId)) {
-				ChatWindow.chatWindows.Remove(peerId);
-			}
 		}
 		
 		private bool HandleMessageTrigger()

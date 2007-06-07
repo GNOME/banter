@@ -1,3 +1,11 @@
+2007-06-07  Calvin Gaisford <calvinrg@gmail.com> 
+
+	* Banter/ChatWindowManager.cs: Changed peerID to be a uint from a
+	  ProviderUser
+	* Banter/ChatWindow.cs: Removed calls that used to manage chat windows
+	* Banter/PersonCard.cs: Changed calls to be into ChatWindowManager
+	  instead of Application
+
 2007-06-07  Brady Anderson <brady.anderson@gmail.com> 
 
 	* Banter/Account.cs: Removed code that calls ChatWindow

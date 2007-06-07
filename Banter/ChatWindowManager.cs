@@ -44,7 +44,7 @@ namespace Banter
 
 	
 		#region Private Types
-		private Dictionary <string, ChatWindow> chatWindows;
+		private Dictionary <uint, ChatWindow> chatWindows;
 		#endregion
 
 
@@ -75,7 +75,7 @@ namespace Banter
 		/// </summary>			
 		private ChatWindowManager ()
 		{
-			chatWindows = new Dictionary<string,ChatWindow> ();
+			chatWindows = new Dictionary<uint,ChatWindow> ();
 		}
 		#endregion	
 
@@ -95,7 +95,7 @@ namespace Banter
 		/// <summary>
 		/// Checks to see if we already have a chat windows for a given providerUserID
 		/// </summary>			
-		static public bool ChatWindowExists (string providerUserID)
+		static public bool ChatWindowExists (uint providerUserID)
 		{
 			if (ChatWindowManager.Instance.chatWindows.ContainsKey (providerUserID)) {
 				Logger.Debug("ChatWindow exists for ProviderUserID: {0}", providerUserID);
@@ -109,7 +109,7 @@ namespace Banter
 		/// <summary>
 		/// Present the chat window if it exists for the given providerUserID
 		/// </summary>	
-		static public bool PresentChatWindow (string providerUserID)
+		static public bool PresentChatWindow (uint providerUserID)
 		{
 			if (ChatWindowManager.Instance.chatWindows.ContainsKey (providerUserID)) {
 				ChatWindow cw = ChatWindowManager.Instance.chatWindows[providerUserID];
