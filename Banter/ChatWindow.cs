@@ -50,33 +50,24 @@ namespace Banter
 		Toolbar typingToolbar;
 		ScrolledWindow typingScrolledWindow;
 		TextView typingTextView;
-		string peerId;
+		uint peerProviderUserID;
 		
-		static private Dictionary <string, ChatWindow> chatWindows;
-		
-		static ChatWindow()
-		{
-			Logger.Debug ("ChatWindow::ChatWindow - static constructor called");
-			chatWindows = new Dictionary<string,ChatWindow> ();
-		}
-		
-//		public ChatWindow(Conversation conversation) :
-		public ChatWindow (Conversation conversation) :
+		public ChatWindow (Person person, ProviderUser providerUser, ChatType type) : 
 			base (WindowType.Toplevel)
 		{
-			//app = Application.Instance;
-			
-			conv = conversation;
-			conv.MessageReceived += OnTapiocaMessageReceived;
-			conv.MessageSent += OnTapiocaMessageSent;
+						
+
+			//conv = conversation;
+			//conv.MessageReceived += OnTapiocaMessageReceived;
+			//conv.MessageSent += OnTapiocaMessageSent;
 			
 			everShown = false;
 			//lastSender = null;
 			shiftKeyPressed = false;
 
 			Person peer = PersonManager.GetPersonByJabberId (conv.PeerUser.Uri);
-			chatWindows[peer.Id] = this;
-			peerId = peer.Id;
+			//chatWindows[peer.Id] = this;
+			peerProviderUserID = providerUser.ID;
 			
 			// Update the window title
 			if (peer.DisplayName != null)
@@ -86,9 +77,9 @@ namespace Banter
 			
 			SetUpWidgets (peer);
 			Realized += WindowRealized;
-			DeleteEvent += WindowDeleted;
-			
+			DeleteEvent += WindowDeleted;		
 		}
+
 		
 #region Private Methods
 		void SetUpWidgets (Person peer)
@@ -382,6 +373,11 @@ Logger.Debug ("OnMessageSent called: {0}", message.Text);
 #endregion
 
 #region Public Properties
+		public uint PeerProviderUserID
+		{
+			get { return this.peerProviderUserID; }
+		}
+		
 		public uint PreviewWindowId
 		{
 			get { return videoView.PreviewWindowId; }
@@ -419,31 +415,6 @@ Logger.Debug ("OnMessageSent called: {0}", message.Text);
 			}
 			*/
 		}
-#endregion
-
-#region Static Public Properties
-
-		static public bool AlreadyExist (string peerId)
-		{
-			if (ChatWindow.chatWindows.ContainsKey (peerId)) {
-				Logger.Debug("ChatWindow exists for peerID {0}", peerId);
-				return true;
-			}
-
-			Logger.Debug("ChatWindow doesn't exist for peerID {0}", peerId);
-			return false;
-		}
-
-		static public bool PresentWindow (string peerId)
-		{
-			if (chatWindows.ContainsKey (peerId)) {
-				chatWindows[peerId].Present ();
-				return true;
-			}
-			
-			return false;
-		}
-		
 #endregion
 
 	}

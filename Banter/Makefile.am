@@ -42,7 +42,9 @@ CSFILES = \
 	$(srcdir)/Conversation.cs \
 	$(srcdir)/ConversationManager.cs \
 	$(srcdir)/ComplexMenuItem.cs \
+	$(srcdir)/ChatType.cs \
 	$(srcdir)/ChatWindow.cs \
+	$(srcdir)/ChatWindowManager.cs \
 	$(srcdir)/ContactStyle.cs \
 	$(srcdir)/ContactStyleInfo.cs \
 	$(srcdir)/MessagesView.cs \

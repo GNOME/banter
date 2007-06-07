@@ -179,7 +179,24 @@ namespace Banter
 		public ProviderUser[] ProviderUsers
 		{
 			get{ return providerUsers.ToArray(); }
-		}		
+		}
+		
+
+		/// <summary>
+		/// The Default (by policy) ProviderUser for this Person
+		/// </summary>
+		public ProviderUser ProviderUser
+		{
+			get
+			{ 
+				if(providerUsers.Count > 0) {
+					return providerUsers[0];
+				} else {
+					return null;
+				}
+			}
+		}
+		
 		#endregion
 
 		

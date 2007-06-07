@@ -1,3 +1,18 @@
+2007-06-07  Calvin Gaisford <calvinrg@gmail.com> 
+
+	* Banter.mdp: 
+	
+	  Added ChatWindowManager and ChatType
+	* Banter/ChatType.cs: New Enum to define types of chat
+	* Banter/ChatWindowManager.cs: New Class to manage all chat windows
+	* Banter/Application.cs: Removed InitiateChat calls and moved them into
+	  ChatWindowManager
+	* Banter/Person.cs: Added default ProviderUser property
+	* Banter/ChatWindow.cs: Removed old constructor that took a
+	  conversation object
+	* Banter/Makefile.am: Added ChatType and ChatWindowManager files to
+	  make
+
 2007-06-07  Brady Anderson <brady.anderson@gmail.com> 
 
 	* Banter/AccountManagement.cs: Added OnIncomingConversation event and
