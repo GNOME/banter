@@ -578,6 +578,17 @@ namespace Banter
 			Logger.Debug ("Handle: {0}", handle);
 			Logger.Debug ("Suppress Handler: {0}", suppressHandler);
 			
+			ConversationManager.ProcessNewChannel (
+				this,
+				channelPath,
+				channelType,
+				handleType,
+				handle,
+				suppressHandler);
+				
+			return;
+			
+			/*
 			Conversation conversation = null;
 			switch (channelType)
 			{
@@ -736,24 +747,13 @@ namespace Banter
 //						}
 					}
 					
-					/*
-					Contact contact = contact_list.ContactLookup (ids[0]);
-					if (contact == null)
-						return;
-						
-					StreamChannel stream_channel = new StreamChannel (this, ichannel, contact, ServiceName, channel);	
-					if ((stream_channel != null) && (!channel_list.Contains (stream_channel)))
-						channel_list.Add (stream_channel);
-
-					if (ChannelCreated != null)
-						ChannelCreated (this, (Channel) stream_channel);
-					*/
 					break;
 				}
 				
 				default:
 					break;
 			}
+			*/
 		}
 
 		/// <summary>

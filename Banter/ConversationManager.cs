@@ -27,19 +27,20 @@ using System.Text;
 
 using NDesk.DBus;
 using org.freedesktop.DBus;
+using org.freedesktop.Telepathy;
 
 namespace Banter
 {
 	//public delegate void MessageSentHandler (Conversation conversation, Message message);
 	//public delegate void MessageReceivedHandler (Conversation conversation, Message message);
-	public delegate void NewIncomingConversation (Conversation conversation, ChatType chatType); //, channel
+	public delegate void NewIncomingConversationHandler (Conversation conversation, ChatType chatType); //, channel
 	
 	public class ConversationManager
 	{
 		static private IList <Conversation> conversations = null;
 		static private System.Object lckr = null;
 		
-		static public NewIncomingConversation OnNewIncomingConversation;
+		static public NewIncomingConversationHandler NewIncomingConversation;
 		
 		static ConversationManager()
 		{
@@ -133,6 +134,201 @@ namespace Banter
 					"Adding an incoming conversation with {0} to the list", 
 					conversation.PeerUser.Uri);
 				conversations.Add (conversation);
+			}
+		}
+
+		/// <summary>
+		///	Method called from Account when a new channel is created
+		/// </summary>
+		static internal void ProcessNewChannel (
+						Account account,
+						ObjectPath channelPath,
+						string channelType,
+						HandleType handleType,
+						uint handle,
+						bool suppressHandler)
+
+		{
+			Conversation conversation = null;
+			ProviderUser peerUser = null;
+			
+			switch (channelType)
+			{
+				case org.freedesktop.Telepathy.ChannelType.Text:
+				{
+					IChannelText txtChannel = null;
+					if (handle == 0) return;
+
+					// Check if we have an existing conversation with the peer user
+					try {
+						peerUser = ProviderUserManager.GetProviderUser (handle);
+						if (peerUser == null) return;
+						
+						txtChannel = 
+							Bus.Session.GetObject<IChannelText> (
+								account.BusName,
+								channelPath);
+					} catch{}
+					
+					if (ConversationManager.Exist (peerUser) == true) {
+						// FIXME::Pump conversation to create the channel
+						Logger.Debug (
+							"An existing conversation with {0} already exists", 
+							peerUser.Uri);
+						return;
+					}
+					
+					try
+					{
+						Logger.Debug ("creating conversation object");
+						conversation = new Conversation (account, peerUser, txtChannel);
+						conversations.Add (conversation);
+						Logger.Debug ("created new conversation object");
+					}
+					catch (Exception es)
+					{
+						Logger.Debug (es.Message);
+						Logger.Debug (es.StackTrace);
+					}
+					break;
+				}
+				
+				case org.freedesktop.Telepathy.ChannelType.StreamedMedia:
+				{
+					// Check if we have an existing conversation with the peer user
+					IChannelStreamedMedia mediaChannel = null;
+					try {
+						mediaChannel = 
+							Bus.Session.GetObject<IChannelStreamedMedia> (
+								account.BusName,
+								channelPath);
+						
+						peerUser = ProviderUserManager.GetProviderUser (mediaChannel.Members[0]);
+						if (peerUser == null) return;
+						
+						mediaChannel.AddMembers (mediaChannel.LocalPendingMembers, String.Empty);
+						
+					} catch{}
+					
+					if (peerUser == null) return;
+					
+					if (ConversationManager.Exist (peerUser) == true) {
+						// FIXME::Pump conversation to create the channel
+						Logger.Debug (
+							"An existing conversation with {0} already exists", 
+							peerUser.Uri);
+						return;
+					}
+					
+					try
+					{
+						Logger.Debug ("creating conversation object");
+						conversation = new Conversation (account, peerUser, mediaChannel);
+						conversations.Add (conversation);
+						Logger.Debug ("created new conversation object");
+					}
+					catch (Exception es)
+					{
+						Logger.Debug (es.Message);
+						Logger.Debug (es.StackTrace);
+					}
+					
+					break;
+					
+					/*
+					if(ichannel.Members.Length > 0) {
+						foreach(uint ch in ichannel.Members) {
+							Logger.Debug("Member in ichannel.Members {0}", ch);
+						}
+
+					}
+					if(ichannel.Members.Length > 0) {
+						peerHandle = ichannel.Members[0];
+					}
+					else
+						return;
+					*/
+					
+					/*
+					if (handle == 0) {
+					
+						if (ichannel.LocalPendingMembers.Length > 0) {
+							Logger.Debug ("Incoming media conversation");
+							handle = ichannel.LocalPendingMembers[0];
+						} else if (ichannel.RemotePendingMembers.Length > 0) {
+							handle = ichannel.RemotePendingMembers[0];
+							Logger.Debug ("Pulled the handle from ichannel.RemotePendingMembers");
+							return;
+						} else if (ichannel.Members.Length > 0) {
+							handle = ichannel.Members[0];
+							Logger.Debug ("Pulled the handle from ichannel.Members");
+							return;
+						} else {
+							Logger.Debug ("Could not resolve the remote handle");
+							return;
+						}	
+					} else {
+						Logger.Debug ("Handle was non-zero {0} - returning", handle);
+						return;
+					}
+					
+					if (handle == this.tlpConnection.SelfHandle) {
+						Logger.Debug ("Handle was me - yay");
+						uint[] meHandles = {handle};
+						
+						uint[] ids = {ichannel.Members[0]};
+							
+						// Check if we have an existing conversation with the peer user
+						ProviderUser puMe = null;
+						ProviderUser puPeer = null;
+						
+						try {
+							puMe = ProviderUserManager.GetProviderUser (handle);
+							puPeer = ProviderUserManager.GetProviderUser(peerHandle);
+						} catch{}
+					
+						if (puMe == null) return;
+						if (puPeer == null) return;
+					
+					
+						if (ConversationManager.Exist (puPeer) == true) {
+							Logger.Debug ("An existing conversation with {0} already exists", puPeer.Uri);
+							return;
+						}
+
+						ichannel.AddMembers(meHandles, String.Empty);
+					
+						Logger.Debug ("Peer: {0}", peer.Id);
+						Logger.Debug ("Peer Name: {0}", peer.DisplayName);
+					
+						try
+						{
+							Logger.Debug ("creating conversation object");
+							conversation = ConversationManager.Create (this, peer, false);
+							IChannelText txtChannel = 
+								Bus.Session.GetObject<IChannelText> (busName, channelPath);
+						
+							conversation.SetTextChannel (txtChannel);
+							conversation.SetMediaChannel (ichannel, channelPath);
+							Logger.Debug ("created new conversation object");
+							
+							conversation.SetPreviewWindow (cw.PreviewWindowId);
+							conversation.SetPeerWindow (cw.VideoWindowId);
+							conversation.StartVideo (false);
+						}
+						catch (Exception es)
+						{
+							Logger.Debug (es.Message);
+							Logger.Debug (es.StackTrace);
+						}
+					}
+					
+					break;
+					*/
+				}
+				
+				default:
+					break;
 			}
 		}
 	}

@@ -38,9 +38,9 @@ namespace Banter
 	public delegate void VideoStreamAddedHandler (Conversation conversation, uint streamId);
 	public delegate void AudioChannelInitializedHandler (Conversation conversation);
 
-	public delegate void NewAudioChannel (Conversation conversation);
-	public delegate void NewVideoChannel (Conversation conversation);
-	public delegate void NewTextChannel (Conversation conversation);
+	public delegate void NewAudioChannelHandler (Conversation conversation);
+	public delegate void NewVideoChannelHandler (Conversation conversation);
+	public delegate void NewTextChannelHandler (Conversation conversation);
 	
 	public class Conversation : IDisposable
 	{
@@ -51,9 +51,9 @@ namespace Banter
 		public event VideoStreamAddedHandler VideoStreamAdded;
 		public event AudioChannelInitializedHandler AudioChannelInitialized;
 		
-		public event NewAudioChannel OnNewAudioChannel;
-		public event NewVideoChannel OnNewVideoChannel;
-		public event NewTextChannel OnNewTextChannel;
+		public event NewAudioChannelHandler NewAudioChannel;
+		public event NewVideoChannelHandler NewVideoChannel;
+		public event NewTextChannelHandler NewTextChannel;
 
 		// True the conversation was initiated locally
 		// False the conversation was initiated by an incoming
@@ -128,6 +128,45 @@ namespace Banter
 			lastPeerPresence = peerUser.Presence;
 			this.initiated = true;
 		}
+		
+		
+		internal Conversation (Account account, ProviderUser providerUser, IChannelStreamedMedia channel)
+		{
+			this.account = account;
+			this.tlpConnection = this.account.TlpConnection;
+			this.peerUser = providerUser;
+			this.messages = new List<Message> ();
+			last = 999;
+			this.videoStreams = new Dictionary<uint,uint> ();
+
+			peerUser.PresenceUpdated += OnPeerPresenceUpdated;
+			lastPeerPresence = peerUser.Presence;
+			this.initiated = false;
+
+			// Figure out the streamed media type			
+			
+			
+		}
+
+
+		internal Conversation (Account account, ProviderUser providerUser, IChannelText channel)
+		{
+			this.account = account;
+			this.tlpConnection = this.account.TlpConnection;
+			this.peerUser = providerUser;
+			this.messages = new List<Message> ();
+			last = 999;
+			this.videoStreams = new Dictionary<uint,uint> ();
+
+			peerUser.PresenceUpdated += OnPeerPresenceUpdated;
+			lastPeerPresence = peerUser.Presence;
+			this.initiated = false;
+			
+			txtChannel = channel;
+			txtChannel.Received += OnReceiveMessageHandler;
+			txtChannel.Closed += OnTextChannelClosed;
+		}
+
 		
 		internal Conversation (Account account, Person peer, ProviderUser peerUser, bool initiate)
 		{
@@ -658,39 +697,29 @@ namespace Banter
 		/// New methods 6/7
 		
 		/// <summary>
-		/// Method to close an existing text channel
-		/// </summary>
-		public void CloseTextChannel ()
-		{
-		}
-		
-		/// <summary>
-		/// Method to close an existing audio channel
-		/// </summary>
-		public void CloseAudioChannel ()
-		{
-		}
-		
-		/// <summary>
-		/// Method to close existing audio and
-		/// video channels
-		/// </summary>
-		public void CloseAudioVideoChannels ()
-		{
-		}
-		
-		/// <summary>
 		/// Method to open and setup a text channel
 		/// </summary>
-		public void OpenTextChannel ()
+		public void AddTextChannel ()
 		{
+			if (txtChannel != null) return;
+			
+			ObjectPath op = 
+				tlpConnection.RequestChannel (
+					org.freedesktop.Telepathy.ChannelType.Text, 
+					HandleType.Contact,
+					this.peerUser.ID, 
+					true);
+				
+			txtChannel = Bus.Session.GetObject<IChannelText> (account.BusName, op);
+			txtChannel.Received += OnReceiveMessageHandler;
+			txtChannel.Closed += OnTextChannelClosed;
 		}
 
 		/// <summary>
 		/// Method to open and connect and audio
 		/// channel with a peer
 		/// </summary>
-		public void OpenAudioChannel ()
+		public void AddAudioChannel ()
 		{
 		}
 		
@@ -699,10 +728,48 @@ namespace Banter
 		/// audio and open and connect a video
 		/// channel with a peer
 		/// </summary>
-		public void OpenAudioVideoChannels ()
+		public void AddAudioVideoChannels ()
 		{
 		}
 		
+		/// <summary>
+		/// Method to close an existing text channel
+		/// </summary>
+		public void RemoveTextChannel ()
+		{
+			if (txtChannel == null) return;
+			txtChannel.Received -= OnReceiveMessageHandler;
+		}
+		
+		/// <summary>
+		/// Method to close an existing audio channel
+		/// </summary>
+		public void RemoveAudioChannel ()
+		{
+		}
+		
+		/// <summary>
+		/// Method to close existing audio and
+		/// video channels
+		/// </summary>
+		public void RemoveAudioVideoChannels ()
+		{
+		}
+		
+		/// <summary>
+		/// Method to start streaming the audio channel
+		/// </summary>
+		public void StartAudioStream ()
+		{
+		}
+		
+		/// <summary>
+		/// Method to start streaming the audio and 
+		/// video channels
+		/// </summary>
+		public void StartAudioVideoStreams ()
+		{
+		}
 		#endregion
 	}
 }	

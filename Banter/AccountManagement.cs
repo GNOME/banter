@@ -42,8 +42,6 @@ namespace Banter
 	public delegate void AccountConnecting (Account account);
 	public delegate void AccountConnected (Account account);
 	public delegate void AccountDisconnected (Account account);
-	public delegate void IncomingConversation (Conversation conversation);
-	
 	public delegate void IAmUpHandler ();
 	
 	/// NOTE: This code is temporary - For now we're just going
@@ -60,7 +58,6 @@ namespace Banter
 		static private Thread shutdownThread = null;
 		static private IList <Account> accounts = null;
 		static public IAmUpHandler IAmUpEvent;
-		static public IncomingConversation OnIncomingConversation;
 		
 	   	static AccountManagement()
 	   	{
