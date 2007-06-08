@@ -156,6 +156,7 @@ namespace Banter
 			// Figure out the streamed media type
 			mediaChannelObjectPath = objectpath;
 			mediaChannel = channel;
+			mediaChannel.Closed += OnMediaChannelClosed;
 			mediaChannel.StreamAdded += OnStreamAdded;
 			mediaChannel.StreamDirectionChanged += OnStreamDirectionChanged;
 			mediaChannel.StreamError += OnStreamError;
@@ -280,6 +281,14 @@ namespace Banter
 					MessageReceived (this, txtMessage);
 				}
 			}
+		}
+		
+		private void OnMediaChannelClosed ()
+		{
+			if (MediaChannelClosed != null)
+				MediaChannelClosed (this);
+				
+			this.mediaChannel = null;
 		}
 		
 		private void OnTextChannelClosed()
@@ -484,6 +493,7 @@ namespace Banter
 		{
 			mediaChannel = media;
 			mediaChannelObjectPath = objectPath;
+			mediaChannel.Closed += OnMediaChannelClosed;
 			mediaChannel.StreamAdded += OnStreamAdded;
 			mediaChannel.StreamDirectionChanged += OnStreamDirectionChanged;
 			mediaChannel.StreamError += OnStreamError;
