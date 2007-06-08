@@ -1,5 +1,9 @@
 2007-07-08  Calvin Gaisford <calvinrg@gmail.com> 
 
+	* Banter/ChatWindow.cs: Added code to tear down events on connection
+
+2007-07-08  Calvin Gaisford <calvinrg@gmail.com> 
+
 	* Banter/ChatWindow.cs: Added a debug message
 
 2007-07-08  Calvin Gaisford <calvinrg@gmail.com> 

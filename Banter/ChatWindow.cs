@@ -134,6 +134,25 @@ namespace Banter
 			conv.TextChannelOpened += OnTextChannelOpened;
 			conv.MediaChannelOpened += OnMediaChannelOpened;
 		}
+
+
+		///<summary>
+		///	TearDownConversationEvents
+		/// Tear down all conversationEvents
+		///</summary>			
+		void TearDownConversationEvents()
+		{
+			conv.MessageReceived -= OnTextMessageReceived;
+			conv.MessageSent -= OnTextMessageSent;
+			conv.MediaChannelClosed -= OnMediaChannelClosed;
+			conv.VideoStreamDown -= OnVideoStreamDown;
+			conv.AudioStreamDown -= OnAudioStreamDown;
+			
+			//conv.VideoStreamUp += OnVideoStreamUp;
+			
+			conv.TextChannelOpened -= OnTextChannelOpened;
+			conv.MediaChannelOpened -= OnMediaChannelOpened;
+		}
 		
 		
 		///<summary>
@@ -448,6 +467,7 @@ namespace Banter
 		{
 			if (conv != null) {
 				Logger.Debug("Window was destroyed, calling ConversationManager.Destroy on conversation");
+				TearDownConversationEvents();		
 				ConversationManager.Destroy(conv);
 				conv = null;
 			}
