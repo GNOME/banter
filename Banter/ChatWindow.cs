@@ -484,6 +484,10 @@ namespace Banter
 			
 			Logger.Debug("FIXME: Prompt the idiot to accept right!");
 
+			// If for some reason we already have a video view, get rid of it and start over
+			if(this.videoView != null)
+				ShowVideoControl(false);
+
 			// Show the Video Control
 			ShowVideoControl(true);
 			conv.StartAudioVideoStreams(videoView.PreviewWindowId, videoView.WindowId);

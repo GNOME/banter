@@ -1,3 +1,8 @@
+2007-07-08  Calvin Gaisford <calvinrg@gmail.com> 
+
+	* Banter/ChatWindow.cs: Added code to handle video if we already have
+	  video stuff runnning
+
 2007-06-08  Brady Anderson <brady.anderson@gmail.com> 
 
 	Added event for closing a media channel
