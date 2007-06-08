@@ -54,7 +54,7 @@ namespace Banter
 		public event MessageReceivedHandler MessageReceived;
 		public event MediaChannelOpenedHandler MediaChannelOpened;
 		public event MediaChannelClosedHandler MediaChannelClosed;
-		public event TextChannelOpenedHandler NewTextChannel;
+		public event TextChannelOpenedHandler TextChannelOpened;
 		public event TextChannelClosedHandler TextChannelClosed;
 		public event AudioStreamUpHandler AudioStreamUp;
 		public event AudioStreamDownHandler AudioStreamDown;
@@ -476,6 +476,24 @@ namespace Banter
 			mediaChannel.StreamStateChanged += OnStreamStateChanged;
 			mediaChannel.MembersChanged += OnMembersChanged;
         }
+		
+		#endregion
+		
+		#region Internal Methods
+		internal void AddMediaChannel (ObjectPath objectPath, IChannelStreamedMedia media)
+		{
+			mediaChannel = media;
+			mediaChannelObjectPath = objectPath;
+			mediaChannel.StreamAdded += OnStreamAdded;
+			mediaChannel.StreamDirectionChanged += OnStreamDirectionChanged;
+			mediaChannel.StreamError += OnStreamError;
+			mediaChannel.StreamRemoved += OnStreamRemoved;
+			mediaChannel.StreamStateChanged += OnStreamStateChanged;
+			mediaChannel.MembersChanged += OnMembersChanged;
+			
+			if (MediaChannelOpened != null)
+				MediaChannelOpened (this);
+		}
 		
 		#endregion
 		
