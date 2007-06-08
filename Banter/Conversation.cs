@@ -33,8 +33,6 @@ namespace Banter
 {
 	public delegate void MessageSentHandler (Conversation conversation, Message message);
 	public delegate void MessageReceivedHandler (Conversation conversation, Message message);
-	public delegate void NewAudioChannelHandler (Conversation conversation);
-	public delegate void NewVideoChannelHandler (Conversation conversation);
 	public delegate void MediaChannelOpenedHandler (Conversation conversation);
 	public delegate void MediaChannelClosedHandler (Conversation conversation);
 	public delegate void TextChannelOpenedHandler (Conversation conversation);
@@ -54,8 +52,6 @@ namespace Banter
 	{
 		public event MessageSentHandler MessageSent;
 		public event MessageReceivedHandler MessageReceived;
-		public event NewAudioChannelHandler NewAudioChannel;
-		public event NewVideoChannelHandler NewVideoChannel;
 		public event MediaChannelOpenedHandler MediaChannelOpened;
 		public event MediaChannelClosedHandler MediaChannelClosed;
 		public event TextChannelOpenedHandler NewTextChannel;
@@ -591,22 +587,28 @@ namespace Banter
 		public void RemoveMediaChannel ()
 		{
 			if (mediaChannel == null) return;
-			try {mediaChannel.Close();} catch{}
+			
+			uint i = 0;
+			try {
+				uint[] streams = new uint[videoStreams.Count + audioStreams.Count];
+				
+      			foreach (KeyValuePair<uint,uint> kvp in videoStreams)
+      				streams[i++] = kvp.Value;
+      				
+      			foreach (KeyValuePair<uint,uint> kvp in audioStreams)
+      				streams[i++] = kvp.Value;
+					
+				((IChannelStreamedMedia) mediaChannel).RemoveStreams (streams);					
+	
+				audioStreams.Clear();
+				videoStreams.Clear();
+				mediaChannel.Close ();
+				
+			} catch{}
+			
 			mediaChannel = null;
 		}
 		
-		/*
-		/// <summary>
-		/// Method to close existing audio and
-		/// video channels
-		/// </summary>
-		public void RemoveAudioVideoChannels ()
-		{
-			if (videoChannel == null) return;
-			try {videoChannel.Close();} catch{}
-			videoChannel = null;
-		}
-		*/
 		
 		/// <summary>
 		/// Method to start streaming the audio channel
