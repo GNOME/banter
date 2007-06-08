@@ -73,8 +73,8 @@ namespace Banter
 			vbox.Add(frame);			
 			
 			mainView = new Gtk.EventBox();
-			mainView.WidthRequest = 333;
-			mainView.HeightRequest = 250;
+			mainView.WidthRequest = 400;
+			mainView.HeightRequest = 300;
 			mainView.ModifyBg (Gtk.StateType.Normal, new Gdk.Color (255,255,255));
 			mainView.ModifyBg (Gtk.StateType.Active, new Gdk.Color (255,255,255));			
 			mainView.Show();

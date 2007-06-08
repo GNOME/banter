@@ -216,7 +216,7 @@ namespace Banter
 				videoVBox.Visible = false;
 			}
 
-			rightPaneVBox.PackStart (videoVBox, false, false, 0);
+			rightPaneVBox.PackStart (videoVBox, false, true, 0);
 			
 			audioVBox = new VBox (false, 0);
 
@@ -325,7 +325,7 @@ namespace Banter
 					videoView = new VideoView();
 					videoView.EndVideoChat += OnEndVideo;				
 					videoView.Show();				
-					videoVBox.PackStart(videoView, true, true, 5);
+					videoVBox.PackStart(videoView, false, false, 5);
 				}
 				videoVBox.Show();			
 			} else {
@@ -395,11 +395,9 @@ namespace Banter
 			string avatarPath = null;
 			Logger.Debug ("OnMessageSent called: {0}", message.Text);
 
-			/*
-			Person person = PersonManager.GetPersonByJabberId(conversation.MeContact.Uri);
-			if(person != null)
-				avatarPath = person.GetScaledAvatar(36);
-			*/
+			if(PersonManager.Me != null)
+				avatarPath = PersonManager.Me.GetScaledAvatar(36);
+				
 			AddMessage (message, false, conversation.CurrentMessageSameAsLast, avatarPath);
 		}
 
