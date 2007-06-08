@@ -1,5 +1,9 @@
 2007-06-07  Brady Anderson <brady.anderson@gmail.com> 
 
+	added message indication for video chat start and stop
+
+2007-06-07  Brady Anderson <brady.anderson@gmail.com> 
+
 	added debug message to see if removing media channel completes
 
 2007-06-07  Brady Anderson <brady.anderson@gmail.com> 

@@ -400,10 +400,10 @@ namespace Banter
 	       		
 	       		case StreamState.Playing:
 	       		{
-	       			//IndicateSystemMessage ("Video chat playing");
 					if (videoStreams.ContainsKey(streamid)) {
-						if (VideoStreamPlaying != null) 
+						if (VideoStreamPlaying != null)
 							VideoStreamPlaying (this);
+						IndicateSystemMessage ("Video chat started");	
 	       			} else if (audioStreams.ContainsKey (streamid)) {
 						if (AudioStreamPlaying != null) 
 							AudioStreamPlaying (this);
@@ -413,10 +413,10 @@ namespace Banter
 	       		
 	       		case StreamState.Stopped:
 	       		{
-	       			//IndicateSystemMessage ("Video chat stopped");
 					if (videoStreams.ContainsKey(streamid)) {
 						if (VideoStreamStopped != null) 
 							VideoStreamStopped (this);
+						IndicateSystemMessage ("Video chat stopped");	
 	       			} else if (audioStreams.ContainsKey (streamid)) {
 						if (AudioStreamStopped != null) 
 							AudioStreamStopped (this);
