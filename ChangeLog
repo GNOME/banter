@@ -1,5 +1,9 @@
 2007-06-07  Brady Anderson <brady.anderson@gmail.com> 
 
+	Added on all the events for stream changes
+
+2007-06-07  Brady Anderson <brady.anderson@gmail.com> 
+
 	added try catch around the channel close
 
 2007-06-07  Calvin Gaisford <calvinrg@gmail.com> 

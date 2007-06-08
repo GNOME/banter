@@ -62,6 +62,7 @@ namespace Banter
 			return exists;
 		}
 		
+		/*
 		static public Conversation Create (Account account, Person peer, bool initiate)
 		{
 			Conversation conversation = null;
@@ -92,6 +93,7 @@ namespace Banter
 			
 			return conversation;
 		}
+		*/
 		
 		static public Conversation Create (ProviderUser provideruser)
 		{
@@ -132,9 +134,8 @@ namespace Banter
 				}
 			}
 			
-			conversation.RemoveAudioVideoChannels ();
 			conversation.RemoveTextChannel ();
-			conversation.RemoveAudioChannel ();
+			conversation.RemoveMediaChannel ();
 		}
 		
 		static internal void AddConversation (Conversation conversation)
