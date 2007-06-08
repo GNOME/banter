@@ -1,5 +1,9 @@
 2007-07-08  Calvin Gaisford <calvinrg@gmail.com> 
 
+	* configure.ac: bumped the version for the new iteration
+
+2007-07-08  Calvin Gaisford <calvinrg@gmail.com> 
+
 	* NEWS: Tagging the Banter 0.1.6 release.
 
 2007-07-08  Calvin Gaisford <calvinrg@gmail.com> 
