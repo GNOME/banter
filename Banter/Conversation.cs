@@ -604,6 +604,8 @@ namespace Banter
 				videoStreams.Clear();
 				mediaChannel.Close ();
 				
+				Logger.Debug ("Completed Media Channel cleanup");
+				
 			} catch{}
 			
 			mediaChannel = null;
