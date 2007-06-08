@@ -129,7 +129,10 @@ namespace Banter
 			conv.VideoStreamDown += OnVideoStreamDown;
 			conv.AudioStreamDown += OnAudioStreamDown;
 			
-			conv.NewTextChannel += OnNewTextChannel;			
+			//conv.VideoStreamUp += OnVideoStreamUp;
+			
+			conv.TextChannelOpened += OnTextChannelOpened;
+			conv.MediaChannelOpened += OnMediaChannelOpened;
 		}
 		
 		
@@ -290,6 +293,10 @@ namespace Banter
 		}
 
 		
+		///<summary>
+		///	ShowVideoControl
+		/// Shows the Video Controls
+		///</summary>
 		private void ShowVideoControl(bool show)
 		{
 			if(show) {
@@ -303,11 +310,20 @@ namespace Banter
 				}
 				videoVBox.Show();			
 			} else {
-				videoVBox.Hide();			
+				videoVBox.Hide();
+				// we need to destroy this due to a preview issue
+				if(videoView != null) {
+					videoVBox.Remove(videoView);
+					videoView = null;
+				}
 			}
 		}
 
 
+		///<summary>
+		///	ShowAudioControl
+		/// Shows the Audio controls
+		///</summary>
 		private void ShowAudioControl(bool show)
 		{
 			if(show) {
@@ -443,8 +459,13 @@ namespace Banter
 		///</summary>	
 		private void OnMediaChannelOpened (Conversation conversation)
 		{
-			// A Media Channel was opened
+			Logger.Debug("OnMediaChannelOpened was called");
 			
+			Logger.Debug("FIXME: Prompt the idiot to accept right!");
+
+			// Show the Video Control
+			ShowVideoControl(true);
+			conv.StartAudioVideoStreams(videoView.PreviewWindowId, videoView.WindowId);
 		}
 		
 
@@ -462,6 +483,10 @@ namespace Banter
 		}
 		
 
+		///<summary>
+		///	OnVideoStreamDown
+		/// Called when the Video Stream goes down
+		///</summary>
 		private void OnVideoStreamDown(Conversation conversation)
 		{
 			// A Media Channel was opened
@@ -474,6 +499,10 @@ namespace Banter
 		}
 
 
+		///<summary>
+		///	OnAudioStreamDown
+		/// Called when the Audio Stream goes down
+		///</summary>
 		private void OnAudioStreamDown(Conversation conversation)
 		{
 			// A Media Channel was opened
@@ -482,31 +511,20 @@ namespace Banter
 			ShowAudioControl(false);			
 				
 			if(!conv.ActiveVideoStream)
-				conv.RemoveMediaChannel();				
+				conv.RemoveMediaChannel();
 		}		
 		
 		
-/*		public delegate void MediaChannelOpenedHandler (Conversation conversation);
-		public delegate void MediaChannelClosedHandler (Conversation conversation);	
-	
-		public event AudioStreamUpHandler AudioStreamUp;
-		public event AudioStreamDownHandler AudioStreamDown;
-
-		public delegate void VideoStreamUpHandler (Conversation conversation);
-		public delegate void VideoStreamDownHandler (Conversation conversation);
-*/
-
-		
 		///<summary>
-		///	OnNewTextChannel
-		/// Handles the new Text Channel event on a conversation
+		///	OnTextChannelOpened
+		/// Called when a new text channel is opened
 		///</summary>
-		private void OnNewTextChannel (Conversation conversation)
+		private void OnTextChannelOpened (Conversation conversation)
 		{
 			// code goes here
 		}
 
-		
+
 		///<summary>
 		///	HandleMessageTrigger
 		/// Handles all message triggers in the Text Chat window
@@ -611,6 +629,39 @@ namespace Banter
 			} else {
 				base.Present ();
 			}
+		}
+
+
+		///<summary>
+		///	Present
+		/// Presents the window
+		///</summary>			
+		public void UpdateChatType (ChatType type)
+		{
+			this.chatType = type;
+			
+			switch(chatType) {
+				default:
+				case ChatType.Text:
+					// do nothing, text doesn't need to setup streams
+					break;
+				case ChatType.Audio:
+					if(!conv.ActiveAudioStream) {
+						Logger.Debug("No active Audio Stream, adding video stream");					
+						ShowAudioControl(true);
+						conv.AddAudioChannel();
+						conv.StartAudioStream();
+					}
+					break;
+				case ChatType.Video:
+					if(!conv.ActiveVideoStream) {
+						Logger.Debug("No active Video Stream, adding video stream");
+						ShowVideoControl(true);
+						conv.AddAudioVideoChannels();
+						conv.StartAudioVideoStreams(videoView.PreviewWindowId, videoView.WindowId);						
+					}
+					break;
+			}			
 		}
 		#endregion
 

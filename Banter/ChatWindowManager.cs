@@ -156,10 +156,11 @@ namespace Banter
 				throw new ApplicationException("Person contained a null ProviderUser");
 			}
 			
-			if (ChatWindowManager.ChatWindowExists (person.ProviderUser.ID) == true)
-				ChatWindowManager.PresentChatWindow (person.ProviderUser.ID);
-			else
-			{
+			if (ChatWindowManager.ChatWindowExists (person.ProviderUser.ID) == true) {
+				ChatWindow cw = ChatWindowManager.Instance.chatWindows[person.ProviderUser.ID];
+				cw.UpdateChatType(type);
+				cw.Present();			
+			} else {
 				// Create a new ChatWindow
 				ChatWindow cw = new ChatWindow(person, person.ProviderUser, type);
 				ChatWindowManager.Instance.chatWindows[person.ProviderUser.ID] = cw;

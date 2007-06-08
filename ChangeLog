@@ -1,3 +1,10 @@
+2007-07-08  Calvin Gaisford <calvinrg@gmail.com> 
+
+	* Banter/ChatWindowManager.cs: Updated to handle requests to change the
+	  video type
+	* Banter/ChatWindow.cs: Added event handlers to handle incoming video
+	  on an existing window
+
 2007-06-07  Brady Anderson <brady.anderson@gmail.com> 
 
 	added callback for new media channel when only text exists
