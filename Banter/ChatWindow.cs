@@ -48,6 +48,7 @@ namespace Banter
 		private VPaned messagesVPaned;
 		private MessagesView messagesView;
 		private VideoView videoView;
+		private AudioView audioView;
 		private VBox typingVBox;
 		private Toolbar typingToolbar;
 		private ScrolledWindow typingScrolledWindow;
@@ -124,9 +125,10 @@ namespace Banter
 		{
 			conv.MessageReceived += OnTextMessageReceived;
 			conv.MessageSent += OnTextMessageSent;
+			conv.MediaChannelClosed += OnMediaChannelClosed;
+			conv.VideoStreamDown += OnVideoStreamDown;
+			conv.AudioStreamDown += OnAudioStreamDown;
 			
-			conv.NewAudioChannel += OnNewAudioChannel;
-			conv.NewVideoChannel += OnNewVideoChannel;
 			conv.NewTextChannel += OnNewTextChannel;			
 		}
 		
@@ -187,12 +189,7 @@ namespace Banter
 			
 			videoVBox = new VBox (false, 0);
 			if(this.chatType == ChatType.Video) {
-				videoView = new VideoView();
-				videoView.WidthRequest = 500; //250;
-				videoView.HeightRequest = 375; //187;
-				videoView.Show();
-				videoVBox.PackStart(videoView, true, true, 0);
-				videoVBox.Show();
+				ShowVideoControl(true);
 			} else {
 				videoVBox.Visible = false;
 			}
@@ -200,7 +197,13 @@ namespace Banter
 			rightPaneVBox.PackStart (videoVBox, false, false, 0);
 			
 			audioVBox = new VBox (false, 0);
-			audioVBox.Visible = false;
+
+			if(this.chatType == ChatType.Audio) {
+				ShowAudioControl(true);
+			} else {
+				audioVBox.Visible = false;
+			}
+
 			rightPaneVBox.PackStart (audioVBox, false, false, 0);
 			
 			messagesVPaned = new VPaned ();
@@ -215,11 +218,11 @@ namespace Banter
 			
 			messagesView = new MessagesView ();
 			messagesView.Show ();
-			messagesVPaned.Add1 (messagesView);
+			messagesVPaned.Pack1(messagesView, true, true);
 			
 			typingVBox = new VBox (false, 0);
 			typingVBox.Show ();
-			messagesVPaned.Add2 (typingVBox);
+			messagesVPaned.Pack2(typingVBox, false, false);
 			
 			typingToolbar = new Toolbar ();
 			typingToolbar.ShowArrow = false;
@@ -284,6 +287,67 @@ namespace Banter
 				avatarPath = person.GetScaledAvatar(36);
 			
 			AddMessage (message, true, conversation.CurrentMessageSameAsLast, avatarPath);
+		}
+
+		
+		private void ShowVideoControl(bool show)
+		{
+			if(show) {
+				if(videoView != null) {
+					videoView.Show();
+				} else {
+					videoView = new VideoView();
+					videoView.EndVideoChat += OnEndVideo;				
+					videoView.Show();				
+					videoVBox.PackStart(videoView, true, true, 5);
+				}
+				videoVBox.Show();			
+			} else {
+				videoVBox.Hide();			
+			}
+		}
+
+
+		private void ShowAudioControl(bool show)
+		{
+			if(show) {
+				if(audioView != null) {
+					audioView.Show();
+				} else {
+					audioView = new AudioView();
+					audioView.EndAudioChat += OnEndAudio;				
+					audioView.Show();				
+					audioVBox.PackStart(audioView, true, true, 5);
+				}
+				audioVBox.Show();
+			} else {
+				audioVBox.Hide();
+			}
+		}
+
+		
+		///<summary>
+		///	OnEndVideo
+		/// Ends the current video
+		///</summary>
+		private void OnEndVideo()
+		{
+			Logger.Debug("End the video conversation");
+
+			conv.RemoveMediaChannel();
+			ShowVideoControl(false);
+		}
+		
+		
+		///<summary>
+		///	OnEndAudio
+		/// Ends the current audio
+		///</summary>
+		private void OnEndAudio()
+		{
+			Logger.Debug("End the audio conversation");
+			conv.RemoveMediaChannel();
+			ShowAudioControl(false);
 		}
 		
 
@@ -371,27 +435,67 @@ namespace Banter
 				conv = null;
 			}
 		}
+
+
+		///<summary>
+		///	OnMediaChannelOpened
+		/// Handles a new Media Channel opening on the Conversation
+		///</summary>	
+		private void OnMediaChannelOpened (Conversation conversation)
+		{
+			// A Media Channel was opened
+			
+		}
 		
 
 		///<summary>
-		///	OnNewAudioChannel
-		/// Handles the new Audio Channel event on a conversation
-		///</summary>
-		private void OnNewAudioChannel (Conversation conversation)
+		///	OnMediaChannelClosed
+		/// Handles a new Media Channel closing on the Conversation
+		///</summary>	
+		private void OnMediaChannelClosed (Conversation conversation)
 		{
-			// code goes here
+			// A Media Channel was opened
+			Logger.Debug("The Media Channel was close so we are going to close the view");
+
+			ShowVideoControl(false);
+			ShowAudioControl(false);			
 		}
 		
-		
-		///<summary>
-		///	OnNewVideoChannel
-		/// Handles the new Video Channel event on a conversation
-		///</summary>
-		private void OnNewVideoChannel (Conversation conversation)
+
+		private void OnVideoStreamDown(Conversation conversation)
 		{
-			// code goes here
+			// A Media Channel was opened
+			Logger.Debug("The Video Stream went down, time to end.");
+
+			ShowVideoControl(false);
+				
+			if(!conv.ActiveAudioStream)
+				conv.RemoveMediaChannel();
 		}
+
+
+		private void OnAudioStreamDown(Conversation conversation)
+		{
+			// A Media Channel was opened
+			Logger.Debug("The Audio Stream went down, time to end.");
+
+			ShowAudioControl(false);			
+				
+			if(!conv.ActiveVideoStream)
+				conv.RemoveMediaChannel();				
+		}		
 		
+		
+/*		public delegate void MediaChannelOpenedHandler (Conversation conversation);
+		public delegate void MediaChannelClosedHandler (Conversation conversation);	
+	
+		public event AudioStreamUpHandler AudioStreamUp;
+		public event AudioStreamDownHandler AudioStreamDown;
+
+		public delegate void VideoStreamUpHandler (Conversation conversation);
+		public delegate void VideoStreamDownHandler (Conversation conversation);
+*/
+
 		
 		///<summary>
 		///	OnNewTextChannel

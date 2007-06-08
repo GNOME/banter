@@ -23,6 +23,7 @@ CSFILES = \
 	$(srcdir)/AvatarManager.cs \
 	$(srcdir)/AvatarMenuItem.cs \
 	$(srcdir)/AvatarSelector.cs \
+	$(srcdir)/AudioView.cs \
 	$(srcdir)/NotificationArea.cs \
 	$(srcdir)/TrayLib.cs \
 	$(srcdir)/MessageStore.cs \

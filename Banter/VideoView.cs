@@ -23,11 +23,16 @@ using System;
 using System.Runtime.InteropServices;
 using Gtk;
 using Gdk;
+using Mono.Unix;
 
 namespace Banter
 {
+	public delegate void EndVideoChatHandler();
+	
 	public class VideoView : Gtk.EventBox
 	{
+		public event EndVideoChatHandler EndVideoChat;
+		
 		public enum PreviewPos 
 		{
 			TopLeft,
@@ -37,6 +42,7 @@ namespace Banter
 		}	
 	
 		Gtk.DrawingArea preview;
+		Gtk.EventBox mainView;
 		Gtk.Fixed fix;
 		bool moving= false;
 		PreviewPos preview_pos;
@@ -50,19 +56,34 @@ namespace Banter
 		
 		public uint WindowId
 		{
-			get { return gdk_x11_drawable_get_xid (this.GdkWindow.Handle); }
+			get { return gdk_x11_drawable_get_xid (mainView.GdkWindow.Handle); }
 		}	
 		
 		public VideoView()
 		{
 			preview_pos = PreviewPos.ButtonRight;
+
+			VBox vbox = new VBox(false, 0);
+			vbox.Show();
 			
-			this.WidthRequest = 500; //250;
-			this.HeightRequest = 375; //187;
+			Frame frame = new Frame();
+			//frame.BorderWidth = 5;
+			frame.Show();
 			
+			vbox.Add(frame);			
+			
+			mainView = new Gtk.EventBox();
+			mainView.WidthRequest = 333;
+			mainView.HeightRequest = 250;
+			mainView.ModifyBg (Gtk.StateType.Normal, new Gdk.Color (255,255,255));
+			mainView.ModifyBg (Gtk.StateType.Active, new Gdk.Color (255,255,255));			
+			mainView.Show();
+
+			//this.WidthRequest = 333; // 500; //250;
+			//this.HeightRequest = 250; // 375; //187; 250
 			preview = new Gtk.DrawingArea ();
-			preview.WidthRequest = 150;
-			preview.HeightRequest = 112;
+			preview.WidthRequest = 120; // 75; //150;
+			preview.HeightRequest = 90; // 56; //112;
 			preview.ModifyBg (Gtk.StateType.Normal, new Gdk.Color (0,0,0));
 			preview.ModifyBg (Gtk.StateType.Active, new Gdk.Color (0,0,0));
 			preview.Show();
@@ -70,9 +91,23 @@ namespace Banter
 			fix = new Gtk.Fixed ();
 			fix.Put (preview, space, space);
 			fix.Show();
-			this.Add (fix);	
+			mainView.Add(fix);
 			
-			this.SizeRequested += OnsizeRequested;
+			frame.Add(mainView);
+
+//			Label label = new Label(Catalog.GetString("Video Chat in progress..."));
+
+//			label.Show();
+//			vbox.PackStart(label, false, true, 0);
+
+			Button button = new Button(Catalog.GetString("End Call"));
+			button.Clicked += OnCloseVideoClicked;
+			button.Show();
+			vbox.PackStart(button, false, false, 5);
+			
+			this.Add(vbox);
+			mainView.SizeAllocated += OnSizeAllocated;
+//			this.SizeRequested += OnsizeRequested;
 			this.QueueResize ();
 			MovePreview ();
 		}
@@ -80,8 +115,11 @@ namespace Banter
 		private bool MovePreview ()
 		{	
 			int w, h;
-			
-			this.GetSizeRequest(out w, out h);
+			if(mainView.GdkWindow == null)
+				return true;
+				
+			Logger.Debug("About to Move Preview");	
+			mainView.GdkWindow.GetSize(out w, out h);
 			switch (preview_pos)
 			{
 				case PreviewPos.TopLeft:
@@ -104,16 +142,27 @@ namespace Banter
 			preview.Show ();
 			return false;
 		}
+
 		
-		protected void OnsizeRequested(object o, SizeRequestedArgs args)
+		protected void OnSizeAllocated (object o, SizeAllocatedArgs args)
 		{
+			Logger.Debug("Size was allocated");
 			if (!moving) {
+				Logger.Debug("Setting up to resize");
 				GLib.Idle.Add (MovePreview);
 				moving = true;
 			}
 			else
-				moving = false;
+				moving = false;			
 		}
+		
+
+		private void OnCloseVideoClicked (object sender, EventArgs args)
+		{
+			Logger.Debug("Close Video was clicked");
+			if(EndVideoChat != null)
+				EndVideoChat();
+		}		
 		
 /*		protected override bool OnKeyReleaseEvent (Gdk.EventKey args)
 		{
