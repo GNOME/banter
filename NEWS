@@ -7,6 +7,9 @@ Please send questions and suggestions to
 Please report bugs using http://bugzilla.gnome.org/
 (http://bugzilla.gnome.org/enter_bug.cgi?product=Banter).
 
+Version 0.1.7
+* Quick release to fix timestamps in tarball of 0.1.6
+
 Version 0.1.6
 * Video chat is now rockin' with full video/audio support
 * The chat window now handles all types of chats
