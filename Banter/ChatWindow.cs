@@ -447,6 +447,7 @@ namespace Banter
 		private void WindowDeleted (object sender, DeleteEventArgs args)
 		{
 			if (conv != null) {
+				Logger.Debug("Window was destroyed, calling ConversationManager.Destroy on conversation");
 				ConversationManager.Destroy(conv);
 				conv = null;
 			}
