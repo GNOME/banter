@@ -461,7 +461,8 @@ namespace Banter
 		public void Dispose()
 		{
 			if (txtChannel != null)	{
-				txtChannel.Close();
+				try {txtChannel.Close();} catch{}
+				//txtChannel.Close();
 				txtChannel = null;
 			}
 		}
@@ -580,7 +581,7 @@ namespace Banter
 		{
 			if (txtChannel == null) return;
 			txtChannel.Received -= OnReceiveMessageHandler;
-			txtChannel.Close();
+			try {txtChannel.Close();} catch{}
 			txtChannel = null;
 		}
 		
@@ -590,7 +591,7 @@ namespace Banter
 		public void RemoveAudioChannel ()
 		{
 			if (audioChannel == null) return;
-			audioChannel.Close();
+			try {audioChannel.Close();} catch{}
 			audioChannel = null;
 		}
 		
@@ -601,7 +602,7 @@ namespace Banter
 		public void RemoveAudioVideoChannels ()
 		{
 			if (videoChannel == null) return;
-			videoChannel.Close();
+			try {videoChannel.Close();} catch{}
 			videoChannel = null;
 		}
 		
