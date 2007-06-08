@@ -7,6 +7,13 @@ Please send questions and suggestions to
 Please report bugs using http://bugzilla.gnome.org/
 (http://bugzilla.gnome.org/enter_bug.cgi?product=Banter).
 
+Version 0.1.6
+* Video chat is now rockin' with full video/audio support
+* The chat window now handles all types of chats
+* Video chats can be added and removed to text chats with ease.
+* Major event handling added so incoming and outgoing chats flow well
+* Lots of bug fixes
+
 Version 0.1.5
 * Avatar UI added to GroupWindow to set and remember avatar history
 * Tapioca sharp dependencies completely removed

@@ -1,5 +1,9 @@
 2007-07-08  Calvin Gaisford <calvinrg@gmail.com> 
 
+	* NEWS: Tagging the Banter 0.1.6 release.
+
+2007-07-08  Calvin Gaisford <calvinrg@gmail.com> 
+
 	* Banter/VideoView.cs: Fixed the size so it looks good
 	* Banter/ChatWindow.cs: Fixed up avatar support
 
