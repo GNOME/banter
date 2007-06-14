@@ -34,6 +34,7 @@ using Gtk;
 using Gnome;
 using Mono.Unix;
 using Mono.Unix.Native;
+using Notifications;
 
 namespace Banter
 {
@@ -48,6 +49,7 @@ namespace Banter
 		private bool initialized = false;
 		private ActionManager actionManager;
 		private PersonSync personSync;
+		private Egg.TrayIcon trayIcon;
 		//private NotificationArea tray;
 		private Gdk.Pixbuf appPixBuf;
 		private Gnome.Program program = null;
@@ -78,6 +80,11 @@ namespace Banter
 		public static ActionManager ActionManager
 		{
 			get { return Instance.actionManager; }
+		}
+		
+		public static Gdk.Pixbuf AppIcon
+		{
+			get { return Instance.appPixBuf; }
 		}
 		#endregion
 
@@ -110,6 +117,7 @@ namespace Banter
 			// Initialize the singleton classes to be used in the app
 			PersonManager.Instance.Init();
 			ChatWindowManager.Instance.Init();
+			NotificationManager.Instance.Init();
 			
 			// Create and start up the Person Sync
 			personSync = new PersonSync();
@@ -143,10 +151,10 @@ namespace Banter
 
 			// hooking event
 			eb.ButtonPressEvent += new ButtonPressEventHandler (this.OnImageClick);
-			Egg.TrayIcon icon = new Egg.TrayIcon("RtcApplication");
-			icon.Add(eb);
+			trayIcon = new Egg.TrayIcon("RtcApplication");
+			trayIcon.Add(eb);
 			// showing the trayicon
-			icon.ShowAll();			
+			trayIcon.ShowAll();			
 		}
 		
 		private bool InitializeIdle ()
@@ -314,6 +322,7 @@ namespace Banter
 			gw.DeleteEvent += OnGroupWindowDeleted;
 			gw.ShowAll ();
 		}
+		
 		
 		private void OnQuit (object o, System.EventArgs args)
 		{
@@ -502,6 +511,16 @@ Logger.Debug ("Application.OnGroupWindowDeleted");
 			} catch {}
 			
 			return null;
+		}
+		
+		
+		// <summary>
+		// Connects a Notification to the application icon in the notification area and shows it.
+		// </summary>
+		public static void ShowAppNotification(Notification notification)
+		{
+			notification.AttachToWidget(Banter.Application.Instance.trayIcon);
+			notification.Show();
 		}
 		#endregion
 

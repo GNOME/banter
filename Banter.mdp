@@ -76,6 +76,8 @@
     <File name="./Banter/ChatWindowManager.cs" subtype="Code" buildaction="Compile" />
     <File name="./Banter/ChatType.cs" subtype="Code" buildaction="Compile" />
     <File name="./Banter/AudioView.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Banter/NotificationManager.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Banter/NotificationData.cs" subtype="Code" buildaction="Compile" />
   </Contents>
   <References>
     <ProjectReference type="Gac" localcopy="True" refto="System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
@@ -95,6 +97,7 @@
     <ProjectReference type="Gac" localcopy="True" refto="evolution-sharp, Version=2.0.0.0, Culture=neutral, PublicKeyToken=457eed85bd9370df" />
     <ProjectReference type="Gac" localcopy="True" refto="gdk-sharp, Version=2.8.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
     <ProjectReference type="Gac" localcopy="True" refto="INdT.Telepathy, Version=0.13.2.27676, Culture=neutral, PublicKeyToken=492ed1c641a38b09" />
+    <ProjectReference type="Gac" localcopy="True" refto="notify-sharp, Version=0.4.0.0, Culture=neutral, PublicKeyToken=2df29c54e245917a" />
   </References>
   <MonoDevelop.Autotools.MakefileInfo IntegrationEnabled="True" RelativeMakefileName="./Makefile.am" ExecuteTargetName="run">
     <BuildFilesVar />

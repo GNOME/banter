@@ -76,7 +76,7 @@ namespace Banter
 		private ChatWindowManager ()
 		{
 			chatWindows = new Dictionary<uint,ChatWindow> ();
-			ConversationManager.NewIncomingConversation += OnNewIncomingConversation;
+			// ConversationManager.NewIncomingConversation += OnNewIncomingConversation;
 		}
 		#endregion	
 
@@ -89,14 +89,16 @@ namespace Banter
 			if(chatWindows.ContainsKey(cw.PeerProviderUserID))
 				chatWindows.Remove(cw.PeerProviderUserID);
 		}
-
+		#endregion
+		
+		#region Internal Methods
 		/// <summary>
 		/// OnNewIncomingConversation
 		/// Handles new conversations initiated by a peer
 		/// </summary>			
-		private void OnNewIncomingConversation (Conversation conversation, ChatType chatType)
-		{
-			Logger.Debug("ChatWindowManager.OnNewIncomingConversation was called");
+		static internal void HandleAcceptedConversation (Conversation conversation, ChatType chatType)
+		{			
+			Logger.Debug("ChatWindowManager.NewAcceptedConversation was called");
 			
 			if(conversation.PeerUser == null) {
 				Logger.Error("NewIncomingConversation event had a conversation with null PeerUser");
@@ -105,12 +107,14 @@ namespace Banter
 			
 			// If we have a ChatWindow for this conversation, don't do anything... the ChatWindow
 			// will handle the change
-			if(chatWindows.ContainsKey(conversation.PeerUser.ID))
+			if(ChatWindowManager.ChatWindowExists(conversation.PeerUser.ID))
 				return;
+				
+			ChatWindowManager cwm = ChatWindowManager.Instance;				
 
 			ChatWindow cw = new ChatWindow(conversation, chatType);
-			chatWindows[conversation.PeerUser.ID] = cw;
-			cw.DeleteEvent += ChatWindowManager.Instance.OnChatWindowDeleted;
+			cwm.chatWindows[conversation.PeerUser.ID] = cw;
+			cw.DeleteEvent += cwm.OnChatWindowDeleted;
 			cw.ShowAll();
 		}
 		#endregion

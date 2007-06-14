@@ -1,3 +1,17 @@
+2007-06-14  Calvin Gaisford <calvinrg@gmail.com> 
+
+	* Banter.mdp, configure.ac, Banter/Makefile.am: Added Notify Sharp
+	  dependency
+	* Banter/NotificationManager.cs: New Object to handle all notifications
+	  on Banter...well, this is the beginning of that
+	* Banter/ChatWindowManager.cs: Removed handling of incoming
+	  conversations which is now done in the notification manager
+	* Banter/Application.cs: Added notification call for application wide
+	  notifications
+	* Banter/StatusEntry.cs: Cleaned up Notebook to hide the border
+	* Banter/NotificationData.cs: New object to store Needed Notification
+	  Data
+
 2007-06-08  Calvin Gaisford <calvinrg@gmail.com> 
 
 	* configure.ac: bumped the version for the next iteration

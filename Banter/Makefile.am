@@ -24,7 +24,6 @@ CSFILES = \
 	$(srcdir)/AvatarMenuItem.cs \
 	$(srcdir)/AvatarSelector.cs \
 	$(srcdir)/AudioView.cs \
-	$(srcdir)/NotificationArea.cs \
 	$(srcdir)/TrayLib.cs \
 	$(srcdir)/MessageStore.cs \
 	$(srcdir)/Message.cs \
@@ -51,6 +50,9 @@ CSFILES = \
 	$(srcdir)/MessagesView.cs \
 	$(srcdir)/MessageStyle.cs \
 	$(srcdir)/MessageStyleInfo.cs \
+	$(srcdir)/NotificationArea.cs \
+	$(srcdir)/NotificationData.cs \
+	$(srcdir)/NotificationManager.cs \
 	$(srcdir)/ThemeManager.cs \
 	$(srcdir)/Theme.cs \
 	$(srcdir)/ThemeInfo.cs \
@@ -95,6 +97,7 @@ ASSEMBLIES =  \
 	$(GTK_DOTNET_20_LIBS) \
 	$(EVOLUTION_SHARP_LIBS) \
 	$(TELEPATHY_SHARP_LIBS) \
+	$(NOTIFY_SHARP_LIBS) \
 	$(DB4O_DLL)
 
 $(TARGET): $(CSFILES) Defines.cs

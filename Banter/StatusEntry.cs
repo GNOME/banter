@@ -44,8 +44,9 @@ namespace Banter
 		PresenceType potentialPresenceType;
 		
 		public StatusEntry()
-		{		
+		{
 			ModifyBg (StateType.Normal, Style.Background (StateType.Active));
+			BorderWidth = 0;
 
 			customAvailableMessages = new Dictionary<string,string> ();
 			customBusyMessages = new Dictionary<string,string> ();
@@ -57,6 +58,7 @@ namespace Banter
 			notebook = new Notebook ();
 			notebook.ModifyBg (StateType.Normal, Style.Background (StateType.Active));
 			notebook.ShowTabs = false;
+			notebook.ShowBorder = false;
 			
 			notebook.AppendPage (CreateViewWidget (), new Label ());
 			notebook.AppendPage (CreateEditWidget (), new Label());
