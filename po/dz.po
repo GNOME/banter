@@ -1,0 +1,421 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2007-06-06 03:47+0100\n"
+"PO-Revision-Date: 2007-06-07 12:59+0530\n"
+"Last-Translator: Dawa pemo <daws_403@hotmail.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../Banter/ActionManager.cs:63
+msgid "_File"
+msgstr "ཡིག་སྣོད་(_F)"
+
+#: ../Banter/ActionManager.cs:66
+msgid "_Quit"
+msgstr "སྤང་ (_Q)"
+
+#: ../Banter/ActionManager.cs:67
+msgid "Quit Banter"
+msgstr "དགོད་བྲ་སྤང་"
+
+#: ../Banter/ActionManager.cs:70
+msgid "_Edit"
+msgstr "ཞུན་དག་(_E)"
+
+#: ../Banter/ActionManager.cs:73
+msgid "_Preferences"
+msgstr "  དགའ་གདམ་ཚུ་ (_P)"
+
+#: ../Banter/ActionManager.cs:74
+#: ../Banter/PreferencesDialog.cs:56
+msgid "Banter Preferences"
+msgstr "གོད་བྲའི་དགའ་གདམ་ཚུ་"
+
+#: ../Banter/ActionManager.cs:77
+msgid "_Help"
+msgstr "གྲོགས་རམ་(_H)"
+
+#: ../Banter/ActionManager.cs:80
+msgid "_Contents"
+msgstr " ནང་དོན་ཚུ་ (_C)"
+
+#: ../Banter/ActionManager.cs:81
+msgid "Banter Help"
+msgstr "དགོད་བྲའི་གྲོགས་རམ་"
+
+#: ../Banter/ActionManager.cs:84
+msgid "_About"
+msgstr "སྐོར་ལས་(_A)"
+
+#: ../Banter/ActionManager.cs:85
+msgid "About Banter"
+msgstr "དགོད་བྲའི་སྐོར་ལས་"
+
+#: ../Banter/Application.cs:267
+msgid "New Group Window ..."
+msgstr "སྡེ་ཚན་ཝིན་ཌོ་གསརཔ་..."
+
+#: ../Banter/Application.cs:276
+#: ../Banter/PreferencesDialog.cs:70
+msgid "Accounts"
+msgstr "རྩིས་ཐོ་ཚུ་"
+
+#: ../Banter/Application.cs:291
+msgid "Quit"
+msgstr "སྤང་"
+
+#: ../Banter/Application.cs:644
+#: ../Banter/GroupWindow.cs:551
+msgid "Everyone"
+msgstr "ག་ར་"
+
+#: ../Banter/ChatWindow.cs:126
+msgid "Show Contact _Details"
+msgstr "འབྲེལ་སའི་རྒྱས་བཤད་ཚུ་སྟོན་ (_D)"
+
+#: ../Banter/GroupWindow.cs:110
+#: ../Banter/GroupWindow.cs:125
+msgid "Banter"
+msgstr "དགོད་བྲོ་"
+
+#: ../Banter/GroupWindow.cs:496
+msgid "Filter"
+msgstr "ཚགས་མ་"
+
+#: ../Banter/GroupWindow.cs:534
+msgid "Groups"
+msgstr "སྡེ་ཚན་ཚུ་"
+
+#: ../Banter/GroupWindow.cs:562
+msgid "New Group..."
+msgstr "སྡེ་ཚན་གསརཔ་..."
+
+#: ../Banter/GroupWindow.cs:578
+msgid "Actions"
+msgstr "བྱ་བ་ཚུ་"
+
+#: ../Banter/GroupWindow.cs:595
+msgid "Settings"
+msgstr "གཞི་སྒྲིག་ཚུ་"
+
+#: ../Banter/GroupWindow.cs:601
+msgid "Add Person..."
+msgstr "གང་ཟག་ཁ་སྐོང་རྐྱབ་..."
+
+#: ../Banter/GroupWindow.cs:627
+msgid "Close Sidebar"
+msgstr "ཟུར་ཁའི་ཕྲ་རིང་ཁ་བསྡམས་"
+
+#: ../Banter/GroupWindow.cs:776
+#: ../Banter/GroupWindow.cs:892
+msgid "Show Sidebar"
+msgstr "ཟུར་ཁའི་ཕྲ་རིང་སྟོན་"
+
+#: ../Banter/GroupWindow.cs:828
+msgid "Everyone - Banter"
+msgstr "ག་ར་-དགོད་བྲ་"
+
+#: ../Banter/GroupWindow.cs:842
+msgid "New group window"
+msgstr "སྡེ་ཚན་ ཝིན་ཌོ་གསརཔ་"
+
+#: ../Banter/GroupWindow.cs:843
+msgid "Enter the name of the new group you'd like to create."
+msgstr "ཁྱོད་ར་ གསར་བསྐྲུན་འབད་འདོད་ཡོད་པའི་ སྡེ་ཚན་གསརཔ་གི་མིང་བཙུགས།"
+
+#: ../Banter/GroupWindow.cs:897
+msgid "Hide Sidebar"
+msgstr "ཟུར་ཁའི་ཕྲ་རིང་ སྦ་བཞག་"
+
+#: ../Banter/GroupWindow.cs:997
+#, csharp-format
+msgid "{0} - Banter"
+msgstr "{0} -དགོད་བྲ་"
+
+#: ../Banter/GroupWindow.cs:1014
+#, csharp-format
+msgid "Delete \"{0}\"?"
+msgstr " \"{0}\" བཏོན་གཏང་ནི་ཨིན་ན?"
+
+#: ../Banter/GroupWindow.cs:1016
+msgid "This will delete the group and not the contacts inside of the group."
+msgstr "འདི་གིས་སྡེ་ཚན་མ་རྐྱངམ་ཅིག་གཏོགས་ སྡེ་ཚན་ནང་ལུ་ཡོན་མི་འབྲེལ་ས་ཚུ་བཏོན་མི་གཏང་།"
+
+#: ../Banter/PreferencesDialog.cs:72
+msgid "Messages"
+msgstr "འཕྲིན་དོན་ཚུ་"
+
+#.
+#. Message Style Row
+#.
+#: ../Banter/PreferencesDialog.cs:125
+msgid "Message Style:"
+msgstr "ཕྲིན་དོན་ བཟོ་རྣམ་:"
+
+#: ../Banter/PreferencesDialog.cs:136
+msgid "Style changes take effect for new message windows."
+msgstr "བཟོ་རྣམ་བསྒྱུར་བཅོས་ཚུ་གི་ ཕྲིན་དོན་སྒོ་སྒརིག་གསརཔ་གི་དོན་ལས་ ནུས་པ་སྟོནམ་ཨིན།"
+
+#.
+#. Variant Row
+#.
+#: ../Banter/PreferencesDialog.cs:143
+msgid "Variant:"
+msgstr "འགྱུར་བ་:"
+
+#: ../Banter/PreferencesDialog.cs:179
+msgid "GoogleTalk Account Settings"
+msgstr "གོ་གཱལ་ཁ་སླབ་ རྩིས་ཐོ་སྒྲིག་སྟངས་ཚུ་"
+
+#: ../Banter/PreferencesDialog.cs:186
+msgid "In this alpha-phase of the project, this is the only IM account type we support (so stop your worryin'!)."
+msgstr "ལས་འགུལ་འདི་་གི་ ཨཱལ་ཕ་-གོ་རིམ་་ནང་ལུ་  འ་ནི་འདི་ང་བཅས་ཀྱི་རྒྱབ་སྐྱོར་འབད་མི་ཨའི་ཨེམ་རྩིས་ཐོ་གི་དབྱེ་བ་ཨིན། (དེ་འབདཝ་ལས་ཚ་གྱང་ལངས་མི་དགོ་!)"
+
+#. Server address
+#: ../Banter/PreferencesDialog.cs:199
+#: ../Banter/PreferencesDialog.cs:283
+msgid "Server Address:"
+msgstr "སར་བར་ ཁ་བྱང་:"
+
+#. Server port
+#: ../Banter/PreferencesDialog.cs:213
+msgid "Server Port:"
+msgstr "སར་བར་ འདྲེན་ལམ་:"
+
+#. Username
+#: ../Banter/PreferencesDialog.cs:227
+#: ../Banter/PreferencesDialog.cs:297
+msgid "Username:"
+msgstr "ལག་ལེན་པའི་མིང་:"
+
+#. Password
+#: ../Banter/PreferencesDialog.cs:238
+#: ../Banter/PreferencesDialog.cs:308
+msgid "Password:"
+msgstr "ཆོག་ཡིག་:"
+
+#: ../Banter/PreferencesDialog.cs:263
+msgid "SIP Account Settings"
+msgstr "ཨེསི་ཨའི་པི་ རྩིས་ཐོ་སྒྲིག་སྟངས་ཚུ་ "
+
+#: ../Banter/PreferencesDialog.cs:270
+msgid "In this alpha-phase of the project, we only support one SIP account."
+msgstr "ལས་འགུལ་དེ་གི་ ཨཱལ་ཕ་-གོ་རིམ་འདི་ནང་ལུ་ ང་བཅས་ཀྱིས་ ཨེསི་ཨའི་པི་ རྩིས་ཐོ་གཅིག་རྐྱངམ་ཅིག་ རྒྱབ་སྐྱོར་འབདཝ་ཨིན།"
+
+#: ../Banter/PreferencesDialog.cs:391
+msgid "<Unknown Style>"
+msgstr "<Unknown Style>"
+
+#: ../Banter/PreferencesDialog.cs:414
+msgid "So a priest, a rabbi, and a chicken walk into a bar."
+msgstr "ཆོསཔ་ཅིག་ ཡ་ཧུ་དཱ་པའི་་ཆོས་ཀྱི་དབུ་ ཁྲིད་ཅིག་ བྱམོ་ཅིག་ ཆང་ཁང་ནང་འགྱོཝ་ཨིན།"
+
+#: ../Banter/PreferencesDialog.cs:420
+msgid "I'm pretty sure I've heard this one before"
+msgstr "འ་ནི་འདི་ང་གིས་་ཧེ་མ་ལས་ར་ ཐད་རི་འབའ་རི་གོ་ཡི་"
+
+#: ../Banter/PreferencesDialog.cs:424
+msgid "So what happens next?"
+msgstr "ཏེ་ དེ་གི་ཤུལ་ལས་ག་ཅི་འབད་འོང་ག?"
+
+#: ../Banter/PreferencesDialog.cs:429
+msgid "If I remember correctly, they explode outward at the speedof light."
+msgstr "ང་གིས་ངེས་བདན་སྦེ་ སེམས་ཁར་དྲེན་པ་ཅིན་ ཁོང་ཚུ་མགྱོགས་པ་ར་སྐད་རྐྱབ་་ཤུགས་འོང་"
+
+#: ../Banter/PreferencesDialog.cs:434
+msgid "But that might be if you cross the streams..."
+msgstr " ཁྱོད་ཀྱིས་ རོང་ཆུ་དེ་བརྒལ་བ་ཅིན་འ་ཕི་དེ་ ཨིནམ་འོང་ ..."
+
+#: ../Banter/PreferencesDialog.cs:439
+msgid "...thus negating all existence!"
+msgstr "...ཡོད་མི་ཆ་མཉམ་ ནུས་མེད་བཟོཝ་ཨིན།"
+
+#: ../Banter/PreferencesDialog.cs:448
+msgid "Precisely!  It's a risk one takes whenever one walks intoa bar, I'm afraid, especially if one is a chicken."
+msgstr "ཀྲིག་ཀྲི་ཨིན་ན་!  ནམ་ར་འབད་རུང་ ཆང་ཁང་ནང་འགྱོ་བའི་སྐབས་ལུ་ ཉེན་ཁ་འབག་སྟེ་འགྱོཝ་ཨིན་ དམིགས་བསལ་གྱི་བློ་ཁོག་ཆུང་ཀུ་འབད་མི་ཨིན་པ་ཅིན་  ང་དྲོགཔ་ཨིན།"
+
+#: ../Banter/PreferencesDialog.cs:454
+msgid "Jeff went away"
+msgstr "ཇེཕ་ ཡར་སོང་ནུག་"
+
+#: ../Banter/PreferencesDialog.cs:459
+msgid "Gotta run; catch ya later ;)"
+msgstr "འགྱོ་དགོ་པས་;  ཤུལ་ལས་ཕྱད་དགེ་;)"
+
+#: ../Banter/PreferencesDialog.cs:559
+msgid "your.username@gmail.com"
+msgstr "ཁྱོད་རའི་"
+
+#: ../Banter/PreferencesDialog.cs:566
+msgid "your.username@ekiga.net"
+msgstr "your.username@ekiga.net"
+
+#: ../data/banter.schemas.in.h:1
+msgid "Auto Login"
+msgstr "རང་བཞིན་ ནང་བསྐྱོད་"
+
+#: ../data/banter.schemas.in.h:2
+msgid "Automatically login this account when rtc starts up"
+msgstr "ཨར་ཊི་སི་ འགོ་བཙུགསཔ་ད་ལུ་རྩིས་ཐོ་དེ་ རང་བཞིན་གྱིས་ནང་བསྐྱོད་འབད།"
+
+#: ../data/banter.schemas.in.h:3
+msgid "Current saved list of Group Windows."
+msgstr "ད་ལྟོ་སྲུངས་བཞག་འབད་ཡོད་པའི་ སྡེ་ཚན་ ཝིན་ཌོསི་ གི་ཐོ་ཡིག། "
+
+#: ../data/banter.schemas.in.h:4
+msgid "Jabber server"
+msgstr "ཇེབ་བར་ སར་བར་"
+
+#: ../data/banter.schemas.in.h:5
+msgid "Jabber server port"
+msgstr "ཇེབ་བར་ སར་བར་ འདྲེན་ལམ་"
+
+#: ../data/banter.schemas.in.h:6
+msgid "List containing the GUIDs of the currently saved group windows."
+msgstr "ད་ལྟོ་སྲུངས་བཞག་འབད་ཡོད་པའི་ སྡེ་ཚན་ ཝིན་ཌོསི་གི་  GUIDs ཡོད་པའི་ཐོ་ཡིག།"
+
+#: ../data/banter.schemas.in.h:7
+msgid "List containing the custom status messages indicating the user is available."
+msgstr "ལག་ལེན་པ་འཐོབ་ཚུགས་པའི་ བརྡ་སྟོན་འབད་མི་ སྲོལ་སྒྲིག་གནས་ཚད་འཕྲིན་དོན་ཚུ་ ཡོད་པའི་ ཐོ་ཡོག་ཚུ།"
+
+#: ../data/banter.schemas.in.h:8
+msgid "List containing the custom status messages indicating the user is busy."
+msgstr "ལག་ལེན་པ་དེ་ ཁོམ་མེད་ཡོད་པའི་བརྡ་སྟོན་འབད་མི་ སྲོལ་སྒྲིག་གནས་ཚད་འཕྲིན་དོན་ཚུ་ཡོད་པའི་ ཐོ་ཡིག།"
+
+#: ../data/banter.schemas.in.h:9
+msgid "List containing the name and paths of valid app styles that are installed onto this system. This should never be empty."
+msgstr "རིམ་ལུགས་འདི་གུར་ གཞི་བཙུགས་འབད་ཡོད་པའི་ ནུས་ཅན་གློག་རིམ་བཟོ་རྣམ་ཚུ་གི་མིང་དང་འགྲུལ་ལམ་ཚུ་ཡོད་པའི་ཐོ་ཡིག།"
+
+#: ../data/banter.schemas.in.h:10
+msgid "List containing the name and paths of valid contact styles that are installed onto this system. This should never be empty."
+msgstr "རིམ་ལུགས་འདི་གུར་ གཞི་བཙུགས་འབད་ཡོད་པའི་ ནུས་ཅན་འབྲེལ་སའི་བཟོ་རྣམ་ཚུ་གི་ མིང་དང་འབྲེལ་ལམ་ཚུ་ཡོད་པའི་ཐོ་ཡིག། འ་ནི་འདི་ ནམ་ཡང་སྟོངམ་སྦེ་ལུས་བཅུག་པི་མི་འོང་།"
+
+#: ../data/banter.schemas.in.h:11
+msgid "List containing the name and paths of valid message styles that are installed onto this system. This should never be empty."
+msgstr "རིམ་ལུགས་དེ་གུར་ གཞི་བཙུགས་འབད་ཡོད་པའི་ ནུས་ཅན་འཕྲིན་དོན་བཟོ་རྣམ་ཚུ་གི་མིང་དང་འགྲུལ་ལམ་ཚུ་ཡོད་པའི་ཐོ་ཡིག། འ་ནི་འདི་ནམ་་ཡང་སྟོངམ་སྦེ་ལུས་བཅུག་ནི་མི་འོང་།"
+
+#: ../data/banter.schemas.in.h:12
+msgid "List containing the name and paths of valid themes that are installed onto this system. This should never be empty."
+msgstr "རིམ་ལུགས་དེ་གུར་ གཞི་བཙུགས་འབད་ཡོད་པའི་ནུས་ཅན་ བརྗོད་དོན་གྱི་མིང་དང་འགྲུལ་ལམ་ཚུ་ཡོད་པའི་ཐོ་ཡིག། འདི་ནམ་ཡང་སྟོངམ་སྦེ་ལུས་བཅུག་ནི་མི་འོང་།"
+
+#: ../data/banter.schemas.in.h:13
+msgid "List of custom available status messages"
+msgstr "སྲོལ་སྒྲིག་ཡོད་པའི གནས་ཚད་འཕྲིན་དོན་ཚུ་གི་ཐོ་ཡིག་"
+
+#: ../data/banter.schemas.in.h:14
+msgid "List of custom busy status messages"
+msgstr "སྲོལ་སྒྲིག་ཁོམ་མེད་ གནས་ཚད་འཕྲིན་དོན་ཚུ་གི་ཐོ་ཡིག་"
+
+#: ../data/banter.schemas.in.h:15
+msgid "List of valid app styles"
+msgstr "ནུས་ཅན་གློག་རིམ་བཟོ་རྣམ་ཚུ་གི་ཐོ་ཡིག་"
+
+#: ../data/banter.schemas.in.h:16
+msgid "List of valid contact styles"
+msgstr "ནུས་ཅན་འབྲེལ་སའི་བཟོ་རྣམ་ཚུ་གི ་ཐོ་ཡིག་"
+
+#: ../data/banter.schemas.in.h:17
+msgid "List of valid message styles"
+msgstr "ནུས་ཅན་འཕྲིན་དོན་བཟོ་རྣམ་གྱི་ཐོ་ཡིག་"
+
+#: ../data/banter.schemas.in.h:18
+msgid "List of valid themes"
+msgstr "ནུས་ཅན་ བརྗོད་དོན་གྱི་ཐོ་ཡིག་"
+
+#: ../data/banter.schemas.in.h:19
+msgid "SIP server"
+msgstr "ཨེསི་ཨའི་པི་ སར་བར་"
+
+#: ../data/banter.schemas.in.h:20
+msgid "SIP server port"
+msgstr "ཨེསི་ཨའི་པི་ སར་བར་ འདྲེན་ལམ་"
+
+#: ../data/banter.schemas.in.h:21
+msgid "Selected App Style"
+msgstr "སེལ་འཐུ་འབད་ཡོད་པའི་གློག་རིམ་གྱི་བཟོ་རྣམ་"
+
+#: ../data/banter.schemas.in.h:22
+msgid "Selected Contact Style"
+msgstr "སེལ་འཐུ་འབད་ཡོད་པའི་འབྲེལ་སའི་བཟོ་རྣམ་"
+
+#: ../data/banter.schemas.in.h:23
+msgid "Selected Message Style"
+msgstr "སེལ་འཐུ་འབད་ཡོད་པའི་འཕྲིན་དོན་བཟོ་རྣམ་"
+
+#: ../data/banter.schemas.in.h:24
+msgid "Selected Message Style Name"
+msgstr "སེལ་འཐུ་འབད་ཡོད་པའི་འཕྲིན་དོན་བཟོ་རྣམ་གྱི་མིང་"
+
+#: ../data/banter.schemas.in.h:25
+msgid "Selected Message Style Variant"
+msgstr "སེལ་འཐུ་འབད་ཡོད་པའི་འཕྲིན་དོན་བཟོ་རྣམ་གྱི་འགྱུར་བ་"
+
+#: ../data/banter.schemas.in.h:26
+msgid "Selected Theme"
+msgstr "སེལ་འཐུ་འབད་ཡོད་པའི་བརྗོད་དོན་"
+
+#: ../data/banter.schemas.in.h:27
+msgid "Server"
+msgstr "སར་བར་"
+
+#: ../data/banter.schemas.in.h:28
+msgid "Server Port"
+msgstr "སར་བར་ འདྲེན་ལམ་"
+
+#: ../data/banter.schemas.in.h:29
+msgid "Telepathy connection manager"
+msgstr "དགོངས་ཐད་བརྒྱུད་འབྲེལ་ མཐུད་ལམ་འཛིན་སྐྱོང་པ་ "
+
+#: ../data/banter.schemas.in.h:30
+msgid "Telepathy connection manager with IM or Text capability for this account"
+msgstr "རྩིས་ཐོ་འདི་གི་དོན་ལས་ དགོངས་ཐད་བརྒྱུད་འབྲེལ་འཛིན་སྐྱོང་པ་ ཨའི་ཨེམ་ ཡང་ན་ ཚིག་ཡིག་ལྕོགས་གྲུབ་དང་གཅིག་ཁར།"
+
+#: ../data/banter.schemas.in.h:31
+msgid "The name and path of the app style that is currently selected."
+msgstr "ད་ལྟོ་སེལ་འཐུ་འབད་ཡོད་པའི་ གློག་རིམ་བཟོ་རྣམ་གྱི་མིང་དང་འགྲུལ་ལམ།"
+
+#: ../data/banter.schemas.in.h:32
+msgid "The name and path of the contact style that is currently selected."
+msgstr "ད་ལྟོ་སེལ་འཐུ་འབད་ཡོད་པའི་ འབྲེལ་སའི་བཟོ་རྣམ་གྱི་མིང་དང་འགྲུལ་ལམ།"
+
+#: ../data/banter.schemas.in.h:33
+msgid "The name and path of the message style that is currently selected."
+msgstr "ད་ལྟོ་སེལ་འཐུ་འབད་ཡོད་པའི་ འཕྲིན་དོན་བཟོ་རྣམ་གྱི་ མིང་དང་འགྲུལ་ལམ།"
+
+#: ../data/banter.schemas.in.h:34
+msgid "The name and path of the theme that should be used."
+msgstr "ལག་ལེན་འཐབ་དགོ་པའི་ བརྗོད་དོན་གྱི་མིང་དང་འགྲུལ་ལམ།"
+
+#: ../data/banter.schemas.in.h:35
+msgid "The name of the Message Style Variant that should be used. Set this to an empty string to not use a variant. The variant name depends on the selected message style."
+msgstr "ལགལེན་འཐབ་དགོ་པའི་ འཕྲིན་དོན་བཟོ་རྣམ་འགྱུར་བ་གི་མིང་། འདི་འགྱུར་བ་སྦེ་ལག་ལེན་མ་འཐབ་ནིའི་དོན་ལས་ ཡིག་རྒྱུན་སྟོངམ་ཅིག་གུར་གཞི་སྒྲིག་འབད། འགྱུར་བའི་མིང་དེ་སེལ་འཐུ་འབད་ཡོད་པའི་འཕྲིན་དོན་བཟོ་རྣམ་ལུ་རག་ལསཔ་ཨིན།"
+
+#: ../data/banter.schemas.in.h:36
+msgid "The name of the Message Style that should be used for the chat window."
+msgstr "ཁ་སླབ་ ཝིན་ཌོ་གི་དོན་ལུ་ལག་ལེན་འཐབ་དགོ་པའི་ འཕྲིན་དོན་བཟོ་རྣམ་གྱི་མིང་།"
+
+#: ../data/banter.schemas.in.h:37
+msgid "Use TLS"
+msgstr "ཊི་ཨེལ་ཨེསི་ ལག་ལེན་འཐབ་"
+
+#: ../data/banter.schemas.in.h:38
+msgid "Use old style ssl"
+msgstr "ཨེསི་ཨེསི་ཨེལ བཟོ་རྣམ་རྙིངམ་ལགལེན་འཐབ་ "
+
+#: ../data/banter.schemas.in.h:39
+msgid "Use ssl"
+msgstr "ཨེསི་ཨེསི་ཨེལ་་ལག་ལེན་འཐབ་"
+
+#: ../data/banter.schemas.in.h:40
+msgid "Use the TLS transport"
+msgstr "ཊི་ཨེལ་ཨེསི་ སྐྱེལ་འདྲེན་ལག་ལེན་འཐབ་"
+
