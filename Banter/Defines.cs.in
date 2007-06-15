@@ -30,6 +30,7 @@ namespace Banter
 		public const string GnomeLocaleDir		= "@datadir@/locale";
 		public const string GnomeHelDir			= "@datadir@/gnome/help/rtc";
 		public const string ThemeDir			= "@datadir@/banter/Themes";
+		public const string SoundDir			= "@datadir@/banter/sounds";
 		
 		static public string[] TelepathyManagerLocations = {"/usr/share/telepathy/managers", "/usr/local/share/telepathy/managera"};
 	}

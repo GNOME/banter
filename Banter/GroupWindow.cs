@@ -795,6 +795,8 @@ Logger.Debug ("GroupWindow.BuildGroupButtonsView adding {0} groups",
 			// Cause brand new windows to be saved.  Previously existing windows
 			// will be ignored unless the user moves them.
 			SaveState (); 
+			
+			//Gnome.Sound.Play(System.IO.Path.Combine(Banter.Defines.SoundDir, "banter.wav"));				
 		}
 		
 		private void OnSearchEntryChanged (object sender, EventArgs args)

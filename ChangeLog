@@ -1,5 +1,15 @@
 2007-06-14  Calvin Gaisford <calvinrg@gmail.com> 
 
+	* configure.ac, data/Makefile.am, data/sounds, data/sounds/notify.wav,
+	  data/sounds/banter.wav, data/sounds/Makefile.am: Added sounds
+	* Banter/NotificationManager.cs: Updated NotificationManager to handle
+	  additional messages coming in from a person who's chat has not been
+	  accepted
+	* Banter/Defines.cs.in: Added a sound directory
+	* Banter/GroupWindow.cs: Added ability to say Banter when window opens
+
+2007-06-14  Calvin Gaisford <calvinrg@gmail.com> 
+
 	* Banter.mdp, configure.ac, Banter/Makefile.am: Added Notify Sharp
 	  dependency
 	* Banter/NotificationManager.cs: New Object to handle all notifications

@@ -107,6 +107,7 @@ AC_CONFIG_FILES([
 ./data/Makefile
 ./data/images/Makefile
 ./data/Themes/Makefile
+./data/sounds/Makefile
 ./po/Makefile.in
 ])
 

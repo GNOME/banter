@@ -1,5 +1,5 @@
 
-SUBDIRS = images Themes
+SUBDIRS = images sounds Themes
 
 @INTLTOOL_DESKTOP_RULE@
 

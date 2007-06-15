@@ -21,6 +21,7 @@
 
 
 using System;
+using System.IO;
 using Evolution;
 using GLib;
 using System.Collections;
@@ -45,7 +46,10 @@ namespace Banter
 
 	
 		#region Private Types
-		private Dictionary <Notification, NotificationData> notifications;
+		private Dictionary <uint, NotificationData> pendingData;
+		private System.Object notifyLock;
+		private Notification currentNotification;
+		private uint currentPeerID;
 		#endregion
 
 
@@ -76,7 +80,9 @@ namespace Banter
 		/// </summary>			
 		private NotificationManager ()
 		{
-			notifications = new Dictionary<Notification, NotificationData> ();
+			notifyLock = new System.Object();
+
+			pendingData = new Dictionary <uint, NotificationData> ();
 			ConversationManager.NewIncomingConversation += OnNewIncomingConversation;
 		}
 		#endregion	
@@ -95,38 +101,94 @@ namespace Banter
 			if(conversation.PeerUser == null) {
 				Logger.Error("NewIncomingConversation event had a conversation with null PeerUser");
 				return;
-			}
+			}			
 			
 			// If we have a ChatWindow for this conversation, don't do anything... the ChatWindow
 			// will handle the change
 			if(ChatWindowManager.ChatWindowExists(conversation.PeerUser.ID))
 				return;
 
-			Person peer = PersonManager.GetPerson(conversation.PeerUser);
-			String messageTitle = Catalog.GetString("Incoming Chat Request");
-			String messageBody = String.Format(Catalog.GetString("{0} has initiated a chat"), peer.DisplayName);
-			Notification notification;
-			
-			if(peer.Photo != null) {
-				notification = new Notification(messageTitle,
-												messageBody,
-												peer.Photo);
-			} else {
-				notification = new Notification(messageTitle,
-												messageBody,
-												Application.AppIcon);
+			if(chatType == ChatType.Text) {
+				NotifyOfTextMessage(conversation);
 			}
-			
-			notification.AddAction("Accept", Catalog.GetString("Accept"), AcceptNotificationHandler);
-			notification.AddAction("Decline", Catalog.GetString("Decline"), DeclineNotificationHandler);
-			notification.Closed += ClosedNotificationHandler;
-			//notification.Timeout = 10000;
-			NotificationData data = new NotificationData(conversation, chatType, peer);
-			notification.AddHint("PeerID", conversation.PeerUser.ID);
-			notifications[notification] = data;
-			
-			Banter.Application.ShowAppNotification(notification);
+
+			conversation.MessageReceived += OnTextAdditionalMessageReceived;
 		}
+		
+
+		///<summary>
+		///	OnTextAdditionalMessageReceived
+		/// Handles additional Text messages on a pending conversation
+		///</summary>
+		private void OnTextAdditionalMessageReceived (Conversation conversation, Message message)
+		{
+			Logger.Debug("NotificationManager.OnTextAdditionalMessageReceived was called");		
+			NotifyOfTextMessage(conversation);
+		}
+
+		
+		/// <summary>
+		/// NotifyOfTextMessage
+		/// Notifies user of an incoming text message
+		/// </summary>	
+		private void NotifyOfTextMessage(Conversation conversation)
+		{
+			// close the current notification before adding another
+			if(currentNotification != null) {
+				Logger.Debug("Current notification != null");
+				currentNotification.Close();
+				currentNotification = null;
+				currentPeerID = 0;
+			}
+
+			lock(notifyLock) {
+				Person peer = PersonManager.GetPerson(conversation.PeerUser);
+				if(peer == null)
+					return;
+
+				String messageTitle = String.Format(Catalog.GetString("Message from {0}"), peer.DisplayName);
+				Message[] messages = conversation.GetReceivedMessages();
+				String messageBody;
+				
+				if(messages.Length > 0) {
+					messageBody = messages[messages.Length - 1].Text;
+				}
+				else
+					messageBody = "";
+
+				// Limit the size of the message that is sent					
+				if(messageBody.Length > 200) {
+					messageBody = messageBody.Substring(0, 200);
+					messageBody = messageBody + " ...";
+				}
+					
+				Notification notification;
+				if(peer.Photo != null) {
+					notification = new Notification(messageTitle,
+													messageBody,
+													peer.Photo);
+				} else {
+					Gdk.Pixbuf banterIcon = Application.GetIcon ("banter-44", 44);
+					notification = new Notification(messageTitle,
+													messageBody,
+													banterIcon);
+				}
+
+				if(!pendingData.ContainsKey(conversation.PeerUser.ID)) {
+					NotificationData data = new NotificationData(conversation, ChatType.Text, peer);
+					pendingData[conversation.PeerUser.ID] = data;
+				}
+				
+				notification.AddAction("Accept", Catalog.GetString("Accept"), AcceptNotificationHandler);
+				notification.AddAction("Decline", Catalog.GetString("Decline"), DeclineNotificationHandler);
+				notification.Closed += ClosedNotificationHandler;
+				currentNotification = notification;
+				currentPeerID = conversation.PeerUser.ID;
+				Banter.Application.ShowAppNotification(notification);
+				Gnome.Sound.Play(Path.Combine(Banter.Defines.SoundDir, "notify.wav"));
+			}
+		}
+
 		
 		/// <summary>
 		/// AcceptNotificationHandler
@@ -134,13 +196,18 @@ namespace Banter
 		/// </summary>	
 		private void AcceptNotificationHandler (object o, ActionArgs args)
 		{
-			Logger.Debug("The notification was accepted");
-			Notification notification = (Notification)o;
+			lock(notifyLock) {
+				Logger.Debug("The notification was accepted");
+				Notification notification = (Notification)o;
 
-			if(notifications.ContainsKey(notification)) {
-				NotificationData data = notifications[notification];
-				notifications.Remove(notification);
-				ChatWindowManager.HandleAcceptedConversation(data.Conversation, data.ChatType);
+				if(currentNotification != null) {
+					NotificationData data = pendingData[currentPeerID];
+					pendingData.Remove(currentPeerID);
+					currentNotification = null;
+					currentPeerID = 0;
+					data.Conversation.MessageReceived -= OnTextAdditionalMessageReceived;
+					ChatWindowManager.HandleAcceptedConversation(data.Conversation, data.ChatType);
+				}
 			}
 		}	
 
@@ -150,15 +217,21 @@ namespace Banter
 		/// </summary>	
 		private void DeclineNotificationHandler (object o, ActionArgs args)
 		{
-			Logger.Debug("The notification declined");
-			Notification notification = (Notification)o;
+			lock(notifyLock) {
+				Logger.Debug("The notification declined");
+				Notification notification = (Notification)o;
 
-			if(notifications.ContainsKey(notification)) {
-				NotificationData data = notifications[notification];
-				notifications.Remove(notification);				
-				if (data.Conversation != null) {
-					Logger.Debug("Notification was ignored, calling ConversationManager.Destroy on conversation");		
-					ConversationManager.Destroy(data.Conversation);
+				if(currentNotification != null) {
+					NotificationData data = pendingData[currentPeerID];
+					pendingData.Remove(currentPeerID);
+					currentNotification = null;
+					currentPeerID = 0;
+					data.Conversation.MessageReceived -= OnTextAdditionalMessageReceived;
+
+					if (data.Conversation != null) {
+						Logger.Debug("Notification was declined, calling ConversationManager.Destroy on conversation");		
+						ConversationManager.Destroy(data.Conversation);
+					}
 				}
 			}
 		}
@@ -170,15 +243,12 @@ namespace Banter
 		private void ClosedNotificationHandler (object o, EventArgs args)
 		{
 			Logger.Debug("The notification windows was closed");
+			lock(notifyLock) {
+				Notification notification = (Notification)o;
 
-			Notification notification = (Notification)o;
-
-			if(notifications.ContainsKey(notification)) {
-				NotificationData data = notifications[notification];
-				notifications.Remove(notification);				
-				if (data.Conversation != null) {
-					Logger.Debug("Notification was ignored, calling ConversationManager.Destroy on conversation");		
-					ConversationManager.Destroy(data.Conversation);
+				if(currentNotification != null) {
+					currentNotification = null;
+					currentPeerID = 0;
 				}
 			}
 		}			
