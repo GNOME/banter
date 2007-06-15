@@ -1,5 +1,10 @@
 2007-06-14  Calvin Gaisford <calvinrg@gmail.com> 
 
+	* Banter/NotificationManager.cs: Hacked NotificationManager to deal
+	  with media streams coming and going on pending conversations
+
+2007-06-14  Calvin Gaisford <calvinrg@gmail.com> 
+
 	* configure.ac, data/Makefile.am, data/sounds, data/sounds/notify.wav,
 	  data/sounds/banter.wav, data/sounds/Makefile.am: Added sounds
 	* Banter/NotificationManager.cs: Updated NotificationManager to handle

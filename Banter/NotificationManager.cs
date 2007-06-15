@@ -111,8 +111,15 @@ namespace Banter
 			if(chatType == ChatType.Text) {
 				NotifyOfTextMessage(conversation);
 			}
+			else if(chatType == ChatType.Video) {
+				NotifyOfVideoRequest(conversation);
+			}
 
 			conversation.MessageReceived += OnTextAdditionalMessageReceived;
+			conversation.MediaChannelOpened += OnMediaChannelOpened;
+			conversation.VideoStreamDown += OnVideoStreamDown;
+			conversation.MediaChannelClosed += OnMediaChannelClosed;
+			conversation.TextChannelOpened += OnTextChannelOpened;
 		}
 		
 
@@ -126,6 +133,49 @@ namespace Banter
 			NotifyOfTextMessage(conversation);
 		}
 
+		private void OnTextChannelOpened (Conversation conversation)
+		{
+			Logger.Debug("NotificationManager.OnTextChannelOpened was called");			
+			NotifyOfTextMessage(conversation);		
+		}
+
+		///<summary>
+		///	OnMediaChannelOpened
+		/// Handles a media channel opened on a conversation
+		///</summary>
+		private void OnMediaChannelOpened (Conversation conversation)
+		{
+			Logger.Debug("NotificationManager.OnMediaChannelOpened was called");			
+			NotifyOfVideoRequest(conversation);
+		}
+
+
+		private void OnVideoStreamDown(Conversation conversation)
+		{
+			// close the current notification before adding another
+			if(currentNotification != null) {
+				Logger.Debug("Current notification != null");
+				currentNotification.Close();
+				currentNotification = null;
+				currentPeerID = 0;
+			}
+			CleanUpConversation(conversation, true);
+		}
+
+		
+		private void OnMediaChannelClosed (Conversation conversation)
+		{
+			// close the current notification before adding another
+			if(currentNotification != null) {
+				Logger.Debug("Current notification != null");
+				currentNotification.Close();
+				currentNotification = null;
+				currentPeerID = 0;
+			}
+			CleanUpConversation(conversation, true);
+		}
+		
+		
 		
 		/// <summary>
 		/// NotifyOfTextMessage
@@ -164,9 +214,10 @@ namespace Banter
 					
 				Notification notification;
 				if(peer.Photo != null) {
+					Gdk.Pixbuf sizedPhoto = peer.Photo.ScaleSimple(48, 48, Gdk.InterpType.Bilinear);
 					notification = new Notification(messageTitle,
 													messageBody,
-													peer.Photo);
+													sizedPhoto);
 				} else {
 					Gdk.Pixbuf banterIcon = Application.GetIcon ("banter-44", 44);
 					notification = new Notification(messageTitle,
@@ -174,10 +225,8 @@ namespace Banter
 													banterIcon);
 				}
 
-				if(!pendingData.ContainsKey(conversation.PeerUser.ID)) {
-					NotificationData data = new NotificationData(conversation, ChatType.Text, peer);
-					pendingData[conversation.PeerUser.ID] = data;
-				}
+				NotificationData data = new NotificationData(conversation, ChatType.Text, peer);
+				pendingData[conversation.PeerUser.ID] = data;
 				
 				notification.AddAction("Accept", Catalog.GetString("Accept"), AcceptNotificationHandler);
 				notification.AddAction("Decline", Catalog.GetString("Decline"), DeclineNotificationHandler);
@@ -189,6 +238,58 @@ namespace Banter
 			}
 		}
 
+
+		/// <summary>
+		/// NotifyOfVideoRequest
+		/// Notifies user of an incoming video request
+		/// </summary>	
+		private void NotifyOfVideoRequest(Conversation conversation)
+		{
+			// close the current notification before adding another
+			if(currentNotification != null) {
+				Logger.Debug("Current notification != null");
+				currentNotification.Close();
+				currentNotification = null;
+				currentPeerID = 0;
+			}
+
+			lock(notifyLock) {
+				Person peer = PersonManager.GetPerson(conversation.PeerUser);
+				if(peer == null)
+					return;
+
+				String messageTitle = Catalog.GetString("Incoming Video Chat");
+				String messageBody = String.Format(Catalog.GetString("{0} is requesting a video chat"), peer.DisplayName);
+				Message[] messages = conversation.GetReceivedMessages();
+					
+
+				Notification notification;
+				if(peer.Photo != null) {
+					Gdk.Pixbuf sizedPhoto = peer.Photo.ScaleSimple(48, 48, Gdk.InterpType.Bilinear);
+					notification = new Notification(messageTitle,
+													messageBody,
+													sizedPhoto);
+				} else {
+					Gdk.Pixbuf banterIcon = Application.GetIcon ("banter-44", 44);
+					notification = new Notification(messageTitle,
+													messageBody,
+													banterIcon);
+				}
+
+				NotificationData data = new NotificationData(conversation, ChatType.Video, peer);
+				pendingData[conversation.PeerUser.ID] = data;
+				
+				notification.AddAction("Accept", Catalog.GetString("Accept"), AcceptNotificationHandler);
+				notification.AddAction("Decline", Catalog.GetString("Decline"), DeclineNotificationHandler);
+				notification.Closed += ClosedNotificationHandler;
+				notification.Timeout = 120000;
+				currentNotification = notification;
+				currentPeerID = conversation.PeerUser.ID;
+				Banter.Application.ShowAppNotification(notification);
+				Gnome.Sound.Play(Path.Combine(Banter.Defines.SoundDir, "notify.wav"));
+			}
+		}
+		
 		
 		/// <summary>
 		/// AcceptNotificationHandler
@@ -202,10 +303,11 @@ namespace Banter
 
 				if(currentNotification != null) {
 					NotificationData data = pendingData[currentPeerID];
-					pendingData.Remove(currentPeerID);
+					if(data.Conversation != null)
+						CleanUpConversation(data.Conversation, false);
+
 					currentNotification = null;
 					currentPeerID = 0;
-					data.Conversation.MessageReceived -= OnTextAdditionalMessageReceived;
 					ChatWindowManager.HandleAcceptedConversation(data.Conversation, data.ChatType);
 				}
 			}
@@ -223,15 +325,11 @@ namespace Banter
 
 				if(currentNotification != null) {
 					NotificationData data = pendingData[currentPeerID];
-					pendingData.Remove(currentPeerID);
+					if(data.Conversation != null)
+						CleanUpConversation(data.Conversation, true);
+						
 					currentNotification = null;
 					currentPeerID = 0;
-					data.Conversation.MessageReceived -= OnTextAdditionalMessageReceived;
-
-					if (data.Conversation != null) {
-						Logger.Debug("Notification was declined, calling ConversationManager.Destroy on conversation");		
-						ConversationManager.Destroy(data.Conversation);
-					}
 				}
 			}
 		}
@@ -251,7 +349,27 @@ namespace Banter
 					currentPeerID = 0;
 				}
 			}
-		}			
+		}
+
+		/// <summary>
+		/// CleanUpConversation
+		/// Removes all event handlers and optionally destroys the conversation
+		/// </summary>			
+		private void CleanUpConversation(Conversation conversation, bool destroyit)
+		{
+			conversation.MessageReceived -= OnTextAdditionalMessageReceived;
+			conversation.MediaChannelOpened -= OnMediaChannelOpened;
+			conversation.VideoStreamDown -= OnVideoStreamDown;
+			conversation.MediaChannelClosed -= OnMediaChannelClosed;
+			conversation.TextChannelOpened -= OnTextChannelOpened;		
+			if(pendingData.ContainsKey(conversation.PeerUser.ID)) {
+				pendingData.Remove(conversation.PeerUser.ID);
+			}
+
+			if(destroyit) {
+				ConversationManager.Destroy(conversation);			
+			}
+		}
 		#endregion
 		
 
