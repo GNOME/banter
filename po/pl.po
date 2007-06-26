@@ -1,0 +1,451 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Banter\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2007-06-26 10:12+0200\n"
+"PO-Revision-Date: 2007-06-25 17:52+0100\n"
+"Last-Translator: Tomasz Dominikowski <dominikowski@gmail.com>\n"
+"Language-Team: Tomasz Dominikowski <dominikowski@gmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: POLISH\n"
+"X-Poedit-Country: Poland\n"
+
+#: ../Banter/ActionManager.cs:63
+msgid "_File"
+msgstr "_Plik"
+
+#: ../Banter/ActionManager.cs:66
+msgid "_Quit"
+msgstr "_Zakończ"
+
+#: ../Banter/ActionManager.cs:67
+msgid "Quit Banter"
+msgstr "Zakończ pracę z Banter"
+
+#: ../Banter/ActionManager.cs:70
+msgid "_Edit"
+msgstr "_Modyfikuj"
+
+#: ../Banter/ActionManager.cs:73
+msgid "_Preferences"
+msgstr "_Preferencje"
+
+#: ../Banter/ActionManager.cs:74 ../Banter/PreferencesDialog.cs:56
+msgid "Banter Preferences"
+msgstr "Preferencje Banter"
+
+#: ../Banter/ActionManager.cs:77
+msgid "_Help"
+msgstr "Pomo_c"
+
+#: ../Banter/ActionManager.cs:80
+msgid "_Contents"
+msgstr "_Zawartość"
+
+#: ../Banter/ActionManager.cs:81
+msgid "Banter Help"
+msgstr "Pomoc Banter"
+
+#: ../Banter/ActionManager.cs:84
+msgid "_About"
+msgstr "_O programie"
+
+#: ../Banter/ActionManager.cs:85
+msgid "About Banter"
+msgstr "O Banter"
+
+#: ../Banter/Application.cs:266
+msgid "New Group Window ..."
+msgstr "Nowe okno grupy..."
+
+#: ../Banter/Application.cs:275 ../Banter/PreferencesDialog.cs:70
+msgid "Accounts"
+msgstr "Konta"
+
+#: ../Banter/Application.cs:290
+msgid "Quit"
+msgstr "Zakończ"
+
+#: ../Banter/Application.cs:546 ../Banter/GroupWindow.cs:551
+msgid "Everyone"
+msgstr "Wszyscy"
+
+#: ../Banter/ChatWindow.cs:206
+msgid "Show Contact _Details"
+msgstr "Wyświetl szczegóły _kontaktu"
+
+#: ../Banter/GroupWindow.cs:110 ../Banter/GroupWindow.cs:125
+msgid "Banter"
+msgstr "Banter"
+
+#: ../Banter/GroupWindow.cs:496
+msgid "Filter"
+msgstr "Filtr"
+
+#: ../Banter/GroupWindow.cs:534
+msgid "Groups"
+msgstr "Grupy"
+
+#: ../Banter/GroupWindow.cs:562
+msgid "New Group..."
+msgstr "Nowa grupa..."
+
+#: ../Banter/GroupWindow.cs:578
+msgid "Actions"
+msgstr "Działania"
+
+#: ../Banter/GroupWindow.cs:595
+msgid "Settings"
+msgstr "Ustawienia"
+
+#: ../Banter/GroupWindow.cs:601
+msgid "Add Person..."
+msgstr "Dodaj osobę..."
+
+#: ../Banter/GroupWindow.cs:627
+msgid "Close Sidebar"
+msgstr "Zamknij pasek boczny"
+
+#: ../Banter/GroupWindow.cs:776 ../Banter/GroupWindow.cs:894
+msgid "Show Sidebar"
+msgstr "Wyświetl pasek boczny"
+
+#: ../Banter/GroupWindow.cs:830
+msgid "Everyone - Banter"
+msgstr "Wszyscy - Banter"
+
+#: ../Banter/GroupWindow.cs:844
+msgid "New group window"
+msgstr "Nowe okno grupy"
+
+#: ../Banter/GroupWindow.cs:845
+msgid "Enter the name of the new group you'd like to create."
+msgstr "Wprowadź nazwę nowej grupy, którą chcesz utworzyć."
+
+#: ../Banter/GroupWindow.cs:899
+msgid "Hide Sidebar"
+msgstr "Ukryj pasek boczny"
+
+#: ../Banter/GroupWindow.cs:999
+#, csharp-format
+msgid "{0} - Banter"
+msgstr "{0} - Banter"
+
+#: ../Banter/GroupWindow.cs:1016
+#, csharp-format
+msgid "Delete \"{0}\"?"
+msgstr "Usunąć \"{0}\"?"
+
+#: ../Banter/GroupWindow.cs:1018
+msgid "This will delete the group and not the contacts inside of the group."
+msgstr ""
+"Zostanie usunięta grupa, kontakty należące do grupy nie zostaną usunięte."
+
+#: ../Banter/PreferencesDialog.cs:72
+msgid "Messages"
+msgstr "Wiadomości"
+
+#.
+#. Message Style Row
+#.
+#: ../Banter/PreferencesDialog.cs:125
+msgid "Message Style:"
+msgstr "Styl wiadomości:"
+
+#: ../Banter/PreferencesDialog.cs:136
+msgid "Style changes take effect for new message windows."
+msgstr "Zmiany styli są wprowadzane po otwarciu nowych okien wiadomości."
+
+#.
+#. Variant Row
+#.
+#: ../Banter/PreferencesDialog.cs:143
+msgid "Variant:"
+msgstr "Wariant:"
+
+#: ../Banter/PreferencesDialog.cs:179
+msgid "GoogleTalk Account Settings"
+msgstr "Ustawienia konta GoogleTalk"
+
+#: ../Banter/PreferencesDialog.cs:186
+msgid ""
+"In this alpha-phase of the project, this is the only IM account type we "
+"support (so stop your worryin'!)."
+msgstr ""
+"W tej fazie projektu (alfa) jest to jedyny rodzaj konta IM, jaki jest "
+"obsługiwany (więc przestań się martwić!)."
+
+#. Server address
+#: ../Banter/PreferencesDialog.cs:199 ../Banter/PreferencesDialog.cs:283
+msgid "Server Address:"
+msgstr "Adres serwera:"
+
+#. Server port
+#: ../Banter/PreferencesDialog.cs:213
+msgid "Server Port:"
+msgstr "Port serwera:"
+
+#. Username
+#: ../Banter/PreferencesDialog.cs:227 ../Banter/PreferencesDialog.cs:297
+msgid "Username:"
+msgstr "Nazwa użytkownika:"
+
+#. Password
+#: ../Banter/PreferencesDialog.cs:238 ../Banter/PreferencesDialog.cs:308
+msgid "Password:"
+msgstr "Hasło:"
+
+#: ../Banter/PreferencesDialog.cs:263
+msgid "SIP Account Settings"
+msgstr "Ustawienia konta SIP"
+
+#: ../Banter/PreferencesDialog.cs:270
+msgid "In this alpha-phase of the project, we only support one SIP account."
+msgstr "W tej fazie projektu (alfa) obsługujemy tylko jedno konto SIP."
+
+#: ../Banter/PreferencesDialog.cs:391
+msgid "<Unknown Style>"
+msgstr "<Nieznany styl>"
+
+#: ../Banter/PreferencesDialog.cs:414
+msgid "So a priest, a rabbi, and a chicken walk into a bar."
+msgstr "No więc ksiądz, rabin i kurczak wchodzą do baru."
+
+#: ../Banter/PreferencesDialog.cs:420
+msgid "I'm pretty sure I've heard this one before"
+msgstr "Jestem pewien, że gdzieś już to słyszałem"
+
+#: ../Banter/PreferencesDialog.cs:424
+msgid "So what happens next?"
+msgstr "Więc co się dalej wydarzy?"
+
+#: ../Banter/PreferencesDialog.cs:429
+msgid "If I remember correctly, they explode outward at the speedof light."
+msgstr "Jeśli dobrze pamiętam, to eksplodują z prędkością światła."
+
+#: ../Banter/PreferencesDialog.cs:434
+msgid "But that might be if you cross the streams..."
+msgstr "Ale gdy skrzyżują się ich strumienie..."
+
+#: ../Banter/PreferencesDialog.cs:439
+msgid "...thus negating all existence!"
+msgstr "...zanegują całkowicie wszelkie istnienie!"
+
+#: ../Banter/PreferencesDialog.cs:448
+msgid ""
+"Precisely!  It's a risk one takes whenever one walks intoa bar, I'm afraid, "
+"especially if one is a chicken."
+msgstr ""
+"Dokładnie! Obawiam się, że to ryzyko, jakie się ponosi, kiedy wchodzi się do "
+"baru, zwłaszcza, jeśli jest się kurczakiem."
+
+#: ../Banter/PreferencesDialog.cs:454
+msgid "Jeff went away"
+msgstr "Jeff poszedł sobie"
+
+#: ../Banter/PreferencesDialog.cs:459
+msgid "Gotta run; catch ya later ;)"
+msgstr "Muszę lecieć. Spotkamy się później ;)"
+
+#: ../Banter/PreferencesDialog.cs:559
+msgid "your.username@gmail.com"
+msgstr "nazwa.uzytkownika@gmail.com"
+
+#: ../Banter/PreferencesDialog.cs:566
+msgid "your.username@ekiga.net"
+msgstr "nazwa.użytkownika@ekiga.net"
+
+#: ../data/banter.schemas.in.h:1
+msgid "Auto Login"
+msgstr "Automatyczne logowanie"
+
+#: ../data/banter.schemas.in.h:2
+msgid "Automatically login this account when rtc starts up"
+msgstr "Automatycznie logowanie tego konta podczas uruchomienia"
+
+#: ../data/banter.schemas.in.h:3
+msgid "Current saved list of Group Windows."
+msgstr "Bieżąca zapisana lista okien grup."
+
+#: ../data/banter.schemas.in.h:4
+msgid "Jabber server"
+msgstr "Serwer Jabber"
+
+#: ../data/banter.schemas.in.h:5
+msgid "Jabber server port"
+msgstr "Port serwera Jabber\""
+
+#: ../data/banter.schemas.in.h:6
+msgid "List containing the GUIDs of the currently saved group windows."
+msgstr "Lista zawierająca GUID bieżącej zapisanej listy okien grup."
+
+#: ../data/banter.schemas.in.h:7
+msgid ""
+"List containing the custom status messages indicating the user is available."
+msgstr ""
+"Lista zawierająca własne statusy tekstowe wskazujące na obecność użytkownika."
+
+#: ../data/banter.schemas.in.h:8
+msgid "List containing the custom status messages indicating the user is busy."
+msgstr ""
+"Lista zawierająca własne statusy tekstowe wskazujące na zajętość użytkownika."
+
+#: ../data/banter.schemas.in.h:9
+msgid ""
+"List containing the name and paths of valid app styles that are installed "
+"onto this system. This should never be empty."
+msgstr ""
+"Lista zawierająca nazwy i ścieżki poprawnych styli aplikacji zainstalowanych "
+"w tym systemie. Nigdy nie powinna być pusta."
+
+#: ../data/banter.schemas.in.h:10
+msgid ""
+"List containing the name and paths of valid contact styles that are "
+"installed onto this system. This should never be empty."
+msgstr ""
+"Lista zawierająca nazwy i ścieżki poprawnych styli kontaktów zainstalowanych "
+"w tym systemie. Nigdy nie powinna być pusta."
+
+#: ../data/banter.schemas.in.h:11
+msgid ""
+"List containing the name and paths of valid message styles that are "
+"installed onto this system. This should never be empty."
+msgstr ""
+"Lista zawierająca nazwy i ścieżki poprawnych styli wiadomości "
+"zainstalowanych w tym systemie. Nigdy nie powinna być pusta."
+
+#: ../data/banter.schemas.in.h:12
+msgid ""
+"List containing the name and paths of valid themes that are installed onto "
+"this system. This should never be empty."
+msgstr ""
+"Lista zawierająca nazwy i ścieżki poprawnych motywów zainstalowanych w tym "
+"systemie. Nigdy nie powinna być pusta."
+
+#: ../data/banter.schemas.in.h:13
+msgid "List of custom available status messages"
+msgstr "Lista własnych statusów tekstowych podczas dostępności"
+
+#: ../data/banter.schemas.in.h:14
+msgid "List of custom busy status messages"
+msgstr "Lista własnych statusów tekstowych podczas zajętości"
+
+#: ../data/banter.schemas.in.h:15
+msgid "List of valid app styles"
+msgstr "Lista poprawnych styli aplikacji"
+
+#: ../data/banter.schemas.in.h:16
+msgid "List of valid contact styles"
+msgstr "Lista poprawnych styli kontaktów"
+
+#: ../data/banter.schemas.in.h:17
+msgid "List of valid message styles"
+msgstr "Lista poprawnych styli wiadomości"
+
+#: ../data/banter.schemas.in.h:18
+msgid "List of valid themes"
+msgstr "Lista poprawnych motywów"
+
+#: ../data/banter.schemas.in.h:19
+msgid "SIP server"
+msgstr "Serwer SIP"
+
+#: ../data/banter.schemas.in.h:20
+msgid "SIP server port"
+msgstr "Port serwera SIP"
+
+#: ../data/banter.schemas.in.h:21
+msgid "Selected App Style"
+msgstr "Zaznaczony styl aplikacji"
+
+#: ../data/banter.schemas.in.h:22
+msgid "Selected Contact Style"
+msgstr "Zaznaczony styl kontaktu"
+
+#: ../data/banter.schemas.in.h:23
+msgid "Selected Message Style"
+msgstr "Zaznaczony styl wiadomości"
+
+#: ../data/banter.schemas.in.h:24
+msgid "Selected Message Style Name"
+msgstr "Nazwa zaznaczonego stylu waidomości"
+
+#: ../data/banter.schemas.in.h:25
+msgid "Selected Message Style Variant"
+msgstr "Wariant zaznaczonego stylu wiadomości"
+
+#: ../data/banter.schemas.in.h:26
+msgid "Selected Theme"
+msgstr "Wybrany motyw"
+
+#: ../data/banter.schemas.in.h:27
+msgid "Server"
+msgstr "Serwer"
+
+#: ../data/banter.schemas.in.h:28
+msgid "Server Port"
+msgstr "Port serwera"
+
+#: ../data/banter.schemas.in.h:29
+msgid "Telepathy connection manager"
+msgstr "Menedżer połączeń Telepathy"
+
+#: ../data/banter.schemas.in.h:30
+msgid ""
+"Telepathy connection manager with IM or Text capability for this account"
+msgstr ""
+"Menedżer połączeń Telepathy z obsługą komunikacji tekstowej lub tekstu dla "
+"tego konta"
+
+#: ../data/banter.schemas.in.h:31
+msgid "The name and path of the app style that is currently selected."
+msgstr "Nazwa i ścieżka zaznaczonego stylu aplikacji."
+
+#: ../data/banter.schemas.in.h:32
+msgid "The name and path of the contact style that is currently selected."
+msgstr "Nazwa i ścieżka zaznaczonego stylu kontaktu."
+
+#: ../data/banter.schemas.in.h:33
+msgid "The name and path of the message style that is currently selected."
+msgstr "Nazwa i ścieżka zaznaczonego stylu wiadomości."
+
+#: ../data/banter.schemas.in.h:34
+msgid "The name and path of the theme that should be used."
+msgstr "Nazwa i ścieżka motywu, który ma zostać użyty."
+
+#: ../data/banter.schemas.in.h:35
+msgid ""
+"The name of the Message Style Variant that should be used. Set this to an "
+"empty string to not use a variant. The variant name depends on the selected "
+"message style."
+msgstr ""
+"Nazwa wariantu stylu wiadomości, który ma zostać użyty. Ustawienie pustego "
+"ciągu oznacza wyłączenie wariantów. Nazwa wariantów zależy od zaznaczonego "
+"stylu wiadomości."
+
+#: ../data/banter.schemas.in.h:36
+msgid "The name of the Message Style that should be used for the chat window."
+msgstr "Nazwa stylu wiadomości, jaka ma zostać użyta dla okna rozmowy."
+
+#: ../data/banter.schemas.in.h:37
+msgid "Use TLS"
+msgstr "Użycie TLS"
+
+#: ../data/banter.schemas.in.h:38
+msgid "Use old style ssl"
+msgstr "Użycie starego typu SSL"
+
+#: ../data/banter.schemas.in.h:39
+msgid "Use ssl"
+msgstr "Użycie SSL"
+
+#: ../data/banter.schemas.in.h:40
+msgid "Use the TLS transport"
+msgstr "Użycie transportu TLS"
