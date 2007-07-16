@@ -243,28 +243,35 @@ namespace Banter
 		private static IConnection GetExistingConnection (string tpManager, string accountName)
 		{
 			Logger.Debug ("GetExistingConnection - called");
-			IConnection iconn = null;
-			string fullBusName = tpManager +"/"; 
-			string objectPath = fullBusName.Replace ('.', '/');	
-				
-			fullBusName += accountName;
-			objectPath += accountName;
 			
-			Logger.Debug ("  BusName:{0}", fullBusName);
-			Logger.Debug ("  Object Path: {0}", objectPath);
-			ObjectPath op = new ObjectPath (objectPath);
+			// Existing gabble connection
+			IConnection conn = null;
 			
-			try {
-				iconn =	Bus.Session.GetObject<IConnection> (fullBusName, op);
-				if (iconn != null) {
-					Logger.Debug ("Found an existing connection");
-					Logger.Debug ("  protocol: {0}", iconn.Protocol);
-					Logger.Debug ("  status: {0}", iconn.Status.ToString());
-				}
-			} catch{}
-
-			return null;
-			//return iconn;			
+			try
+			{
+				ObjectPath opath = new ObjectPath ("/org/freedesktop/DBus");
+   				string name = "org.freedesktop.DBus";
+   				string gabbleConnectionName = 
+   					"org.freedesktop.telepathy.connection.gabble.jabber";
+   				
+   				org.freedesktop.DBus.IBus bus = 
+   					Bus.Session.GetObject<org.freedesktop.DBus.IBus> (name, opath);
+   					
+   				string[] busnames = bus.ListNames ();
+   				foreach (string busname in busnames) {
+  					if (busname.ToLower ().StartsWith (gabbleConnectionName) == true)
+   					{
+   						string gpath = "/" + busname.Replace ('.', '/');
+   						conn =
+   							Bus.Session.GetObject<IConnection> (
+   								busname, 
+   								new ObjectPath (gpath));
+   						break;
+   					}
+   				}
+			}
+			catch{}
+			return conn;			
 		}
 		
 		private static bool GetCredentialsHack (string type, out string username, out string password)
@@ -383,14 +390,11 @@ namespace Banter
 			
 			// Check if a connection already exists to the targ account
 			Banter.JabberAccount account;
-			IConnection existingConnection = null;
-			
-			/*
+			IConnection existingConnection = 
 				AccountManagement.GetExistingConnection(
 					"org.freedesktop.Telepathy.ConnectionManager.gabble",
 					//Banter.ProtocolName.Jabber,
 					username);
-			*/
 					
 			if (existingConnection != null) {
 				// call Account constructor for existing connection
