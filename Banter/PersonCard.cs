@@ -168,7 +168,7 @@ namespace Banter
 			// Add capabilities icons if they have any capabilities
 			// change this later to show their capabilities when we actually have them
 			if(person.Presence.Type != PresenceType.Offline) {
-				HBox actionBox = new HBox(false, 10);
+				HBox actionBox = new HBox(false, 0);
 
 				widgetColumns.PackStart(actionBox, false, false, 0);
 

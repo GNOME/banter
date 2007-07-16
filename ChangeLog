@@ -1,5 +1,9 @@
 2007-07-16  Calvin Gaisford <calvinrg@gmail.com> 
 
+	* Banter/PersonCard.cs: Removed un-needed spaces
+
+2007-07-16  Calvin Gaisford <calvinrg@gmail.com> 
+
 	* data/images/webcam.png, data/images/Makefile.am,
 	  data/images/video.png, Banter/PersonCard.cs, Banter/Makefile.am:
 	  Changed video.png to webcam.png
