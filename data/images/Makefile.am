@@ -5,8 +5,10 @@ pixmap_DATA = 	banter-16.png \
 				banter-24.png \
 				banter-32.png \
 				banter-44.png \
-	blank-photo-128.png \
-	blank-photo.svg
+				blank-photo-128.png \
+				blank-photo.svg \
+				text.png \
+				video.png
 
 hicolordir = $(datadir)/icons/hicolor
 

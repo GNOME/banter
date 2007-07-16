@@ -79,7 +79,7 @@ namespace Banter
 			set {
 				Logger.Debug ("FIXME: PersonView should handle card sizing better: {0}", value);
 				personCardSize = value;
-				PopulatePersonView();
+				// PopulatePersonView();
 			}
 		}
 		#endregion

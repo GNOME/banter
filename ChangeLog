@@ -1,3 +1,13 @@
+2007-07-16  Calvin Gaisford <calvinrg@gmail.com> 
+
+	* Banter.mdp: Updated project
+	* data/images/text.png, data/images/video.png: added text and video png
+	* data/images/Makefile.am: Added text and video images
+	* Banter/UriList.cs: new class to handle drag and drop
+	* Banter/PersonCard.cs: Swapped out the Person Card HTML stuff
+	* Banter/PersonView.cs: Updated PersonView to not update so often
+	* Banter/Makefile.am: Added StatusEntry and UriList
+
 2007-06-14  Calvin Gaisford <calvinrg@gmail.com> 
 
 	* Banter/NotificationManager.cs: Hacked NotificationManager to deal

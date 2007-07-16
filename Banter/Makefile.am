@@ -69,7 +69,8 @@ CSFILES = \
 	$(srcdir)/WrapBox.cs \
 	$(srcdir)/InterruptableTimeout.cs \
 	$(srcdir)/HIGMessageDialog.cs \
-	$(srcdir)/StatusEntry.cs
+	$(srcdir)/StatusEntry.cs \
+	$(srcdir)/UriList.cs
 
 RESOURCES = \
 	-resource:$(top_srcdir)/data/images/banter-16.png \
@@ -79,6 +80,8 @@ RESOURCES = \
 	-resource:$(top_srcdir)/data/images/banter-44.png \
 	-resource:$(top_srcdir)/data/images/blank-photo-128.png \
 	-resource:$(top_srcdir)/data/images/blank-photo.svg \
+	-resource:$(top_srcdir)/data/images/text.png \
+	-resource:$(top_srcdir)/data/images/video.png \
 	-resource:$(top_srcdir)/data/Themes/MessageStyles/Template.html \
 	-resource:$(srcdir)/UIManagerLayout.xml 
 
