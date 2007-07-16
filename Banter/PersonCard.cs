@@ -172,7 +172,7 @@ namespace Banter
 
 				widgetColumns.PackStart(actionBox, false, false, 0);
 
-				Gtk.Image actionImage = new Gtk.Image(Utilities.GetIcon("video", 24));
+				Gtk.Image actionImage = new Gtk.Image(Utilities.GetIcon("webcam", 24));
 
 				Gtk.Button button = new Gtk.Button();
 				button.BorderWidth = 0;

@@ -81,7 +81,7 @@ RESOURCES = \
 	-resource:$(top_srcdir)/data/images/blank-photo-128.png \
 	-resource:$(top_srcdir)/data/images/blank-photo.svg \
 	-resource:$(top_srcdir)/data/images/text.png \
-	-resource:$(top_srcdir)/data/images/video.png \
+	-resource:$(top_srcdir)/data/images/webcam.png \
 	-resource:$(top_srcdir)/data/Themes/MessageStyles/Template.html \
 	-resource:$(srcdir)/UIManagerLayout.xml 
 

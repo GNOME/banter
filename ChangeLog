@@ -1,5 +1,11 @@
 2007-07-16  Calvin Gaisford <calvinrg@gmail.com> 
 
+	* data/images/webcam.png, data/images/Makefile.am,
+	  data/images/video.png, Banter/PersonCard.cs, Banter/Makefile.am:
+	  Changed video.png to webcam.png
+
+2007-07-16  Calvin Gaisford <calvinrg@gmail.com> 
+
 	* Banter.mdp: Updated project
 	* data/images/text.png, data/images/video.png: added text and video png
 	* data/images/Makefile.am: Added text and video images

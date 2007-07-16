@@ -8,7 +8,7 @@ pixmap_DATA = 	banter-16.png \
 				blank-photo-128.png \
 				blank-photo.svg \
 				text.png \
-				video.png
+				webcam.png
 
 hicolordir = $(datadir)/icons/hicolor
 
