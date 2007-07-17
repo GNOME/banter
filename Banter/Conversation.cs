@@ -192,8 +192,7 @@ namespace Banter
 				PendingMessageInfo[] msgInfos = txtChannel.ListPendingMessages (true);
 				foreach (PendingMessageInfo info in msgInfos) {
 					Logger.Debug ("Pending Message: {0}", info.Message);
-					txtMessage = new TextMessage (info.Message);
-					txtMessage.From = peerUser.Uri;
+					txtMessage = new TextMessage (info.Message, peerUser);
 					messages.Add (txtMessage);
 				}
 			} catch{}
@@ -271,7 +270,7 @@ namespace Banter
 				Logger.Debug ("  received message from: {0}", peerUser.Uri);
 				Logger.Debug ("  peer id: {0}  incoming id: {1}", peerUser.ID, id);
 				
-				TextMessage txtMessage = new TextMessage (text);
+				TextMessage txtMessage = new TextMessage (text, peerUser);
 				messages.Add (txtMessage);
 				
 				if (current != 0) last = current;

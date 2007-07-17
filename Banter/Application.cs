@@ -128,7 +128,7 @@ namespace Banter
 			SetUpGlobalActions ();
 			
 			// Initialize the Theme Manager
-			ThemeManager.Init ();
+			// ThemeManager.Init ();
 
 			//tray = new NotificationArea("RtcApplication");
 			SetupTrayIcon();
@@ -271,10 +271,6 @@ namespace Banter
 //      			everyone.Activated += OnEveryone;
 //      			popupMenu.Add (everyone);
 
-      			ImageMenuItem accounts = new ImageMenuItem (
-      					Catalog.GetString ("Accounts"));
-      			accounts.Activated += OnAccounts;
-      			popupMenu.Add (accounts);
       			
       			SeparatorMenuItem separator = new SeparatorMenuItem ();
       			popupMenu.Add (separator);
@@ -296,12 +292,6 @@ namespace Banter
       			popupMenu.Popup(null, null, null, args.Event.Button, args.Event.Time);
    			}
 		}		
-		
-
-		private void OnAccounts (object o, System.EventArgs args)
-		{
-			Logger.Debug ("Selected Accounts");
-		}
 		
 		private void OnPreferences (object sender, EventArgs args)
 		{
@@ -372,8 +362,8 @@ namespace Banter
 			string username = dialog.GoogleTalkUsername;
 			string password = dialog.GoogleTalkPassword;
 			
-			string sipUsername = dialog.SipUsername;
-			string sipPassword = dialog.SipPassword;
+//			string sipUsername = dialog.SipUsername;
+//			string sipPassword = dialog.SipPassword;
 			
 			((Gtk.Widget)sender).Destroy ();
 			preferencesDialog = null;
@@ -385,12 +375,12 @@ namespace Banter
 				Logger.Debug ("Cannot save empty credentials.  Reverting to old credential state.");
 			}
 			
-			if (sipUsername != null && sipPassword != null) {
+/*			if (sipUsername != null && sipPassword != null) {
 				AccountManagement.SetSipCredentialsHack (sipUsername, sipPassword);
 			} else {
 				Logger.Debug ("Cannot save empty SIP credentials.  Reverting to old credential state.");
 			}
-
+*/
 			// FIXME: Remove this eventually.  It's a hack to retry starting the AccountManager assuming the user entered credentials
 			if (!initialized && AccountManagement.InitializedFinished() == false)
 			{

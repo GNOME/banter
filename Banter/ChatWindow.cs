@@ -238,9 +238,18 @@ namespace Banter
 			messagesVPaned.Show ();
 			rightPaneVBox.PackStart (messagesVPaned, true, true, 0);
 			
+			Gtk.ScrolledWindow sw = new ScrolledWindow();
+			sw.VscrollbarPolicy = PolicyType.Automatic;
+			sw.HscrollbarPolicy = PolicyType.Never;
+			//scrolledWindow.ShadowType = ShadowType.None;
+			sw.BorderWidth = 0;
+			sw.CanFocus = true;
+			sw.Show ();
+			
 			messagesView = new MessagesView ();
 			messagesView.Show ();
-			messagesVPaned.Pack1(messagesView, true, true);
+			sw.Add(messagesView);
+			messagesVPaned.Pack1(sw, true, true);
 			
 			typingVBox = new VBox (false, 0);
 			typingVBox.Show ();
@@ -591,7 +600,7 @@ namespace Banter
 			string text = typingTextView.Buffer.Text;
 			typingTextView.Buffer.Clear ();
 			
-			TextMessage msg = new TextMessage (text);
+			TextMessage msg = new TextMessage (text, PersonManager.Me.ProviderUser);
 			conv.SendMessage (msg);
 		}
 		

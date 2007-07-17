@@ -21,11 +21,112 @@
 
 using System;
 using System.Collections.Generic;
-using Gecko;
-using AspNetEdit.JSCall; // jscall-sharp
+using Gtk;
+using Gdk;
 
 namespace Banter
 {
+	public class MessagesView : Gtk.TextView
+	{
+		#region Public Constructors
+		public MessagesView() : base ()
+		{
+			this.Editable = false;
+			this.WrapMode = Gtk.WrapMode.Word;
+			SetupTextBufferTags();
+		}
+		#endregion
+
+		#region Private Methods
+		private void SetupTextBufferTags()
+		{
+			Gtk.TextTag tag = new Gtk.TextTag("time");
+			tag.Foreground = "darkgrey";
+			//tag.Justification = Justification.Right;
+			this.Buffer.TagTable.Add(tag);
+
+			tag = new Gtk.TextTag("incoming");
+			tag.Foreground = "darkgreen";
+			tag.Weight = Pango.Weight.Bold;
+			this.Buffer.TagTable.Add(tag);
+
+			tag = new Gtk.TextTag("outgoing");
+			tag.Foreground = "darkblue";
+			tag.Weight = Pango.Weight.Bold;
+			this.Buffer.TagTable.Add(tag);
+
+			tag = new Gtk.TextTag("system");
+			tag.Foreground = "darkgrey";
+			tag.Style = Pango.Style.Italic;
+			this.Buffer.TagTable.Add(tag);
+		}
+
+		private void AddTaggedString(string tag, string date)
+		{
+			TextIter insertIter, beginIter, endIter;
+			int begin, end;
+
+			begin = this.Buffer.CharCount;
+			insertIter = this.Buffer.GetIterAtMark(
+					this.Buffer.InsertMark);
+			this.Buffer.Insert (insertIter, date);
+			end = this.Buffer.CharCount;
+			endIter = this.Buffer.GetIterAtOffset(end);
+			beginIter = this.Buffer.GetIterAtOffset(begin);
+			this.Buffer.ApplyTag (tag, beginIter, endIter);
+		}
+
+		private void AddPicture(Pixbuf pixbuf)
+		{
+			TextIter insertIter;
+
+			if(pixbuf != null)
+			{
+				insertIter = this.Buffer.GetIterAtMark( 
+						this.Buffer.InsertMark);
+				this.Buffer.InsertPixbuf (ref insertIter, pixbuf);
+			}
+			else
+				Console.WriteLine("THE pixbuf was null!");
+		}
+
+
+		#endregion
+
+		#region Public Methods
+		public void AddMessage (Message message, bool incoming, bool contentIsSimilar, string avatarPath)
+		{
+			AddTaggedString("time", String.Format("({0:t}) ", message.Creation));
+
+			if (message is TextMessage) {
+				string formatter;
+				if(incoming)
+					formatter = "incoming";
+				else
+					formatter = "outgoing";
+				if(message.Sender != null)
+					AddTaggedString(formatter, message.Sender.Alias);
+				else
+					AddTaggedString(formatter, "Unknown");
+				this.Buffer.Insert(this.Buffer.EndIter, " ");
+				this.Buffer.Insert(this.Buffer.EndIter, message.Text);
+				this.Buffer.Insert(this.Buffer.EndIter, "\r");
+			} else if (message is SystemMessage) {
+//				this.Buffer.Insert(this.Buffer.EndIter, "\r");
+				AddTaggedString("system", "System Message ");
+				AddTaggedString("system", message.Text);
+				this.Buffer.Insert(this.Buffer.EndIter, "\r");
+			} else {
+				Console.WriteLine ("FIXME: Deal with unknown message type"); 
+			}
+		}
+		#endregion
+
+		#region Public Properties
+		#endregion
+	}
+}
+/*
 	public class MessagesView : Gecko.WebControl
 	{
 		MessageStyle messageStyle;
@@ -178,3 +279,5 @@ namespace Banter
 #endregion
 	}
 }
+
+*/

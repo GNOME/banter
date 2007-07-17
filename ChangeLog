@@ -1,5 +1,92 @@
 2007-07-17  Calvin Gaisford <calvinrg@gmail.com> 
 
+	* test, test/TelepathyTest, test/TelepathyTest/AssemblyInfo.cs,
+	  test/TelepathyTest/TelepathyTest.usertasks,
+	  test/TelepathyTest/Main.cs,
+	  test/TelepathyTest/TelepathyTest.userprefs,
+	  test/TelepathyTest/TelepathyTest.mdp, test/StreamObjectTest,
+	  test/StreamObjectTest/AssemblyInfo.cs,
+	  test/StreamObjectTest/MainWindow.cs,
+	  test/StreamObjectTest/StreamObjectTest.mdp,
+	  test/StreamObjectTest/VideoWindow.cs,
+	  test/StreamObjectTest/gtk-gui,
+	  test/StreamObjectTest/gtk-gui/MainWindow.cs,
+	  test/StreamObjectTest/gtk-gui/generated.cs,
+	  test/StreamObjectTest/gtk-gui/gui.stetic,
+	  test/StreamObjectTest/Main.cs, test/StreamObjectTest/ChatWindow.cs,
+	  tapioca-sharp, tapioca-sharp/configure.ac.old,
+	  tapioca-sharp/tapioca, tapioca-sharp/tapioca/ConnectionGroup.cs,
+	  tapioca-sharp/tapioca/TextChannel.cs,
+	  tapioca-sharp/tapioca/StreamAudio.cs,
+	  tapioca-sharp/tapioca/Avatar.cs,
+	  tapioca-sharp/tapioca/ChannelTarget.cs,
+	  tapioca-sharp/tapioca/TextChannelMessage.cs,
+	  tapioca-sharp/tapioca/StreamVideo.cs,
+	  tapioca-sharp/tapioca/StreamObject.cs,
+	  tapioca-sharp/tapioca/ConnectionManagerFactory.cs,
+	  tapioca-sharp/tapioca/StreamChannel.cs,
+	  tapioca-sharp/tapioca/ConfigureDefines.cs.in,
+	  tapioca-sharp/tapioca/DBusProxyObject.cs,
+	  tapioca-sharp/tapioca/ContactBase.cs,
+	  tapioca-sharp/tapioca/ContactList.cs,
+	  tapioca-sharp/tapioca/GroupManager.cs,
+	  tapioca-sharp/tapioca/ContactListControl.cs,
+	  tapioca-sharp/tapioca/ConfigFileReader.cs,
+	  tapioca-sharp/tapioca/PrivContactList.cs,
+	  tapioca-sharp/tapioca/ConnectionManager.cs,
+	  tapioca-sharp/tapioca/UserContact.cs,
+	  tapioca-sharp/tapioca/Contact.cs,
+	  tapioca-sharp/tapioca/ConnectionManagerParameter.cs,
+	  tapioca-sharp/tapioca/Handle.cs,
+	  tapioca-sharp/tapioca/Connection.cs,
+	  tapioca-sharp/tapioca/AssemblyInfo.cs.in,
+	  tapioca-sharp/tapioca/Enum.cs, tapioca-sharp/tapioca/Makefile.am,
+	  tapioca-sharp/tapioca/ContactGroup.cs,
+	  tapioca-sharp/tapioca/Channel.cs, tapioca-sharp/tapioca/Util,
+	  tapioca-sharp/tapioca/Util/ManagerFileReader.cs,
+	  tapioca-sharp/tapioca/Util/ConfigFileReader.cs,
+	  tapioca-sharp/LICENSE, tapioca-sharp/tapioca-sharp.snk,
+	  tapioca-sharp/AUTHORS, tapioca-sharp/ChangeLog,
+	  tapioca-sharp/README, tapioca-sharp/INdT.Tapioca.dll.config.in,
+	  tapioca-sharp/tapioca-sharp.pc.in, tapioca-sharp/tests,
+	  tapioca-sharp/tests/tests.mdp,
+	  tapioca-sharp/tests/ConnectionTest.cs, tapioca-sharp/tests/Main.cs,
+	  tapioca-sharp/tests/Makefile.am, tapioca-sharp/tests/ITest.cs,
+	  tapioca-sharp/tests/ConnectionManagerTest.cs,
+	  tapioca-sharp/INSTALL, tapioca-sharp/COPYING,
+	  tapioca-sharp/Makefile.am, tapioca-sharp/tapioca-sharp.mdp,
+	  tapioca-sharp/NEWS, Makefile.am: removed tapioca-sharp and old
+	  non-functioning test code
+	* external, external/dbus-sharp-glib,
+	  external/dbus-sharp-glib/NDesk.DBus.GLib.dll,
+	  external/dbus-sharp-glib/NDesk.DBus.GLib.dll.config, external/db4o,
+	  external/db4o/6.1, external/db4o/6.1/Db4objects.Db4o.Tools.dll,
+	  external/db4o/6.1/Db4objects.Db4o.dll, external/telepathy-sharp,
+	  external/telepathy-sharp/INdT.Telepathy.dll,
+	  external/telepathy-sharp/INdT.Telepathy.dll.mdb: removed un-needed
+	  external files
+	* Banter.mdp: Removed a bunch of old files that we don't use
+	* configure.ac, data/Themes, data/Themes/ContactStyles,
+	  data/Themes/ContactStyles/basic-black.tar.gz,
+	  data/Themes/ContactStyles/basic.tar.gz, data/Themes/MessageStyles,
+	  data/Themes/MessageStyles/PurePlastics.AdiumMessageStyle.tar.gz,
+	  data/Themes/MessageStyles/Template.html, data/Themes/Makefile.am,
+	  data/Makefile.am, Banter/PreferencesDialog.cs, Banter/WrapBox.cs,
+	  Banter/ThemeManager.cs: removed themes
+	* Banter/ContactStyleInfo.cs, Banter/ContactStyle.cs,
+	  Banter/AppStyleInfo.cs, Banter/MessageStyleInfo.cs,
+	  Banter/MessageStore.cs, Banter/AppStyle.cs, Banter/MessageStyle.cs:
+	  Removed all Themes because we are moving away from HTML
+	* Banter/Application.cs: Removed all of the themes
+	* Banter/ChatWindow.cs: Changed the Chatwindow to non HTML
+	* Banter/Message.cs: Modified to pass a ProviderUser
+	* Banter/MessagesView.cs: Updated view to use new GTK# view
+	* Banter/Makefile.am: Removed the Themes
+	* Banter/Conversation.cs: Updated conversation to place in new objects
+	  in the messages
+
+2007-07-17  Calvin Gaisford <calvinrg@gmail.com> 
+
 	* Banter/Account.cs: fixed status messages
 	* Banter/StatusEntry.cs, Banter/Person.cs, Banter/GroupWindow.cs,
 	  Banter/PersonCard.cs: debug

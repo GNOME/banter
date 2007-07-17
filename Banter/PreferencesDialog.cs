@@ -31,9 +31,9 @@ namespace Banter
 		// Widgets used for the General Tab
 		
 		// Widgets used for the Messages Tab
-		MessagesView messagesView;
-		ComboBox messageStyleComboBox;
-		ComboBox variantComboBox;
+//		MessagesView messagesView;
+//		ComboBox messageStyleComboBox;
+//		ComboBox variantComboBox;
 		
 		// Widgets used for the Accounts Tab
 		Entry serverAddressEntry;
@@ -41,9 +41,9 @@ namespace Banter
 		Entry usernameEntry;
 		Entry passwordEntry;
 		
-		Entry sipServerAddressEntry;
-		Entry sipUsernameEntry;
-		Entry sipPasswordEntry;
+//		Entry sipServerAddressEntry;
+//		Entry sipUsernameEntry;
+//		Entry sipPasswordEntry;
 		
 		public PreferencesDialog() : base ()
 		{
@@ -109,49 +109,6 @@ namespace Banter
 			//PropertyEditorBool peditorBool;
 
 			VBox vbox = new VBox (false, 0);
-			string variant = Preferences.Get (Preferences.SelectedMessageStyleVariant) as String;
-			messagesView = new MessagesView (ThemeManager.MessageStyle, variant);
-			vbox.PackStart (messagesView);
-			
-			Table table = new Table (10, 3, false);
-			table.BorderWidth = 8;
-			table.RowSpacing = 4;
-			table.ColumnSpacing = 8;
-			vbox.PackStart (table, true, true, 0);
-			
-			//
-			// Message Style Row
-			//
-			Label label = MakeLabel (Catalog.GetString ("Message Style:"));
-			label.Xalign = 1;
-			table.Attach (label, 0, 1, 0, 1, (AttachOptions) 0, (AttachOptions) 0, 0, 0);
-			
-			messageStyleComboBox = new ComboBox ();
-			CellRendererText crt = new CellRendererText ();
-			crt.Xpad = 5;
-			messageStyleComboBox.PackStart (crt, true);
-			messageStyleComboBox.SetCellDataFunc (crt, new CellLayoutDataFunc (MessageStyleComboBoxDataFunc));
-			table.Attach (messageStyleComboBox, 1, 2, 0, 1, AttachOptions.Expand | AttachOptions.Fill, 0, 0, 0);
-			
-			label = MakeLabel (Catalog.GetString ("Style changes take effect for new message windows."));
-			label.Wrap = true;
-			table.Attach (label, 2, 3, 0, 1, 0, 0, 0, 0);
-			
-			//
-			// Variant Row
-			//
-			label = MakeLabel (Catalog.GetString ("Variant:"));
-			label.Xalign = 1;
-			table.Attach (label, 0, 1, 1, 2, 0, 0, 0, 0);
-			
-			variantComboBox = ComboBox.NewText ();
-//			variantComboBox = new ComboBox (messageStyle.
-//			crt = new CellRendererText ();
-//			crt.Xpad = 5;
-//			variantComboBox.PackStart (crt, true);
-//			variantComboBox.SetCellDataFunc (crt, new CellLayoutDataFunc (VariantComboBoxDataFunc));
-			table.Attach (variantComboBox, 1, 2, 1, 2, AttachOptions.Expand | AttachOptions.Fill, 0, 0, 0);
-			
 			return vbox;
 		}
 		
@@ -161,7 +118,7 @@ namespace Banter
 			vbox.BorderWidth = 8;
 			
 			vbox.PackStart (MakeGoogleTalkPreferences (), false, false, 0);
-			vbox.PackStart (MakeSipPreferences (), false, false, 0);
+			//vbox.PackStart (MakeSipPreferences (), false, false, 0);
 			
 			vbox.Show ();
 			return vbox;
@@ -250,7 +207,8 @@ namespace Banter
 			
 			return vbox;
 		}
-		
+
+/*		
 		private Widget MakeSipPreferences ()
 		{
 			PropertyEditor peditor;
@@ -320,7 +278,7 @@ namespace Banter
 			
 			return vbox;
 		}
-		
+*/		
 		Label MakeLabel (string label_text)
 		{
 			Gtk.Label label = new Gtk.Label (label_text);
@@ -380,17 +338,6 @@ namespace Banter
 			peditor.Setup ();
 		}
 
-		void MessageStyleComboBoxDataFunc (
-					CellLayout cellLayout, CellRenderer cell,
-					TreeModel treeModel, TreeIter iter)
-		{
-			MessageStyleInfo styleInfo = treeModel.GetValue (iter, 0) as MessageStyleInfo;
-			if (styleInfo != null)
-				(cell as CellRendererText).Text = styleInfo.Name;
-			else
-				(cell as CellRendererText).Text = Catalog.GetString ("<Unknown Style>");
-		}
-
 /*		
 		void VariantComboBoxDataFunc (
 					CellLayout cellLayout, CellRenderer cell,
@@ -409,102 +356,8 @@ namespace Banter
 		// </summary>
 		bool SimulateConversation ()
 		{
-			// Evan
-			TextMessage tm = new TextMessage (Catalog.GetString (
-					"So a priest, a rabbi, and a chicken walk into a bar."));
-			tm.From = "Evan";
-			messagesView.AddMessage (tm, true, false, null);
-			
-			// Jeff
-			tm = new TextMessage (Catalog.GetString (
-					"I'm pretty sure I've heard this one before"));
-			tm.From = "Jeff";
-			messagesView.AddMessage (tm, false, false, null);
-			tm = new TextMessage (Catalog.GetString (
-					"So what happens next?"));
-			tm.From = "Jeff";
-			messagesView.AddMessage (tm, false, true, null);
-
-			tm = new TextMessage (Catalog.GetString (
-					"If I remember correctly, they explode outward at the speed" +
-					"of light."));
-			tm.From = "Evan";
-			messagesView.AddMessage (tm, true, false, null);
-			tm = new TextMessage (Catalog.GetString (
-					"But that might be if you cross the streams..."));
-			tm.From = "Evan";
-			messagesView.AddMessage (tm, true, true, null);
-			
-			tm = new TextMessage (Catalog.GetString (
-					"...thus negating all existence!"));
-			tm.From = "Jeff";
-			messagesView.AddMessage (tm, false, false, null);
-			
-			EmailMessage em = new EmailMessage ("More Jokes");
-			em.From = "Evan";
-			messagesView.AddMessage (em, true, false, null);
-			
-			tm = new TextMessage (Catalog.GetString (
-					"Precisely!  It's a risk one takes whenever one walks into" +
-					"a bar, I'm afraid, especially if one is a chicken."));
-			tm.From = "Evan";
-			messagesView.AddMessage (tm, true, false, null);
-			
-			StatusMessage sm = new StatusMessage (Catalog.GetString (
-					"Jeff went away"));
-			tm.From = "Jeff";
-			messagesView.AddMessage (sm, true, false, null);
-			
-			tm = new TextMessage (Catalog.GetString (
-					"Gotta run; catch ya later ;)"));
-			tm.From = "Evan";
-			messagesView.AddMessage (tm, true, false, null);
 			
 			return false;
-		}
-		
-		void ReloadMessageStylePreview ()
-		{
-			TreeIter iter;
-			if (!messageStyleComboBox.GetActiveIter (out iter))
-				return;
-			
-			MessageStyleInfo styleInfo = messageStyleComboBox.Model.GetValue (iter, 0) as MessageStyleInfo;
-			if (styleInfo != null) {
-				ThemeManager.SelectedMessageStyle = styleInfo;
-				
-				if (variantComboBox.GetActiveIter (out iter)) {
-					string variant = variantComboBox.Model.GetValue (iter, 0) as string;
-					messagesView.SetMessageStyle (ThemeManager.MessageStyle, variant);
-				} else {
-					messagesView.SetMessageStyle (ThemeManager.MessageStyle, string.Empty);
-				}
-
-				GLib.Timeout.Add (1000, SimulateConversation);
-			}
-		}
-		
-		void PopulateVariantComboBox (MessageStyle style)
-		{
-			// Can't do anything if we're passed null
-			if (style == null)
-				return;
-			
-			// Clear out any old entries
-			// FIXME: Isn't there a better way to do this?
-			while (variantComboBox.Model.IterNChildren () > 0) {
-				variantComboBox.RemoveText (0);
-			}
-			
-			// Add an empty string to show when no variant is selected
-			variantComboBox.AppendText (String.Empty);
-			
-			foreach (string variant in style.Variants) {
-				variantComboBox.AppendText (variant);
-			}
-			
-			// Select the first variant
-			variantComboBox.Active = 0;
 		}
 #endregion
 
@@ -517,37 +370,6 @@ namespace Banter
 		void DialogRealized (object sender, EventArgs args)
 		{
 			// Load the stored preferences
-			messageStyleComboBox.Model = ThemeManager.MessageStyles;
-			
-			TreeIter selectedIter = ThemeManager.SelectedMessageStyleIter;
-
-			if (ThemeManager.MessageStyles.IterIsValid (selectedIter)) {
-				messageStyleComboBox.SetActiveIter (ThemeManager.SelectedMessageStyleIter);
-			}
-			
-			messageStyleComboBox.Changed += OnMessageStyleComboBoxChanged;
-			
-			PopulateVariantComboBox (ThemeManager.MessageStyle);
-			
-			// Select the proper variant
-			string savedVariant = Preferences.Get (Preferences.SelectedMessageStyleVariant) as String;
-			if (savedVariant != null && savedVariant != String.Empty) {
-				TreeIter iter;
-				if (variantComboBox.Model.GetIterFirst (out iter)) {
-					do {
-						string variant = variantComboBox.Model.GetValue (iter, 0) as String;
-						if (variant != null) {
-							if (String.Compare (savedVariant, variant) == 0) {
-								variantComboBox.SetActiveIter (iter);
-								break;
-							}
-						}
-					} while (variantComboBox.Model.IterNext (ref iter));
-				}
-			}
-			
-			variantComboBox.Changed += OnVariantComboBoxChanged;
-			
 			// Set the username and password if one exists
 			string username;
 			string password;
@@ -559,50 +381,14 @@ namespace Banter
 				usernameEntry.Text = Catalog.GetString ("your.username@gmail.com");
 			}
 			
-			if (AccountManagement.GetSipCredentialsHack (out username, out password)) {
+/*			if (AccountManagement.GetSipCredentialsHack (out username, out password)) {
 				sipUsernameEntry.Text = username;
 				sipPasswordEntry.Text = password;
 			} else {
 				sipUsernameEntry.Text = Catalog.GetString ("your.username@ekiga.net");
 			}
-		}
+*/		}
 		
-		void OnMessageStyleComboBoxChanged (object sender, EventArgs args)
-		{
-			TreeIter iter;
-			
-			if (!messageStyleComboBox.GetActiveIter (out iter)) {
-				Logger.Warn ("Could not determine which MessageStyle is selected.  Cannot change it or save the preference.");
-				return;
-			}
-			
-			// Save the new preference (null out the variant)
-			MessageStyleInfo styleInfo = messageStyleComboBox.Model.GetValue (iter, 0) as MessageStyleInfo;
-			ThemeManager.SelectedMessageStyle = styleInfo;
-			Preferences.Set (Preferences.SelectedMessageStyleVariant, String.Empty);
-			
-			// Populate variantComboBox
-			variantComboBox.Changed -= OnVariantComboBoxChanged;
-			PopulateVariantComboBox (ThemeManager.MessageStyle);
-			variantComboBox.Changed += OnVariantComboBoxChanged;
-			
-			ReloadMessageStylePreview ();
-		}
-		
-		void OnVariantComboBoxChanged (object sender, EventArgs args)
-		{
-			// Save off the preference
-			TreeIter iter;
-			if (!variantComboBox.GetActiveIter (out iter)) {
-				Logger.Warn ("Could not determine the active Gtk.TreeIter for the selected MessageStyle Variant.  The preference will not be saved.");
-				return;
-			}
-			
-			string variant = variantComboBox.Model.GetValue (iter, 0) as string;
-			Preferences.Set (Preferences.SelectedMessageStyleVariant, variant);
-
-			ReloadMessageStylePreview ();
-		}
 #endregion
 
 #region Public Properties
@@ -634,7 +420,7 @@ namespace Banter
 			}
 		}
 
-		public string SipUsername
+/*		public string SipUsername
 		{
 			get {
 				string text = sipUsernameEntry.Text;
@@ -655,6 +441,7 @@ namespace Banter
 					return text;
 			}
 		}
+*/
 #endregion
 	}
 }

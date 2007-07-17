@@ -50,8 +50,7 @@ namespace Banter
 	public abstract class Message
 	{
 		public string ID;
-		public string To;
-		public string From;
+		public ProviderUser Sender;
 		public DateTime Creation;
 		public MessagePriority Priority;
 		public string Protocol;
@@ -66,6 +65,9 @@ namespace Banter
 		
 		protected Message (string text) : base()
 		{
+			ID = Guid.NewGuid().ToString();
+			Creation = DateTime.Now;
+			Priority = MessagePriority.Normal;
 			Text = text;
 		}
 	}
@@ -76,8 +78,9 @@ namespace Banter
 	/// </summary>
 	public class TextMessage : Message
 	{
-		public TextMessage (string message) : base(message)
+		public TextMessage (string message, ProviderUser sender) : base(message)
 		{
+			this.Sender = sender;
 		}
 	}
 	

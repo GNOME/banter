@@ -1,19 +1,13 @@
 #SUBDIRS = tapioca-sharp WebKit Banter data po
 SUBDIRS = Banter data po
 
-pkglib_DATA =  $(DLL_REFERENCES)
-DLL_REFERENCES =   $(top_srcdir)/external/db4o/6.1/Db4objects.Db4o.dll
 EXTRA_DIST = \
-	$(DLL_REFERENCES) \
-	\
         intltool-extract.in     \
         intltool-merge.in       \
         intltool-update.in      \
-	\
-	MAINTAINERS
+		MAINTAINERS
 
 DISTCLEANFILES =                        \
-        \
         intltool-extract                \
         intltool-merge                  \
         intltool-update                 \

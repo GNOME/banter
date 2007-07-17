@@ -4,9 +4,6 @@ CSC = gmcs
 TARGET = Banter.exe
 WRAPPER = banter
 
-DB4O_DLL = \
-	-r:$(top_srcdir)/external/db4o/6.1/Db4objects.Db4o.dll
-
 if ENABLE_DEBUG
 CSFLAGS =  -noconfig -codepage:utf8 -warn:4 -debug -d:DEBUG
 endif
@@ -16,8 +13,6 @@ endif
 
 CSFILES = \
 	$(srcdir)/Application.cs \
-	$(srcdir)/AppStyle.cs \
-	$(srcdir)/AppStyleInfo.cs \
 	$(srcdir)/AssemblyInfo.cs \
 	$(srcdir)/AvatarButton.cs \
 	$(srcdir)/AvatarManager.cs \
@@ -25,7 +20,6 @@ CSFILES = \
 	$(srcdir)/AvatarSelector.cs \
 	$(srcdir)/AudioView.cs \
 	$(srcdir)/TrayLib.cs \
-	$(srcdir)/MessageStore.cs \
 	$(srcdir)/Message.cs \
 	$(srcdir)/AccountManagement.cs \
 	$(srcdir)/Account.cs \
@@ -45,17 +39,10 @@ CSFILES = \
 	$(srcdir)/ChatType.cs \
 	$(srcdir)/ChatWindow.cs \
 	$(srcdir)/ChatWindowManager.cs \
-	$(srcdir)/ContactStyle.cs \
-	$(srcdir)/ContactStyleInfo.cs \
 	$(srcdir)/MessagesView.cs \
-	$(srcdir)/MessageStyle.cs \
-	$(srcdir)/MessageStyleInfo.cs \
 	$(srcdir)/NotificationArea.cs \
 	$(srcdir)/NotificationData.cs \
 	$(srcdir)/NotificationManager.cs \
-	$(srcdir)/ThemeManager.cs \
-	$(srcdir)/Theme.cs \
-	$(srcdir)/ThemeInfo.cs \
 	$(srcdir)/GConfPreferencesProvider.cs \
 	$(srcdir)/Preferences.cs \
 	$(srcdir)/PreferencesDialog.cs \
@@ -66,7 +53,6 @@ CSFILES = \
 	$(srcdir)/Avatar.cs \
 	$(srcdir)/AvatarRequirements.cs \
 	$(srcdir)/GroupWindow.cs \
-	$(srcdir)/WrapBox.cs \
 	$(srcdir)/InterruptableTimeout.cs \
 	$(srcdir)/HIGMessageDialog.cs \
 	$(srcdir)/StatusEntry.cs \
@@ -82,26 +68,22 @@ RESOURCES = \
 	-resource:$(top_srcdir)/data/images/blank-photo.svg \
 	-resource:$(top_srcdir)/data/images/text.png \
 	-resource:$(top_srcdir)/data/images/webcam.png \
-	-resource:$(top_srcdir)/data/Themes/MessageStyles/Template.html \
 	-resource:$(srcdir)/UIManagerLayout.xml 
 
 ASSEMBLIES =  \
 	-r:System \
 	-r:Mono.Posix \
 	-r:System.Xml \
-	$(JSCALL_SHARP_LIBS) \
 	$(NDESK_DBUS_GLIB_10_LIBS) \
 	$(NDESK_DBUS_10_LIBS) \
 	$(GNOME_KEYRING_SHARP_LIBS) \
 	$(GCONF_SHARP_20_LIBS) \
-	$(GECKO_SHARP_20_LIBS) \
 	$(GLIB_SHARP_20_LIBS) \
 	$(GNOME_SHARP_20_LIBS) \
 	$(GTK_DOTNET_20_LIBS) \
 	$(EVOLUTION_SHARP_LIBS) \
 	$(TELEPATHY_SHARP_LIBS) \
-	$(NOTIFY_SHARP_LIBS) \
-	$(DB4O_DLL)
+	$(NOTIFY_SHARP_LIBS) 
 
 $(TARGET): $(CSFILES) Defines.cs
 	$(CSC) -out:$@ $(CSFLAGS) $^ $(ASSEMBLIES) $(RESOURCES)

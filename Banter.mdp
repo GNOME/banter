@@ -19,7 +19,6 @@
     <File name="./Banter/Defines.cs" subtype="Code" buildaction="Compile" />
     <File name="./Banter/NotificationArea.cs" subtype="Code" buildaction="Compile" />
     <File name="./Banter/TrayLib.cs" subtype="Code" buildaction="Compile" />
-    <File name="./Banter/MessageStore.cs" subtype="Code" buildaction="Compile" />
     <File name="./Banter/Message.cs" subtype="Code" buildaction="Compile" />
     <File name="./Banter/AccountManagement.cs" subtype="Code" buildaction="Compile" />
     <File name="./Banter/Account.cs" subtype="Code" buildaction="Compile" />
@@ -30,8 +29,6 @@
     <File name="./Banter/Conversation.cs" subtype="Code" buildaction="Compile" />
     <File name="./Banter/ChatWindow.cs" subtype="Code" buildaction="Compile" />
     <File name="./Banter/MessagesView.cs" subtype="Code" buildaction="Compile" />
-    <File name="./Banter/MessageStyle.cs" subtype="Code" buildaction="Compile" />
-    <File name="./Banter/ThemeManager.cs" subtype="Code" buildaction="Compile" />
     <File name="./data/Themes/MessageStyles/Template.html" subtype="Code" buildaction="EmbedAsResource" />
     <File name="./Banter/GConfPreferencesProvider.cs" subtype="Code" buildaction="Compile" />
     <File name="./Banter/Preferences.cs" subtype="Code" buildaction="Compile" />
@@ -49,7 +46,6 @@
     <File name="./data/images/banter-32.png" subtype="Code" buildaction="EmbedAsResource" />
     <File name="./data/images/banter-44.png" subtype="Code" buildaction="EmbedAsResource" />
     <File name="./Banter/GroupWindow.cs" subtype="Code" buildaction="Compile" />
-    <File name="./Banter/WrapBox.cs" subtype="Code" buildaction="Compile" />
     <File name="./Banter/PersonManager.cs" subtype="Code" buildaction="Compile" />
     <File name="./Banter/PersonGroup.cs" subtype="Code" buildaction="Compile" />
     <File name="./Banter/InterruptableTimeout.cs" subtype="Code" buildaction="Compile" />
@@ -58,12 +54,7 @@
     <File name="./Banter/ProviderUser.cs" subtype="Code" buildaction="Compile" />
     <File name="./Banter/Presence.cs" subtype="Code" buildaction="Compile" />
     <File name="./Banter/PersonSync.cs" subtype="Code" buildaction="Compile" />
-    <File name="./Banter/ContactStyle.cs" subtype="Code" buildaction="Compile" />
-    <File name="./Banter/AppStyle.cs" subtype="Code" buildaction="Compile" />
     <File name="./Banter/Theme.cs" subtype="Code" buildaction="Compile" />
-    <File name="./Banter/MessageStyleInfo.cs" subtype="Code" buildaction="Compile" />
-    <File name="./Banter/AppStyleInfo.cs" subtype="Code" buildaction="Compile" />
-    <File name="./Banter/ContactStyleInfo.cs" subtype="Code" buildaction="Compile" />
     <File name="./Banter/ThemeInfo.cs" subtype="Code" buildaction="Compile" />
     <File name="./Banter/HIGMessageDialog.cs" subtype="Code" buildaction="Compile" />
     <File name="./Banter/StatusEntry.cs" subtype="Code" buildaction="Compile" />
@@ -85,12 +76,10 @@
     <ProjectReference type="Gac" localcopy="True" refto="Mono.Posix, Version=2.0.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756" />
     <ProjectReference type="Gac" localcopy="True" refto="System.Xml, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
     <ProjectReference type="Assembly" localcopy="True" refto="./external/db4o/6.1/Db4objects.Db4o.dll" />
-    <ProjectReference type="Gac" localcopy="True" refto="jscall, Version=0.0.2.0, Culture=neutral, PublicKeyToken=db10596f4718e9c9" />
     <ProjectReference type="Gac" localcopy="True" refto="NDesk.DBus.GLib, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f6716e4f9b2ed099" />
     <ProjectReference type="Gac" localcopy="True" refto="NDesk.DBus, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f6716e4f9b2ed099" />
     <ProjectReference type="Gac" localcopy="True" refto="Gnome.Keyring, Version=0.1.0.0, Culture=neutral, PublicKeyToken=1a73e1bde00c9b66" />
     <ProjectReference type="Gac" localcopy="True" refto="gconf-sharp, Version=2.8.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
-    <ProjectReference type="Gac" localcopy="True" refto="gecko-sharp, Version=2.0.0.0, Culture=neutral, PublicKeyToken=ccf7d78a55e9f021" />
     <ProjectReference type="Gac" localcopy="True" refto="glib-sharp, Version=2.8.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
     <ProjectReference type="Gac" localcopy="True" refto="gnome-sharp, Version=2.8.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
     <ProjectReference type="Gac" localcopy="True" refto="gtk-dotnet, Version=2.8.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
@@ -99,6 +88,7 @@
     <ProjectReference type="Gac" localcopy="True" refto="gdk-sharp, Version=2.8.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
     <ProjectReference type="Gac" localcopy="True" refto="INdT.Telepathy, Version=0.13.2.27676, Culture=neutral, PublicKeyToken=492ed1c641a38b09" />
     <ProjectReference type="Gac" localcopy="True" refto="notify-sharp, Version=0.4.0.0, Culture=neutral, PublicKeyToken=2df29c54e245917a" />
+    <ProjectReference type="Gac" localcopy="True" refto="pango-sharp, Version=2.8.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
   </References>
   <MonoDevelop.Autotools.MakefileInfo IntegrationEnabled="True" RelativeMakefileName="./Makefile.am" ExecuteTargetName="run">
     <BuildFilesVar />

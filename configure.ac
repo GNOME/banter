@@ -39,8 +39,6 @@ AM_GLIB_GNU_GETTEXT
 AC_PATH_PROG(GCONFTOOL, gconftool-2)
 AM_GCONF_SOURCE_2
 
-PKG_CHECK_MODULES([JSCALL_SHARP], [jscall-sharp])
-PKG_CHECK_MODULES([GECKO_SHARP_20], [gecko-sharp-2.0])
 PKG_CHECK_MODULES([NDESK_DBUS_GLIB_10], [ndesk-dbus-glib-1.0])
 PKG_CHECK_MODULES([GCONF_SHARP_20], [gconf-sharp-2.0])
 PKG_CHECK_MODULES([NDESK_DBUS_10], [ndesk-dbus-1.0])
@@ -60,32 +58,12 @@ AC_ARG_ENABLE(debug,
 		[Use 'Debug' Configuration [default=yes]]),
 		enable_debug=yes, enable_debug=no)
 AM_CONDITIONAL(ENABLE_DEBUG, test "x$enable_debug" = "xyes")
-if test "x$enable_debug" = "xyes" ; then
-	DEBUG_CONFIG_LIBRARIES=' ${pkglibdir}/Db4objects.Db4o.dll'
-	DEBUG_CONFIG_LIBS=' -r:${pkglibdir}/Db4objects.Db4o.dll'
-	AC_SUBST(DEBUG_CONFIG_LIBRARIES)
-	AC_SUBST(DEBUG_CONFIG_LIBS)
-	CONFIG_REQUESTED="yes"
-fi
+
 AC_ARG_ENABLE(release,
 	AC_HELP_STRING([--enable-release],
 		[Use 'Release' Configuration [default=no]]),
 		enable_release=yes, enable_release=no)
 AM_CONDITIONAL(ENABLE_RELEASE, test "x$enable_release" = "xyes")
-if test "x$enable_release" = "xyes" ; then
-	RELEASE_CONFIG_LIBRARIES=' ${pkglibdir}/Db4objects.Db4o.dll'
-	RELEASE_CONFIG_LIBS=' -r:${pkglibdir}/Db4objects.Db4o.dll'
-	AC_SUBST(RELEASE_CONFIG_LIBRARIES)
-	AC_SUBST(RELEASE_CONFIG_LIBS)
-	CONFIG_REQUESTED="yes"
-fi
-if test -z "$CONFIG_REQUESTED" ; then
-	DEBUG_CONFIG_LIBRARIES=' ${pkglibdir}/Db4objects.Db4o.dll'
-	DEBUG_CONFIG_LIBS=' -r:${pkglibdir}/Db4objects.Db4o.dll'
-	AC_SUBST(DEBUG_CONFIG_LIBRARIES)
-	AC_SUBST(DEBUG_CONFIG_LIBS)
-	AM_CONDITIONAL(ENABLE_DEBUG, true)
-fi
 
 ### Begin GAC tool ###
 
@@ -106,7 +84,6 @@ AC_CONFIG_FILES([
 ./Banter/Makefile
 ./data/Makefile
 ./data/images/Makefile
-./data/Themes/Makefile
 ./data/sounds/Makefile
 ./po/Makefile.in
 ])
