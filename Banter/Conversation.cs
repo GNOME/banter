@@ -414,7 +414,7 @@ namespace Banter
 					if (videoStreams.ContainsKey(streamid)) {
 						if (VideoStreamPlaying != null)
 							VideoStreamPlaying (this);
-						IndicateSystemMessage ("Video chat started");	
+						//IndicateSystemMessage ("Video chat started");	
 	       			} else if (audioStreams.ContainsKey (streamid)) {
 						if (AudioStreamPlaying != null) 
 							AudioStreamPlaying (this);
@@ -635,11 +635,10 @@ namespace Banter
 				audioStreams.Clear();
 				videoStreams.Clear();
 				mediaChannel.Close ();
-				
 				Logger.Debug ("Completed Media Channel cleanup");
-				
 			} catch{}
 			
+			IndicateSystemMessage ("Video chat stopped");	
 			mediaChannel = null;
 		}
 		
@@ -688,7 +687,7 @@ namespace Banter
 					"org.freedesktop.Telepathy.StreamEngine",
 	           		new ObjectPath ("/org/freedesktop/Telepathy/StreamEngine"));
 			streamEngine.Receiving += OnStreamEngineReceiving;
-
+			
 			// Startup an audio stream
 			if (this.initiated == true) {
 				uint[] streamtypes = new uint[1];
@@ -769,6 +768,8 @@ namespace Banter
 			Logger.Debug("Adding Preview Window {0}", previewWindowId);
 		    streamEngine.AddPreviewWindow(previewWindowId);
 			streamEngine.Receiving += OnStreamEngineReceiving;
+
+			IndicateSystemMessage ("Video chat started");
 
 			if (this.initiated == true) {
 				uint[] streamtypes = new uint[2];
