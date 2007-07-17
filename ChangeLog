@@ -1,3 +1,10 @@
+2007-07-17  Calvin Gaisford <calvinrg@gmail.com> 
+
+	* Banter/Person.cs, Banter/ProviderUser.cs: Debug for presence
+	* Banter/PersonCard.cs: Fixed up presence updating
+	* Banter/Conversation.cs: Fixed up multiple setting of output windows
+	  introduced in a new version of Telepathy
+
 2007-07-16  Brady Anderson <brady.anderson@gmail.com> 
 
 	* Banter/AccountManagement.cs: Added code to grab an existing gabble

@@ -67,6 +67,10 @@ namespace Banter
 		private Gtk.Image image;
 		private ProgressBar progressBar;
 		private Label progressLabel;
+		private HBox actionBox;
+		private Gtk.Button textButton;
+		private Gtk.Button videoButton;
+		private Gtk.Label statusLabel;
 		#endregion
 
 
@@ -148,51 +152,25 @@ namespace Banter
 											person.DisplayName);
 			nameVBox.PackStart(label, true, true, 0);
 
-			label = new Label();
-			label.Justify = Gtk.Justification.Left;
-            label.SetAlignment (0.0f, 0.5f);
-			label.UseMarkup = true;
-			label.UseUnderline = false;
+			statusLabel = new Label();
+			statusLabel.Justify = Gtk.Justification.Left;
+            statusLabel.SetAlignment (0.0f, 0.5f);
+			statusLabel.UseMarkup = true;
+			statusLabel.UseUnderline = false;
 
-			label.LineWrap = false;
+			statusLabel.LineWrap = false;
 			
 			if (person.PresenceMessage.Length > 0) {
-				label.Markup = String.Format("<span style=\"italic\" size=\"small\">{0}</span>", person.PresenceMessage);
+				statusLabel.Markup = String.Format("<span style=\"italic\" size=\"small\">{0}</span>", person.PresenceMessage);
 			}
 			else {
-				label.Markup = String.Format("<span style=\"italic\" size=\"small\">{0}</span>", Presence.GetStatusString(person.Presence.Type));
+				statusLabel.Markup = String.Format("<span style=\"italic\" size=\"small\">{0}</span>", Presence.GetStatusString(person.Presence.Type));
 			}
-			nameVBox.PackStart(label, true, true, 0);
+			nameVBox.PackStart(statusLabel, true, true, 0);
 
+			actionBox = new HBox(false, 0);
+			widgetColumns.PackStart(actionBox, false, false, 0);
 
-			// Add capabilities icons if they have any capabilities
-			// change this later to show their capabilities when we actually have them
-			if(person.Presence.Type != PresenceType.Offline) {
-				HBox actionBox = new HBox(false, 0);
-
-				widgetColumns.PackStart(actionBox, false, false, 0);
-
-				Gtk.Image actionImage = new Gtk.Image(Utilities.GetIcon("webcam", 24));
-
-				Gtk.Button button = new Gtk.Button();
-				button.BorderWidth = 0;
-				button.Relief = Gtk.ReliefStyle.None;
-				button.CanFocus = false;
-				button.Image = actionImage;
-				button.Clicked += OnVideoChatClicked;
-				actionBox.PackEnd(button, false, false, 0);
-
-
-				actionImage = new Gtk.Image(Utilities.GetIcon("text", 24));
-				button = new Gtk.Button();
-				button.BorderWidth = 0;
-				button.Relief = Gtk.ReliefStyle.None;
-				button.CanFocus = false;
-				button.Clicked += OnTextChatClicked;
-				button.Image = actionImage;
-
-				actionBox.PackEnd(button, false, false, 0);
-			}
 
 	        widgetColumns.ShowAll();
 	        widgetVBox.PackStart (widgetColumns, true, true, 0);
@@ -214,6 +192,8 @@ namespace Banter
 			progressLabel.Ellipsize = Pango.EllipsizeMode.End;
 			widgetVBox.PackStart (progressLabel, false, false, 0);
 
+
+			OnPersonPresenceUpdated (this.person);
 	        
 	        widgetVBox.ShowAll ();
 	        Add(widgetVBox);
@@ -244,9 +224,52 @@ namespace Banter
 		///</summary>
 		private void OnPersonPresenceUpdated (Person person)
 		{
-			// Logger.Debug("Updating presence on {0}", person.DisplayName);
-//			updateNeeded = true;
-			//RenderWidget();
+			Logger.Debug("OnPersonPresenceUpdated on {0}", person.DisplayName);
+
+			if (person.PresenceMessage.Length > 0) {
+				statusLabel.Markup = String.Format("<span style=\"italic\" size=\"small\">{0}</span>", person.PresenceMessage);
+			}
+			else {
+				statusLabel.Markup = String.Format("<span style=\"italic\" size=\"small\">{0}</span>", Presence.GetStatusString(person.Presence.Type));
+			}
+
+			// Add capabilities icons if they have any capabilities
+			// change this later to show their capabilities when we actually have them
+			if(person.Presence.Type != PresenceType.Offline) {
+				if(videoButton == null) {
+					Gtk.Image actionImage = new Gtk.Image(Utilities.GetIcon("webcam", 24));
+
+					videoButton = new Gtk.Button();
+					videoButton.BorderWidth = 0;
+					videoButton.Relief = Gtk.ReliefStyle.None;
+					videoButton.CanFocus = false;
+					videoButton.Image = actionImage;
+					videoButton.Clicked += OnVideoChatClicked;
+					actionBox.PackEnd(videoButton, false, false, 0);
+					videoButton.Show();
+				}
+				
+				if(textButton == null) {
+					Gtk.Image actionImage = new Gtk.Image(Utilities.GetIcon("text", 24));
+					textButton = new Gtk.Button();
+					textButton.BorderWidth = 0;
+					textButton.Relief = Gtk.ReliefStyle.None;
+					textButton.CanFocus = false;
+					textButton.Clicked += OnTextChatClicked;
+					textButton.Image = actionImage;
+					actionBox.PackEnd(textButton, false, false, 0);
+					textButton.Show();
+				}
+			} else {
+				if(textButton != null) {
+					actionBox.Remove(textButton);
+					textButton = null;
+				}
+				if(videoButton != null) {
+					actionBox.Remove(videoButton);
+					videoButton = null;
+				}
+			}
 		}
 
 	

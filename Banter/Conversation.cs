@@ -74,6 +74,7 @@ namespace Banter
 		
 		private uint previewWindowID;
 		private uint peerWindowID;
+		private bool outputWindowIsSet = false;
 		private List<Message> messages;
 		private Account account;
 		
@@ -381,13 +382,15 @@ namespace Banter
 	       	switch (streamstate ) {
 	       		case StreamState.Connecting:
 	       		{
-					if (videoStreams.ContainsKey(streamid)) {
+					if (videoStreams.ContainsKey(streamid) && (outputWindowIsSet == false) ) {
 						Logger.Debug("Stream State: Connecting and we found the streamid {0}", streamid);
 						Logger.Debug("Setting output window {0}", peerWindowID);
 						streamEngine.SetOutputWindow (
 							mediaChannelObjectPath, 
 							streamid,
 							this.peerWindowID);
+						// we should only do this once or we blow
+						outputWindowIsSet = true;
 	       			} else if (audioStreams.ContainsKey (streamid)) {
 						Logger.Debug("Stream State: Connecting and we found the streamid {0}", streamid);
 	       			}
@@ -615,6 +618,8 @@ namespace Banter
 		public void RemoveMediaChannel ()
 		{
 			if (mediaChannel == null) return;
+			outputWindowIsSet = false;
+
 			
 			uint i = 0;
 			try {
