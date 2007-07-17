@@ -1,5 +1,9 @@
 2007-07-17  Calvin Gaisford <calvinrg@gmail.com> 
 
+	* Banter/ChatWindow.cs: updated the window size
+
+2007-07-17  Calvin Gaisford <calvinrg@gmail.com> 
+
 	* Banter/MessagesView.cs: Fixed scrolling (actually Boyd did this)
 
 2007-07-17  Calvin Gaisford <calvinrg@gmail.com> 

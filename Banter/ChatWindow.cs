@@ -169,11 +169,11 @@ namespace Banter
 			Title = string.Format ("Chat with {0}", peerPerson.DisplayName);
 			Icon = Utilities.GetIcon ("banter-22", 22);	
 			
-			this.DefaultSize = new Gdk.Size (500, 600); 			
+			this.DefaultSize = new Gdk.Size (400, 700); 			
 		
 			hpaned = new HPaned ();
 			hpaned.CanFocus = true;
-			hpaned.Position = 220;
+			hpaned.Position = 300;
 			hpaned.Show ();
 			
 			this.Add (hpaned);
@@ -235,7 +235,7 @@ namespace Banter
 			if(videoView != null)
 				messagesVPaned.Position = 100;
 			else
-				messagesVPaned.Position = 400;
+				messagesVPaned.Position = 700;
 			messagesVPaned.Show ();
 			rightPaneVBox.PackStart (messagesVPaned, true, true, 0);
 			
