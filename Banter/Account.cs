@@ -363,7 +363,7 @@ namespace Banter
 					memberHandles[0], 
 					true);
 					
-			Logger.Debug ("# known contacts: {0}", memberHandles.Length);
+			//Logger.Debug ("# known contacts: {0}", memberHandles.Length);
 					
 			IChannelGroup cl = Bus.Session.GetObject<IChannelGroup> (connInfo.BusName, op);
 			string[] members = tlpConnection.InspectHandles (HandleType.Contact, cl.Members);
@@ -371,12 +371,12 @@ namespace Banter
 			string[] aliasNames = null;
 			if (aliasing == true) {
 				aliasNames = tlpConnection.RequestAliases (cl.Members);
-				Logger.Debug ("# returned aliases: {0}", aliasNames.Length);	
+				//Logger.Debug ("# returned aliases: {0}", aliasNames.Length);	
 			}	
 
-			Logger.Debug ("# of known contacts: {0}", members.Length);
+			//Logger.Debug ("# of known contacts: {0}", members.Length);
 			for (int i = 0; i < members.Length; i++) {
-				Logger.Debug ("MemberID: {0} Member: {1}", cl.Members[i], members[i]);
+				//Logger.Debug ("MemberID: {0} Member: {1}", cl.Members[i], members[i]);
 				
 				// update the provider user objects
 				string key = ProviderUserManager.CreateKey (members[i], protocol);
@@ -417,7 +417,7 @@ namespace Banter
 		
 		private void ConnectHandlers ()
 		{
-			Logger.Debug ("Account::ConnectHandlers");
+			//Logger.Debug ("Account::ConnectHandlers");
 			
 			this.tlpConnection.NewChannel += OnNewChannel;
 			channelConnected = true;
@@ -440,7 +440,7 @@ namespace Banter
 		
 		private void DisconnectHandlers ()
 		{
-			Logger.Debug ("Account::DisconnectHandlers");
+			//Logger.Debug ("Account::DisconnectHandlers");
 			
 			try {
 				if (avatarsConnected == true) {
@@ -531,12 +531,12 @@ namespace Banter
 			if (message != null && message != String.Empty)
 				banterPresence.Message = message;
 
-			Logger.Debug (
+/*			Logger.Debug (
 				"Updating presence for: {0} to {1}:{2}", 
 				user.Uri, 
 				banterPresence.Type.ToString(), 
 				banterPresence.Message);
-				
+*/				
 			user.Presence = banterPresence;
 		}
 	

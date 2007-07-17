@@ -196,13 +196,13 @@ namespace Banter
 						group.EDSContact = contact;
 						// because we just changed the internal object, we need to emit the event
 						groupTreeStore.EmitRowChanged(groupTreeStore.GetPath(iter), iter);
-						Logger.Debug("PersonManager.OnContactsAdded - Updated PersonGroup: {0}", group.DisplayName);
+						//Logger.Debug("PersonManager.OnContactsAdded - Updated PersonGroup: {0}", group.DisplayName);
 					}
 					else {
 						PersonGroup group = new PersonGroup(contact);
 						Gtk.TreeIter iter = groupTreeStore.AppendValues(group);
 						groupIters[contact.Id] = iter;
-						Logger.Debug ("PersonManager.OnContactsAdded - Added PersonGroup: {0}", contact.FileAs);
+						//Logger.Debug ("PersonManager.OnContactsAdded - Added PersonGroup: {0}", contact.FileAs);
 					}
 				}
 				else {
@@ -212,14 +212,14 @@ namespace Banter
 						person.EDSContact = contact;
 						// because we just changed the internal object, we need to emit the event
 						personTreeStore.EmitRowChanged(personTreeStore.GetPath(iter), iter);
-						Logger.Debug("PersonManager.OnContactsAdded - Updated Person: {0}", contact.FileAs);
+						//Logger.Debug("PersonManager.OnContactsAdded - Updated Person: {0}", contact.FileAs);
 					}
 					else {
 						Person person = new Person(contact);
 						Gtk.TreeIter iter = personTreeStore.AppendValues(person);
 						personIters[contact.Id] = iter;
 						person.UpdateProviderUsers();
-						Logger.Debug ("PersonManager.OnContactsAdded - Added Person: {0}", person.DisplayName);
+						//Logger.Debug ("PersonManager.OnContactsAdded - Added Person: {0}", person.DisplayName);
 					}
 				}
 			}

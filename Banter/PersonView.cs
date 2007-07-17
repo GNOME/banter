@@ -137,16 +137,17 @@ namespace Banter
 			}
 			
 			TreeIter iter;
-			
-Logger.Debug ("PersonView.PopulatePersonView adding {0} people",
-				model.IterNChildren ());
-			
+						
 			// Loop through the model, create the PersonCard objects and add
 			// them into the vbox.
 			if (model.GetIterFirst (out iter)) {
 				do {
 					Person person = model.GetValue (iter, 0) as Person;
 					if (person == null)
+						continue;
+
+					// don't put yourself in the view
+					if (person.IsMe)
 						continue;
 					
 					TreePath path = model.GetPath (iter);
@@ -164,7 +165,7 @@ Logger.Debug ("PersonView.PopulatePersonView adding {0} people",
 				return;
 			}
 			
-			Logger.Debug ("Adding person card: {0}", personCard.Person.DisplayName);
+			// Logger.Debug ("Adding person card: {0}", personCard.Person.DisplayName);
 			personCard.ShowAll ();
 			vbox.PackStart (personCard, false, false, 0);
 			personCardMap [treePathIndex] = personCard;

@@ -166,9 +166,10 @@ namespace Banter
 			shiftKeyPressed = false;
 			
 			// Update the window title
-			Title = string.Format ("Chat with {0}", peerPerson.DisplayName);	
+			Title = string.Format ("Chat with {0}", peerPerson.DisplayName);
+			Icon = Utilities.GetIcon ("banter-22", 22);	
 			
-			this.DefaultSize = new Gdk.Size (400, 600); 			
+			this.DefaultSize = new Gdk.Size (500, 600); 			
 		
 			hpaned = new HPaned ();
 			hpaned.CanFocus = true;

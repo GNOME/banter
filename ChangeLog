@@ -1,5 +1,13 @@
 2007-07-17  Calvin Gaisford <calvinrg@gmail.com> 
 
+	* Banter.mdp: Removed unused references
+	* Banter/Account.cs: removed long debug messages
+	* Banter/ChatWindow.cs, Banter/GroupWindow.cs: fixed up icon
+	* Banter/PersonManager.cs: removed too many debug messages
+	* Banter/PersonView.cs: removed debug messages
+
+2007-07-17  Calvin Gaisford <calvinrg@gmail.com> 
+
 	* test, test/TelepathyTest, test/TelepathyTest/AssemblyInfo.cs,
 	  test/TelepathyTest/TelepathyTest.usertasks,
 	  test/TelepathyTest/Main.cs,

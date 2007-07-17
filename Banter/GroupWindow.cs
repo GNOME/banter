@@ -206,7 +206,7 @@ namespace Banter
 			personCardSize = personView.PersonCardSize;
 			personGroup = selectedGroup;
 			
-			Logger.Debug (
+/*			Logger.Debug (
 					"Window State:\n" +
 					"\tVisible: {0}\n" +
 					"\tGUID: {1}\n" +
@@ -223,11 +223,11 @@ namespace Banter
 					personCardSize,
 					personGroup == null ?
 						"Everyone" : personGroup.DisplayName);
-			
+*/			
 			string keyPrefix = Preferences.GroupWindowPrefix + "/" + guidStr;
 			string key;
 			
-			Logger.Info ("Saving window state: '{0}'...", Title);
+//			Logger.Info ("Saving window state: '{0}'...", Title);
 			try {
 				key = keyPrefix + ConfStateVisible;
 				Preferences.Set (key, visible);
@@ -342,7 +342,7 @@ namespace Banter
 			CreateWidgets ();
 			
 			SetDefaultSize (width, height);
-			Icon = Utilities.GetIcon ("banter", 16);
+			Icon = Utilities.GetIcon ("banter-22", 22);
 			AllowShrink = true;
 			
 			initialPersonCardSize = personCardSize;
