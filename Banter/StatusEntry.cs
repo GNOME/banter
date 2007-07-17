@@ -280,6 +280,7 @@ namespace Banter
 		private void OnStatusEntryActivated (object sender, EventArgs args)
 		{
 			string potentialMessage = statusEntry.Text.Trim ();
+
 			if (potentialMessage.Length > 0) {
 				if (potentialPresenceType != PresenceType.Offline)
 					Presence = new Presence (potentialPresenceType, potentialMessage);

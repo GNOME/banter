@@ -462,7 +462,7 @@ namespace Banter
 		
 		private void OnStatusEntryChanged (Presence presence)
 		{
-			Logger.Debug ("Setting presence on Me to {0}", presence.Message);
+			//Logger.Debug ("Setting presence on Me to {0}", presence.Message);
 			if (PersonManager.Me != null) {
 				PersonManager.Me.SetStatus (presence);
 				

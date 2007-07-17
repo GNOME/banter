@@ -224,7 +224,7 @@ namespace Banter
 		///</summary>
 		private void OnPersonPresenceUpdated (Person person)
 		{
-			Logger.Debug("OnPersonPresenceUpdated on {0}", person.DisplayName);
+			//Logger.Debug("OnPersonPresenceUpdated on {0}", person.DisplayName);
 
 			if (person.PresenceMessage.Length > 0) {
 				statusLabel.Markup = String.Format("<span style=\"italic\" size=\"small\">{0}</span>", person.PresenceMessage);

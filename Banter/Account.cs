@@ -502,8 +502,6 @@ namespace Banter
 		private void UpdatePresence (ProviderUser user, string presence, string message)
 		{
 			Banter.Presence banterPresence = new Banter.Presence (Banter.PresenceType.Offline);
-			if (message != null && message != String.Empty)
-				banterPresence.Message = message;
 				
 			switch (presence)
 			{
@@ -528,6 +526,10 @@ namespace Banter
 				default:
 					break;
 			}
+
+			// Set the message after the type so the message is saved off
+			if (message != null && message != String.Empty)
+				banterPresence.Message = message;
 
 			Logger.Debug (
 				"Updating presence for: {0} to {1}:{2}", 

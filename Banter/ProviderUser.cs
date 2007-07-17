@@ -165,9 +165,8 @@ namespace Banter
 				if (this.presence != null) {
 					Banter.Presence newPresence = value;
 					if ( (this.presence.Type != newPresence.Type) ||
-						(this.presence.Message != newPresence.Message) == false)
+						this.presence.Message.Equals(newPresence.Message) == false)
 					{
-						Logger.Debug("ProviderUser:Presence - calling to update presence");
 						this.presence = newPresence;
 						if (this.PresenceUpdated != null)
 							PresenceUpdated (this);
@@ -268,7 +267,6 @@ namespace Banter
 				Dictionary<string, IDictionary<string, object>> presence = new Dictionary<string, IDictionary<string, object>>();
 				Dictionary<string, object> values = new Dictionary<string, object>();
 				values.Add ("message", myPresence.Message);
-				Logger.Debug("Setting my presence to {0}:{1}", myPresence.Name, myPresence.Message);
 				presence.Add ( myPresence.Name, values);
 				tlpConnection.SetStatus (presence);
 				this.Presence = myPresence;

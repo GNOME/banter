@@ -266,7 +266,7 @@ namespace Banter
 		/// </summary>
 		private void UpdatePresence()
 		{
-			Logger.Debug("FIXME: Person.UpdatePresence should use a policy to get the right presence");
+			//Logger.Debug("FIXME: Person.UpdatePresence should use a policy to get the right presence");
 			if(providerUsers.Count > 0) {
 				presence = providerUsers[0].Presence;
 			}

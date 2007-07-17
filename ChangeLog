@@ -1,5 +1,12 @@
 2007-07-17  Calvin Gaisford <calvinrg@gmail.com> 
 
+	* Banter/Account.cs: fixed status messages
+	* Banter/StatusEntry.cs, Banter/Person.cs, Banter/GroupWindow.cs,
+	  Banter/PersonCard.cs: debug
+	* Banter/ProviderUser.cs: fixed presence bug
+
+2007-07-17  Calvin Gaisford <calvinrg@gmail.com> 
+
 	* Banter/Person.cs, Banter/ProviderUser.cs: Debug for presence
 	* Banter/PersonCard.cs: Fixed up presence updating
 	* Banter/Conversation.cs: Fixed up multiple setting of output windows
