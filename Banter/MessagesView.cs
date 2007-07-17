@@ -33,6 +33,7 @@ namespace Banter
 		{
 			this.Editable = false;
 			this.WrapMode = Gtk.WrapMode.Word;
+			this.CursorVisible = false;
 			SetupTextBufferTags();
 		}
 		#endregion
@@ -119,6 +120,8 @@ namespace Banter
 			} else {
 				Console.WriteLine ("FIXME: Deal with unknown message type"); 
 			}
+
+			ScrollMarkOnscreen (this.Buffer.InsertMark);
 		}
 		#endregion
 
