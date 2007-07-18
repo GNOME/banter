@@ -7,20 +7,26 @@ Please send questions and suggestions to
 Please report bugs using http://bugzilla.gnome.org/
 (http://bugzilla.gnome.org/enter_bug.cgi?product=Banter).
 
+Version 0.1.8
+* Removed gtkmozembed code for stability.
+* Cleaned up the UI for for chat windows and group windows.
+* Updated for support of new Telepathy stack.
+* Removed themes which were causing problems in stability.
+
 Version 0.1.7
-* Quick release to fix timestamps in tarball of 0.1.6
+* Quick release to fix timestamps in tarball of 0.1.6.
 
 Version 0.1.6
-* Video chat is now rockin' with full video/audio support
-* The chat window now handles all types of chats
+* Video chat is now rockin' with full video/audio support.
+* The chat window now handles all types of chats.
 * Video chats can be added and removed to text chats with ease.
-* Major event handling added so incoming and outgoing chats flow well
-* Lots of bug fixes
+* Major event handling added so incoming and outgoing chats flow well.
+* Lots of bug fixes.
 
 Version 0.1.5
-* Avatar UI added to GroupWindow to set and remember avatar history
-* Tapioca sharp dependencies completely removed
-* Introduced video chat with minimal success
+* Avatar UI added to GroupWindow to set and remember avatar history.
+* Tapioca sharp dependencies completely removed.
+* Introduced video chat with minimal success.
 
 Version 0.1.4
 * Status Messages can be set and received in Group and Chat windows.
