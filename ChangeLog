@@ -1,3 +1,9 @@
+2007-07-31  Calvin Gaisford <calvinrg@gmail.com> 
+
+	* Banter/ChatWindowManager.cs: added code to hide all chat windows
+	* Banter/Application.cs: Modified the quit code to give the appearance
+	  of quickly shutting down
+
 2007-07-31  Brady Anderson <brady.anderson@gmail.com> 
 
 	* Banter/NotificationManager.cs: added notification for audio chat only

@@ -124,6 +124,17 @@ namespace Banter
 
 		#region Public Static Methods
 		/// <summary>
+		/// Closes all chat windows
+		/// </summary>
+		static public void CloseAllChatWindows()
+		{
+			foreach(ChatWindow cw in ChatWindowManager.Instance.chatWindows.Values)
+			{
+				cw.Hide();
+			}
+		}		
+		
+		/// <summary>
 		/// Checks to see if we already have a chat windows for a given providerUserID
 		/// </summary>			
 		static public bool ChatWindowExists (uint providerUserID)

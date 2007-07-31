@@ -324,14 +324,26 @@ namespace Banter
 		{
 			Logger.Info ("OnQuitAction called - terminating application");
 
+			trayIcon.Hide();
+
 			// Save off the GroupWindow states
 			if (groupWindows.Count > 0) {
 				Logger.Info ("Saving the state of all group windows...");
 				foreach (GroupWindow gw in groupWindows.Values) {
 					gw.SaveState ();
+					gw.Hide();
 				}
 			}
-			
+
+			// close all chat windows
+			ChatWindowManager.CloseAllChatWindows();
+
+			// Give the appearance of quitting quickly even though we don't
+			GLib.Idle.Add(ShutdownIdle);
+		}
+
+		private bool ShutdownIdle()
+		{
 			AccountManagement.Shutdown();
 			Logger.Debug ("Finished Disconnecting accounts");
 
@@ -340,9 +352,10 @@ namespace Banter
 			
 			// Shutdown the message log store
 			//MessageStore.Stop ();
-			
+
 			Gtk.Main.Quit ();
 			//program.Quit (); // Should this be called instead?
+			return false;
 		}
 		
 		private void OnShowPreferencesAction (object sender, EventArgs args)
