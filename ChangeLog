@@ -1,5 +1,10 @@
 2007-07-31  Calvin Gaisford <calvinrg@gmail.com> 
 
+	* Banter/ChatWindow.cs: Removed the show contact details button...
+	  there is none to show
+
+2007-07-31  Calvin Gaisford <calvinrg@gmail.com> 
+
 	* configure.ac, Banter/NotificationManager.cs, Banter/PersonGroup.cs,
 	  Banter/ChatWindowManager.cs, Banter/Person.cs,
 	  Banter/ChatWindow.cs, Banter/AvatarManager.cs,

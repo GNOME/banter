@@ -42,7 +42,7 @@ namespace Banter
 		private VBox leftPaneVBox;
 		private VBox rightPaneVBox;
 		private VBox personControlVBox;
-		private Button showPersonDetailsButton;
+		//private Button showPersonDetailsButton;
 		private VBox videoVBox;
 		private VBox audioVBox;
 		private VPaned messagesVPaned;
@@ -202,13 +202,13 @@ namespace Banter
 			hbox.Show ();
 			personControlVBox.PackStart (hbox, false, false, 0);
 			
-			showPersonDetailsButton = new Button ();
-			showPersonDetailsButton.CanFocus = true;
-			showPersonDetailsButton.Label = Catalog.GetString ("Show Contact _Details");
-			showPersonDetailsButton.UseUnderline = true;
-			showPersonDetailsButton.Image = new Image (Stock.GoBack, IconSize.Menu);
-			showPersonDetailsButton.Show ();
-			hbox.PackStart (showPersonDetailsButton);
+			//showPersonDetailsButton = new Button ();
+			//showPersonDetailsButton.CanFocus = true;
+			//showPersonDetailsButton.Label = Catalog.GetString ("Show Contact _Details");
+			//showPersonDetailsButton.UseUnderline = true;
+			//showPersonDetailsButton.Image = new Image (Stock.GoBack, IconSize.Menu);
+			//showPersonDetailsButton.Show ();
+			//hbox.PackStart (showPersonDetailsButton);
 			
 			videoVBox = new VBox (false, 0);
 			if(this.chatType == ChatType.Video) {
