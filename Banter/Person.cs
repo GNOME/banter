@@ -232,14 +232,18 @@ namespace Banter
 		public Person(ProviderUser user)
 		{
 			providerUsers = new List<ProviderUser> ();
-			presence = new Presence(PresenceType.Offline);
 
 			if(user != null) {
 				providerUsers.Add(user);
+				if(user.Presence != null)
+					presence = user.Presence;
 				user.PresenceUpdated += ProviderUserPresenceUpdated;
 				user.AvatarTokenUpdated += this.ProviderUserAvatarTokenUpdated;
 				user.AvatarReceived += this.ProviderUserAvatarReceived;
-			}
+			} 
+
+			if(presence == null)
+				presence = new Presence(PresenceType.Offline);
 		}
 		#endregion
 		

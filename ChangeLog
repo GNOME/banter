@@ -1,5 +1,10 @@
 2007-07-31  Calvin Gaisford <calvinrg@gmail.com> 
 
+	* Banter/Person.cs: Fixed the initial status setting
+	* Banter/GroupWindow.cs: Updated to show the avatar
+
+2007-07-31  Calvin Gaisford <calvinrg@gmail.com> 
+
 	* Banter/ChatWindow.cs: Removed the show contact details button...
 	  there is none to show
 

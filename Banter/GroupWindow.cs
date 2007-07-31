@@ -762,6 +762,9 @@ Logger.Debug ("GroupWindow.BuildGroupButtonsView adding {0} groups",
 				statusEntry.Presence = me.Presence;
 				
 				Logger.Debug ("FIXME: Populate the StatusEntry widget with saved status messages.");
+
+				if(me.Photo != null)
+					avatarSelector.Pixbuf = me.Photo;
 				
 				me.PresenceUpdated += OnMyPresenceUpdated;
 			}
@@ -782,6 +785,9 @@ Logger.Debug ("GroupWindow.BuildGroupButtonsView adding {0} groups",
 				
 				Logger.Debug ("FIXME: Populate the StatusEntry widget with saved status messages.");
 				
+				if(me.Photo != null)
+					avatarSelector.Pixbuf = me.Photo;
+
 				me.PresenceUpdated += OnMyPresenceUpdated;
 			} else {
 				PersonManager.Instance.PersonMeArrived += PersonMeArrivedHandler;
