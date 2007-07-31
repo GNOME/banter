@@ -1,5 +1,9 @@
 2007-07-31  Brady Anderson <brady.anderson@gmail.com> 
 
+	* Banter/NotificationManager.cs: added notification for audio chat only
+
+2007-07-31  Brady Anderson <brady.anderson@gmail.com> 
+
 	* Banter/ConversationManager.cs: fixes for bi-directional text chat
 	  startup
 	* Banter/Conversation.cs: small fixes to support bidirectional text

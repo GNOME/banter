@@ -111,6 +111,9 @@ namespace Banter
 			if(chatType == ChatType.Text) {
 				NotifyOfTextMessage(conversation);
 			}
+			else if(chatType == ChatType.Audio) {
+				NotifyOfAudioRequest(conversation);
+			}
 			else if(chatType == ChatType.Video) {
 				NotifyOfVideoRequest(conversation);
 			}
@@ -238,6 +241,56 @@ namespace Banter
 			}
 		}
 
+		/// <summary>
+		/// NotifyOfVideoRequest
+		/// Notifies user of an incoming audio request
+		/// </summary>	
+		private void NotifyOfAudioRequest(Conversation conversation)
+		{
+			// close the current notification before adding another
+			if(currentNotification != null) {
+				Logger.Debug("Current notification != null");
+				currentNotification.Close();
+				currentNotification = null;
+				currentPeerID = 0;
+			}
+
+			lock(notifyLock) {
+				Person peer = PersonManager.GetPerson(conversation.PeerUser);
+				if(peer == null)
+					return;
+
+				String messageTitle = Catalog.GetString("Incoming Audio Chat");
+				String messageBody = String.Format(Catalog.GetString("{0} is requesting an audio chat"), peer.DisplayName);
+				Message[] messages = conversation.GetReceivedMessages();
+					
+				Notification notification;
+				if(peer.Photo != null) {
+					Gdk.Pixbuf sizedPhoto = peer.Photo.ScaleSimple(48, 48, Gdk.InterpType.Bilinear);
+					notification = new Notification(messageTitle,
+													messageBody,
+													sizedPhoto);
+				} else {
+					Gdk.Pixbuf banterIcon = Application.GetIcon ("banter-44", 44);
+					notification = new Notification(messageTitle,
+													messageBody,
+													banterIcon);
+				}
+
+				NotificationData data = new NotificationData(conversation, ChatType.Audio, peer);
+				pendingData[conversation.PeerUser.ID] = data;
+				
+				notification.AddAction("Accept", Catalog.GetString("Accept"), AcceptNotificationHandler);
+				notification.AddAction("Decline", Catalog.GetString("Decline"), DeclineNotificationHandler);
+				notification.Closed += ClosedNotificationHandler;
+				notification.Timeout = 120000;
+				currentNotification = notification;
+				currentPeerID = conversation.PeerUser.ID;
+				Banter.Application.ShowAppNotification(notification);
+				Gnome.Sound.Play(Path.Combine(Banter.Defines.SoundDir, "notify.wav"));
+			}
+		}
+		
 
 		/// <summary>
 		/// NotifyOfVideoRequest
