@@ -66,6 +66,7 @@ RESOURCES = \
 	-resource:$(top_srcdir)/data/images/banter-44.png \
 	-resource:$(top_srcdir)/data/images/blank-photo-128.png \
 	-resource:$(top_srcdir)/data/images/blank-photo.svg \
+	-resource:$(top_srcdir)/data/images/mic.png \
 	-resource:$(top_srcdir)/data/images/text.png \
 	-resource:$(top_srcdir)/data/images/webcam.png \
 	-resource:$(srcdir)/UIManagerLayout.xml 

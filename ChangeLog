@@ -1,5 +1,12 @@
 2007-07-31  Calvin Gaisford <calvinrg@gmail.com> 
 
+	* data/images/Makefile.am, data/images/mic.png, Banter/Makefile.am:
+	  Added Mic graphic for audio calls
+	* Banter/PersonCard.cs: Added Mic graphic for audio calls and ability
+	  to make an audio only call
+
+2007-07-31  Calvin Gaisford <calvinrg@gmail.com> 
+
 	* Banter/ChatWindowManager.cs: added code to hide all chat windows
 	* Banter/Application.cs: Modified the quit code to give the appearance
 	  of quickly shutting down

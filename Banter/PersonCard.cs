@@ -69,6 +69,7 @@ namespace Banter
 		private Label progressLabel;
 		private HBox actionBox;
 		private Gtk.Button textButton;
+		private Gtk.Button audioButton;
 		private Gtk.Button videoButton;
 		private Gtk.Label statusLabel;
 		#endregion
@@ -248,6 +249,18 @@ namespace Banter
 					actionBox.PackEnd(videoButton, false, false, 0);
 					videoButton.Show();
 				}
+
+				if(audioButton == null) {
+					Gtk.Image actionImage = new Gtk.Image(Utilities.GetIcon("mic", 24));
+					audioButton = new Gtk.Button();
+					audioButton.BorderWidth = 0;
+					audioButton.Relief = Gtk.ReliefStyle.None;
+					audioButton.CanFocus = false;
+					audioButton.Image = actionImage;
+					audioButton.Clicked += OnAudioChatClicked;
+					actionBox.PackEnd(audioButton, false, false, 0);
+					audioButton.Show();
+				}
 				
 				if(textButton == null) {
 					Gtk.Image actionImage = new Gtk.Image(Utilities.GetIcon("text", 24));
@@ -383,6 +396,11 @@ namespace Banter
 		private void OnTextChatClicked (object o, EventArgs args)
 		{
 			ChatWindowManager.InitiateChat(person, ChatType.Text);
+		}
+
+		private void OnAudioChatClicked (object o, EventArgs args)
+		{
+			ChatWindowManager.InitiateChat(person, ChatType.Audio);
 		}
 
 		private void OnVideoChatClicked (object o, EventArgs args)

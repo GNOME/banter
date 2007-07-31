@@ -7,6 +7,7 @@ pixmap_DATA = 	banter-16.png \
 				banter-44.png \
 				blank-photo-128.png \
 				blank-photo.svg \
+				mic.png \
 				text.png \
 				webcam.png
 
