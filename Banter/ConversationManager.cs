@@ -56,12 +56,30 @@ namespace Banter
 				if (conversation.PeerUser.Uri.CompareTo (peer.Uri) == 0)
 				{
 					exists = true;
+					break;
 				}
 			}
 			
 			return exists;
 		}
 		
+		static public Conversation GetExistingConversation (ProviderUser peer)
+		{
+			Conversation existing = null;
+			foreach (Conversation conversation in ConversationManager.conversations)
+			{
+				if (conversation.PeerUser.Uri.CompareTo (peer.Uri) == 0)
+				{
+					existing = conversation;
+					break;
+				}
+			}
+			
+			if (existing == null)
+				throw new ApplicationException ("Conversation does not exist");
+			
+			return existing;
+		}
 		
 		static public Conversation Create (ProviderUser provideruser)
 		{
@@ -138,6 +156,7 @@ namespace Banter
 
 		{
 			Logger.Debug ("ConversationManager::ProcessNewChannel - called");
+			bool createdNewConversation = false;
 			Conversation conversation = null;
 			ChatType chattype = ChatType.Text;
 			ProviderUser peerUser = null;
@@ -158,28 +177,31 @@ namespace Banter
 							Bus.Session.GetObject<IChannelText> (
 								account.BusName,
 								channelPath);
-					} catch{}
-					
-					if (ConversationManager.Exist (peerUser) == true) {
-						// FIXME::Pump conversation to create the channel
-						Logger.Debug (
-							"An existing conversation with {0} already exists", 
-							peerUser.Uri);
-						return;
+								
+						conversation = ConversationManager.GetExistingConversation (peerUser);
+						if (conversation.ActiveTextChannel == false) {
+							conversation.AddTextChannel (txtChannel);
+							conversation.IndicateReceivedMessages ();
+						}
+					} catch (Exception ex) {
+						Logger.Debug (ex.Message);
 					}
 					
-					try
-					{
-						Logger.Debug ("creating conversation object");
-						conversation = 
-							new Conversation (account, peerUser, channelPath, txtChannel);
-						conversations.Add (conversation);
-						Logger.Debug ("created new conversation object");
-					}
-					catch (Exception es)
-					{
-						Logger.Debug (es.Message);
-						Logger.Debug (es.StackTrace);
+					if (conversation == null) {
+						try
+						{
+							Logger.Debug ("creating conversation object");
+							conversation = 
+								new Conversation (account, peerUser, channelPath, txtChannel);
+							conversations.Add (conversation);
+							createdNewConversation = true;
+							Logger.Debug ("created new conversation object");
+						}
+						catch (Exception es)
+						{
+							Logger.Debug (es.Message);
+							Logger.Debug (es.StackTrace);
+						}
 					}
 					break;
 				}
@@ -196,43 +218,44 @@ namespace Banter
 						
 						peerUser = ProviderUserManager.GetProviderUser (mediaChannel.Members[0]);
 						if (peerUser == null) return;
-						
+
 						mediaChannel.AddMembers (mediaChannel.LocalPendingMembers, String.Empty);
-						
-					} catch{}
-					
-					if (peerUser == null) return;
-					
-					if (ConversationManager.Exist (peerUser) == true) {
-						foreach (Conversation c in ConversationManager.conversations)
-						{
-							if (c.PeerUser.Uri.CompareTo (peerUser.Uri) == 0)
-							{
-								c.AddMediaChannel (channelPath, mediaChannel);
-								break;
-							}
-						}
+						conversation = ConversationManager.GetExistingConversation (peerUser);
+						conversation.AddMediaChannel (channelPath, mediaChannel);
 						
 						// FIXME::Pump conversation to create the channel
 						Logger.Debug (
 							"An existing conversation with {0} already exists", 
 							peerUser.Uri);
-						return;
-					}
+					} catch{}
 					
-					try
-					{
-						Logger.Debug ("creating conversation object");
-						conversation = 
-							new Conversation (account, peerUser, channelPath, mediaChannel);
-						conversations.Add (conversation);
-						chattype = ChatType.Video;
-						Logger.Debug ("created new conversation object");
-					}
-					catch (Exception es)
-					{
-						Logger.Debug (es.Message);
-						Logger.Debug (es.StackTrace);
+					if (peerUser == null) return;
+		
+					if (conversation == null) {
+						try
+						{
+							Logger.Debug ("creating conversation object");
+							conversation = 
+								new Conversation (account, peerUser, channelPath, mediaChannel);
+							conversations.Add (conversation);
+							chattype = ChatType.Audio;
+							StreamInfo[] streams = mediaChannel.ListStreams ();
+							
+							Logger.Debug ("#streams: {0}", streams.Length);
+							foreach (StreamInfo si in streams)
+								if (si.Type == StreamType.Video) {
+									chattype = ChatType.Video;
+									break;
+								}
+								
+							createdNewConversation = true;
+							Logger.Debug ("created new conversation object");
+						}
+						catch (Exception es)
+						{
+							Logger.Debug (es.Message);
+							Logger.Debug (es.StackTrace);
+						}
 					}
 					break;
 					
@@ -334,7 +357,9 @@ namespace Banter
 			
 			// If successfully created a conversation and have registered consumers
 			// of the callback event - fire the rocket
-			if (conversation != null & NewIncomingConversation != null)
+			if (conversation != null &&
+				createdNewConversation == true &&
+				NewIncomingConversation != null)
 				NewIncomingConversation (conversation, chattype);
 		}
 	}

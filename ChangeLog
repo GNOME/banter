@@ -1,3 +1,10 @@
+2007-07-31  Brady Anderson <brady.anderson@gmail.com> 
+
+	* Banter/ConversationManager.cs: fixes for bi-directional text chat
+	  startup
+	* Banter/Conversation.cs: small fixes to support bidirectional text
+	  chat startup
+
 2007-07-31  Calvin Gaisford <calvinrg@gmail.com> 
 
 	* Banter/Person.cs: Fixed the initial status setting

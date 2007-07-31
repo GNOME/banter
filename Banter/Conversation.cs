@@ -186,6 +186,13 @@ namespace Banter
 			txtChannel.Received += OnReceiveMessageHandler;
 			txtChannel.Closed += OnTextChannelClosed;
 			
+			AddPendingMessages ();
+		}
+		#endregion
+		
+		#region Private Methods
+		private void AddPendingMessages ()
+		{
 			// Check for any pending messages and add them to our list
 			try {
 				TextMessage txtMessage;
@@ -197,9 +204,7 @@ namespace Banter
 				}
 			} catch{}
 		}
-		#endregion
 		
-		#region Private Methods
 		private void Init (Account account, ProviderUser providerUser)
 		{
 			this.account = account;
@@ -277,9 +282,8 @@ namespace Banter
 				current = this.peerUser.ID;
 			
 				// Indicate the message to registered handlers
-				if (MessageReceived != null){
+				if (MessageReceived != null)
 					MessageReceived (this, txtMessage);
-				}
 			}
 		}
 		
@@ -369,6 +373,7 @@ namespace Banter
                 Logger.Debug ("Removing audio stream: {0}", streamid);
                 audioStreams.Remove (streamid);
                 
+				IndicateSystemMessage ("Audio chat stopped");	
             	if (AudioStreamDown != null)
             		AudioStreamDown (this);
             }
@@ -524,6 +529,21 @@ namespace Banter
 			return messages.ToArray();
 		}
 		
+		internal void IndicateReceivedMessages ()
+		{
+			if (this.MessageReceived != null) {
+				AddPendingMessages ();
+				Banter.Message[] messages =
+					this.GetReceivedMessages ();
+				if (messages.Length > 0) {
+					foreach (Message msg in messages)
+						this.MessageReceived (this, msg);
+				}
+			} else {
+				Logger.Debug ("No registered receive handler");
+			}
+		}
+		
 		/// <summary>
 		/// Method to indicate a local system message
 		/// </summary>
@@ -542,18 +562,25 @@ namespace Banter
 		{
 			// FIXME::Throw exception
 			if (tlpConnection == null) return;
-			if (txtChannel == null) return;
 			if (message == null) return;
 			
-			this.txtChannel.Send (org.freedesktop.Telepathy.MessageType.Normal, message.Text);
+			try {
+				// If a text channel doesn't exist attempt to create one
+				if (txtChannel == null)
+					AddTextChannel ();
+				this.txtChannel.Send (org.freedesktop.Telepathy.MessageType.Normal, message.Text);
 
-			if (current != 0)
-				last = current;
+				if (current != 0)
+					last = current;
+					
+				current = tlpConnection.SelfHandle;
 				
-			current = tlpConnection.SelfHandle;
-			
-			if (MessageSent != null)
-				MessageSent (this, message);
+				if (MessageSent != null)
+					MessageSent (this, message);
+				} catch (Exception sm) {
+					Logger.Debug ("Conversation::SendMessage failed");
+					Logger.Debug (sm.Message);
+			}
 		}
 		
 		/// New methods 6/7
@@ -574,6 +601,17 @@ namespace Banter
 				
 			txtChannel = 
 				Bus.Session.GetObject<IChannelText> (account.BusName, txtChannelObjectPath);
+			txtChannel.Received += OnReceiveMessageHandler;
+			txtChannel.Closed += OnTextChannelClosed;
+		}
+
+		/// <summary>
+		/// Method to open and setup a text channel
+		/// </summary>
+		public void AddTextChannel (IChannelText existingTxtChannel)
+		{
+			if (txtChannel != null) return;
+			txtChannel = existingTxtChannel;				
 			txtChannel.Received += OnReceiveMessageHandler;
 			txtChannel.Closed += OnTextChannelClosed;
 		}
@@ -737,45 +775,34 @@ namespace Banter
                            info.Id, info.Type, info.ContactHandle, info.Direction);
 
 				// Save the type of the stream so we can reference it later
-                SaveStream (info.Type, info.Id);	       	
-
-				/*
-	       		Logger.Debug ("Setting peer Window ID - Object Path: {0}", this.videoChannelObjectPath.ToString());
-	       		Logger.Debug ("info ID: {0}  Contact Handle: {1}", info.Id, info.ContactHandle);
-	       		tempStreamId = info.Id;
-	       	
-	       		Logger.Debug(
-	       			"Stream Info: Id:{0}, Type:{1}, ContactHandle:{2}, Direction: {3}",
-	       			info.Id,
-	       			info.Type,
-	       			info.ContactHandle,
-	       			info.Direction);
-	       				
-	       		// Save the type of the stream so we can reference it later
-	       		//SaveStream (info.Type, info.Id);
-		       */
+                SaveStream (info.Type, info.Id);
 			}
 		       
-			Logger.Debug("Getting the stream_engine");
-				
 			streamEngine = 
 				Bus.Session.GetObject<IStreamEngine> (
 					"org.freedesktop.Telepathy.StreamEngine",
 	           		new ObjectPath ("/org/freedesktop/Telepathy/StreamEngine"));
 
-	        Logger.Debug("have the stream engine");
-		        
-			Logger.Debug("Adding Preview Window {0}", previewWindowId);
-		    streamEngine.AddPreviewWindow(previewWindowId);
+			if (this.videoStreams.Count > 0) {
+				Logger.Debug("Adding Preview Window {0}", previewWindowId);
+			    streamEngine.AddPreviewWindow(previewWindowId);
+				IndicateSystemMessage ("Video chat started");
+			} else
+				IndicateSystemMessage ("Audio chat started");
+
 			streamEngine.Receiving += OnStreamEngineReceiving;
-
-			IndicateSystemMessage ("Video chat started");
-
+			
 			if (this.initiated == true) {
-				uint[] streamtypes = new uint[2];
-					
-				streamtypes[0] = (uint) StreamType.Audio;
-				streamtypes[1] = (uint) StreamType.Video;
+				uint[] streamtypes;
+				if (this.videoStreams.Count > 0 &&
+				    this.audioStreams.Count > 0) {
+					streamtypes = new uint[2];
+					streamtypes[0] = (uint) StreamType.Audio;
+					streamtypes[1] = (uint) StreamType.Video;
+				} else {
+					streamtypes = new uint[1];
+					streamtypes[0] = (uint) StreamType.Audio;
+				}
 
 				Logger.Debug("Requesting streams from media channel");
 				uint[] handles = new uint [] {peerUser.ID};
