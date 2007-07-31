@@ -1,5 +1,11 @@
 2007-07-31  Calvin Gaisford <calvinrg@gmail.com> 
 
+	* Banter/NotificationManager.cs: Added method to notify
+	* Banter/ChatWindow.cs: Chat window now notifies of a text message if
+	  it doesn't have the focus
+
+2007-07-31  Calvin Gaisford <calvinrg@gmail.com> 
+
 	* data/images/Makefile.am, data/images/mic.png, Banter/Makefile.am:
 	  Added Mic graphic for audio calls
 	* Banter/PersonCard.cs: Added Mic graphic for audio calls and ability

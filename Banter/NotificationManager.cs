@@ -427,6 +427,32 @@ namespace Banter
 		
 
 		#region Public Static Methods
+		/// <summary>
+		/// Pops up a notification for a chat, could be because the chat window doesn't have focus
+		/// </summary>	
+		public static void NotifyMessage(Person person, Message message)
+		{
+			String messageTitle = String.Format(Catalog.GetString("Message from {0}"), person.DisplayName);
+
+			Notification notification;
+			if(person.Photo != null) {
+				Gdk.Pixbuf sizedPhoto = person.Photo.ScaleSimple(48, 48, Gdk.InterpType.Bilinear);
+				notification = new Notification(messageTitle,
+												message.Text,
+												sizedPhoto);
+			} else {
+				Gdk.Pixbuf banterIcon = Application.GetIcon ("banter-44", 44);
+				notification = new Notification(messageTitle,
+												message.Text,
+												banterIcon);
+			}
+
+//			notification.Timeout = 120000;
+//			currentNotification = notification;
+//			currentPeerID = conversation.PeerUser.ID;
+			Banter.Application.ShowAppNotification(notification);
+			Gnome.Sound.Play(Path.Combine(Banter.Defines.SoundDir, "notify.wav"));
+		}
 		#endregion
 		
 		

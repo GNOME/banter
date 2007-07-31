@@ -282,9 +282,9 @@ namespace Banter
 			typingScrolledWindow.Add (typingTextView);
 			
 			Shown += OnWindowShown;
-			DeleteEvent += WindowDeleted;			
+			DeleteEvent += WindowDeleted;
+			this.FocusInEvent += FocusInEventHandler;
 		}
-	
 	
 		///<summary>
 		///	AddMessage
@@ -298,6 +298,13 @@ namespace Banter
 
 
 		#region EventHandlers
+
+		public void FocusInEventHandler (object o, FocusInEventArgs args)
+		{
+			// remove the Urgency Hint if it was set
+			this.UrgencyHint = false;
+		}
+
 		///<summary>
 		///	OnTextMessageReceived
 		/// Handles all incoming TextMessages and places them into the text chat area
@@ -316,6 +323,12 @@ namespace Banter
 			} catch{}
 			
 			AddMessage (message, true, conversation.CurrentMessageSameAsLast, null);
+
+			// if the window doesn't have focus, notify the user
+			if( (message is TextMessage) && hasBeenShown && (!HasToplevelFocus)) {
+				this.UrgencyHint = true;
+				NotificationManager.NotifyMessage(person, message);
+			}
 		}
 
 		
@@ -608,8 +621,6 @@ namespace Banter
 			if(hasBeenShown)
 				return;
 			
-			hasBeenShown = true;
-			
 			SetupConversationEvents();
 
 			switch(chatType) {
@@ -635,6 +646,8 @@ namespace Banter
 			Message[] messages = conv.GetReceivedMessages();
 			foreach (Message msg in messages)
 				OnTextMessageReceived (conv, msg);
+
+			hasBeenShown = true;
 				
 			// Set the default focus to the TextView where users should type
 			typingTextView.GrabFocus ();
