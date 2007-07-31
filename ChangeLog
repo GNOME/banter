@@ -1,3 +1,13 @@
+2007-07-31  Calvin Gaisford <calvinrg@gmail.com> 
+
+	* configure.ac, Banter/NotificationManager.cs, Banter/PersonGroup.cs,
+	  Banter/ChatWindowManager.cs, Banter/Person.cs,
+	  Banter/ChatWindow.cs, Banter/AvatarManager.cs,
+	  Banter/GroupWindow.cs, Banter/PersonManager.cs,
+	  Banter/PersonView.cs, Banter/PersonSync.cs, Banter/Makefile.am:
+	  removed evolution integration
+	* Banter/Application.cs: Moved window creation to happen right away
+
 2007-07-18  Calvin Gaisford <calvinrg@gmail.com> 
 
 	* configure.ac: bumped version for 0.1.9 iteration

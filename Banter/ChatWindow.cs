@@ -315,10 +315,7 @@ namespace Banter
 				person = PersonManager.GetPerson (conversation.PeerUser);
 			} catch{}
 			
-			if(person != null)
-				avatarPath = person.GetScaledAvatar(36);
-			
-			AddMessage (message, true, conversation.CurrentMessageSameAsLast, avatarPath);
+			AddMessage (message, true, conversation.CurrentMessageSameAsLast, null);
 		}
 
 		
@@ -402,13 +399,9 @@ namespace Banter
 		///</summary>
 		private void OnTextMessageSent (Conversation conversation, Message message)
 		{
-			string avatarPath = null;
 			Logger.Debug ("OnMessageSent called: {0}", message.Text);
 
-			if(PersonManager.Me != null)
-				avatarPath = PersonManager.Me.GetScaledAvatar(36);
-				
-			AddMessage (message, false, conversation.CurrentMessageSameAsLast, avatarPath);
+			AddMessage (message, false, conversation.CurrentMessageSameAsLast, null);
 		}
 
 

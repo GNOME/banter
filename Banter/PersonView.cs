@@ -164,6 +164,11 @@ namespace Banter
 				Logger.Debug ("This person has already been added: {0}", personCard.Person.DisplayName);
 				return;
 			}
+
+			if(personCard.Person.IsMe) {
+				Logger.Debug("Someone tried to add a PersonCard with me in it");
+				return;
+			}
 			
 			// Logger.Debug ("Adding person card: {0}", personCard.Person.DisplayName);
 			personCard.ShowAll ();
@@ -225,6 +230,10 @@ namespace Banter
 					model.GetValue (args.Iter, 0) as Person;
 			if (person == null)
 				return;
+
+			// don't put yourself in the view
+			if (person.IsMe)
+				return;
 			
 			TreePath path = model.GetPath (args.Iter);
 			PersonCard card = new PersonCard(person);
@@ -258,8 +267,12 @@ namespace Banter
 			if (person == null)
 				return;
 
+			// don't put yourself in the view
+			if (person.IsMe)
+				return;
+
 			if (personCardMap.ContainsKey (args.Path.Indices [0]) == false) {
-				Logger.Debug ("PersonView.OnPersonRowDeleted () called on a path we don't know about, adding it now.");
+				Logger.Debug ("PersonView.OnPersonRowChanged() called with unknown path, adding it now.");
 				PersonCard card = new PersonCard(person);
 				card.Size = personCardSize;
 				AddPersonCard (args.Path.Indices [0], card);

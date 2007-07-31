@@ -68,9 +68,8 @@ namespace Banter
 		{
 			Person person = PersonManager.GetPerson(user);
 			if(person == null) {
-				Logger.Debug("PersonSync.ProviderUserAdded: Adding new Contact in EDS: {0}", user.Alias);
-				person = new Person(user.Alias);
-				person.JabberId = user.Uri;
+				person = new Person(user);
+				//person.JabberId = user.Uri;
 				PersonManager.AddPerson(person);
 			}
 		}

@@ -21,7 +21,7 @@
 
 
 using System;
-using Evolution;
+//using Evolution;
 using GLib;
 using System.Collections;
 using System.Collections.Generic;
@@ -29,6 +29,9 @@ using System.Collections.Generic;
 
 namespace Banter
 {
+
+	public delegate void PersonMeArrivedHandler (Person person);
+
 	///<summary>
 	///	PersonManager Class
 	/// PersonManager is a singleton that is the main interface into EDS.  It provides models for the groups
@@ -37,7 +40,6 @@ namespace Banter
 	///</summary>
 	public class PersonManager
 	{
-
 		#region Private Static Types
 		private static Banter.PersonManager store = null;
 		private static System.Object locker = new System.Object();
@@ -45,26 +47,32 @@ namespace Banter
 
 	
 		#region Private Types
-		private Book systemBook;
+		//private Book systemBook;
 		private Gtk.TreeStore groupTreeStore;
 		private Gtk.TreeStore personTreeStore;
-		private BookView bookView;
+		//private BookView bookView;
 		private Dictionary<string, Gtk.TreeIter> groupIters;
 		private Dictionary<string, Gtk.TreeIter> personIters;
 		private Person me;
 		#endregion
 
+		#region Public Events
+		public event PersonMeArrivedHandler PersonMeArrived;
+		#endregion
+
+
 		#region Internal Properties
 		/// <summary>
 		/// The internal Evolution.Book that is connected to the system address book
 		/// </summary>
-		internal Evolution.Book Book
+/*		internal Evolution.Book Book
 		{
 			get
 			{
 				return systemBook;
 			}
 		}
+*/
 		#endregion
 
 
@@ -146,8 +154,8 @@ namespace Banter
 		/// </summary>			
 		private PersonManager ()
 		{
-			systemBook = Book.NewSystemAddressbook();
-			systemBook.Open(true);
+//			systemBook = Book.NewSystemAddressbook();
+//			systemBook.Open(true);
 			groupIters = new Dictionary<string, Gtk.TreeIter> ();
 			personIters = new Dictionary<string, Gtk.TreeIter> ();
 			InitStores();
@@ -167,25 +175,25 @@ namespace Banter
 			
 			// Query Evolution for all contact objects (Contacts and Lists)
 			// to populate the stores
-			Evolution.BookQuery q = Evolution.BookQuery.AnyFieldContains ("");
+//			Evolution.BookQuery q = Evolution.BookQuery.AnyFieldContains ("");
 
-			ArrayList fieldsList = new ArrayList ();
-			bookView = systemBook.GetBookView (q, fieldsList, -1);
+//			ArrayList fieldsList = new ArrayList ();
+//			bookView = systemBook.GetBookView (q, fieldsList, -1);
 
-			bookView.ContactsAdded += OnContactsAdded;
-			bookView.ContactsChanged += OnContactsChanged;
-			bookView.ContactsRemoved += OnContactsRemoved;
+//			bookView.ContactsAdded += OnContactsAdded;
+//			bookView.ContactsChanged += OnContactsChanged;
+//			bookView.ContactsRemoved += OnContactsRemoved;
 
 			// starting the view will cause the above events to fire
 			// and begin populating the stores
-			bookView.Start();
+//			bookView.Start();
 		}
 
 		
 		/// <summary>
 		/// Handles BookView event ContactsAdded
 		/// </summary>			
-		private void OnContactsAdded (object o, Evolution.ContactsAddedArgs args)
+/*		private void OnContactsAdded (object o, Evolution.ContactsAddedArgs args)
 		{
 			foreach (Contact contact in args.Contacts) {
 				// test to make sure this is a list
@@ -297,12 +305,13 @@ namespace Banter
 				}
 			}
 		}
-		
+*/		
 
 		/// <summary>
 		/// Finds a person based on an EDS Query.  It will run the query and return the first contact
 		/// from the results.
 		/// </summary>	
+/*
 		private Person FindPerson(Evolution.BookQuery q)
 		{
 			Person person = null;
@@ -317,8 +326,10 @@ namespace Banter
 				else
 					Logger.Debug("EDS Contact was found, but wasn't in the list: {0}", contact.FileAs);
 			}
+
 			return person;
 		}
+*/
 		#endregion
 		
 
@@ -328,10 +339,19 @@ namespace Banter
 		/// </summary>	
 		public static Person GetPersonByJabberId(string jabberId)
 		{
-			Evolution.BookQuery q = Evolution.BookQuery.FieldTest(	ContactField.ImJabber, 
+			PersonManager pm = PersonManager.Instance;
+
+			if(pm.personIters.ContainsKey(jabberId)) {
+				Gtk.TreeIter iter = pm.personIters[jabberId];
+				Person person = (Person) pm.personTreeStore.GetValue(iter, 0);
+				return person;
+			}
+/*			Evolution.BookQuery q = Evolution.BookQuery.FieldTest(	ContactField.ImJabber, 
 																	BookQueryTest.Is, 
 																	jabberId);
 			return PersonManager.Instance.FindPerson(q);
+*/
+			return null;
 		}
 
 
@@ -340,6 +360,14 @@ namespace Banter
 		/// </summary>	
 		public static Person GetPerson(ProviderUser user)
 		{
+			PersonManager pm = PersonManager.Instance;
+
+			if(pm.personIters.ContainsKey(user.Uri)) {
+				Gtk.TreeIter iter = pm.personIters[user.Uri];
+				Person person = (Person) pm.personTreeStore.GetValue(iter, 0);
+				return person;
+			}
+/*
 			if(user.Protocol.CompareTo(ProtocolName.Jabber) == 0) {
 				Evolution.BookQuery q = Evolution.BookQuery.FieldTest(	ContactField.ImJabber, 
 																		BookQueryTest.Is, 
@@ -348,6 +376,8 @@ namespace Banter
 			}
 			else
 				throw new ApplicationException("Can't do that");
+*/
+			return null;
 		}
 
 		
@@ -370,33 +400,39 @@ namespace Banter
 		/// </summary>	
 		public static bool AddPerson(Person person)
 		{
-			if(PersonManager.Instance.systemBook.AddContact(person.EDSContact)) {
+//			if(PersonManager.Instance.systemBook.AddContact(person.EDSContact)) {
 				// if they added, then add the person to our tables to find them
 				Gtk.TreeIter iter = PersonManager.Instance.personTreeStore.AppendValues(person);
 				PersonManager.Instance.personIters[person.Id] = iter;
+				if(person.IsMe) {
+					PersonManager.Instance.me = person;
+					if(PersonManager.Instance.PersonMeArrived != null) {
+						PersonManager.Instance.PersonMeArrived(person);
+					}
+				}
 				return true;
-			}
-			return false;
+//			}
+//			return false;
 		}
 
 
 		/// <summary>
 		/// Store the changes to a Person to the Store
 		/// </summary>	
-		public static bool CommitPerson(Person person)
+/*		public static bool CommitPerson(Person person)
 		{
 			return PersonManager.Instance.systemBook.CommitContact(person.EDSContact);
 		}
-		
+*/		
 		
 		/// <summary>
 		/// Remove the Person from the store by Id
 		/// </summary>	
-		public static bool RemovePerson(string Id)
+/*		public static bool RemovePerson(string Id)
 		{
 			return PersonManager.Instance.systemBook.RemoveContact(Id);
 		}				
-		
+*/		
 
 		/// <summary>
 		/// Gets the PersonGroup object for a given Id
@@ -417,32 +453,34 @@ namespace Banter
 		/// </summary>	
 		public static bool AddGroup(PersonGroup group)
 		{
-			if(PersonManager.Instance.systemBook.AddContact(group.EDSContact)) {
+//			if(PersonManager.Instance.systemBook.AddContact(group.EDSContact)) {
 				// if they added, then add the person to our tables to find them
 				Gtk.TreeIter iter = PersonManager.Instance.groupTreeStore.AppendValues(group);
 				PersonManager.Instance.groupIters[group.Id] = iter;
 				return true;
-			}
-			return false;
+//			}
+//			return false;
 		}
 
 
 		/// <summary>
 		/// Store the changes to a Group to the Store
 		/// </summary>	
-		public static bool CommitGroup(PersonGroup group)
+/*		public static bool CommitGroup(PersonGroup group)
 		{
 			return PersonManager.Instance.systemBook.CommitContact(group.EDSContact);
 		}		
-
+*/
 
 		/// <summary>
 		/// Remove the group from the store by Id
 		/// </summary>	
 		public static bool RemoveGroup(string Id)
 		{
-			return PersonManager.Instance.systemBook.RemoveContact(Id);
+			return false;
+			//return PersonManager.Instance.systemBook.RemoveContact(Id);
 		}		
+
 		#endregion
 		
 		

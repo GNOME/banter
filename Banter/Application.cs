@@ -130,11 +130,8 @@ namespace Banter
 			// Initialize the Theme Manager
 			// ThemeManager.Init ();
 
-			//tray = new NotificationArea("RtcApplication");
-			SetupTrayIcon();
-
 			application = this;
-			
+
 			groupWindows = new Dictionary<GroupWindow, GroupWindow> ();
 
 			GLib.Idle.Add(InitializeIdle);
@@ -160,6 +157,9 @@ namespace Banter
 		private bool InitializeIdle ()
 		{
 			Logger.Debug ("Initialize_Idle - called");
+
+			SetupTrayIcon();
+			OpenSavedGroupWindows();
 
 			//GConfPreferencesProvider prefs = new GConfPreferencesProvider ();
 			//Preferences.Init (prefs);
@@ -201,8 +201,6 @@ namespace Banter
 		{
 			Logger.Debug ("OnAccountManagementReady() called");
 			initialized = true;
-			
-			GLib.Idle.Add (OpenSavedGroupWindows);
 		}
 		
 		private bool OpenSavedGroupWindows ()

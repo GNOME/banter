@@ -22,7 +22,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Evolution;
+//using Evolution;
 
 namespace Banter
 {
@@ -34,7 +34,7 @@ namespace Banter
 	public class PersonGroup
 	{
 		#region Private Types
-		private Evolution.Contact edsContact;
+		//private Evolution.Contact edsContact;
 		private Gtk.TreeStore personTreeStore;
 		private System.Object locker;
 		#endregion	
@@ -49,13 +49,13 @@ namespace Banter
 			{
 				string displayName = String.Empty;
 
-				if (edsContact != null) {
+				/*if (edsContact != null) {
 					if ((edsContact.FileAs != null) && (edsContact.FileAs.Length > 0) ) {
 						displayName = edsContact.FileAs;
 						return displayName;
 					}
 				} 
-
+				*/
 				return displayName;
 			}
 		}
@@ -71,7 +71,7 @@ namespace Banter
 		/// <summary>
 		/// The internal Evolution contact
 		/// </summary>
-		public Evolution.Contact EDSContact
+		/*public Evolution.Contact EDSContact
 		{
 			get{ return edsContact;}
 			set
@@ -80,13 +80,14 @@ namespace Banter
 				UpdateModel();
 			}
 		}
-		
+		*/
+
 		/// <summary>
 		/// The Id of this PersonGroup
 		/// </summary>
 		public string Id
 		{
-			get{ return edsContact.Id;}
+			get{ return string.Empty;}
 		}			
 		#endregion
 		
@@ -98,23 +99,25 @@ namespace Banter
 		/// </summary>		
 		public PersonGroup(string groupName)
 		{
-			this.edsContact = new Contact();
+			//this.edsContact = new Contact();
 			locker = new System.Object();
 			personTreeStore = new Gtk.TreeStore(typeof(Person));
-			edsContact.FileAs = groupName;
-			edsContact.List = true;
+			//edsContact.FileAs = groupName;
+			//edsContact.List = true;
 		}
 		
 		/// <summary>
 		/// Internal constructor to create a new group based on an edsContact
 		/// </summary>			
+		/*
 		internal PersonGroup(Evolution.Contact edsContact)
 		{
-			this.edsContact = edsContact;
+			//this.edsContact = edsContact;
 			locker = new System.Object();
 			personTreeStore = new Gtk.TreeStore(typeof(Person));
 			UpdateModel();
 		}
+		*/
 		#endregion
 		
 		
@@ -136,7 +139,7 @@ namespace Banter
 			Logger.Debug ("FIXME: PersonGroup.UpdateModel() is brutal and needs work done!");		
 			// FIXME: This is brutal to remove everyone and start over
 			// change this to only remove and add people that aren't there any longer
-			personTreeStore.Clear();
+			/*personTreeStore.Clear();
 
 			if(edsContact == null)
 				return;
@@ -162,6 +165,7 @@ namespace Banter
 					}
 				}
 			}
+		*/
 		}
 		
 
@@ -195,7 +199,7 @@ namespace Banter
 				
 			if(IsPersonInGroup(person))
 				return;
-			
+			/*
 			VCardAttribute attr = new VCardAttribute("", "EMAIL");
 			VCardAttributeParam param = new VCardAttributeParam("X-EVOLUTION-DEST-CONTACT-UID");
 			param.AddValue(person.Id);
@@ -213,6 +217,7 @@ namespace Banter
 			attr.AddValue(person.DisplayName);
 
 			edsContact.AddAttribute(attr);
+			*/
 		}
 		
 
@@ -224,9 +229,9 @@ namespace Banter
 			if( (person.Id == null) || (person.Id.Length == 0) )
 				throw new ApplicationException("Invalid Person object.  Person must be added to the PersonManager before adding them to a group");
 
-			if(edsContact == null)
+			//if(edsContact == null)
 				return;
-				
+			/*	
 			GLib.List attributeList = edsContact.GetAttributes(ContactField.Email);
 			GLib.List attrList = new GLib.List (attributeList.Handle, typeof (VCardAttribute));
 			foreach(VCardAttribute attr in attrList) {
@@ -247,6 +252,7 @@ namespace Banter
 					}
 				}
 			}
+			*/
 		}		
 		
 

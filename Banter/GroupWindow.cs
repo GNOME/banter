@@ -176,7 +176,7 @@ namespace Banter
 		}
 		#endregion
 
-		#region public methods
+		#region Public methods
 		// <summary>
 		// Save the state of the group window (i.e., position, size, selected group,
 		// person card size, etc.
@@ -741,9 +741,32 @@ Logger.Debug ("GroupWindow.BuildGroupButtonsView adding {0} groups",
 
 			return base.OnDeleteEvent (evnt);
 		}
+
+
+
 		#endregion
 		
-		#region event handlers
+		#region Event handlers
+
+		private void PersonMeArrivedHandler (Person person)
+		{
+			// Set "my" display name
+			Person me = PersonManager.Me;
+			if (me != null) {
+				myDisplayName.Markup =
+					string.Format (
+						"<span weight=\"bold\" size=\"small\">{0}</span>",
+						me.DisplayName);
+				
+				// Set "my" status
+				statusEntry.Presence = me.Presence;
+				
+				Logger.Debug ("FIXME: Populate the StatusEntry widget with saved status messages.");
+				
+				me.PresenceUpdated += OnMyPresenceUpdated;
+			}
+		}
+
 		private void OnRealizeWidget (object sender, EventArgs args)
 		{
 			// Set "my" display name
@@ -760,6 +783,8 @@ Logger.Debug ("GroupWindow.BuildGroupButtonsView adding {0} groups",
 				Logger.Debug ("FIXME: Populate the StatusEntry widget with saved status messages.");
 				
 				me.PresenceUpdated += OnMyPresenceUpdated;
+			} else {
+				PersonManager.Instance.PersonMeArrived += PersonMeArrivedHandler;
 			}
 			
 			// Fill out the existing groups

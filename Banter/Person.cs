@@ -25,7 +25,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Text;
-using Evolution;
+//using Evolution;
 
 namespace Banter
 {
@@ -41,7 +41,7 @@ namespace Banter
 	public class Person
 	{
 		#region Private Types
-		private Evolution.Contact edsContact;
+		//private Evolution.Contact edsContact;
 		private string cachePath;
 		private Gdk.Pixbuf avatar;
 		private List<ProviderUser> providerUsers;
@@ -82,13 +82,20 @@ namespace Banter
 			{
 				string displayName = String.Empty;
 				
+				if(providerUsers.Count > 0) {
+					if(providerUsers[0].Alias.Length > 0)
+						displayName = providerUsers[0].Alias;
+					else
+						displayName = providerUsers[0].Uri;
+				}
+				/*
 				if (edsContact != null) {
 					if ((edsContact.FileAs != null) && (edsContact.FileAs.Length > 0) ) {
 						displayName = edsContact.FileAs;
 						return displayName;
 					}
 				}
-				
+				*/
 				return displayName;
 			}
 		}
@@ -102,18 +109,25 @@ namespace Banter
 			get 
 			{		
 				string jabberId = String.Empty;
+
+
+				if(providerUsers.Count > 0) {
+					jabberId = providerUsers[0].Uri;
+				}
 				
+				/*
 				if( (edsContact.ImJabber != null) && (edsContact.ImJabber.Length > 0) )
 					jabberId = edsContact.ImJabber[0];
-					
+				*/	
 				return jabberId;
 			}
-			set
+/*			set
 			{
 				string[] jabberId = new string[1];
 				jabberId[0] = value;
 				edsContact.ImJabber = jabberId;
 			}
+*/
 		}
 
 
@@ -157,18 +171,20 @@ namespace Banter
 		/// <summary>
 		/// The internal Evolution contact
 		/// </summary>
+		/*
 		public Evolution.Contact EDSContact
 		{
 			get{ return edsContact; }
 			set{ edsContact = value; }
 		}
-		
+		*/
+
 		/// <summary>
 		/// The Id of this Person
 		/// </summary>
 		public string Id
 		{
-			get{ return edsContact.Id;}
+			get{ return JabberId;}
 		}		
 
 
@@ -203,64 +219,32 @@ namespace Banter
 		/// <summary>
 		/// Constructs a person from a tapioca contact
 		/// </summary>
-		internal Person(Evolution.Contact edsContact)
+		/*internal Person(Evolution.Contact edsContact)
 		{
 			this.edsContact = edsContact;
 			Init();
 		}
-
+		*/
 		
 		/// <summary>
 		/// Constructs a person with a displayName
 		/// </summary>
-		public Person(string displayName)
+		public Person(ProviderUser user)
 		{
-			this.edsContact = new Contact();
-			edsContact.FileAs = displayName;
-			Init();
+			providerUsers = new List<ProviderUser> ();
+			presence = new Presence(PresenceType.Offline);
+
+			if(user != null) {
+				providerUsers.Add(user);
+				user.PresenceUpdated += ProviderUserPresenceUpdated;
+				user.AvatarTokenUpdated += this.ProviderUserAvatarTokenUpdated;
+				user.AvatarReceived += this.ProviderUserAvatarReceived;
+			}
 		}
 		#endregion
 		
 
 		#region Private Methods		
-		private void Init()
-		{
-		
-			// init internal types
-			providerUsers = new List<ProviderUser> ();
-			presence = new Presence(PresenceType.Offline);
-
-			// first check to see if this is a real edsContact
-			if(edsContact.Id != null) {
-				string homeDirectoryPath = Environment.GetFolderPath (Environment.SpecialFolder.Personal);
-				cachePath = System.IO.Path.Combine (homeDirectoryPath, ".banter/Cache");
-				cachePath = System.IO.Path.Combine (cachePath, this.Id);
-
-				try
-				{
-					//Logger.Debug("FIXME: A Person's Cache needs to be cleaned up somewhere too");
-					if(!System.IO.Directory.Exists(cachePath)) {
-						System.IO.Directory.CreateDirectory(cachePath);
-					}
-				}
-				catch(Exception e)
-				{
-					Logger.Debug(e.Message);
-				}
-				
-				// Read the contact's Avatar from EDS if it's there
-				ContactPhoto photo = edsContact.Photo;
-				if(photo.PhotoType == ContactPhotoType.Inlined) {  // the photo is stored in EDS
-					avatar = new Gdk.Pixbuf(photo.Data);
-				}
-				else if(photo.PhotoType == ContactPhotoType.Uri) {				
-					// not sure how to handle a Uri based photo
-					Logger.Debug("FIXME: handle Uri based photo");
-				}
-			}
-		}
-
-		
 		/// <summary>
 		/// Updates the persons presence to be the most present of his ProviderUsers
 		/// </summary>
@@ -283,7 +267,7 @@ namespace Banter
 		
 		private void ProviderUserPresenceUpdated (ProviderUser user)
 		{
-			//Logger.Debug("Presence updated for ProviderUser: {0}", user.Alias);			
+			Logger.Debug("Person:ProviderUserPresenceUpdated for ProviderUser: {0}", user.Alias);			
 			UpdatePresence();
 		}
 		
@@ -326,74 +310,15 @@ namespace Banter
 		
 		#region Public Methods
 		/// <summary>
-		/// Return the path to the photo size requested
-		/// </summary>
-		public string GetScaledAvatar(int size)
-		{
-			if(this.Photo == null)
-				return null;
-				
-			string	avatarPath = null;
-			bool	scalePhoto = false;
-			
-			switch(size) {
-				case 16:
-					avatarPath = Path.Combine(cachePath, "16x16");
-					scalePhoto = true;
-					break;
-				case 24:
-					avatarPath = Path.Combine(cachePath, "24x24");
-					scalePhoto = true;
-					break;
-				case 36:
-					avatarPath = Path.Combine(cachePath, "36x36");
-					scalePhoto = true;
-					break;
-				case 48:
-					avatarPath = Path.Combine(cachePath, "48x48");
-					scalePhoto = true;
-					break;
-				default:
-					avatarPath = Path.Combine(cachePath, "actual");
-					break;
-			}
-
-			try
-			{
-				if(!System.IO.File.Exists(avatarPath)) {
-					byte[] data;
-					
-					System.IO.FileStream fStream = new FileStream(avatarPath, FileMode.Create);
-					if(scalePhoto) {
-						Gdk.Pixbuf scaled = avatar.ScaleSimple(size, size, Gdk.InterpType.Bilinear);
-						data = scaled.SaveToBuffer("png");
-					}
-					else {
-						data = avatar.SaveToBuffer("png");
-					}
-					
-					fStream.Write(data, 0, data.Length);
-					fStream.Close();
-				}
-			}
-			catch(Exception e)
-			{
-				Logger.Debug(e.Message);
-			}
-
-			return avatarPath;
-		}
-
-
-		/// <summary>
 		/// Ensures that we have ProviderUsers for eds Provider values
 		/// </summary>
 		public void UpdateProviderUsers()
 		{
 			//Logger.Debug("FIXME: Person.UpdateProviderUsers should use a policy for the order");
-			providerUsers.Clear();
+			//providerUsers.Clear();
 		
 			// Jabber values
+			/*
 			foreach(string uri in edsContact.ImJabber) {
 				string key = ProviderUserManager.CreateKey(uri, ProtocolName.Jabber);
 				ProviderUser providerUser = ProviderUserManager.GetProviderUser(key);
@@ -408,6 +333,7 @@ namespace Banter
 					providerUser.AvatarReceived += this.ProviderUserAvatarReceived;
 				}
 			}
+			*/
 			UpdatePresence();
 		}
 		

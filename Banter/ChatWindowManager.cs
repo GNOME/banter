@@ -21,7 +21,7 @@
 
 
 using System;
-using Evolution;
+//using Evolution;
 using GLib;
 using System.Collections;
 using System.Collections.Generic;
@@ -112,7 +112,9 @@ namespace Banter
 				
 			ChatWindowManager cwm = ChatWindowManager.Instance;				
 
+			Logger.Debug("**************Creating chat window");
 			ChatWindow cw = new ChatWindow(conversation, chatType);
+			Logger.Debug("**************Creating chat window 2");
 			cwm.chatWindows[conversation.PeerUser.ID] = cw;
 			cw.DeleteEvent += cwm.OnChatWindowDeleted;
 			cw.ShowAll();
@@ -169,6 +171,7 @@ namespace Banter
 				ChatWindow cw = new ChatWindow(person, person.ProviderUser, type);
 				ChatWindowManager.Instance.chatWindows[person.ProviderUser.ID] = cw;
 				cw.DeleteEvent += ChatWindowManager.Instance.OnChatWindowDeleted;
+				Logger.Debug("About to present the window to chat with: {0}", person.DisplayName);
 				cw.Present();
 			}
 		}		
