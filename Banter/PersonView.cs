@@ -32,7 +32,7 @@ namespace Banter
 		private VBox vbox;
 //		private Widget parentWidget;
 //		private bool alreadyDisposed;
-		private Dictionary<int, PersonCard> personCardMap;
+		private Dictionary<TreeIter, PersonCard> personCardMap;
 		private TreeModel model;
 		private PersonCardSize personCardSize;
 		#endregion
@@ -83,14 +83,6 @@ namespace Banter
 			}
 		}
 		#endregion
-		
-
-		#region Public Methods
-//		public override void Dispose ()
-//		{
-//			Dispose (false);
-//		}
-		#endregion
 
 
 		#region Public Events
@@ -103,20 +95,15 @@ namespace Banter
 			this.ModifyBg (StateType.Normal, this.Style.Base (StateType.Normal));
 			this.ModifyBase (StateType.Normal, this.Style.Base (StateType.Normal));
 			this.CanFocus = true;
-			// this.parentWidget = parentWidget;
-//			this.alreadyDisposed = false;
 			
 			vbox = new VBox (false, 0);
 			this.Add (vbox);
 			
-			personCardMap = new Dictionary<int, PersonCard> ();
+			personCardMap = new Dictionary<TreeIter, PersonCard> ();
 			
 			personCardSize = PersonCardSize.Small;
 			
 			Model = personModel;
-
-//			parentWidget.SizeAllocated +=
-//				new SizeAllocatedHandler (OnSizeAllocated);
 		}
 		
 		private void PopulatePersonView ()
@@ -129,7 +116,7 @@ namespace Banter
 				} catch {}
 			}
 			
-			personCardMap.Clear ();
+			// personCardMap.Clear ();
 			
 			if (model == null) {
 				Logger.Debug ("PersonView.PopulatePersonView returning since the model is null.");
@@ -153,61 +140,13 @@ namespace Banter
 					TreePath path = model.GetPath (iter);
 					PersonCard card = new PersonCard(person);
 					card.Size = personCardSize;
-					AddPersonCard (path.Indices [0], card);
+					card.ShowAll ();
+					vbox.PackStart (card, false, false, 0);
+					vbox.ReorderChild(card, path.Indices [0]);
+					// personCardMap[iter] = card;
 				} while (model.IterNext (ref iter));
 			}
 		}
-		
-		private void AddPersonCard (int treePathIndex, PersonCard personCard)
-		{
-			if (personCardMap.ContainsKey (treePathIndex)) {
-				Logger.Debug ("This person has already been added: {0}", personCard.Person.DisplayName);
-				return;
-			}
-
-			if(personCard.Person.IsMe) {
-				Logger.Debug("Someone tried to add a PersonCard with me in it");
-				return;
-			}
-			
-			// Logger.Debug ("Adding person card: {0}", personCard.Person.DisplayName);
-			personCard.ShowAll ();
-			vbox.PackStart (personCard, false, false, 0);
-			personCardMap [treePathIndex] = personCard;
-		}
-
-//		~PersonView()
-//		{
-//			Dispose (true);
-//		}
-		
-//		public void AddPerson (Person person)
-//		{
-//			PersonCard card = new PersonCard (person);
-//			card.Show ();
-//			vbox.PackStart (card, false, true, 0);
-//			people [person] = card;
-//		}
-
-//		private void Dispose (bool calledFromFinalizer)
-//		{
-//			if (!alreadyDisposed)
-//			{
-//				alreadyDisposed = true;
-//				parentWidget.SizeAllocated -=
-//					new SizeAllocatedHandler (OnSizeAllocated);
-//				
-//				if (!calledFromFinalizer)
-//					GC.SuppressFinalize (this);
-//			}
-//		}
-
-//		private void OnSizeAllocated(object sender, SizeAllocatedArgs args)
-//		{
-//			foreach (PersonCard card in people.Values) {
-//				card.OnSizeAllocated (sender, args);
-//			}
-//		}
 		#endregion
 
 		
@@ -226,67 +165,48 @@ namespace Banter
 		#region Event Handlers
 		private void OnPersonRowInserted (object sender, RowInsertedArgs args)
 		{
-			Person person =
-					model.GetValue (args.Iter, 0) as Person;
-			if (person == null)
-				return;
-
-			// don't put yourself in the view
-			if (person.IsMe)
-				return;
-			
+//			Logger.Debug("PersonView:OnPersonRowInserted Called");
 			TreePath path = model.GetPath (args.Iter);
-			PersonCard card = new PersonCard(person);
+			PersonCard card = new PersonCard();
 			card.Size = personCardSize;
-			AddPersonCard (path.Indices [0], card);
+			card.ShowAll ();
+			vbox.PackStart (card, false, false, 0);
+			vbox.ReorderChild(card, path.Indices [0]);
+			personCardMap[args.Iter] = card;
+
+			Person person = model.GetValue (args.Iter, 0) as Person;
+			if (person != null) {
+				card.Person = person;
+			}
 		}
 		
 		private void OnPersonRowDeleted (object sender, RowDeletedArgs args)
 		{
-			if (personCardMap.ContainsKey (args.Path.Indices [0]) == false) {
-				Logger.Debug ("PersonView.OnPersonRowDeleted () called on a path we don't know about.");
-				return;
-			}
-			
-			PersonCard personCard = personCardMap [args.Path.Indices [0]];
-			
-			Logger.Debug ("PersonView.OnPersonRowDeleted removing person: {0}", personCard.Person.DisplayName);
-			
-			personCardMap.Remove (args.Path.Indices [0]);
+//			Logger.Debug("PersonView:OnPersonRowDeleted Called");
+			PersonCard card = (PersonCard) vbox.Children[args.Path.Indices [0]];
+			vbox.Remove(card);
+			foreach(TreeIter iter in personCardMap.Keys) {
+				if(card == personCardMap[iter]) {
+					personCardMap.Remove(iter);
 
-			vbox.Remove (personCard);
-			
-			// FIXME: Determine whether we should be calling personCard.Destroy () here.
-			personCard.Destroy ();
+					return;
+				}
+			}
+
 		}
 		
 		private void OnPersonRowChanged (object sender, RowChangedArgs args)
 		{
-			Person person =
-					model.GetValue (args.Iter, 0) as Person;
-			if (person == null)
-				return;
+//			Logger.Debug("PersonView:OnPersonRowChanged Called");
+			PersonCard card = personCardMap[args.Iter];
+			vbox.ReorderChild(card, args.Path.Indices [0]);
 
-			// don't put yourself in the view
-			if (person.IsMe)
-				return;
-
-			if (personCardMap.ContainsKey (args.Path.Indices [0]) == false) {
-				Logger.Debug ("PersonView.OnPersonRowChanged() called with unknown path, adding it now.");
-				PersonCard card = new PersonCard(person);
-				card.Size = personCardSize;
-				AddPersonCard (args.Path.Indices [0], card);
-				return;
+			if(card.Person == null) {
+				Person person = model.GetValue (args.Iter, 0) as Person;
+				if (person != null) {
+					card.Person = person;
+				}
 			}
-			
-			PersonCard personCard = personCardMap [args.Path.Indices [0]];
-			
-			Logger.Debug ("PersonView.OnPersonRowChanged updating person: {0} -> {1}",
-					personCard.Person.DisplayName,
-					person.DisplayName);
-			
-			// Update the card's person
-			personCard.Person = person;
 		}
 		#endregion
 	}

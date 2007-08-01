@@ -65,6 +65,7 @@ namespace Banter
 		private Person person;
 		private PersonCardSize cardSize;
 		private Gtk.Image image;
+		private Gtk.Label nameLabel;
 		private ProgressBar progressBar;
 		private Label progressLabel;
 		private HBox actionBox;
@@ -83,8 +84,7 @@ namespace Banter
 		{
 			get { return person; }
 			set {
-				Logger.Debug ("FIXME: Implement PersonCard.Person [set] - Do we need to do anything here?");
-				// person = value;
+				SetPerson (value);
 			}
 		}
 		
@@ -113,6 +113,14 @@ namespace Banter
 			person.AvatarUpdated += OnPersonAvatarUpdated;
 			Init();
 		}
+
+		public PersonCard()
+		{
+			this.person = null;
+			this.cardSize = PersonCardSize.Small;
+
+			Init();
+		}
 		#endregion		
 		
 		
@@ -133,7 +141,7 @@ namespace Banter
 			VBox widgetVBox = new VBox (false, 4);
 	        HBox widgetColumns = new HBox(false, 10);
 			
-			if(person.Photo != null)
+			if( (person != null) && (person.Photo != null))
 				image = new Gtk.Image(person.Photo.ScaleSimple(32, 32, InterpType.Bilinear));
 			else
 				image = new Gtk.Image(Utilities.GetIcon("blank-photo-128", 32));			
@@ -143,15 +151,19 @@ namespace Banter
 			// Set up the name and status labels
 			VBox nameVBox = new VBox();
 			widgetColumns.PackStart(nameVBox, true, true, 0);
-			Label label = new Label();
-			label.Justify = Gtk.Justification.Left;
-            label.SetAlignment (0.0f, 0.5f);
-			label.LineWrap = false;
-			label.UseMarkup = true;
-			label.UseUnderline = false;
-			label.Markup = string.Format ("<span weight=\"bold\" size=\"medium\">{0}</span>",
+			nameLabel = new Label();
+			nameLabel.Justify = Gtk.Justification.Left;
+            nameLabel.SetAlignment (0.0f, 0.5f);
+			nameLabel.LineWrap = false;
+			nameLabel.UseMarkup = true;
+			nameLabel.UseUnderline = false;
+			if(person != null)
+				nameLabel.Markup = string.Format ("<span weight=\"bold\" size=\"medium\">{0}</span>",
 											person.DisplayName);
-			nameVBox.PackStart(label, true, true, 0);
+			else
+				nameLabel.Markup = "<span weight=\"bold\" size=\"medium\">Unknown</span>";
+
+			nameVBox.PackStart(nameLabel, true, true, 0);
 
 			statusLabel = new Label();
 			statusLabel.Justify = Gtk.Justification.Left;
@@ -161,11 +173,17 @@ namespace Banter
 
 			statusLabel.LineWrap = false;
 			
-			if (person.PresenceMessage.Length > 0) {
-				statusLabel.Markup = String.Format("<span style=\"italic\" size=\"small\">{0}</span>", person.PresenceMessage);
-			}
-			else {
-				statusLabel.Markup = String.Format("<span style=\"italic\" size=\"small\">{0}</span>", Presence.GetStatusString(person.Presence.Type));
+			if(person != null) {
+				if (person.PresenceMessage.Length > 0) {
+					statusLabel.Markup = String.Format("<span style=\"italic\" size=\"small\">{0}</span>", person.PresenceMessage);
+				}
+				else {
+					statusLabel.Markup = String.Format("<span style=\"italic\" size=\"small\">{0}</span>", 
+							Presence.GetStatusString(person.Presence.Type));
+				}
+			} else {
+				statusLabel.Markup = String.Format("<span style=\"italic\" size=\"small\">{0}</span>", 
+							Presence.GetStatusString(PresenceType.Offline));
 			}
 			nameVBox.PackStart(statusLabel, true, true, 0);
 
@@ -193,8 +211,8 @@ namespace Banter
 			progressLabel.Ellipsize = Pango.EllipsizeMode.End;
 			widgetVBox.PackStart (progressLabel, false, false, 0);
 
-
-			OnPersonPresenceUpdated (this.person);
+			if(person != null)
+				OnPersonPresenceUpdated (person);
 	        
 	        widgetVBox.ShowAll ();
 	        Add(widgetVBox);
@@ -210,6 +228,24 @@ namespace Banter
 						 Gdk.DragAction.Copy );
 		}
 
+		private void SetPerson (Person person)
+		{
+			if(this.person != null) {
+				this.person.PresenceUpdated -= OnPersonPresenceUpdated;
+				this.person.AvatarUpdated -= OnPersonAvatarUpdated;
+			}
+			this.person = person;
+			this.person.PresenceUpdated += OnPersonPresenceUpdated;
+			this.person.AvatarUpdated += OnPersonAvatarUpdated;
+
+			if(person.Photo != null)
+				image.Pixbuf = person.Photo.ScaleSimple(32, 32, InterpType.Bilinear);
+
+			nameLabel.Markup = string.Format ("<span weight=\"bold\" size=\"medium\">{0}</span>",
+										person.DisplayName);
+
+			OnPersonPresenceUpdated (person);
+		}
 
 		///<summary>
 		///	Handles Avatar Events on a Person
@@ -217,7 +253,8 @@ namespace Banter
 		private void OnPersonAvatarUpdated (Person person)
 		{
 			// Logger.Debug("Updating presence on {0}", person.DisplayName);
-			//RenderWidget();
+			if(person.Photo != null)
+				image.Pixbuf = person.Photo.ScaleSimple(32, 32, InterpType.Bilinear);
 		}	
 
 		///<summary>

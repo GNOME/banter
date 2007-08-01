@@ -25,6 +25,7 @@ using System;
 using GLib;
 using System.Collections;
 using System.Collections.Generic;
+using Gtk;
 
 
 namespace Banter
@@ -172,6 +173,8 @@ namespace Banter
 			// Initialize the stores
 			groupTreeStore = new Gtk.TreeStore(typeof(PersonGroup));
 			personTreeStore =  new Gtk.TreeStore(typeof(Person));
+			personTreeStore.SetSortFunc(0, PersonTreeSort);
+			personTreeStore.SetSortColumnId(0, SortType.Ascending);
 			
 			// Query Evolution for all contact objects (Contacts and Lists)
 			// to populate the stores
@@ -188,6 +191,39 @@ namespace Banter
 			// and begin populating the stores
 //			bookView.Start();
 		}
+
+
+		private int PersonTreeSort (TreeModel model, TreeIter tia, TreeIter tib)
+		{
+			Person persona = (Person) model.GetValue(tia, 0);
+			Person personb = (Person) model.GetValue(tib, 0);
+
+			Logger.Debug("****** Comparing {0} to {0}", persona.DisplayName, personb.DisplayName);
+
+			// Sort by placing offline people below everyone else
+/*			if(persona.Presence.Type == PresenceType.Offline) {
+				if(personb.Presence.Type != PresenceType.Offline)
+					return 100;
+			} else {
+				if(personb.Presence.Type == PresenceType.Offline)
+					return -100;
+			}
+*/
+
+			// If we make it here, sort them by comparing the DisplayNames
+			return String.Compare (persona.DisplayName, personb.DisplayName);
+		}
+
+
+		///<summary>
+		///	Handles Presence Events on a Person
+		///</summary>
+		private void OnPersonPresenceUpdated (Person person)
+		{
+			//TreeIter iter = personIters[person.Id];
+			//personTreeStore.SetValue(iter, 0, person);
+		}
+
 
 		
 		/// <summary>
@@ -410,6 +446,7 @@ namespace Banter
 						PersonManager.Instance.PersonMeArrived(person);
 					}
 				}
+				person.PresenceUpdated += PersonManager.Instance.OnPersonPresenceUpdated;
 				return true;
 //			}
 //			return false;
