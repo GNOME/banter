@@ -198,7 +198,7 @@ namespace Banter
 			Person persona = (Person) model.GetValue(tia, 0);
 			Person personb = (Person) model.GetValue(tib, 0);
 
-			Logger.Debug("****** Comparing {0} to {0}", persona.DisplayName, personb.DisplayName);
+//			Logger.Debug("****** Comparing {0} to {0}", persona.DisplayName, personb.DisplayName);
 
 			// Sort by placing offline people below everyone else
 /*			if(persona.Presence.Type == PresenceType.Offline) {

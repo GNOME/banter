@@ -315,6 +315,10 @@ namespace Banter
 					actionBox.Remove(textButton);
 					textButton = null;
 				}
+				if(audioButton != null) {
+					actionBox.Remove(audioButton);
+					audioButton = null;
+				}
 				if(videoButton != null) {
 					actionBox.Remove(videoButton);
 					videoButton = null;
