@@ -223,6 +223,17 @@ namespace Banter
 						conversation = ConversationManager.GetExistingConversation (peerUser);
 						conversation.AddMediaChannel (channelPath, mediaChannel);
 						
+						chattype = ChatType.Audio;
+						StreamInfo[] streams = mediaChannel.ListStreams ();
+						
+						Logger.Debug ("#streams: {0}", streams.Length);
+						foreach (StreamInfo si in streams)
+							if (si.Type == StreamType.Video) {
+								chattype = ChatType.Video;
+								break;
+							}
+						
+						
 						// FIXME::Pump conversation to create the channel
 						Logger.Debug (
 							"An existing conversation with {0} already exists", 
@@ -357,10 +368,16 @@ namespace Banter
 			
 			// If successfully created a conversation and have registered consumers
 			// of the callback event - fire the rocket
-			if (conversation != null &&
-				createdNewConversation == true &&
-				NewIncomingConversation != null)
-				NewIncomingConversation (conversation, chattype);
+			if (conversation != null)
+			{
+				if (createdNewConversation == true && NewIncomingConversation != null)
+					NewIncomingConversation (conversation, chattype);
+				else if (chattype == ChatType.Audio) {
+					conversation.IndicateAudioCall ();	
+				} else if (chattype == ChatType.Video) {
+					conversation.IndicateVideoCall ();
+				}
+			}	
 		}
 	}
 }	

@@ -33,4 +33,18 @@ namespace Banter
 		Audio,
 		Video
 	}
+
+		
+	///<summary>
+	///	CallType enum
+	/// CallType represents the type of incoming or outgoing
+	/// internet call.
+	/// FIXME::Move to own file
+	///</summary>
+	public enum CallType : uint
+	{
+		None,
+		Audio,
+		Video
+	}
 }

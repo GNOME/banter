@@ -1,3 +1,12 @@
+2007-08-01  Brady Anderson <brady.anderson@gmail.com> 
+
+	* Banter/NotificationManager.cs: removed VideoDown event
+	* Banter/ChatType.cs: added calltype
+	* Banter/ConversationManager.cs: work to support audio only support
+	* Banter/ChatWindow.cs: support new events ex. Hangup
+	* Banter/Conversation.cs: work to support audio only support, removed
+	  some unecessary events
+
 2007-07-31  Calvin Gaisford <calvinrg@gmail.com> 
 
 	* Banter/NotificationManager.cs: Added method to notify

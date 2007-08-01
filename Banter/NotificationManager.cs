@@ -120,7 +120,6 @@ namespace Banter
 
 			conversation.MessageReceived += OnTextAdditionalMessageReceived;
 			conversation.MediaChannelOpened += OnMediaChannelOpened;
-			conversation.VideoStreamDown += OnVideoStreamDown;
 			conversation.MediaChannelClosed += OnMediaChannelClosed;
 			conversation.TextChannelOpened += OnTextChannelOpened;
 		}
@@ -412,7 +411,6 @@ namespace Banter
 		{
 			conversation.MessageReceived -= OnTextAdditionalMessageReceived;
 			conversation.MediaChannelOpened -= OnMediaChannelOpened;
-			conversation.VideoStreamDown -= OnVideoStreamDown;
 			conversation.MediaChannelClosed -= OnMediaChannelClosed;
 			conversation.TextChannelOpened -= OnTextChannelOpened;		
 			if(pendingData.ContainsKey(conversation.PeerUser.ID)) {

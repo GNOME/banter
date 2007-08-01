@@ -72,19 +72,21 @@ namespace Banter
 			this.chatType = type;
 			conv = ConversationManager.Create(providerUser);
 
+			/*
 			switch(chatType) {
 				case ChatType.Text:
 					conv.AddTextChannel();
 					break;
 				case ChatType.Audio:
 					conv.AddAudioChannel();
-					conv.AddTextChannel();
+					//conv.AddTextChannel();
 					break;
 				case ChatType.Video:
 					conv.AddAudioVideoChannels();
-					conv.AddTextChannel();
+					//conv.AddTextChannel();
 					break;
 			}
+			*/
 
 			peerPerson = person;
 			peerProviderUser = providerUser;
@@ -126,13 +128,15 @@ namespace Banter
 			conv.MessageReceived += OnTextMessageReceived;
 			conv.MessageSent += OnTextMessageSent;
 			conv.MediaChannelClosed += OnMediaChannelClosed;
-			conv.VideoStreamDown += OnVideoStreamDown;
-			conv.AudioStreamDown += OnAudioStreamDown;
 			
 			//conv.VideoStreamUp += OnVideoStreamUp;
 			
 			conv.TextChannelOpened += OnTextChannelOpened;
 			conv.MediaChannelOpened += OnMediaChannelOpened;
+			
+			conv.IncomingAudioCall += OnIncomingAudioCall;
+			conv.IncomingVideoCall += OnIncomingVideoCall;
+			conv.CallHangup += OnCallHangup;
 		}
 
 
@@ -145,13 +149,13 @@ namespace Banter
 			conv.MessageReceived -= OnTextMessageReceived;
 			conv.MessageSent -= OnTextMessageSent;
 			conv.MediaChannelClosed -= OnMediaChannelClosed;
-			conv.VideoStreamDown -= OnVideoStreamDown;
-			conv.AudioStreamDown -= OnAudioStreamDown;
-			
 			//conv.VideoStreamUp += OnVideoStreamUp;
 			
 			conv.TextChannelOpened -= OnTextChannelOpened;
 			conv.MediaChannelOpened -= OnMediaChannelOpened;
+			conv.IncomingAudioCall -= OnIncomingAudioCall;
+			conv.IncomingVideoCall -= OnIncomingVideoCall;
+			conv.CallHangup -= OnCallHangup;
 		}
 		
 		
@@ -405,7 +409,18 @@ namespace Banter
 			ShowAudioControl(false);
 		}
 		
-
+		///<summary>
+		///	OnCallHangup
+		/// Ends the current Internet call
+		///</summary>
+		private void OnCallHangup (Conversation conversation, CallType calltype)
+		{
+			if (calltype == CallType.Audio)
+				ShowAudioControl (false);
+			else if (calltype == CallType.Video)
+				ShowVideoControl (false);
+		}
+		
 		///<summary>
 		///	OnTextMessageSent
 		/// Deals with all TextMessages sent
@@ -495,18 +510,52 @@ namespace Banter
 		private void OnMediaChannelOpened (Conversation conversation)
 		{
 			Logger.Debug("OnMediaChannelOpened was called");
-			
 			Logger.Debug("FIXME: Prompt the idiot to accept right!");
 
+			/*
+			if (conversation.ActiveVideoStream == true ) {
+				// If for some reason we already have a video view, get rid of it and start over
+				if(this.videoView != null) ShowVideoControl(false);
+
+				// Show the Video Control
+				ShowVideoControl(true);
+				conv.StartAudioVideoStreams (videoView.PreviewWindowId, videoView.WindowId);
+			
+			} else if (conversation.ActiveAudioStream == true) {
+				conv.StartAudioStream ();		
+			}
+			*/
+		}
+		
+		///<summary>
+		///	OnIncomingAudioCall
+		/// Called when an incoming audio call is detected
+		///</summary>	
+		private void OnIncomingAudioCall (Conversation conversation)
+		{
+			Logger.Debug ("OnIncomingAudio - called");
+			
+			// Remove then show the audio control
+			ShowAudioControl (false);
+			ShowAudioControl (true);
+			conv.StartAudioStream ();		
+		}
+
+
+		///<summary>
+		///	OnIncomingVideoCall
+		/// Called when an incoming audio call is detected
+		///</summary>	
+		private void OnIncomingVideoCall (Conversation conversation)
+		{
+			Logger.Debug ("OnIncomingVideo - called");
 			// If for some reason we already have a video view, get rid of it and start over
-			if(this.videoView != null)
-				ShowVideoControl(false);
+			if(this.videoView != null) ShowVideoControl(false);
 
 			// Show the Video Control
 			ShowVideoControl(true);
-			conv.StartAudioVideoStreams(videoView.PreviewWindowId, videoView.WindowId);
+			conv.StartAudioVideoStreams (videoView.PreviewWindowId, videoView.WindowId);
 		}
-		
 
 		///<summary>
 		///	OnMediaChannelClosed
@@ -549,7 +598,7 @@ namespace Banter
 
 			ShowAudioControl(false);			
 				
-			if(!conv.ActiveVideoStream)
+			if(!conv.ActiveAudioStream)
 				conv.RemoveMediaChannel();
 		}		
 		
@@ -629,7 +678,7 @@ namespace Banter
 					// do nothing, text doesn't need to setup streams
 					break;
 				case ChatType.Audio:
-					Logger.Debug("ChatWindow setting up video windows and calling StartAudioVideoStreams");
+					Logger.Debug("ChatWindow setting up video windows and calling StartAudioStream");
 					conv.StartAudioStream();
 					break;
 				case ChatType.Video:

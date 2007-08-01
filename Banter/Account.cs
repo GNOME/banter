@@ -64,6 +64,7 @@ namespace Banter
 		protected ConnectionInfo connInfo;
 		protected IConnection tlpConnection;
 		protected IConnectionManager connManager;
+		protected IChannelGroup group;
 
 		// Connected Handlers
 		protected bool aliasConnected = false;
@@ -260,6 +261,7 @@ namespace Banter
 					{
 						SetupSupportedInterfaces ();
 						SetupMe ();
+						//SetupGroup ();
 						SetupProviderUsers ();
 						AdvertiseCapabilities ();
 		                connected = true;
@@ -349,6 +351,29 @@ namespace Banter
 				Logger.Debug (sm.Message);
 				Logger.Debug (sm.StackTrace);
 			}
+		}
+
+		protected void SetupGroup ()
+		{
+			Logger.Debug ("SetupGroup called");
+			string[] args = {"subscribe"};
+			//string[] args = {"known"};
+			uint[] memberHandles = tlpConnection.RequestHandles (HandleType.List, args);
+			ObjectPath op = 
+				tlpConnection.RequestChannel (
+					org.freedesktop.Telepathy.ChannelType.ContactList, 
+					HandleType.List, 
+					memberHandles[0], 
+					true);
+					
+			Logger.Debug ("# subscribe contacts: {0}", memberHandles.Length);
+					
+			group = Bus.Session.GetObject<IChannelGroup> (connInfo.BusName, op);
+			string[] members = 
+				tlpConnection.InspectHandles (HandleType.Contact, group.Members);
+
+			foreach (string member in members)
+				Logger.Debug ("member: {0}", member);
 		}
 		
 		protected void SetupProviderUsers ()
