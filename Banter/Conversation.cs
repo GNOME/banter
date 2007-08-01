@@ -505,27 +505,6 @@ namespace Banter
 				MediaChannelOpened (this);
 		}
 		
-		#endregion
-		
-		#region Public Methods
-		public void Dispose()
-		{
-			if (txtChannel != null)	{
-				try {txtChannel.Close();} catch{}
-				txtChannel = null;
-			}
-			
-			if (this.mediaChannel != null) {
-				try {this.mediaChannel.Close();} catch{}
-				mediaChannel = null;
-			}
-		}
-		
-		public Banter.Message[] GetReceivedMessages()
-		{
-			return messages.ToArray();
-		}
-		
 		internal void IndicateAudioCall ()
 		{
 			if (IncomingAudioCall != null) IncomingAudioCall (this);
@@ -550,6 +529,27 @@ namespace Banter
 				Logger.Debug ("No registered receive handler");
 			}
 		}
+		#endregion
+		
+		#region Public Methods
+		public void Dispose()
+		{
+			if (txtChannel != null)	{
+				try {txtChannel.Close();} catch{}
+				txtChannel = null;
+			}
+			
+			if (this.mediaChannel != null) {
+				try {this.mediaChannel.Close();} catch{}
+				mediaChannel = null;
+			}
+		}
+		
+		public Banter.Message[] GetReceivedMessages()
+		{
+			return messages.ToArray();
+		}
+		
 		
 		/// <summary>
 		/// Method to indicate a local system message
@@ -804,16 +804,9 @@ namespace Banter
 			streamEngine.Receiving += OnStreamEngineReceiving;
 			
 			if (this.initiated == true) {
-				uint[] streamtypes;
-				if (this.videoStreams.Count > 0 &&
-				    this.audioStreams.Count > 0) {
-					streamtypes = new uint[2];
-					streamtypes[0] = (uint) StreamType.Audio;
-					streamtypes[1] = (uint) StreamType.Video;
-				} else {
-					streamtypes = new uint[1];
-					streamtypes[0] = (uint) StreamType.Audio;
-				}
+				uint[] streamtypes = new uint[2];
+				streamtypes[0] = (uint) StreamType.Audio;
+				streamtypes[1] = (uint) StreamType.Video;
 
 				Logger.Debug("Requesting streams from media channel");
 				uint[] handles = new uint [] {peerUser.ID};
