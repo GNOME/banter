@@ -1,3 +1,9 @@
+2007-08-02  Brady Anderson <brady.anderson@gmail.com> 
+
+	* Banter/Account.cs, Banter/GroupWindow.cs,
+	  Banter/ProviderUserManager.cs, Banter/ProviderUser.cs: Added code
+	  to support Invitation and Authorization
+
 2007-08-01  Calvin Gaisford <calvinrg@gmail.com> 
 
 	* Banter/PersonCard.cs: Fixed up audio button

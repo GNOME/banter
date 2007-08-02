@@ -81,6 +81,7 @@ namespace Banter
 		private TreeModel groupTreeModel;
 		private Dictionary<int, GroupButton> groupButtonMap;
 		private Button everyoneGroupButton;
+		private Button sentInvitationsGroupButton;
 		private VBox groupButtonsVBox;
 		private Button newGroupButton;
 		
@@ -552,6 +553,12 @@ namespace Banter
 			everyoneGroupButton.Clicked += OnEveryoneClicked;
 			buttonsVBox.PackStart (everyoneGroupButton, false, false, 0);
 			
+			// Sent Invitations
+			sentInvitationsGroupButton = CreateSidebarTextButton (
+					Catalog.GetString ("Sent Invitations"));
+			sentInvitationsGroupButton.Clicked += OnSentInvitationsClicked;
+			buttonsVBox.PackStart (sentInvitationsGroupButton, false, false, 0);
+
 			// Placeholder for other groups
 			groupButtonsVBox = new VBox (false, 0);
 			vbox.Show ();
@@ -866,6 +873,25 @@ Logger.Debug ("GroupWindow.BuildGroupButtonsView adding {0} groups",
 			QueueSaveState ();
 		}
 		
+
+		private void OnSentInvitationsClicked (object sender, EventArgs args)
+		{
+			if (selectedGroup != null) { // Everyone isn't already selected
+				SelectSentInvitationsGroup();
+			}
+		}
+		
+		private void SelectSentInvitationsGroup()
+		{
+			Title = Catalog.GetString ("Sent Invitations - Banter");
+			selectedGroup = null;
+			
+			personView.Model = PersonManager.People;
+			
+			//QueueSaveState ();
+		}
+
+
 		private void OnNewGroupClicked (object sender, EventArgs args)
 		{
 			HIGMessageDialog dialog =

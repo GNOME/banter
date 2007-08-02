@@ -64,7 +64,8 @@ namespace Banter
 		protected ConnectionInfo connInfo;
 		protected IConnection tlpConnection;
 		protected IConnectionManager connManager;
-		protected IChannelGroup group;
+		protected IChannelGroup localInvitationGroup;
+		protected IChannelGroup remoteInvitationGroup;
 
 		// Connected Handlers
 		protected bool aliasConnected = false;
@@ -180,6 +181,52 @@ namespace Banter
 		{
 			get {return tlpConnection;}
 		}
+
+		public string[] ReceivedInvitations
+		{
+			get
+			{
+				try {
+					return 
+						tlpConnection.InspectHandles (
+							HandleType.Contact,
+							localInvitationGroup.LocalPendingMembers);
+				} catch{}
+				return null;
+			}
+		}
+		
+		public uint[] ReceivedInvitationHandles
+		{
+			get
+			{
+				try {return localInvitationGroup.LocalPendingMembers;} catch{}
+				return null;
+			}
+		}
+		
+		public string[] SentInvitations
+		{
+			get
+			{
+				try {
+					return 
+						tlpConnection.InspectHandles (
+							HandleType.Contact,
+							remoteInvitationGroup.RemotePendingMembers);
+				} catch{}
+				return null;
+			}
+		}
+		
+		public uint[] SentInvitationHandles
+		{
+			get
+			{
+				try {return remoteInvitationGroup.RemotePendingMembers;} catch{}
+				return null;
+			}
+		}
 		
 		#region Constructors
 		public Account ()
@@ -207,6 +254,7 @@ namespace Banter
 		/// </summary>
 		protected void SetupSupportedInterfaces ()
 		{
+			Logger.Debug ("SetupSupportedInterfaces - called");
 			foreach (string iname in tlpConnection.Interfaces)
 			{
 				switch (iname)
@@ -240,6 +288,50 @@ namespace Banter
 		}
 
 		/// <summary>
+		/// Method to open and maintain outstanding channels
+		/// to the publish and subscribe lists
+		/// </summary>
+		protected void SetupGroupChannels ()
+		{
+			Logger.Debug ("SetupGroupChannels - called");
+			
+			string[] pubArgs = {"publish"};
+			string[] subArgs = {"subscribe"};
+			ObjectPath objectPath;
+			
+			try {
+				// First setup a channel to the publish list
+				uint[] pubHandles = tlpConnection.RequestHandles (HandleType.List, pubArgs);
+				objectPath = 
+					tlpConnection.RequestChannel (
+						org.freedesktop.Telepathy.ChannelType.ContactList, 
+						HandleType.List, 
+						pubHandles[0], 
+						true);
+						
+				localInvitationGroup = 
+					Bus.Session.GetObject<IChannelGroup> (connInfo.BusName, objectPath);
+				
+				// Next setup a channel to the subscribe list
+				uint[] subHandles = tlpConnection.RequestHandles (HandleType.List, subArgs);
+				objectPath = 
+					tlpConnection.RequestChannel (
+						org.freedesktop.Telepathy.ChannelType.ContactList, 
+						HandleType.List, 
+						subHandles[0], 
+						true);
+						
+				remoteInvitationGroup = 
+					Bus.Session.GetObject<IChannelGroup> (connInfo.BusName, objectPath);
+				
+			} catch (Exception sgc) {
+				Logger.Debug ("Failed setting up group channels");
+				Logger.Debug (sgc.Message);
+				Logger.Debug (sgc.StackTrace);
+			}
+		}
+
+		/// <summary>
 		/// Telepathy callback when state is changing on the connection
 		/// </summary>
 		protected void OnConnectionStateChanged (
@@ -260,8 +352,8 @@ namespace Banter
 					try
 					{
 						SetupSupportedInterfaces ();
+						SetupGroupChannels ();
 						SetupMe ();
-						//SetupGroup ();
 						SetupProviderUsers ();
 						AdvertiseCapabilities ();
 		                connected = true;
@@ -353,33 +445,90 @@ namespace Banter
 			}
 		}
 
-		protected void SetupGroup ()
-		{
-			Logger.Debug ("SetupGroup called");
-			string[] args = {"subscribe"};
-			//string[] args = {"known"};
-			uint[] memberHandles = tlpConnection.RequestHandles (HandleType.List, args);
-			ObjectPath op = 
-				tlpConnection.RequestChannel (
-					org.freedesktop.Telepathy.ChannelType.ContactList, 
-					HandleType.List, 
-					memberHandles[0], 
-					true);
-					
-			Logger.Debug ("# subscribe contacts: {0}", memberHandles.Length);
-					
-			group = Bus.Session.GetObject<IChannelGroup> (connInfo.BusName, op);
-			string[] members = 
-				tlpConnection.InspectHandles (HandleType.Contact, group.Members);
-
-			foreach (string member in members)
-				Logger.Debug ("member: {0}", member);
-		}
-		
 		protected void SetupProviderUsers ()
 		{
-			//string[] args = {"subscribe"};
-			string[] args = {"known"};
+			Logger.Debug ("SetupProviderUsers - called");
+			ProviderUser providerUser;
+			string key;
+			
+			// First add any sent invitation users
+			Logger.Debug ("Adding SentInvitation users");
+			uint[] invitedHandles = this.SentInvitationHandles;
+			if (invitedHandles != null && invitedHandles.Length > 0) {
+				string[] invitedUsers = this.SentInvitations;
+				
+				for (int i = 0; i < invitedUsers.Length; i++) {
+					
+					Logger.Debug ("  {0}", invitedUsers[i]);
+					
+					// update the provider user objects
+					key = ProviderUserManager.CreateKey (invitedUsers[i], protocol);
+					providerUser = null;
+					try {
+						providerUser = ProviderUserManager.GetProviderUser (key);
+						providerUser.TlpConnection = tlpConnection;
+						providerUser.AccountName = this.Name;
+						providerUser.Protocol = this.Protocol;
+						providerUser.ID = invitedHandles[i];
+						providerUser.Relationship = ProviderUserRelationship.SentInvitation;
+					} 
+					catch (Exception fff) {
+						Logger.Debug ("Failed to get ProviderUser {0}", key);
+						Logger.Debug (fff.Message);
+					}
+						
+					if (providerUser == null) {
+						try {
+							providerUser =
+								ProviderUserManager.CreateProviderUser (
+									invitedUsers[i], 
+									this.protocol, 
+									ProviderUserRelationship.SentInvitation);
+							providerUser.AccountName = this.Name;
+						} catch{}
+					}
+				}
+			}
+			
+			// Next add received invitation users
+			uint[] inviteHandles = this.ReceivedInvitationHandles;
+			if (inviteHandles != null && inviteHandles.Length > 0) {
+				string[] inviteUsers = this.ReceivedInvitations;
+				
+				for (int i = 0; i < inviteUsers.Length; i++) {
+					
+					// update the provider user objects
+					key = ProviderUserManager.CreateKey (inviteUsers[i], protocol);
+							
+					providerUser = null;
+					try {
+						providerUser = ProviderUserManager.GetProviderUser (key);
+						providerUser.TlpConnection = tlpConnection;
+						providerUser.AccountName = this.Name;
+						providerUser.Protocol = this.Protocol;
+						providerUser.ID = inviteHandles[i];
+						providerUser.Relationship = ProviderUserRelationship.ReceivedInvitation;
+					} 
+					catch (Exception fff) {
+						Logger.Debug ("Failed to get ProviderUser {0}", key);
+						Logger.Debug (fff.Message);
+					}
+						
+					if (providerUser == null) {
+						try {
+							providerUser =
+								ProviderUserManager.CreateProviderUser (
+									inviteUsers[i], 
+									this.protocol, 
+									ProviderUserRelationship.ReceivedInvitation);
+							providerUser.AccountName = this.Name;
+							providerUser.ID = inviteHandles[i];
+						} catch{}
+					}
+				}
+			}
+			
+			string[] args = {"subscribe"};
 			uint[] memberHandles = tlpConnection.RequestHandles (HandleType.List, args);
 			ObjectPath op = 
 				tlpConnection.RequestChannel (
@@ -404,15 +553,15 @@ namespace Banter
 				//Logger.Debug ("MemberID: {0} Member: {1}", cl.Members[i], members[i]);
 				
 				// update the provider user objects
-				string key = ProviderUserManager.CreateKey (members[i], protocol);
-						
-				ProviderUser providerUser = null;
+				key = ProviderUserManager.CreateKey (members[i], protocol);
+				providerUser = null;
 				try {
 					providerUser = ProviderUserManager.GetProviderUser (key);
 					providerUser.TlpConnection = tlpConnection;
 					providerUser.AccountName = this.Name;
 					providerUser.Protocol = this.Protocol;
 					providerUser.ID = cl.Members[i];
+					providerUser.Relationship = ProviderUserRelationship.Linked;
 					if (aliasing == true && aliasNames != null)
 						providerUser.Alias = aliasNames[i];
 				} 
@@ -807,6 +956,8 @@ namespace Banter
 			Logger.Debug ("Account::Disconnect - called");
 			if (connected == true && tlpConnection != null) {
 				try {
+					//localInvitationGroup.Close ();
+					//remoteInvitationGroup.Close ();
 					//DisconnectHandlers ();
 					Logger.Debug ("Calling telepathy disconnect");
 					tlpConnection.Disconnect ();

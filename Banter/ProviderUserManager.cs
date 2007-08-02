@@ -184,6 +184,31 @@ namespace Banter
 
 
 		/// <summary>
+		/// Creates a new ProviderUser and adds them in one atomic operation
+		/// </summary>	
+		public static ProviderUser CreateProviderUser(string uri, string protocol, ProviderUserRelationship relationship)
+		{
+			lock(locker) {
+				string key = CreateKey(uri, protocol);
+				
+				if(!ProviderUserManager.Instance.users.ContainsKey(key)) {
+					ProviderUser user = new ProviderUser();
+					user.Uri = uri;
+					user.Protocol = protocol;
+					user.Relationship = relationship;
+					ProviderUserManager.Instance.users[key] = user;
+					if(ProviderUserAdded != null)
+						ProviderUserAdded(user);					
+					return user;
+				}
+				else
+					throw new ApplicationException("key already exists");
+			}
+		}		
+		
+
+
+		/// <summary>
 		/// Generates a key to locate a ProviderUser
 		/// </summary>	
 		public static string CreateKey(string uri, string protocol)

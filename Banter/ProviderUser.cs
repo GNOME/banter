@@ -46,6 +46,18 @@ namespace Banter
 	public delegate void ProviderUserAvatarReceivedHandler (ProviderUser user, string token, string mimeType, byte[] avatarData);
 
 	///<summary>
+	///	ProviderUserRelationship Enum
+	/// represents the relationship of the provider user
+	///</summary>
+	public enum ProviderUserRelationship
+	{
+		Unknown,
+		Linked,
+		SentInvitation,
+		ReceivedInvitation
+	}
+	
+	///<summary>
 	///	ProviderUser Class
 	/// ProviderUser represents buddies from providers in telepathy.
 	///</summary>
@@ -61,6 +73,7 @@ namespace Banter
 		private string accountName;
 		private bool isMe;
 		private IConnection tlpConnection;
+		private ProviderUserRelationship relationship;
 		#endregion		
 		
 		#region Public Events
@@ -188,6 +201,16 @@ namespace Banter
 			get { return accountName; }
 			set { this.accountName = value; }
 		}		
+
+		/// <summary>
+		/// Current user's relationship to the provider user
+		/// Linked, SentInvitation, ReceivedInvitation
+		/// </summary>		
+		public ProviderUserRelationship Relationship
+		{
+			get { return relationship; }
+			set { this.relationship = value; }
+		}	
 		
 
 		/// <summary>
@@ -218,6 +241,7 @@ namespace Banter
 		public ProviderUser()
 		{
 			this.presence = new Presence(PresenceType.Offline);
+			this.relationship = ProviderUserRelationship.Unknown;
 			this.uri = String.Empty;
 			this.accountName = String.Empty;
 			this.alias = String.Empty;
