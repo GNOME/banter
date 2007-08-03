@@ -78,6 +78,7 @@ namespace Banter
 		private Gtk.Button removeButton;
 		private Gtk.Label statusLabel;
 		private bool showRemoveButton;
+		private bool removeRequested;
 		#endregion
 
 
@@ -143,6 +144,7 @@ namespace Banter
 		///</summary>		
 		private void Init()
 		{
+			removeRequested = false;
 			this.BorderWidth = 0;
 			//this.Relief = Gtk.ReliefStyle.None;
 			this.CanFocus = false;
@@ -265,6 +267,8 @@ namespace Banter
 					removeBox.PackStart(removeButton, false, false, 0);
 					removeButton.Show();
 				}
+				// if a remove has been requested already for this user, make the button not sensitive
+				removeButton.Sensitive = !removeRequested;
 			} else {
 				if(removeButton != null){
 					removeBox.Remove(removeButton);
@@ -561,12 +565,37 @@ namespace Banter
 		///</summary>
 		private void OnRemoveClicked (object o, EventArgs args)
 		{
-			if (person.ProviderUser.Relationship == ProviderUserRelationship.ReceivedInvitation)
+			removeRequested = true;
+			Logger.Debug("OnRemoveClicked called for {0} with relationship {1}", person.DisplayName, person.ProviderUser.Relationship);
+			if (person.ProviderUser.Relationship == ProviderUserRelationship.ReceivedInvitation) {
+				Logger.Debug("Relationship is RecievedInvitation, calling DenyAuthorization()");
 				person.ProviderUser.DenyAuthorization (String.Empty);
-			else if (person.ProviderUser.Relationship == ProviderUserRelationship.SentInvitation)
+			} else if (person.ProviderUser.Relationship == ProviderUserRelationship.SentInvitation) {
+				Logger.Debug("Relationship is SentInvitation, calling RevokeInvitation()");
 				person.ProviderUser.RevokeInvitation();
-			else
+			} else {
+				Logger.Debug("Relationship is only other case, calling RemoveUser()");
 				person.ProviderUser.RemoveUser();
+			}
+			removeButton.Sensitive = !removeRequested;
+			statusLabel.Markup = String.Format("<span foreground=\"#373935\" style=\"italic\" size=\"small\">{0}</span>",
+					Catalog.GetString("Removing..."));
+			if(textButton != null) {
+				actionBox.Remove(textButton);
+				textButton = null;
+			}
+			if(audioButton != null) {
+				actionBox.Remove(audioButton);
+				audioButton = null;
+			}
+			if(videoButton != null) {
+				actionBox.Remove(videoButton);
+				videoButton = null;
+			}
+			if(authorizeButton != null){
+				actionBox.Remove(authorizeButton);
+				authorizeButton = null;
+			}
 		}
 
 
