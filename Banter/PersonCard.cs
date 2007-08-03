@@ -157,12 +157,7 @@ namespace Banter
 			nameLabel.LineWrap = false;
 			nameLabel.UseMarkup = true;
 			nameLabel.UseUnderline = false;
-			if(person != null)
-				nameLabel.Markup = string.Format ("<span weight=\"bold\" size=\"medium\">{0}</span>",
-											person.DisplayName);
-			else
-				nameLabel.Markup = "<span weight=\"bold\" size=\"medium\">Unknown</span>";
-
+			UpdateName();
 			nameVBox.PackStart(nameLabel, true, true, 0);
 
 			statusLabel = new Label();
@@ -172,38 +167,9 @@ namespace Banter
 			statusLabel.UseUnderline = false;
 
 			statusLabel.LineWrap = false;
-			
-			if(person != null) {
-				if (person.ProviderUser.Relationship == ProviderUserRelationship.Linked) {
-					if (person.PresenceMessage.Length > 0) {
-						statusLabel.Markup = 
-							String.Format (
-								"<span style=\"italic\" size=\"small\">{0}</span>", 
-								person.PresenceMessage);
-					}
-					else {
-						statusLabel.Markup = 
-							String.Format (
-								"<span style=\"italic\" size=\"small\">{0}</span>",
-								Presence.GetStatusString(person.Presence.Type));
-					}
-				} else if (person.ProviderUser.Relationship == ProviderUserRelationship.SentInvitation) {
-					statusLabel.Markup = 
-						String.Format (
-							"<span style=\"italic\" size=\"small\">{0}</span>",
-							"Invited");
-				} else if (person.ProviderUser.Relationship == ProviderUserRelationship.ReceivedInvitation) {
-					statusLabel.Markup = 
-						String.Format (
-							"<span style=\"italic\" size=\"small\">{0}</span>",
-							"Invitation");
-				}
-			} else {
-				statusLabel.Markup = 
-					String.Format (
-						"<span style=\"italic\" size=\"small\">{0}</span>",
-						Presence.GetStatusString(PresenceType.Offline));
-			}
+
+			UpdateStatus();
+
 			nameVBox.PackStart(statusLabel, true, true, 0);
 
 			actionBox = new HBox(false, 0);
@@ -260,13 +226,67 @@ namespace Banter
 			if(person.Photo != null)
 				image.Pixbuf = person.Photo.ScaleSimple(32, 32, InterpType.Bilinear);
 
-			nameLabel.Markup =
-				String.Format (
-					"<span weight=\"bold\" size=\"medium\">{0}</span>",
-					person.DisplayName);
+			UpdateName();
 
 			OnPersonPresenceUpdated (person);
 		}
+
+		///<summary>
+		///	Updates the formatting of the name for presence etc.
+		///</summary>
+		private void UpdateName()
+		{
+			if(person != null) {
+				if(person.Presence.Type == PresenceType.Offline)
+					nameLabel.Markup = string.Format ("<span foreground=\"grey\" weight=\"bold\" size=\"medium\">{0}</span>",
+											person.DisplayName);
+				else
+					nameLabel.Markup = string.Format ("<span weight=\"bold\" size=\"medium\">{0}</span>",
+											person.DisplayName);
+			} else {
+				nameLabel.Markup = "<span weight=\"bold\" size=\"medium\">Unknown</span>";
+			}
+		}
+
+		///<summary>
+		///	Updates the formatting of the name for presence etc.
+		///</summary>
+		private void UpdateStatus()
+		{
+			string presenceMessage;
+			string presenceColor = "black";
+
+			if(person != null) {
+				if (person.ProviderUser.Relationship == ProviderUserRelationship.SentInvitation) {
+					presenceMessage = Catalog.GetString("Invited");
+				} else if (person.ProviderUser.Relationship == ProviderUserRelationship.ReceivedInvitation) {
+					presenceMessage = Catalog.GetString("Invitation");
+				} else {
+					if (person.PresenceMessage.Length > 0)
+						presenceMessage = person.PresenceMessage;
+					else
+						presenceMessage = Presence.GetStatusString(person.Presence.Type);
+				}
+				switch(person.Presence.Type) {
+					case PresenceType.Offline:
+						presenceColor = "grey";
+						break;
+					case PresenceType.Available:
+						presenceColor = "darkgreen";
+						break;
+					case PresenceType.Away:
+					case PresenceType.Busy:
+						presenceColor = "brown";
+						break;
+				}
+			} else {
+				presenceMessage = Presence.GetStatusString(PresenceType.Offline);
+				presenceColor = "grey";
+			}
+
+			statusLabel.Markup = String.Format("<span foreground=\"{0}\" style=\"italic\" size=\"small\">{1}</span>", presenceColor, presenceMessage);
+		}
+
 
 		///<summary>
 		///	Handles Avatar Events on a Person
@@ -284,21 +304,24 @@ namespace Banter
 		private void OnPersonPresenceUpdated (Person person)
 		{
 			//Logger.Debug("OnPersonPresenceUpdated on {0}", person.DisplayName);
+			UpdateName();
+			UpdateStatus();
 
-			if (person.ProviderUser.Relationship == ProviderUserRelationship.Linked) {
-				if (person.PresenceMessage.Length > 0) {
-					statusLabel.Markup = 
-						String.Format(
-							"<span style=\"italic\" size=\"small\">{0}</span>", 
-							person.PresenceMessage);
+			if (person.ProviderUser.Relationship == ProviderUserRelationship.ReceivedInvitation) {
+				if(textButton == null) {
+					Gtk.Image actionImage = new Gtk.Image(Utilities.GetIcon("text", 24));
+					textButton = new Gtk.Button();
+					textButton.BorderWidth = 0;
+					textButton.Relief = Gtk.ReliefStyle.None;
+					textButton.CanFocus = false;
+					textButton.Clicked += OnTextChatClicked;
+					textButton.Image = actionImage;
+					actionBox.PackEnd(textButton, false, false, 0);
+					textButton.Show();
 				}
-				else {
-					statusLabel.Markup = 
-						String.Format(
-							"<span style=\"italic\" size=\"small\">{0}</span>", 
-							Presence.GetStatusString(person.Presence.Type));
-				}
-
+			} else if (person.ProviderUser.Relationship == ProviderUserRelationship.SentInvitation) {
+				// Add a cancel button?
+			} else {
 				// Add capabilities icons if they have any capabilities
 				// change this later to show their capabilities when we actually have them
 				if(person.Presence.Type != PresenceType.Offline) {
@@ -343,47 +366,14 @@ namespace Banter
 						actionBox.Remove(textButton);
 						textButton = null;
 					}
+					if(audioButton != null) {
+						actionBox.Remove(audioButton);
+						audioButton = null;
+					}
 					if(videoButton != null) {
 						actionBox.Remove(videoButton);
 						videoButton = null;
 					}
-				}
-			
-			} else if (person.ProviderUser.Relationship == ProviderUserRelationship.SentInvitation) {
-				statusLabel.Markup = 
-					String.Format (
-						"<span style=\"italic\" size=\"small\">{0}</span>",
-						"Invited");
-			
-			} else if (person.ProviderUser.Relationship == ProviderUserRelationship.ReceivedInvitation) {
-				statusLabel.Markup = 
-					String.Format (
-						"<span style=\"italic\" size=\"small\">{0}</span>",
-						"Invitation");
-				
-				if(textButton == null) {
-					Gtk.Image actionImage = new Gtk.Image(Utilities.GetIcon("text", 24));
-					textButton = new Gtk.Button();
-					textButton.BorderWidth = 0;
-					textButton.Relief = Gtk.ReliefStyle.None;
-					textButton.CanFocus = false;
-					textButton.Clicked += OnTextChatClicked;
-					textButton.Image = actionImage;
-					actionBox.PackEnd(textButton, false, false, 0);
-					textButton.Show();
-				}
-			} else {
-				if(textButton != null) {
-					actionBox.Remove(textButton);
-					textButton = null;
-				}
-				if(audioButton != null) {
-					actionBox.Remove(audioButton);
-					audioButton = null;
-				}
-				if(videoButton != null) {
-					actionBox.Remove(videoButton);
-					videoButton = null;
 				}
 			}
 		}

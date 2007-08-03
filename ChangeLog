@@ -1,3 +1,9 @@
+2007-08-03  Calvin Gaisford <calvinrg@gmail.com> 
+
+	* Banter/PersonCard.cs: Updated personcard to have a little more
+	  indication of presence and bling
+	* Banter/PersonView.cs: Removed "Me" from the view
+
 2007-08-03  Brady Anderson <brady.anderson@gmail.com> 
 
 	* Banter/PersonCard.cs: Added code to support Invitation and

@@ -168,16 +168,22 @@ namespace Banter
 //			Logger.Debug("PersonView:OnPersonRowInserted Called");
 			TreePath path = model.GetPath (args.Iter);
 			PersonCard card = new PersonCard();
+
+			Person person = model.GetValue (args.Iter, 0) as Person;
+			if (person != null) {
+				// don't put yourself in the view
+				if (person.IsMe) {
+					return;					
+				}
+				card.Person = person;
+			}
+
 			card.Size = personCardSize;
 			card.ShowAll ();
 			vbox.PackStart (card, false, false, 0);
 			vbox.ReorderChild(card, path.Indices [0]);
 			personCardMap[args.Iter] = card;
 
-			Person person = model.GetValue (args.Iter, 0) as Person;
-			if (person != null) {
-				card.Person = person;
-			}
 		}
 		
 		private void OnPersonRowDeleted (object sender, RowDeletedArgs args)
@@ -199,13 +205,25 @@ namespace Banter
 		{
 //			Logger.Debug("PersonView:OnPersonRowChanged Called");
 			PersonCard card = personCardMap[args.Iter];
-			vbox.ReorderChild(card, args.Path.Indices [0]);
-
-			if(card.Person == null) {
-				Person person = model.GetValue (args.Iter, 0) as Person;
-				if (person != null) {
-					card.Person = person;
+			if(card != null) {
+				if(card.Person == null) {
+					Person person = model.GetValue (args.Iter, 0) as Person;
+					if (person != null) {
+						card.Person = person;
+						if(person.IsMe) {
+							vbox.Remove(card);
+							foreach(TreeIter iter in personCardMap.Keys) {
+								if(card == personCardMap[iter]) {
+									personCardMap.Remove(iter);
+									return;
+								}
+							}
+							return;
+						}
+					}
 				}
+
+				vbox.ReorderChild(card, args.Path.Indices [0]);
 			}
 		}
 		#endregion
