@@ -309,12 +309,12 @@ namespace Banter
 
 			if (person.ProviderUser.Relationship == ProviderUserRelationship.ReceivedInvitation) {
 				if(textButton == null) {
-					Gtk.Image actionImage = new Gtk.Image(Utilities.GetIcon("text", 24));
+					Gtk.Image actionImage = new Gtk.Image(Utilities.GetIcon("add", 24));
 					textButton = new Gtk.Button();
 					textButton.BorderWidth = 0;
 					textButton.Relief = Gtk.ReliefStyle.None;
 					textButton.CanFocus = false;
-					textButton.Clicked += OnTextChatClicked;
+					textButton.Clicked += OnAddClicked;
 					textButton.Image = actionImage;
 					actionBox.PackEnd(textButton, false, false, 0);
 					textButton.Show();
@@ -484,6 +484,14 @@ namespace Banter
 			});
 		}
 */
+
+
+
+		private void OnAddClicked (object o, EventArgs args)
+		{
+			Logger.Debug("FIXME to Authorize user {0}", person.DisplayName);
+			//person.ProviderUser.Authorize();
+		}
 
 		private void OnTextChatClicked (object o, EventArgs args)
 		{
