@@ -174,16 +174,35 @@ namespace Banter
 			statusLabel.LineWrap = false;
 			
 			if(person != null) {
-				if (person.PresenceMessage.Length > 0) {
-					statusLabel.Markup = String.Format("<span style=\"italic\" size=\"small\">{0}</span>", person.PresenceMessage);
-				}
-				else {
-					statusLabel.Markup = String.Format("<span style=\"italic\" size=\"small\">{0}</span>", 
-							Presence.GetStatusString(person.Presence.Type));
+				if (person.ProviderUser.Relationship == ProviderUserRelationship.Linked) {
+					if (person.PresenceMessage.Length > 0) {
+						statusLabel.Markup = 
+							String.Format (
+								"<span style=\"italic\" size=\"small\">{0}</span>", 
+								person.PresenceMessage);
+					}
+					else {
+						statusLabel.Markup = 
+							String.Format (
+								"<span style=\"italic\" size=\"small\">{0}</span>",
+								Presence.GetStatusString(person.Presence.Type));
+					}
+				} else if (person.ProviderUser.Relationship == ProviderUserRelationship.SentInvitation) {
+					statusLabel.Markup = 
+						String.Format (
+							"<span style=\"italic\" size=\"small\">{0}</span>",
+							"Invited");
+				} else if (person.ProviderUser.Relationship == ProviderUserRelationship.ReceivedInvitation) {
+					statusLabel.Markup = 
+						String.Format (
+							"<span style=\"italic\" size=\"small\">{0}</span>",
+							"Invitation");
 				}
 			} else {
-				statusLabel.Markup = String.Format("<span style=\"italic\" size=\"small\">{0}</span>", 
-							Presence.GetStatusString(PresenceType.Offline));
+				statusLabel.Markup = 
+					String.Format (
+						"<span style=\"italic\" size=\"small\">{0}</span>",
+						Presence.GetStatusString(PresenceType.Offline));
 			}
 			nameVBox.PackStart(statusLabel, true, true, 0);
 
@@ -241,8 +260,10 @@ namespace Banter
 			if(person.Photo != null)
 				image.Pixbuf = person.Photo.ScaleSimple(32, 32, InterpType.Bilinear);
 
-			nameLabel.Markup = string.Format ("<span weight=\"bold\" size=\"medium\">{0}</span>",
-										person.DisplayName);
+			nameLabel.Markup =
+				String.Format (
+					"<span weight=\"bold\" size=\"medium\">{0}</span>",
+					person.DisplayName);
 
 			OnPersonPresenceUpdated (person);
 		}
@@ -264,40 +285,81 @@ namespace Banter
 		{
 			//Logger.Debug("OnPersonPresenceUpdated on {0}", person.DisplayName);
 
-			if (person.PresenceMessage.Length > 0) {
-				statusLabel.Markup = String.Format("<span style=\"italic\" size=\"small\">{0}</span>", person.PresenceMessage);
-			}
-			else {
-				statusLabel.Markup = String.Format("<span style=\"italic\" size=\"small\">{0}</span>", Presence.GetStatusString(person.Presence.Type));
-			}
-
-			// Add capabilities icons if they have any capabilities
-			// change this later to show their capabilities when we actually have them
-			if(person.Presence.Type != PresenceType.Offline) {
-				if(videoButton == null) {
-					Gtk.Image actionImage = new Gtk.Image(Utilities.GetIcon("webcam", 24));
-
-					videoButton = new Gtk.Button();
-					videoButton.BorderWidth = 0;
-					videoButton.Relief = Gtk.ReliefStyle.None;
-					videoButton.CanFocus = false;
-					videoButton.Image = actionImage;
-					videoButton.Clicked += OnVideoChatClicked;
-					actionBox.PackEnd(videoButton, false, false, 0);
-					videoButton.Show();
+			if (person.ProviderUser.Relationship == ProviderUserRelationship.Linked) {
+				if (person.PresenceMessage.Length > 0) {
+					statusLabel.Markup = 
+						String.Format(
+							"<span style=\"italic\" size=\"small\">{0}</span>", 
+							person.PresenceMessage);
+				}
+				else {
+					statusLabel.Markup = 
+						String.Format(
+							"<span style=\"italic\" size=\"small\">{0}</span>", 
+							Presence.GetStatusString(person.Presence.Type));
 				}
 
-				if(audioButton == null) {
-					Gtk.Image actionImage = new Gtk.Image(Utilities.GetIcon("mic", 24));
-					audioButton = new Gtk.Button();
-					audioButton.BorderWidth = 0;
-					audioButton.Relief = Gtk.ReliefStyle.None;
-					audioButton.CanFocus = false;
-					audioButton.Image = actionImage;
-					audioButton.Clicked += OnAudioChatClicked;
-					actionBox.PackEnd(audioButton, false, false, 0);
-					audioButton.Show();
+				// Add capabilities icons if they have any capabilities
+				// change this later to show their capabilities when we actually have them
+				if(person.Presence.Type != PresenceType.Offline) {
+					if(videoButton == null) {
+						Gtk.Image actionImage = new Gtk.Image(Utilities.GetIcon("webcam", 24));
+
+						videoButton = new Gtk.Button();
+						videoButton.BorderWidth = 0;
+						videoButton.Relief = Gtk.ReliefStyle.None;
+						videoButton.CanFocus = false;
+						videoButton.Image = actionImage;
+						videoButton.Clicked += OnVideoChatClicked;
+						actionBox.PackEnd(videoButton, false, false, 0);
+						videoButton.Show();
+					}
+
+					if(audioButton == null) {
+						Gtk.Image actionImage = new Gtk.Image(Utilities.GetIcon("mic", 24));
+						audioButton = new Gtk.Button();
+						audioButton.BorderWidth = 0;
+						audioButton.Relief = Gtk.ReliefStyle.None;
+						audioButton.CanFocus = false;
+						audioButton.Image = actionImage;
+						audioButton.Clicked += OnAudioChatClicked;
+						actionBox.PackEnd(audioButton, false, false, 0);
+						audioButton.Show();
+					}
+					
+					if(textButton == null) {
+						Gtk.Image actionImage = new Gtk.Image(Utilities.GetIcon("text", 24));
+						textButton = new Gtk.Button();
+						textButton.BorderWidth = 0;
+						textButton.Relief = Gtk.ReliefStyle.None;
+						textButton.CanFocus = false;
+						textButton.Clicked += OnTextChatClicked;
+						textButton.Image = actionImage;
+						actionBox.PackEnd(textButton, false, false, 0);
+						textButton.Show();
+					}
+				} else {
+					if(textButton != null) {
+						actionBox.Remove(textButton);
+						textButton = null;
+					}
+					if(videoButton != null) {
+						actionBox.Remove(videoButton);
+						videoButton = null;
+					}
 				}
+			
+			} else if (person.ProviderUser.Relationship == ProviderUserRelationship.SentInvitation) {
+				statusLabel.Markup = 
+					String.Format (
+						"<span style=\"italic\" size=\"small\">{0}</span>",
+						"Invited");
+			
+			} else if (person.ProviderUser.Relationship == ProviderUserRelationship.ReceivedInvitation) {
+				statusLabel.Markup = 
+					String.Format (
+						"<span style=\"italic\" size=\"small\">{0}</span>",
+						"Invitation");
 				
 				if(textButton == null) {
 					Gtk.Image actionImage = new Gtk.Image(Utilities.GetIcon("text", 24));
@@ -326,7 +388,6 @@ namespace Banter
 			}
 		}
 
-	
 		
 		
 		private void DragDataReceivedHandler (object o, DragDataReceivedArgs args)
