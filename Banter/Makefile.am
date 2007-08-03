@@ -56,6 +56,7 @@ CSFILES = \
 	$(srcdir)/InterruptableTimeout.cs \
 	$(srcdir)/HIGMessageDialog.cs \
 	$(srcdir)/StatusEntry.cs \
+	$(srcdir)/SidebarTextButton.cs \
 	$(srcdir)/UriList.cs
 
 RESOURCES = \

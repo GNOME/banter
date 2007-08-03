@@ -85,7 +85,15 @@ namespace Banter
 		#endregion
 
 
-		#region Public Events
+		#region Public Methods
+		public void EnableRemoveButtons(bool enable)
+		{
+			foreach (Widget child in vbox.Children) {
+				PersonCard card = (PersonCard) child;
+				card.ShowRemoveButton = enable;
+			}
+		}
+
 		#endregion
 
 

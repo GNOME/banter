@@ -68,13 +68,17 @@ namespace Banter
 		private Gtk.Label nameLabel;
 		private ProgressBar progressBar;
 		private Label progressLabel;
+		private HBox widgetColumns;
+		private HBox removeBox;
 		private HBox actionBox;
 		private Gtk.Button textButton;
 		private Gtk.Button audioButton;
 		private Gtk.Button videoButton;
 		private Gtk.Button addButton;
+		private Gtk.Button declineButton;
 		private Gtk.Button removeButton;
 		private Gtk.Label statusLabel;
+		private bool showRemoveButton;
 		#endregion
 
 
@@ -90,6 +94,14 @@ namespace Banter
 			}
 		}
 		
+		public bool ShowRemoveButton
+		{
+			get { return showRemoveButton; }
+			set {
+				showRemoveButton = value;
+				UpdateRemoveButton();
+			}
+		}
 		
 		///<summary>
 		///	The size of the card to be rendered
@@ -141,7 +153,10 @@ namespace Banter
 			this.BorderWidth = 0;
 			
 			VBox widgetVBox = new VBox (false, 4);
-	        HBox widgetColumns = new HBox(false, 10);
+	        widgetColumns = new HBox(false, 10);
+
+			removeBox = new HBox(false, 5);
+			widgetColumns.PackStart(removeBox, false, false, 0);
 			
 			if( (person != null) && (person.Photo != null))
 				image = new Gtk.Image(person.Photo.ScaleSimple(32, 32, InterpType.Bilinear));
@@ -233,6 +248,32 @@ namespace Banter
 			OnPersonPresenceUpdated (person);
 		}
 
+
+		///<summary>
+		///	Updates the showing of the removal button.
+		///</summary>
+		private void UpdateRemoveButton()
+		{
+			if(showRemoveButton) {
+				if(removeButton == null) {
+					Gtk.Image actionImage = new Gtk.Image(Utilities.GetIcon("gtk-stop", 24));
+					removeButton = new Gtk.Button();
+					removeButton.BorderWidth = 0;
+					removeButton.Relief = Gtk.ReliefStyle.None;
+					removeButton.CanFocus = false;
+					removeButton.Clicked += OnRemoveClicked;
+					removeButton.Image = actionImage;
+					removeBox.PackStart(removeButton, false, false, 0);
+					removeButton.Show();
+				}
+			} else {
+				if(removeButton != null){
+					removeBox.Remove(removeButton);
+					removeButton = null;
+				}				
+			}
+		}
+
 		///<summary>
 		///	Updates the formatting of the name for presence etc.
 		///</summary>
@@ -319,16 +360,16 @@ namespace Banter
 			UpdateStatus();
 
 			if (person.ProviderUser.Relationship == ProviderUserRelationship.ReceivedInvitation) {
-				if(removeButton == null) {
+				if(declineButton == null) {
 					Gtk.Image actionImage = new Gtk.Image(Utilities.GetIcon("remove", 24));
-					removeButton = new Gtk.Button();
-					removeButton.BorderWidth = 0;
-					removeButton.Relief = Gtk.ReliefStyle.None;
-					removeButton.CanFocus = false;
-					removeButton.Clicked += OnRemoveClicked;
-					removeButton.Image = actionImage;
-					actionBox.PackEnd(removeButton, false, false, 0);
-					removeButton.Show();
+					declineButton = new Gtk.Button();
+					declineButton.BorderWidth = 0;
+					declineButton.Relief = Gtk.ReliefStyle.None;
+					declineButton.CanFocus = false;
+					declineButton.Clicked += OnRemoveClicked;
+					declineButton.Image = actionImage;
+					actionBox.PackEnd(declineButton, false, false, 0);
+					declineButton.Show();
 				}
 				if(addButton == null) {
 					Gtk.Image actionImage = new Gtk.Image(Utilities.GetIcon("add", 24));
@@ -342,16 +383,16 @@ namespace Banter
 					addButton.Show();
 				}
 			} else if (person.ProviderUser.Relationship == ProviderUserRelationship.SentInvitation) {
-				if(removeButton == null) {
+				if(declineButton == null) {
 					Gtk.Image actionImage = new Gtk.Image(Utilities.GetIcon("remove", 24));
-					removeButton = new Gtk.Button();
-					removeButton.BorderWidth = 0;
-					removeButton.Relief = Gtk.ReliefStyle.None;
-					removeButton.CanFocus = false;
-					removeButton.Clicked += OnRemoveInvitationClicked;
-					removeButton.Image = actionImage;
-					actionBox.PackEnd(removeButton, false, false, 0);
-					removeButton.Show();
+					declineButton = new Gtk.Button();
+					declineButton.BorderWidth = 0;
+					declineButton.Relief = Gtk.ReliefStyle.None;
+					declineButton.CanFocus = false;
+					declineButton.Clicked += OnRemoveInvitationClicked;
+					declineButton.Image = actionImage;
+					actionBox.PackEnd(declineButton, false, false, 0);
+					declineButton.Show();
 				}
 				// Add a cancel button?
 			} else {
@@ -411,9 +452,9 @@ namespace Banter
 						actionBox.Remove(addButton);
 						addButton = null;
 					}
-					if(removeButton != null){
-						actionBox.Remove(removeButton);
-						removeButton = null;
+					if(declineButton != null){
+						actionBox.Remove(declineButton);
+						declineButton = null;
 					}
 				}
 			}

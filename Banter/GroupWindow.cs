@@ -84,8 +84,10 @@ namespace Banter
 		private VBox groupButtonsVBox;
 		private Button newGroupButton;
 		
-		private Button settingsButton;
-		private Button addPersonButton;
+		private SidebarTextButton settingsButton;
+		private SidebarTextButton addPersonButton;
+		private SidebarTextButton removePersonButton;
+		private bool removeEnabled;
 		
 		//
 		// PersonView Pane
@@ -120,6 +122,7 @@ namespace Banter
 				"0" // show everyone
 			);
 			saveNeeded = true;
+			removeEnabled = false;
 		}
 		
 		public GroupWindow (string guidStr) : base (Catalog.GetString ("Banter"))
@@ -547,8 +550,8 @@ namespace Banter
 			VBox buttonsVBox = new VBox (false, 0);
 
 			// Everyone
-			everyoneGroupButton = CreateSidebarTextButton (
-					Catalog.GetString ("Everyone"));
+			everyoneGroupButton = new SidebarTextButton(Catalog.GetString ("Everyone"));
+			everyoneGroupButton.Show();
 			everyoneGroupButton.Clicked += OnEveryoneClicked;
 			buttonsVBox.PackStart (everyoneGroupButton, false, false, 0);
 
@@ -594,16 +597,24 @@ namespace Banter
 			VBox buttonsVBox = new VBox (false, 0);
 
 			// Settings
-			settingsButton = CreateSidebarTextButton (
-					Catalog.GetString ("Settings"));
+			settingsButton = new SidebarTextButton(Catalog.GetString ("Settings"));
+			settingsButton.Show();
 			settingsButton.Clicked += OnSettingsClicked;
 			buttonsVBox.PackStart (settingsButton, false, false, 0);
 			
 			// Add Person
-			addPersonButton = CreateSidebarTextButton (
+			addPersonButton = new SidebarTextButton (
 					Catalog.GetString ("Add Person..."));
+			addPersonButton.Show();
 			addPersonButton.Clicked += OnAddPersonClicked;
 			buttonsVBox.PackStart (addPersonButton, false, false, 0);
+
+			// Remove Person
+			removePersonButton = new SidebarTextButton (
+					Catalog.GetString ("Remove People"));
+			removePersonButton.Show();
+			removePersonButton.Clicked += OnRemovePersonClicked;
+			buttonsVBox.PackStart (removePersonButton, false, false, 0);
 			
 			buttonsVBox.Show ();
 			spacerHBox.PackStart (buttonsVBox, true, true, 0);
@@ -641,26 +652,6 @@ namespace Banter
 			
 			buttonBox.Show ();
 			return buttonBox;
-		}
-		
-		private Button CreateSidebarTextButton (string buttonText)
-		{
-			Button button;
-			HBox hbox;
-			Label buttonLabel;
-			
-			hbox = new HBox (false, 0);
-			buttonLabel = new Label (buttonText);
-			buttonLabel.Xalign = 0;
-			buttonLabel.UseUnderline = false;
-			buttonLabel.UseMarkup = true;
-			buttonLabel.Show ();
-			hbox.PackStart (buttonLabel, false, false, 4);
-			button = new Button (hbox);
-			button.Relief = ReliefStyle.None;
-			button.Show ();
-			
-			return button;
 		}
 
 		private bool SearchCallback ()
@@ -904,6 +895,16 @@ Logger.Debug ("GroupWindow.BuildGroupButtonsView adding {0} groups",
 		private void OnSettingsClicked (object sender, EventArgs args)
 		{
 			Application.ActionManager ["ShowPreferencesAction"].Activate ();
+		}
+
+		private void OnRemovePersonClicked (object sender, EventArgs args)
+		{
+			personView.EnableRemoveButtons(!removeEnabled);
+			removeEnabled = !removeEnabled;
+			if(removeEnabled)
+				removePersonButton.Label = Catalog.GetString ("Done Removing");
+			else
+				removePersonButton.Label = Catalog.GetString ("Remove People");
 		}
 		
 		private void OnAddPersonClicked (object sender, EventArgs args)
