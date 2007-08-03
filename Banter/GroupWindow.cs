@@ -88,6 +88,7 @@ namespace Banter
 		private SidebarTextButton addPersonButton;
 		private SidebarTextButton removePersonButton;
 		private bool removeEnabled;
+		private Tooltips dialogTips;
 		
 		//
 		// PersonView Pane
@@ -341,7 +342,7 @@ namespace Banter
 		{
 			this.guid = guid;
 			searchTimeoutID = 0;
-			
+
 			CreateWidgets ();
 			
 			SetDefaultSize (width, height);
@@ -365,6 +366,8 @@ namespace Banter
 		
 		private void CreateWidgets ()
 		{
+			dialogTips = new Tooltips();			
+
 			VBox vbox = new VBox (false, 0);
 			
 			// Menubar?  TODO
@@ -410,7 +413,7 @@ namespace Banter
 			l.UseMarkup = true;
 			l.Show ();
 			vbox.PackStart (l, false, false, 0);
-			
+
 			// Search Entry
 //			vbox.PackStart (CreateSidebarSearchEntry (), false, false, 0);
 			
@@ -435,6 +438,11 @@ namespace Banter
 			avatarSelector.Show();
 
 			hbox.PackStart (avatarSelector, false, false, 0);
+			dialogTips.SetTip (avatarSelector,
+                        Catalog.GetString("Change your avatar"),
+                        Catalog.GetString("Click here to change your avatar"));
+
+
 			
 			VBox vbox = new VBox (false, 0);
 			vbox.Show ();
@@ -451,6 +459,9 @@ namespace Banter
 			statusEntry.PresenceChanged += OnStatusEntryChanged;
 			statusEntry.Show ();
 			vbox.PackStart (statusEntry, false, false, 0);
+			dialogTips.SetTip (statusEntry,
+                        Catalog.GetString("Change your online status"),
+                        Catalog.GetString("Change your online status"));
 			
 //			statusComboBoxEntry = ComboBoxEntry.NewText ();
 //			statusComboBoxEntry.KeyPressEvent += OnStatusComboKeyPress;
@@ -611,7 +622,7 @@ namespace Banter
 
 			// Remove Person
 			removePersonButton = new SidebarTextButton (
-					Catalog.GetString ("Remove People"));
+					Catalog.GetString ("Remove Person"));
 			removePersonButton.Show();
 			removePersonButton.Clicked += OnRemovePersonClicked;
 			buttonsVBox.PackStart (removePersonButton, false, false, 0);

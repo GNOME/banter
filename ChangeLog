@@ -1,5 +1,9 @@
 2007-08-03  Calvin Gaisford <calvinrg@gmail.com> 
 
+	* Banter/GroupWindow.cs, Banter/PersonCard.cs: Added tool tips
+
+2007-08-03  Calvin Gaisford <calvinrg@gmail.com> 
+
 	* Banter/PersonCard.cs: Removed the users controls when they are in the
 	  process of being removed
 

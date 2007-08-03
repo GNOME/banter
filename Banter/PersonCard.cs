@@ -79,6 +79,7 @@ namespace Banter
 		private Gtk.Label statusLabel;
 		private bool showRemoveButton;
 		private bool removeRequested;
+		private Tooltips toolTips;
 		#endregion
 
 
@@ -144,6 +145,7 @@ namespace Banter
 		///</summary>		
 		private void Init()
 		{
+			toolTips = new Tooltips();
 			removeRequested = false;
 			this.BorderWidth = 0;
 			//this.Relief = Gtk.ReliefStyle.None;
@@ -266,6 +268,9 @@ namespace Banter
 					removeButton.Image = actionImage;
 					removeBox.PackStart(removeButton, false, false, 0);
 					removeButton.Show();
+					toolTips.SetTip(removeButton,
+							Catalog.GetString("Remove this person"),
+							Catalog.GetString("Remove this person"));
 				}
 				// if a remove has been requested already for this user, make the button not sensitive
 				removeButton.Sensitive = !removeRequested;
@@ -373,6 +378,9 @@ namespace Banter
 					authorizeButton.Image = actionImage;
 					actionBox.PackEnd(authorizeButton, false, false, 0);
 					authorizeButton.Show();
+					toolTips.SetTip(authorizeButton,
+							Catalog.GetString("Authorize this person"),
+							Catalog.GetString("Authorize this person to chat with you"));
 				}
 			} else if (person.ProviderUser.Relationship == ProviderUserRelationship.SentInvitation) {
 				// do nothing, there is already a remove button available
@@ -391,6 +399,9 @@ namespace Banter
 						videoButton.Clicked += OnVideoChatClicked;
 						actionBox.PackEnd(videoButton, false, false, 0);
 						videoButton.Show();
+						toolTips.SetTip(videoButton,
+							Catalog.GetString("Start a video chat"),
+							Catalog.GetString("Start a video chat"));
 					}
 
 					if(audioButton == null) {
@@ -403,6 +414,9 @@ namespace Banter
 						audioButton.Clicked += OnAudioChatClicked;
 						actionBox.PackEnd(audioButton, false, false, 0);
 						audioButton.Show();
+						toolTips.SetTip(audioButton,
+							Catalog.GetString("Start an audio chat"),
+							Catalog.GetString("Start an audio chat"));
 					}
 					
 					if(textButton == null) {
@@ -415,6 +429,9 @@ namespace Banter
 						textButton.Image = actionImage;
 						actionBox.PackEnd(textButton, false, false, 0);
 						textButton.Show();
+						toolTips.SetTip(textButton,
+							Catalog.GetString("Start a text chat"),
+							Catalog.GetString("Start a text chat"));
 					}
 
 					// Make sure to remove these, the user may have just been added
