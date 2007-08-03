@@ -1,5 +1,9 @@
 2007-08-03  Brady Anderson <brady.anderson@gmail.com> 
 
+	* Banter/Account.cs: added method to invite a remote user
+
+2007-08-03  Brady Anderson <brady.anderson@gmail.com> 
+
 	* Banter/Account.cs: added methods to deny authorization
 	* Banter/ProviderUser.cs: added method to deny authorization
 	* Banter/PersonCard.cs: added methods to authorize a user

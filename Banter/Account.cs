@@ -965,6 +965,24 @@ namespace Banter
 		}
 
 		/// <summary>
+		/// Method to invite a user to enable chat
+		/// </summary>
+		public void InviteUser (bool authorize, uint id, string message)
+		{
+			if (this.remoteInvitationGroup == null)
+				throw new ApplicationException ("Group instance unavailable");
+				
+				
+			/*		
+			uint[] ids = {id};
+			if (authorize == true)
+				localInvitationGroup.AddMembers (ids, message);
+			else
+				localInvitationGroup.RemoveMembers (ids, message);
+			*/
+		}
+
+		/// <summary>
 		/// Method to remove an existing user
 		/// </summary>
 		public void RemoveUser (uint id, string message)
