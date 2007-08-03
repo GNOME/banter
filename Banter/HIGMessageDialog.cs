@@ -15,6 +15,7 @@ namespace Banter
 					 Gtk.DialogFlags flags,
 					 Gtk.MessageType type,
 					 Gtk.ButtonsType buttons,
+					 string          title,
 					 string          header,
 					 string          msg)
 			: base ()
@@ -22,7 +23,7 @@ namespace Banter
 			HasSeparator = false;
 			BorderWidth = 5;
 			Resizable = false;
-			Title = "";
+			Title = title;
 
 			VBox.Spacing = 12;
 			ActionArea.Layout = Gtk.ButtonBoxStyle.End;
@@ -64,13 +65,13 @@ namespace Banter
 			label_vbox.Show ();
 			hbox.PackStart (label_vbox, true, true, 0);
 
-			string title = String.Format ("<span weight='bold' size='larger'>{0}" +
+			string message = String.Format ("<span weight='bold' size='larger'>{0}" +
 						      "</span>\n",
 						      header);
 
 			Gtk.Label label;
 
-			label = new Gtk.Label (title);
+			label = new Gtk.Label (message);
 			label.UseMarkup = true;
 			label.Justify = Gtk.Justification.Left;
 			label.LineWrap = true;

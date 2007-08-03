@@ -81,7 +81,6 @@ namespace Banter
 		private TreeModel groupTreeModel;
 		private Dictionary<int, GroupButton> groupButtonMap;
 		private Button everyoneGroupButton;
-		private Button sentInvitationsGroupButton;
 		private VBox groupButtonsVBox;
 		private Button newGroupButton;
 		
@@ -552,12 +551,6 @@ namespace Banter
 					Catalog.GetString ("Everyone"));
 			everyoneGroupButton.Clicked += OnEveryoneClicked;
 			buttonsVBox.PackStart (everyoneGroupButton, false, false, 0);
-			
-			// Sent Invitations
-			sentInvitationsGroupButton = CreateSidebarTextButton (
-					Catalog.GetString ("Sent Invitations"));
-			sentInvitationsGroupButton.Clicked += OnSentInvitationsClicked;
-			buttonsVBox.PackStart (sentInvitationsGroupButton, false, false, 0);
 
 			// Placeholder for other groups
 			groupButtonsVBox = new VBox (false, 0);
@@ -565,10 +558,13 @@ namespace Banter
 			buttonsVBox.PackStart (groupButtonsVBox, false, false, 0);
 			
 			// New Group
+			// Add this back in when we have groups figured out
+			/*
 			newGroupButton = CreateSidebarTextButton (
 					Catalog.GetString ("New Group..."));
 			newGroupButton.Clicked += OnNewGroupClicked;
 			buttonsVBox.PackStart (newGroupButton, false, false, 0);
+			*/
 			
 			buttonsVBox.Show ();
 			spacerHBox.PackStart (buttonsVBox, true, true, 0);
@@ -873,32 +869,14 @@ Logger.Debug ("GroupWindow.BuildGroupButtonsView adding {0} groups",
 			QueueSaveState ();
 		}
 		
-
-		private void OnSentInvitationsClicked (object sender, EventArgs args)
-		{
-			if (selectedGroup != null) { // Everyone isn't already selected
-				SelectSentInvitationsGroup();
-			}
-		}
-		
-		private void SelectSentInvitationsGroup()
-		{
-			Title = Catalog.GetString ("Sent Invitations - Banter");
-			selectedGroup = null;
-			
-			personView.Model = PersonManager.People;
-			
-			//QueueSaveState ();
-		}
-
-
 		private void OnNewGroupClicked (object sender, EventArgs args)
 		{
 			HIGMessageDialog dialog =
 				new HIGMessageDialog (this, Gtk.DialogFlags.DestroyWithParent,
 					Gtk.MessageType.Question,
 					Gtk.ButtonsType.OkCancel,
-					Catalog.GetString ("New group window"),
+					Catalog.GetString ("Banter - New group window"),
+					Catalog.GetString ("Add new group"),
 					Catalog.GetString ("Enter the name of the new group you'd like to create."));
 
 			Gtk.Entry groupNameEntry = new Entry ();
@@ -930,7 +908,27 @@ Logger.Debug ("GroupWindow.BuildGroupButtonsView adding {0} groups",
 		
 		private void OnAddPersonClicked (object sender, EventArgs args)
 		{
-			Logger.Debug ("FIXME: Implement GroupWindow.OnAddPersonClicked ()");
+			HIGMessageDialog dialog =
+				new HIGMessageDialog (this, Gtk.DialogFlags.DestroyWithParent,
+					Gtk.MessageType.Question,
+					Gtk.ButtonsType.OkCancel,
+					Catalog.GetString ("Banter - Add person"),
+					Catalog.GetString ("Invite a new person"),
+					Catalog.GetString ("Enter the email address of the person you'd like to add."));
+
+			Gtk.Entry emailEntry = new Entry ();
+            emailEntry.ActivatesDefault = true;
+			dialog.ExtraWidget = emailEntry;
+			
+			int returnCode = dialog.Run ();
+			
+			if (returnCode == (int) Gtk.ResponseType.Ok) {
+				string emailAddress = emailEntry.Text.Trim ();
+				// do stuff to add the new person
+				Logger.Debug("FIXME: Add code to invite the person {0}", emailAddress);
+			}
+			
+			dialog.Destroy ();
 		}
 		
 		private void OnToggleSidebarButtonClicked (object sender, EventArgs args)
@@ -1069,6 +1067,7 @@ Logger.Debug ("GroupWindow.BuildGroupButtonsView adding {0} groups",
 			HIGMessageDialog dialog = new HIGMessageDialog (
 				this, DialogFlags.DestroyWithParent,
 				MessageType.Warning, ButtonsType.YesNo,
+				Catalog.GetString("Banter - Delete Group"),
 				string.Format (
 					Catalog.GetString ("Delete \"{0}\"?"),
 					group.DisplayName),
