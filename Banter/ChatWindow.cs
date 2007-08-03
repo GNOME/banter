@@ -328,10 +328,16 @@ namespace Banter
 			
 			AddMessage (message, true, conversation.CurrentMessageSameAsLast, null);
 
+
+
 			// if the window doesn't have focus, notify the user
-			if( (message is TextMessage) && hasBeenShown && (!HasToplevelFocus)) {
-				this.UrgencyHint = true;
-				NotificationManager.NotifyMessage(person, message);
+			if(message is TextMessage) {
+				if(hasBeenShown && (!HasToplevelFocus)) {
+					this.UrgencyHint = true;
+					NotificationManager.NotifyMessage(person, message);
+				} else {
+					Gnome.Sound.Play(System.IO.Path.Combine(Banter.Defines.SoundDir, "receive.wav"));
+				}
 			}
 		}
 
@@ -658,6 +664,7 @@ namespace Banter
 			
 			TextMessage msg = new TextMessage (text, PersonManager.Me.ProviderUser);
 			conv.SendMessage (msg);
+			Gnome.Sound.Play(System.IO.Path.Combine(Banter.Defines.SoundDir, "send.wav"));
 		}
 		
 

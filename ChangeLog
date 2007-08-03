@@ -1,3 +1,10 @@
+2007-08-03  Calvin Gaisford <calvinrg@gmail.com> 
+
+	* data/sounds/notify.wav: Updated with a matching sound
+	* data/sounds/send.wav, data/sounds/Makefile.am,
+	  data/sounds/receive.wav, Banter/ChatWindow.cs: Added a send and
+	  receive sound
+
 2007-08-02  Brady Anderson <brady.anderson@gmail.com> 
 
 	* Banter/Account.cs, Banter/GroupWindow.cs,

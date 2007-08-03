@@ -1,6 +1,8 @@
 SOUND_FILES = \
 	$(srcdir)/banter.wav \
-	$(srcdir)/notify.wav 
+	$(srcdir)/notify.wav \
+	$(srcdir)/send.wav \
+	$(srcdir)/receive.wav 
 
 SOUNDSDIR = $(DESTDIR)$(datadir)/banter/sounds
 
