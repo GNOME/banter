@@ -1,5 +1,12 @@
 2007-08-03  Calvin Gaisford <calvinrg@gmail.com> 
 
+	* Banter/ProviderUser.cs: Updated exceptions to state the actual
+	  problem
+	* Banter/PersonCard.cs: Added calls to RevokeInvitations and remove
+	  users
+
+2007-08-03  Calvin Gaisford <calvinrg@gmail.com> 
+
 	* Banter/PersonCard.cs: Updated to handle accepting invitations very
 	  well!  Also modified so there is only one remove and it's the same
 	  for all people

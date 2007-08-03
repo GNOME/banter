@@ -564,11 +564,9 @@ namespace Banter
 			if (person.ProviderUser.Relationship == ProviderUserRelationship.ReceivedInvitation)
 				person.ProviderUser.DenyAuthorization (String.Empty);
 			else if (person.ProviderUser.Relationship == ProviderUserRelationship.SentInvitation)
-				Logger.Debug("FIXME to Remove this person's invitation: {0}", person.DisplayName);
-				// person.ProviderUser.DenyInvitation (String.Empty);
+				person.ProviderUser.RevokeInvitation();
 			else
-				Logger.Debug("FIXME to remove user {0}", person.DisplayName);
-				// person.ProviderUser.RemoveAuthorization (String.Empty);
+				person.ProviderUser.RemoveUser();
 		}
 
 

@@ -286,7 +286,7 @@ namespace Banter
         public void DenyAuthorization (string message)
         {
         	if (this.relationship != ProviderUserRelationship.ReceivedInvitation)
-        		throw new ApplicationException ("User is not in a the correct authorization state");
+        		throw new ApplicationException ("User is not in the ReceivedInvitation state");
         		
 			// Need to get the account information so we can AddMember
 			// to the correct group
@@ -301,7 +301,7 @@ namespace Banter
         public void RevokeInvitation ()
         {
         	if (this.relationship != ProviderUserRelationship.SentInvitation)
-        		throw new ApplicationException ("User is not in a the correct authorization state");
+        		throw new ApplicationException ("User is not in the SentInvitation relationship state");
         		
 			// Need to get the account information so we can AddMember
 			// to the correct group
@@ -317,7 +317,7 @@ namespace Banter
         public void RemoveUser ()
         {
         	if (this.relationship != ProviderUserRelationship.Linked)
-        		throw new ApplicationException ("User is not in a the correct relationship state");
+        		throw new ApplicationException ("User is not in the Linked relationship state");
         		
 			// Need to get the account information so we can Remove the member
 			Account account = AccountManagement.GetAccountByName (this.accountName);
