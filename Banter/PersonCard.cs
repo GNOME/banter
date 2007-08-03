@@ -74,8 +74,7 @@ namespace Banter
 		private Gtk.Button textButton;
 		private Gtk.Button audioButton;
 		private Gtk.Button videoButton;
-		private Gtk.Button addButton;
-		private Gtk.Button declineButton;
+		private Gtk.Button authorizeButton;
 		private Gtk.Button removeButton;
 		private Gtk.Label statusLabel;
 		private bool showRemoveButton;
@@ -360,41 +359,19 @@ namespace Banter
 			UpdateStatus();
 
 			if (person.ProviderUser.Relationship == ProviderUserRelationship.ReceivedInvitation) {
-				if(declineButton == null) {
-					Gtk.Image actionImage = new Gtk.Image(Utilities.GetIcon("remove", 24));
-					declineButton = new Gtk.Button();
-					declineButton.BorderWidth = 0;
-					declineButton.Relief = Gtk.ReliefStyle.None;
-					declineButton.CanFocus = false;
-					declineButton.Clicked += OnRemoveClicked;
-					declineButton.Image = actionImage;
-					actionBox.PackEnd(declineButton, false, false, 0);
-					declineButton.Show();
-				}
-				if(addButton == null) {
+				if(authorizeButton == null) {
 					Gtk.Image actionImage = new Gtk.Image(Utilities.GetIcon("add", 24));
-					addButton = new Gtk.Button();
-					addButton.BorderWidth = 0;
-					addButton.Relief = Gtk.ReliefStyle.None;
-					addButton.CanFocus = false;
-					addButton.Clicked += OnAddClicked;
-					addButton.Image = actionImage;
-					actionBox.PackEnd(addButton, false, false, 0);
-					addButton.Show();
+					authorizeButton = new Gtk.Button();
+					authorizeButton.BorderWidth = 0;
+					authorizeButton.Relief = Gtk.ReliefStyle.None;
+					authorizeButton.CanFocus = false;
+					authorizeButton.Clicked += OnAuthorizeClicked;
+					authorizeButton.Image = actionImage;
+					actionBox.PackEnd(authorizeButton, false, false, 0);
+					authorizeButton.Show();
 				}
 			} else if (person.ProviderUser.Relationship == ProviderUserRelationship.SentInvitation) {
-				if(declineButton == null) {
-					Gtk.Image actionImage = new Gtk.Image(Utilities.GetIcon("remove", 24));
-					declineButton = new Gtk.Button();
-					declineButton.BorderWidth = 0;
-					declineButton.Relief = Gtk.ReliefStyle.None;
-					declineButton.CanFocus = false;
-					declineButton.Clicked += OnRemoveInvitationClicked;
-					declineButton.Image = actionImage;
-					actionBox.PackEnd(declineButton, false, false, 0);
-					declineButton.Show();
-				}
-				// Add a cancel button?
+				// do nothing, there is already a remove button available
 			} else {
 				// Add capabilities icons if they have any capabilities
 				// change this later to show their capabilities when we actually have them
@@ -435,6 +412,12 @@ namespace Banter
 						actionBox.PackEnd(textButton, false, false, 0);
 						textButton.Show();
 					}
+
+					// Make sure to remove these, the user may have just been added
+					if(authorizeButton != null){
+						actionBox.Remove(authorizeButton);
+						authorizeButton = null;
+					}
 				} else {
 					if(textButton != null) {
 						actionBox.Remove(textButton);
@@ -448,13 +431,9 @@ namespace Banter
 						actionBox.Remove(videoButton);
 						videoButton = null;
 					}
-					if(addButton != null){
-						actionBox.Remove(addButton);
-						addButton = null;
-					}
-					if(declineButton != null){
-						actionBox.Remove(declineButton);
-						declineButton = null;
+					if(authorizeButton != null){
+						actionBox.Remove(authorizeButton);
+						authorizeButton = null;
 					}
 				}
 			}
@@ -566,24 +545,32 @@ namespace Banter
 			});
 		}
 */
-
-		private void OnAddClicked (object o, EventArgs args)
+		///<summary>
+		///	When user clicks to authorize a person
+		///</summary>
+		private void OnAuthorizeClicked (object o, EventArgs args)
 		{
-			Logger.Debug("FIXME to Authorize user {0}", person.DisplayName);
+			authorizeButton.Sensitive = false;
+			statusLabel.Markup = String.Format("<span foreground=\"#373935\" style=\"italic\" size=\"small\">{0}</span>",
+					Catalog.GetString("Authorizing..."));
 			person.ProviderUser.Authorize (String.Empty);
 		}
 
+		///<summary>
+		///	When user clicks to remove a currently authorized person
+		///</summary>
 		private void OnRemoveClicked (object o, EventArgs args)
 		{
-			Logger.Debug("FIXME to Un-Authorize user {0}", person.DisplayName);
-			person.ProviderUser.DenyAuthorization (String.Empty);
+			if (person.ProviderUser.Relationship == ProviderUserRelationship.ReceivedInvitation)
+				person.ProviderUser.DenyAuthorization (String.Empty);
+			else if (person.ProviderUser.Relationship == ProviderUserRelationship.SentInvitation)
+				Logger.Debug("FIXME to Remove this person's invitation: {0}", person.DisplayName);
+				// person.ProviderUser.DenyInvitation (String.Empty);
+			else
+				Logger.Debug("FIXME to remove user {0}", person.DisplayName);
+				// person.ProviderUser.RemoveAuthorization (String.Empty);
 		}
 
-		private void OnRemoveInvitationClicked (object o, EventArgs args)
-		{
-			Logger.Debug("FIXME to Remove this person's invitation: {0}", person.DisplayName);
-			//person.ProviderUser.Authorize();
-		}
 
 		private void OnTextChatClicked (object o, EventArgs args)
 		{

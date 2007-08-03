@@ -1,5 +1,11 @@
 2007-08-03  Calvin Gaisford <calvinrg@gmail.com> 
 
+	* Banter/PersonCard.cs: Updated to handle accepting invitations very
+	  well!  Also modified so there is only one remove and it's the same
+	  for all people
+
+2007-08-03  Calvin Gaisford <calvinrg@gmail.com> 
+
 	* Banter.mdp, Banter/SidebarTextButton.cs, Banter/Makefile.am: Added
 	  SidebarTextButton
 	* Banter/GroupWindow.cs, Banter/PersonCard.cs, Banter/PersonView.cs:
