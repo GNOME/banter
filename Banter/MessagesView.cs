@@ -35,8 +35,10 @@ namespace Banter
 		public MessagesView() : base ()
 		{
 			this.Editable = false;
-			this.WrapMode = Gtk.WrapMode.Word;
+			this.WrapMode = Gtk.WrapMode.WordChar;
 			this.CursorVisible = false;
+			// If we don't set this, the text expands the window
+			this.RightMargin = 2;
 			SetupTextBufferTags();
 			nextShowTime = System.DateTime.MinValue;
 		}

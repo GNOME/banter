@@ -1,5 +1,9 @@
 2007-08-03  Calvin Gaisford <calvinrg@gmail.com> 
 
+	* Banter/MessagesView.cs: Added margin and new wrap style
+
+2007-08-03  Calvin Gaisford <calvinrg@gmail.com> 
+
 	* Banter/MessagesView.cs: Updated to not munge the text on an insert if
 	  things are selected
 
