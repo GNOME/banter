@@ -1,5 +1,9 @@
 2007-08-03  Calvin Gaisford <calvinrg@gmail.com> 
 
+	* Banter/PersonCard.cs: Updated pending people to look better
+
+2007-08-03  Calvin Gaisford <calvinrg@gmail.com> 
+
 	* Banter/PersonCard.cs: Added new Add/Remove buttons for people
 	  requesting authorization
 

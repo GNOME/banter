@@ -240,7 +240,10 @@ namespace Banter
 		{
 			if(person != null) {
 				if (person.ProviderUser.Relationship == ProviderUserRelationship.ReceivedInvitation)
-					nameLabel.Markup = string.Format ("<span style=\"italic\" weight=\"bold\" size=\"medium\">{0}</span>",
+					nameLabel.Markup = string.Format ("<span weight=\"bold\" size=\"medium\">{0}</span>",
+											person.DisplayName);
+				else if (person.ProviderUser.Relationship == ProviderUserRelationship.SentInvitation)
+					nameLabel.Markup = string.Format ("<span weight=\"bold\" size=\"medium\">{0}</span>",
 											person.DisplayName);
 				else if(person.Presence.Type == PresenceType.Offline)
 					nameLabel.Markup = string.Format ("<span foreground=\"grey\" weight=\"bold\" size=\"medium\">{0}</span>",
@@ -264,9 +267,10 @@ namespace Banter
 			if(person != null) {
 				if (person.ProviderUser.Relationship == ProviderUserRelationship.SentInvitation) {
 					presenceMessage = Catalog.GetString("Invited");
+					presenceColor = "#373935";
 				} else if (person.ProviderUser.Relationship == ProviderUserRelationship.ReceivedInvitation) {
-					presenceMessage = Catalog.GetString("Requesting to be added");
-					presenceColor = "blue";
+					presenceMessage = Catalog.GetString("Requesting");
+					presenceColor = "#373935";
 				} else {
 					if (person.PresenceMessage.Length > 0)
 						presenceMessage = person.PresenceMessage;
@@ -338,6 +342,17 @@ namespace Banter
 					addButton.Show();
 				}
 			} else if (person.ProviderUser.Relationship == ProviderUserRelationship.SentInvitation) {
+				if(removeButton == null) {
+					Gtk.Image actionImage = new Gtk.Image(Utilities.GetIcon("remove", 24));
+					removeButton = new Gtk.Button();
+					removeButton.BorderWidth = 0;
+					removeButton.Relief = Gtk.ReliefStyle.None;
+					removeButton.CanFocus = false;
+					removeButton.Clicked += OnRemoveInvitationClicked;
+					removeButton.Image = actionImage;
+					actionBox.PackEnd(removeButton, false, false, 0);
+					removeButton.Show();
+				}
 				// Add a cancel button?
 			} else {
 				// Add capabilities icons if they have any capabilities
@@ -520,6 +535,12 @@ namespace Banter
 		private void OnRemoveClicked (object o, EventArgs args)
 		{
 			Logger.Debug("FIXME to Un-Authorize user {0}", person.DisplayName);
+			//person.ProviderUser.Authorize();
+		}
+
+		private void OnRemoveInvitationClicked (object o, EventArgs args)
+		{
+			Logger.Debug("FIXME to Remove this person's invitation: {0}", person.DisplayName);
 			//person.ProviderUser.Authorize();
 		}
 
