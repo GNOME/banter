@@ -23,11 +23,14 @@ using System;
 using System.Collections.Generic;
 using Gtk;
 using Gdk;
+using Mono.Unix;
 
 namespace Banter
 {
 	public class MessagesView : Gtk.TextView
 	{
+		System.DateTime nextShowTime;
+
 		#region Public Constructors
 		public MessagesView() : base ()
 		{
@@ -35,6 +38,7 @@ namespace Banter
 			this.WrapMode = Gtk.WrapMode.Word;
 			this.CursorVisible = false;
 			SetupTextBufferTags();
+			nextShowTime = System.DateTime.MinValue;
 		}
 		#endregion
 
@@ -62,15 +66,13 @@ namespace Banter
 			this.Buffer.TagTable.Add(tag);
 		}
 
-		private void AddTaggedString(string tag, string date)
+		private void AddTaggedString(string tag, string insertString)
 		{
 			TextIter insertIter, beginIter, endIter;
 			int begin, end;
 
 			begin = this.Buffer.CharCount;
-			insertIter = this.Buffer.GetIterAtMark(
-					this.Buffer.InsertMark);
-			this.Buffer.Insert (insertIter, date);
+			this.Buffer.Insert (this.Buffer.EndIter, insertString);
 			end = this.Buffer.CharCount;
 			endIter = this.Buffer.GetIterAtOffset(end);
 			beginIter = this.Buffer.GetIterAtOffset(begin);
@@ -97,7 +99,13 @@ namespace Banter
 		#region Public Methods
 		public void AddMessage (Message message, bool incoming, bool contentIsSimilar, string avatarPath)
 		{
-			AddTaggedString("time", String.Format("({0:t}) ", message.Creation));
+			bool addName = !contentIsSimilar;
+
+			if(DateTime.Compare(nextShowTime, message.Creation) < 0) {
+				AddTaggedString("time", String.Format("-- {0:t} --\r", message.Creation));
+				nextShowTime = message.Creation.AddMinutes(5);
+				addName = true;
+			}
 
 			if (message is TextMessage) {
 				string formatter;
@@ -105,10 +113,28 @@ namespace Banter
 					formatter = "incoming";
 				else
 					formatter = "outgoing";
-				if(message.Sender != null)
-					AddTaggedString(formatter, message.Sender.Alias);
-				else
-					AddTaggedString(formatter, "Unknown");
+
+				if(addName) {
+					if(!incoming)
+						AddTaggedString(formatter, Catalog.GetString("me") + ":");
+					else {
+						string displayName;
+
+						if(message.Sender != null) {
+							if( (message.Sender.Alias == null) || (message.Sender.Alias.Length == 0) )
+								displayName = message.Sender.Uri;
+							else
+								displayName = message.Sender.Alias.Split (' ')[0];
+						}
+						else
+							displayName = Catalog.GetString("sender");
+
+						AddTaggedString(formatter, displayName + ":");
+					}
+				} else {
+					this.Buffer.Insert(this.Buffer.EndIter, " ");
+				}
+
 				this.Buffer.Insert(this.Buffer.EndIter, " ");
 				this.Buffer.Insert(this.Buffer.EndIter, message.Text);
 				this.Buffer.Insert(this.Buffer.EndIter, "\r");

@@ -1,5 +1,10 @@
 2007-08-03  Calvin Gaisford <calvinrg@gmail.com> 
 
+	* Banter/MessagesView.cs: Updated to not munge the text on an insert if
+	  things are selected
+
+2007-08-03  Calvin Gaisford <calvinrg@gmail.com> 
+
 	* ChangeLog, Banter/Application.cs: Applied patch from Johnny Jacob
 	  <jjohnny@novell.com>
 	* Banter/ChangeLog: Removed outdated changelog... all changes go in the
