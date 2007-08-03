@@ -72,6 +72,8 @@ namespace Banter
 		private Gtk.Button textButton;
 		private Gtk.Button audioButton;
 		private Gtk.Button videoButton;
+		private Gtk.Button addButton;
+		private Gtk.Button removeButton;
 		private Gtk.Label statusLabel;
 		#endregion
 
@@ -237,7 +239,10 @@ namespace Banter
 		private void UpdateName()
 		{
 			if(person != null) {
-				if(person.Presence.Type == PresenceType.Offline)
+				if (person.ProviderUser.Relationship == ProviderUserRelationship.ReceivedInvitation)
+					nameLabel.Markup = string.Format ("<span style=\"italic\" weight=\"bold\" size=\"medium\">{0}</span>",
+											person.DisplayName);
+				else if(person.Presence.Type == PresenceType.Offline)
 					nameLabel.Markup = string.Format ("<span foreground=\"grey\" weight=\"bold\" size=\"medium\">{0}</span>",
 											person.DisplayName);
 				else
@@ -260,24 +265,26 @@ namespace Banter
 				if (person.ProviderUser.Relationship == ProviderUserRelationship.SentInvitation) {
 					presenceMessage = Catalog.GetString("Invited");
 				} else if (person.ProviderUser.Relationship == ProviderUserRelationship.ReceivedInvitation) {
-					presenceMessage = Catalog.GetString("Invitation");
+					presenceMessage = Catalog.GetString("Requesting to be added");
+					presenceColor = "blue";
 				} else {
 					if (person.PresenceMessage.Length > 0)
 						presenceMessage = person.PresenceMessage;
 					else
 						presenceMessage = Presence.GetStatusString(person.Presence.Type);
-				}
-				switch(person.Presence.Type) {
-					case PresenceType.Offline:
-						presenceColor = "grey";
-						break;
-					case PresenceType.Available:
-						presenceColor = "darkgreen";
-						break;
-					case PresenceType.Away:
-					case PresenceType.Busy:
-						presenceColor = "brown";
-						break;
+
+					switch(person.Presence.Type) {
+						case PresenceType.Offline:
+							presenceColor = "grey";
+							break;
+						case PresenceType.Available:
+							presenceColor = "darkgreen";
+							break;
+						case PresenceType.Away:
+						case PresenceType.Busy:
+							presenceColor = "brown";
+							break;
+					}
 				}
 			} else {
 				presenceMessage = Presence.GetStatusString(PresenceType.Offline);
@@ -308,16 +315,27 @@ namespace Banter
 			UpdateStatus();
 
 			if (person.ProviderUser.Relationship == ProviderUserRelationship.ReceivedInvitation) {
-				if(textButton == null) {
+				if(removeButton == null) {
+					Gtk.Image actionImage = new Gtk.Image(Utilities.GetIcon("remove", 24));
+					removeButton = new Gtk.Button();
+					removeButton.BorderWidth = 0;
+					removeButton.Relief = Gtk.ReliefStyle.None;
+					removeButton.CanFocus = false;
+					removeButton.Clicked += OnRemoveClicked;
+					removeButton.Image = actionImage;
+					actionBox.PackEnd(removeButton, false, false, 0);
+					removeButton.Show();
+				}
+				if(addButton == null) {
 					Gtk.Image actionImage = new Gtk.Image(Utilities.GetIcon("add", 24));
-					textButton = new Gtk.Button();
-					textButton.BorderWidth = 0;
-					textButton.Relief = Gtk.ReliefStyle.None;
-					textButton.CanFocus = false;
-					textButton.Clicked += OnAddClicked;
-					textButton.Image = actionImage;
-					actionBox.PackEnd(textButton, false, false, 0);
-					textButton.Show();
+					addButton = new Gtk.Button();
+					addButton.BorderWidth = 0;
+					addButton.Relief = Gtk.ReliefStyle.None;
+					addButton.CanFocus = false;
+					addButton.Clicked += OnAddClicked;
+					addButton.Image = actionImage;
+					actionBox.PackEnd(addButton, false, false, 0);
+					addButton.Show();
 				}
 			} else if (person.ProviderUser.Relationship == ProviderUserRelationship.SentInvitation) {
 				// Add a cancel button?
@@ -373,6 +391,14 @@ namespace Banter
 					if(videoButton != null) {
 						actionBox.Remove(videoButton);
 						videoButton = null;
+					}
+					if(addButton != null){
+						actionBox.Remove(addButton);
+						addButton = null;
+					}
+					if(removeButton != null){
+						actionBox.Remove(removeButton);
+						removeButton = null;
 					}
 				}
 			}
@@ -485,11 +511,15 @@ namespace Banter
 		}
 */
 
-
-
 		private void OnAddClicked (object o, EventArgs args)
 		{
 			Logger.Debug("FIXME to Authorize user {0}", person.DisplayName);
+			//person.ProviderUser.Authorize();
+		}
+
+		private void OnRemoveClicked (object o, EventArgs args)
+		{
+			Logger.Debug("FIXME to Un-Authorize user {0}", person.DisplayName);
 			//person.ProviderUser.Authorize();
 		}
 
