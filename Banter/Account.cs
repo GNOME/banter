@@ -933,6 +933,18 @@ namespace Banter
 			}
 			*/
 		}
+		
+		/// <summary>
+		/// Method to add a member
+		/// </summary>
+		public void AddMember (uint id, string message)
+		{
+			if (this.localInvitationGroup == null)
+				throw new ApplicationException ("Group instance unavailable");
+				
+			uint[] ids = {id};
+			this.localInvitationGroup.AddMembers (ids, message);	
+		}
 
 		/// <summary>
 		///	Method to connect this account

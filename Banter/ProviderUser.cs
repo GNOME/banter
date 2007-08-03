@@ -264,6 +264,23 @@ namespace Banter
 		#endregion		
 		
 		#region Public Methods
+		/// <summary>
+		/// Authorize a user to enable chatting
+		/// the user must be in the correct relationship state to authorize
+		/// </summary>
+        public void Authorize ()
+        {
+        	if (this.relationship != ProviderUserRelationship.ReceivedInvitation)
+        		throw new ApplicationException ("User is not in a the correct authorization state");
+        		
+			// Need to get the account information so we can AddMember
+			// to the correct group
+			Account account = AccountManagement.GetAccountByName (this.accountName);
+			account.AddMember (this.id, String.Empty);
+			this.relationship = ProviderUserRelationship.Linked;			
+        }
+
+
 		public void RequestAvatarData ()
 		{
 			if (tlpConnection == null) return;
@@ -285,7 +302,7 @@ namespace Banter
 				AvatarReceived (this, tokens[0], avatarData.MimeType, avatarData.Data);
 		}
 
-		public void SetStatus(Presence myPresence)
+		public void SetStatus (Presence myPresence)
         {
         	if(tlpConnection.Status == org.freedesktop.Telepathy.ConnectionStatus.Connected) {
 				Dictionary<string, IDictionary<string, object>> presence = new Dictionary<string, IDictionary<string, object>>();
@@ -297,7 +314,7 @@ namespace Banter
         	}
         }
 
-		public void SetAvatar(string mimeType, byte[] data)
+		public void SetAvatar (string mimeType, byte[] data)
         {
         	if(tlpConnection.Status == org.freedesktop.Telepathy.ConnectionStatus.Connected) {
         		org.freedesktop.Telepathy.Avatar aphoto = new org.freedesktop.Telepathy.Avatar();
@@ -306,7 +323,7 @@ namespace Banter
 				tlpConnection.SetAvatar(aphoto);
         	}
         }
-
+        
 
 		#endregion
 	}
