@@ -242,7 +242,17 @@ namespace Banter
 				return;
 				
 			if (args.Event.Button == 1) {
-				Logger.Debug ("left button clicked");
+				if (groupWindows.Count <= 0) {
+					GroupWindow gw = new GroupWindow();
+					groupWindows [gw] = gw;
+					gw.DeleteEvent += OnGroupWindowDeleted;
+					gw.ShowAll ();
+				} else {
+					foreach(GroupWindow gw in groupWindows.Values) {
+						gw.Present();
+					}
+				}
+				    
 			} else if (args.Event.Button == 3) //right click
    			{
    				// FIXME: Eventually get all these into UIManagerLayout.xml file
