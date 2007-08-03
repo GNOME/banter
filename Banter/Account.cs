@@ -946,6 +946,31 @@ namespace Banter
 			this.localInvitationGroup.AddMembers (ids, message);	
 		}
 
+
+		/// <summary>
+		/// Method to authorize a user who is requesting it to
+		/// enable chat.  
+		/// authorize == false denies the user of authorization
+		/// </summary>
+		public void AuthorizeUser (bool authorize, uint id, string message)
+		{
+			if (this.localInvitationGroup == null)
+				throw new ApplicationException ("Group instance unavailable");
+				
+			uint[] ids = {id};
+			if (authorize == true)
+				localInvitationGroup.AddMembers (ids, message);
+			else
+				localInvitationGroup.RemoveMembers (ids, message);
+		}
+
+		/// <summary>
+		/// Method to remove an existing user
+		/// </summary>
+		public void RemoveUser (uint id, string message)
+		{
+		}
+
 		/// <summary>
 		///	Method to connect this account
 		/// </summary>

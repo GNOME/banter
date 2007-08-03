@@ -529,13 +529,13 @@ namespace Banter
 		private void OnAddClicked (object o, EventArgs args)
 		{
 			Logger.Debug("FIXME to Authorize user {0}", person.DisplayName);
-			//person.ProviderUser.Authorize();
+			person.ProviderUser.Authorize (String.Empty);
 		}
 
 		private void OnRemoveClicked (object o, EventArgs args)
 		{
 			Logger.Debug("FIXME to Un-Authorize user {0}", person.DisplayName);
-			//person.ProviderUser.Authorize();
+			person.ProviderUser.DenyAuthorization (String.Empty);
 		}
 
 		private void OnRemoveInvitationClicked (object o, EventArgs args)

@@ -268,7 +268,7 @@ namespace Banter
 		/// Authorize a user to enable chatting
 		/// the user must be in the correct relationship state to authorize
 		/// </summary>
-        public void Authorize ()
+        public void Authorize (string message)
         {
         	if (this.relationship != ProviderUserRelationship.ReceivedInvitation)
         		throw new ApplicationException ("User is not in a the correct authorization state");
@@ -276,10 +276,54 @@ namespace Banter
 			// Need to get the account information so we can AddMember
 			// to the correct group
 			Account account = AccountManagement.GetAccountByName (this.accountName);
+			account.AuthorizeUser (true, this.id, message);
+			this.relationship = ProviderUserRelationship.Linked;			
+        }
+
+		/// <summary>
+		/// Deny a user who is requesting authorization to chat
+		/// </summary>
+        public void DenyAuthorization (string message)
+        {
+        	if (this.relationship != ProviderUserRelationship.ReceivedInvitation)
+        		throw new ApplicationException ("User is not in a the correct authorization state");
+        		
+			// Need to get the account information so we can AddMember
+			// to the correct group
+			Account account = AccountManagement.GetAccountByName (this.accountName);
+			account.AuthorizeUser (false, this.id, message);
+			this.relationship = ProviderUserRelationship.Unknown;			
+        }
+
+		/// <summary>
+		/// Method to revoke an outstanding invitation
+		/// </summary>
+        public void RevokeInvitation ()
+        {
+        	if (this.relationship != ProviderUserRelationship.SentInvitation)
+        		throw new ApplicationException ("User is not in a the correct authorization state");
+        		
+			// Need to get the account information so we can AddMember
+			// to the correct group
+			Account account = AccountManagement.GetAccountByName (this.accountName);
+			
 			account.AddMember (this.id, String.Empty);
 			this.relationship = ProviderUserRelationship.Linked;			
         }
 
+		/// <summary>
+		/// Method to remove a user's membership with the current user
+		/// </summary>
+        public void RemoveUser ()
+        {
+        	if (this.relationship != ProviderUserRelationship.Linked)
+        		throw new ApplicationException ("User is not in a the correct relationship state");
+        		
+			// Need to get the account information so we can Remove the member
+			Account account = AccountManagement.GetAccountByName (this.accountName);
+			account.RemoveUser (this.id, String.Empty);
+			this.relationship = ProviderUserRelationship.Unknown;			
+        }
 
 		public void RequestAvatarData ()
 		{
