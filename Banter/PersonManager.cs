@@ -44,6 +44,7 @@ namespace Banter
 		#region Private Static Types
 		private static Banter.PersonManager store = null;
 		private static System.Object locker = new System.Object();
+		private static System.Object modelLock = new System.Object();
 		#endregion
 
 	
@@ -128,9 +129,10 @@ namespace Banter
 		{
 			get
 			{
+/*
 				if(PersonManager.Instance.me == null) {
-					Gtk.TreeIter iter;
 					
+					Gtk.TreeIter iter;
 					if(PersonManager.Instance.personTreeStore.GetIterFirst(out iter))
 					{
 						do {
@@ -143,6 +145,7 @@ namespace Banter
 						while(PersonManager.Instance.personTreeStore.IterNext(ref iter));
 					}
 				}
+*/
 				return PersonManager.Instance.me;
 			}
 		}			
@@ -195,23 +198,22 @@ namespace Banter
 
 		private int PersonTreeSort (TreeModel model, TreeIter tia, TreeIter tib)
 		{
-			Person persona = (Person) model.GetValue(tia, 0);
-			Person personb = (Person) model.GetValue(tib, 0);
+			lock(modelLock) {
+				Person persona = (Person) model.GetValue(tia, 0);
+				Person personb = (Person) model.GetValue(tib, 0);
 
-//			Logger.Debug("****** Comparing {0} to {0}", persona.DisplayName, personb.DisplayName);
+				// Sort by placing offline people below everyone else
+				if(persona.Presence.Type == PresenceType.Offline) {
+					if(personb.Presence.Type != PresenceType.Offline)
+						return 1;
+				} else {
+					if(personb.Presence.Type == PresenceType.Offline)
+						return -1;
+				}
 
-			// Sort by placing offline people below everyone else
-/*			if(persona.Presence.Type == PresenceType.Offline) {
-				if(personb.Presence.Type != PresenceType.Offline)
-					return 100;
-			} else {
-				if(personb.Presence.Type == PresenceType.Offline)
-					return -100;
+				// If we make it here, sort them by comparing the DisplayNames
+				return String.Compare (persona.DisplayName, personb.DisplayName);
 			}
-*/
-
-			// If we make it here, sort them by comparing the DisplayNames
-			return String.Compare (persona.DisplayName, personb.DisplayName);
 		}
 
 
@@ -220,11 +222,17 @@ namespace Banter
 		///</summary>
 		private void OnPersonPresenceUpdated (Person person)
 		{
-			//TreeIter iter = personIters[person.Id];
-			//personTreeStore.SetValue(iter, 0, person);
+			lock(modelLock) {
+				// Set the value to trigger a re-sort
+				if(personIters.ContainsKey(person.Id)) {
+					TreeIter iter = personIters[person.Id];
+					// update the model on the gui thread
+					Gtk.Application.Invoke (delegate {
+						personTreeStore.SetValue(iter, 0, person);
+					});
+				}
+			}
 		}
-
-
 		
 		/// <summary>
 		/// Handles BookView event ContactsAdded
@@ -375,19 +383,7 @@ namespace Banter
 		/// </summary>	
 		public static Person GetPersonByJabberId(string jabberId)
 		{
-			PersonManager pm = PersonManager.Instance;
-
-			if(pm.personIters.ContainsKey(jabberId)) {
-				Gtk.TreeIter iter = pm.personIters[jabberId];
-				Person person = (Person) pm.personTreeStore.GetValue(iter, 0);
-				return person;
-			}
-/*			Evolution.BookQuery q = Evolution.BookQuery.FieldTest(	ContactField.ImJabber, 
-																	BookQueryTest.Is, 
-																	jabberId);
-			return PersonManager.Instance.FindPerson(q);
-*/
-			return null;
+			return GetPerson(jabberId);
 		}
 
 
@@ -396,38 +392,27 @@ namespace Banter
 		/// </summary>	
 		public static Person GetPerson(ProviderUser user)
 		{
-			PersonManager pm = PersonManager.Instance;
-
-			if(pm.personIters.ContainsKey(user.Uri)) {
-				Gtk.TreeIter iter = pm.personIters[user.Uri];
-				Person person = (Person) pm.personTreeStore.GetValue(iter, 0);
-				return person;
-			}
-/*
-			if(user.Protocol.CompareTo(ProtocolName.Jabber) == 0) {
-				Evolution.BookQuery q = Evolution.BookQuery.FieldTest(	ContactField.ImJabber, 
-																		BookQueryTest.Is, 
-																		user.Uri );
-				return PersonManager.Instance.FindPerson(q);
-			}
-			else
-				throw new ApplicationException("Can't do that");
-*/
-			return null;
+			return GetPerson(user.Uri);
 		}
 
 		
 		/// <summary>
 		/// Gets the Person object for a given Id
 		/// </summary>	
-		public static Person GetPerson(string contactId)
+		public static Person GetPerson(string id)
 		{
-			Person person = null;
-			if(PersonManager.Instance.personIters.ContainsKey(contactId)) {
-				Gtk.TreeIter iter = PersonManager.Instance.personIters[contactId];
-				person = (Person) PersonManager.Instance.personTreeStore.GetValue(iter, 0);
+			lock(modelLock) {
+				PersonManager pm = PersonManager.Instance;
+
+				if( (pm.me != null) && (pm.me.JabberId.CompareTo(id) == 0) )
+					return pm.me;
+
+				if(pm.personIters.ContainsKey(id)) {
+					Gtk.TreeIter iter = pm.personIters[id];
+					return (Person) pm.personTreeStore.GetValue(iter, 0);
+				}
 			}
-			return person;
+			return null;
 		}
 
 		
@@ -436,20 +421,45 @@ namespace Banter
 		/// </summary>	
 		public static bool AddPerson(Person person)
 		{
+			lock(modelLock) {
 //			if(PersonManager.Instance.systemBook.AddContact(person.EDSContact)) {
 				// if they added, then add the person to our tables to find them
-				Gtk.TreeIter iter = PersonManager.Instance.personTreeStore.AppendValues(person);
-				PersonManager.Instance.personIters[person.Id] = iter;
 				if(person.IsMe) {
 					PersonManager.Instance.me = person;
 					if(PersonManager.Instance.PersonMeArrived != null) {
 						PersonManager.Instance.PersonMeArrived(person);
 					}
+				} else {
+					// update the model on the gui thread
+					Gtk.Application.Invoke (delegate {
+						Gtk.TreeIter iter = PersonManager.Instance.personTreeStore.AppendValues(person);
+						PersonManager.Instance.personIters[person.Id] = iter;
+					});
 				}
 				person.PresenceUpdated += PersonManager.Instance.OnPersonPresenceUpdated;
+
 				return true;
 //			}
 //			return false;
+			}
+		}
+
+
+		/// <summary>
+		/// Add a Person to the Store
+		/// </summary>	
+		public static void RemovePerson(String id)
+		{
+			lock(modelLock) {
+				Person person = GetPerson(id);
+				if(person != null) {
+					person.PresenceUpdated -= PersonManager.Instance.OnPersonPresenceUpdated;
+					// update the model on the gui thread
+					Gtk.Application.Invoke (delegate {
+						PersonManager.Instance.personIters.Remove(person.Id);
+					});
+				}
+			}
 		}
 
 

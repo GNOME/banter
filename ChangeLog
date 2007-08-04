@@ -1,3 +1,13 @@
+2007-08-03  Calvin Gaisford <calvinrg@gmail.com> 
+
+	* Banter/Person.cs: Fixed up data integrity problems between Person and
+	  ProviderUser
+	* Banter/PersonManager.cs: Called model updates on the gui thread and
+	  protected the model
+	* Banter/PersonView.cs: Removed code that messed with me in the model
+	  since me shouldn't even be in there, it was handled at the model
+	  layer
+
 2007-08-03  Brady Anderson <brady.anderson@gmail.com> 
 
 	* Banter/Account.cs: fixes to remove

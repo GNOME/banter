@@ -140,10 +140,6 @@ namespace Banter
 					Person person = model.GetValue (iter, 0) as Person;
 					if (person == null)
 						continue;
-
-					// don't put yourself in the view
-					if (person.IsMe)
-						continue;
 					
 					TreePath path = model.GetPath (iter);
 					PersonCard card = new PersonCard(person);
@@ -179,10 +175,6 @@ namespace Banter
 
 			Person person = model.GetValue (args.Iter, 0) as Person;
 			if (person != null) {
-				// don't put yourself in the view
-				if (person.IsMe) {
-					return;					
-				}
 				card.Person = person;
 			}
 
@@ -191,7 +183,6 @@ namespace Banter
 			vbox.PackStart (card, false, false, 0);
 			vbox.ReorderChild(card, path.Indices [0]);
 			personCardMap[args.Iter] = card;
-
 		}
 		
 		private void OnPersonRowDeleted (object sender, RowDeletedArgs args)
@@ -206,7 +197,6 @@ namespace Banter
 					return;
 				}
 			}
-
 		}
 		
 		private void OnPersonRowChanged (object sender, RowChangedArgs args)
@@ -215,22 +205,8 @@ namespace Banter
 			PersonCard card = personCardMap[args.Iter];
 			if(card != null) {
 				if(card.Person == null) {
-					Person person = model.GetValue (args.Iter, 0) as Person;
-					if (person != null) {
-						card.Person = person;
-						if(person.IsMe) {
-							vbox.Remove(card);
-							foreach(TreeIter iter in personCardMap.Keys) {
-								if(card == personCardMap[iter]) {
-									personCardMap.Remove(iter);
-									return;
-								}
-							}
-							return;
-						}
-					}
+					card.Person = model.GetValue (args.Iter, 0) as Person;
 				}
-
 				vbox.ReorderChild(card, args.Path.Indices [0]);
 			}
 		}

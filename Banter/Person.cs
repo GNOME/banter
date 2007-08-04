@@ -46,6 +46,7 @@ namespace Banter
 		private Gdk.Pixbuf avatar;
 		private List<ProviderUser> providerUsers;
 		private Presence presence;
+		private string displayName;
 		#endregion
 
 		#region Public Events
@@ -78,26 +79,7 @@ namespace Banter
 		/// </summary>
 		public string DisplayName
 		{
-			get
-			{
-				string displayName = String.Empty;
-				
-				if(providerUsers.Count > 0) {
-					if(providerUsers[0].Alias.Length > 0)
-						displayName = providerUsers[0].Alias;
-					else
-						displayName = providerUsers[0].Uri;
-				}
-				/*
-				if (edsContact != null) {
-					if ((edsContact.FileAs != null) && (edsContact.FileAs.Length > 0) ) {
-						displayName = edsContact.FileAs;
-						return displayName;
-					}
-				}
-				*/
-				return displayName;
-			}
+			get { return displayName; }
 		}
 
 
@@ -240,6 +222,10 @@ namespace Banter
 				user.PresenceUpdated += ProviderUserPresenceUpdated;
 				user.AvatarTokenUpdated += this.ProviderUserAvatarTokenUpdated;
 				user.AvatarReceived += this.ProviderUserAvatarReceived;
+				if(user.Alias.Length > 0)
+					displayName = user.Alias;
+				else
+					displayName = user.Uri;
 			} 
 
 			if(presence == null)
@@ -257,18 +243,23 @@ namespace Banter
 			//Logger.Debug("FIXME: Person.UpdatePresence should use a policy to get the right presence");
 			if(providerUsers.Count > 0) {
 				presence = providerUsers[0].Presence;
+
+				// check the display name while we are here
+				if( (providerUsers[0].Alias != null) && (providerUsers[0].Alias.Length > 0) ) {
+					displayName = providerUsers[0].Alias;
+ 				}
+
+				// Call the event on the GUI thread		
+				if(PresenceUpdated != null)
+				{
+					Gtk.Application.Invoke (delegate {
+						PresenceUpdated(this);
+					});			
+				}
 			}
 
-			// Call the event on the GUI thread				
-			if(PresenceUpdated != null)
-			{
-				Gtk.Application.Invoke (delegate {
-					PresenceUpdated(this);
-				});			
-			}
 		}
-		
-		
+
 		private void ProviderUserPresenceUpdated (ProviderUser user)
 		{
 			Logger.Debug("Person:ProviderUserPresenceUpdated for ProviderUser: {0}", user.Alias);			
@@ -313,34 +304,6 @@ namespace Banter
 		
 		
 		#region Public Methods
-		/// <summary>
-		/// Ensures that we have ProviderUsers for eds Provider values
-		/// </summary>
-		public void UpdateProviderUsers()
-		{
-			//Logger.Debug("FIXME: Person.UpdateProviderUsers should use a policy for the order");
-			//providerUsers.Clear();
-		
-			// Jabber values
-			/*
-			foreach(string uri in edsContact.ImJabber) {
-				string key = ProviderUserManager.CreateKey(uri, ProtocolName.Jabber);
-				ProviderUser providerUser = ProviderUserManager.GetProviderUser(key);
-				if(providerUser == null) {
-					providerUser = ProviderUserManager.CreateProviderUser(uri, ProtocolName.Jabber);
-				}
-				
-				if(providerUser != null) {
-					providerUsers.Add(providerUser);
-					providerUser.PresenceUpdated += ProviderUserPresenceUpdated;
-					providerUser.AvatarTokenUpdated += this.ProviderUserAvatarTokenUpdated;
-					providerUser.AvatarReceived += this.ProviderUserAvatarReceived;
-				}
-			}
-			*/
-			UpdatePresence();
-		}
-		
 		/// <summary>
 		/// Sets the status for the person if the person IsMe
 		/// </summary>
