@@ -66,6 +66,7 @@ namespace Banter
 		protected IConnectionManager connManager;
 		protected IChannelGroup localInvitationGroup;
 		protected IChannelGroup remoteInvitationGroup;
+		protected IChannelGroup subscribedGroup;
 
 		// Connected Handlers
 		protected bool aliasConnected = false;
@@ -311,6 +312,7 @@ namespace Banter
 						
 				localInvitationGroup = 
 					Bus.Session.GetObject<IChannelGroup> (connInfo.BusName, objectPath);
+				localInvitationGroup.MembersChanged += OnPublishedMembersChanged;
 				
 				// Next setup a channel to the subscribe list
 				uint[] subHandles = tlpConnection.RequestHandles (HandleType.List, subArgs);
@@ -323,6 +325,9 @@ namespace Banter
 						
 				remoteInvitationGroup = 
 					Bus.Session.GetObject<IChannelGroup> (connInfo.BusName, objectPath);
+					
+				subscribedGroup = remoteInvitationGroup;
+				subscribedGroup.MembersChanged += OnSubscribedMembersChanged;
 				
 			} catch (Exception sgc) {
 				Logger.Debug ("Failed setting up group channels");
@@ -484,7 +489,9 @@ namespace Banter
 									invitedUsers[i], 
 									this.protocol, 
 									ProviderUserRelationship.SentInvitation);
+							providerUser.TlpConnection = tlpConnection;
 							providerUser.AccountName = this.Name;
+							providerUser.ID = invitedHandles[i];
 						} catch{}
 					}
 				}
@@ -522,29 +529,20 @@ namespace Banter
 									this.protocol, 
 									ProviderUserRelationship.ReceivedInvitation);
 							providerUser.AccountName = this.Name;
+							providerUser.TlpConnection = tlpConnection;
 							providerUser.ID = inviteHandles[i];
 						} catch{}
 					}
 				}
 			}
 			
-			string[] args = {"subscribe"};
-			uint[] memberHandles = tlpConnection.RequestHandles (HandleType.List, args);
-			ObjectPath op = 
-				tlpConnection.RequestChannel (
-					org.freedesktop.Telepathy.ChannelType.ContactList, 
-					HandleType.List, 
-					memberHandles[0], 
-					true);
-					
-			//Logger.Debug ("# known contacts: {0}", memberHandles.Length);
-					
-			IChannelGroup cl = Bus.Session.GetObject<IChannelGroup> (connInfo.BusName, op);
-			string[] members = tlpConnection.InspectHandles (HandleType.Contact, cl.Members);
+			// Add subscribed members			
+			string[] members = 
+				tlpConnection.InspectHandles (HandleType.Contact, subscribedGroup.Members);
 			
 			string[] aliasNames = null;
 			if (aliasing == true) {
-				aliasNames = tlpConnection.RequestAliases (cl.Members);
+				aliasNames = tlpConnection.RequestAliases (subscribedGroup.Members);
 				//Logger.Debug ("# returned aliases: {0}", aliasNames.Length);	
 			}	
 
@@ -560,7 +558,7 @@ namespace Banter
 					providerUser.TlpConnection = tlpConnection;
 					providerUser.AccountName = this.Name;
 					providerUser.Protocol = this.Protocol;
-					providerUser.ID = cl.Members[i];
+					providerUser.ID = subscribedGroup.Members[i];
 					providerUser.Relationship = ProviderUserRelationship.Linked;
 					if (aliasing == true && aliasNames != null)
 						providerUser.Alias = aliasNames[i];
@@ -572,21 +570,25 @@ namespace Banter
 					
 				if (providerUser == null) {
 					try {
-						providerUser = new ProviderUser (tlpConnection, cl.Members[i]);
+						providerUser =
+							ProviderUserManager.CreateProviderUser (
+								members[i], 
+								this.protocol, 
+								ProviderUserRelationship.Linked);
+								
 						providerUser.AccountName = this.Name;
-						providerUser.Protocol = this.Protocol;
-						providerUser.Uri = members[i];
+						providerUser.ID = subscribedGroup.Members[i];
+						providerUser.TlpConnection = tlpConnection;
+					
 						if (aliasing == true && aliasNames != null)
 							providerUser.Alias = aliasNames[i];
-						
-						ProviderUserManager.AddProviderUser (key, providerUser);
 					} catch{}
 				}
 			}
 			
 			ConnectHandlers ();
 			if (presence == true)
-				tlpConnection.RequestPresence (cl.Members);
+				tlpConnection.RequestPresence (subscribedGroup.Members);
 		}
 		
 		private void ConnectHandlers ()
@@ -737,6 +739,60 @@ namespace Banter
 					UpdatePresence (user, info.Key, message);
 				}
 			}
+		}
+		
+
+		/// <summary>
+		/// Callback method when members are added or removed from
+		/// the subscribed list
+		/// </summary>
+		private
+		void
+		OnSubscribedMembersChanged(
+			string message,
+			uint[] added,
+			uint[] removed,
+			uint[] localPending,
+			uint[] remotePending,
+			uint actor,
+			uint reason)
+		{
+			Logger.Debug ("OnSubscribedMembersChanged - called");
+			Logger.Debug ("  Message: {0}", message);
+			Logger.Debug ("  # added: {0}", added.Length);
+			foreach (uint handle in added)
+				Logger.Debug ("    contact id: {0}", handle);
+				
+			Logger.Debug ("  # removed: {0}", removed.Length);
+			foreach (uint handle in removed)
+				Logger.Debug ("    contact id: {0}", handle);
+		}
+		
+
+		/// <summary>
+		/// Callback method when members are added or removed from
+		/// the published list
+		/// </summary>
+		private
+		void
+		OnPublishedMembersChanged(
+			string message,
+			uint[] added,
+			uint[] removed,
+			uint[] localPending,
+			uint[] remotePending,
+			uint actor,
+			uint reason)
+		{
+			Logger.Debug ("OnPublishedMembersChanged - called");
+			Logger.Debug ("  Message: {0}", message);
+			Logger.Debug ("  # added: {0}", added.Length);
+			foreach (uint handle in added)
+				Logger.Debug ("    contact id: {0}", handle);
+				
+			Logger.Debug ("  # removed: {0}", removed.Length);
+			foreach (uint handle in removed)
+				Logger.Debug ("    contact id: {0}", handle);
 		}
 		
 		/// <summary>
@@ -987,6 +1043,11 @@ namespace Banter
 		/// </summary>
 		public void RemoveUser (uint id, string message)
 		{
+			if (this.subscribedGroup == null)
+				throw new ApplicationException ("Group instance unavailable");
+				
+			uint[] ids = {id};
+			this.subscribedGroup.RemoveMembers (ids, message);	
 		}
 
 		/// <summary>

@@ -189,16 +189,16 @@ namespace Banter
 		public static ProviderUser CreateProviderUser(string uri, string protocol, ProviderUserRelationship relationship)
 		{
 			lock(locker) {
-				string key = CreateKey(uri, protocol);
+				string key = CreateKey (uri, protocol);
 				
-				if(!ProviderUserManager.Instance.users.ContainsKey(key)) {
+				if (!ProviderUserManager.Instance.users.ContainsKey (key)) {
 					ProviderUser user = new ProviderUser();
 					user.Uri = uri;
 					user.Protocol = protocol;
 					user.Relationship = relationship;
 					ProviderUserManager.Instance.users[key] = user;
-					if(ProviderUserAdded != null)
-						ProviderUserAdded(user);					
+					if (ProviderUserAdded != null)
+						ProviderUserAdded (user);					
 					return user;
 				}
 				else
@@ -208,6 +208,21 @@ namespace Banter
 		
 
 
+		/// <summary>
+		/// Method to remove a provider user from the list
+		/// </summary>	
+		public static void RemoveProviderUser(string uri, string protocol)
+		{
+			lock (locker) {
+				string key = CreateKey (uri, protocol);
+				
+				if (ProviderUserManager.Instance.users.ContainsKey (key) == true)
+				{
+					ProviderUserManager.Instance.users.Remove (key);
+				}
+			}
+		}		
+		
 		/// <summary>
 		/// Generates a key to locate a ProviderUser
 		/// </summary>	

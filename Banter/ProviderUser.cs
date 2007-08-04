@@ -292,7 +292,9 @@ namespace Banter
 			// to the correct group
 			Account account = AccountManagement.GetAccountByName (this.accountName);
 			account.AuthorizeUser (false, this.id, message);
-			this.relationship = ProviderUserRelationship.Unknown;			
+			this.relationship = ProviderUserRelationship.Unknown;	
+			
+			ProviderUserManager.RemoveProviderUser (this.uri, this.protocol);
         }
 
 		/// <summary>
@@ -307,8 +309,9 @@ namespace Banter
 			// to the correct group
 			Account account = AccountManagement.GetAccountByName (this.accountName);
 			
-			account.AddMember (this.id, String.Empty);
-			this.relationship = ProviderUserRelationship.Linked;			
+			account.RemoveUser (this.id, String.Empty);
+			this.relationship = ProviderUserRelationship.Unknown;
+			ProviderUserManager.RemoveProviderUser (this.uri, this.protocol);
         }
 
 		/// <summary>
@@ -322,7 +325,7 @@ namespace Banter
 			// Need to get the account information so we can Remove the member
 			Account account = AccountManagement.GetAccountByName (this.accountName);
 			account.RemoveUser (this.id, String.Empty);
-			this.relationship = ProviderUserRelationship.Unknown;			
+			ProviderUserManager.RemoveProviderUser (this.uri, this.protocol);
         }
 
 		public void RequestAvatarData ()

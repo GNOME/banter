@@ -1,3 +1,9 @@
+2007-08-03  Brady Anderson <brady.anderson@gmail.com> 
+
+	* Banter/Account.cs: fixes to remove
+	* Banter/ProviderUserManager.cs: catching member change events
+	* Banter/ProviderUser.cs: more authorization remove methods
+
 2007-08-03  Calvin Gaisford <calvinrg@gmail.com> 
 
 	* Banter/MessagesView.cs: Added margin and new wrap style
