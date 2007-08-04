@@ -193,7 +193,6 @@ namespace Banter
 			foreach(TreeIter iter in personCardMap.Keys) {
 				if(card == personCardMap[iter]) {
 					personCardMap.Remove(iter);
-
 					return;
 				}
 			}

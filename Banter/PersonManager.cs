@@ -456,6 +456,8 @@ namespace Banter
 					person.PresenceUpdated -= PersonManager.Instance.OnPersonPresenceUpdated;
 					// update the model on the gui thread
 					Gtk.Application.Invoke (delegate {
+						Gtk.TreeIter iter = PersonManager.Instance.personIters[id];
+						PersonManager.Instance.personTreeStore.Remove(ref iter);
 						PersonManager.Instance.personIters.Remove(person.Id);
 					});
 				}

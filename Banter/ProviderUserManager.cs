@@ -28,6 +28,7 @@ namespace Banter
 {
 
 	public delegate void ProviderUserAddedHandler (ProviderUser user);
+	public delegate void ProviderUserRemovedHandler (string uri);
 	
 	///<summary>
 	///	ProviderUserManager Class
@@ -48,6 +49,7 @@ namespace Banter
 
 		#region Public Events
 		public static event ProviderUserAddedHandler ProviderUserAdded;
+		public static event ProviderUserRemovedHandler ProviderUserRemoved;
 		#endregion
 		
 
@@ -219,6 +221,9 @@ namespace Banter
 				if (ProviderUserManager.Instance.users.ContainsKey (key) == true)
 				{
 					ProviderUserManager.Instance.users.Remove (key);
+					if(ProviderUserRemoved != null) {
+						ProviderUserRemoved(uri);
+					}
 				}
 			}
 		}		

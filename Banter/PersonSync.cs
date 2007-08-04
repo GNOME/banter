@@ -50,6 +50,7 @@ namespace Banter
 		public void Start()
 		{
 			ProviderUserManager.ProviderUserAdded += ProviderUserAdded;
+			ProviderUserManager.ProviderUserRemoved += ProviderUserRemoved;
 		}
 		
 		
@@ -58,7 +59,8 @@ namespace Banter
 		/// </summary>			
 		public void Stop()
 		{
-			ProviderUserManager.ProviderUserAdded -= ProviderUserAdded;		
+			ProviderUserManager.ProviderUserAdded -= ProviderUserAdded;
+			ProviderUserManager.ProviderUserRemoved -= ProviderUserRemoved;
 		}
 		#endregion
 		
@@ -72,6 +74,11 @@ namespace Banter
 				//person.JabberId = user.Uri;
 				PersonManager.AddPerson(person);
 			}
+		}
+
+		public void ProviderUserRemoved (string uri)
+		{
+			PersonManager.RemovePerson(uri);
 		}
 		#endregion
 	
