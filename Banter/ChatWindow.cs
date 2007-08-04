@@ -57,6 +57,7 @@ namespace Banter
 		private Person peerPerson;
 		private ProviderUser peerProviderUser;
 		private bool hasBeenShown;
+		private bool notifyUser;
 		#endregion
 		
 
@@ -168,6 +169,7 @@ namespace Banter
 			hasBeenShown = false;
 			everShown = false;
 			shiftKeyPressed = false;
+			notifyUser = false;
 			
 			// Update the window title
 			Title = string.Format ("Chat with {0}", peerPerson.DisplayName);
@@ -328,10 +330,8 @@ namespace Banter
 			
 			AddMessage (message, true, conversation.CurrentMessageSameAsLast, null);
 
-
-
 			// if the window doesn't have focus, notify the user
-			if(message is TextMessage) {
+			if( (notifyUser) &&(message is TextMessage) ) {
 				if(hasBeenShown && (!HasToplevelFocus)) {
 					this.UrgencyHint = true;
 					NotificationManager.NotifyMessage(person, message);
@@ -697,11 +697,13 @@ namespace Banter
 					}
 					break;
 			}		
-		
+
+			notifyUser = false;		
 			// Check for any existing messages including previous chat log
 			Message[] messages = conv.GetReceivedMessages();
 			foreach (Message msg in messages)
 				OnTextMessageReceived (conv, msg);
+			notifyUser = true;
 
 			hasBeenShown = true;
 				

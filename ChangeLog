@@ -1,5 +1,10 @@
 2007-08-03  Calvin Gaisford <calvinrg@gmail.com> 
 
+	* Banter/ChatWindow.cs: Updated notification so you don't get a
+	  notification for each message updated when a window firsts opens
+
+2007-08-03  Calvin Gaisford <calvinrg@gmail.com> 
+
 	* Banter/Person.cs: Fixed up data integrity problems between Person and
 	  ProviderUser
 	* Banter/PersonManager.cs: Called model updates on the gui thread and
