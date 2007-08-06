@@ -7,6 +7,14 @@ Please send questions and suggestions to
 Please report bugs using http://bugzilla.gnome.org/
 (http://bugzilla.gnome.org/enter_bug.cgi?product=Banter).
 
+Version 0.1.9
+* UI bling, more responsive, windows come up right away
+* Audio chats are now fully supported, initiating and accepting
+* Invitations can now be accepted
+* New Sounds and notifications
+* People are now sorted by online and name
+* Initial work with decline and remove people from lists
+
 Version 0.1.8
 * Removed gtkmozembed code for stability.
 * Cleaned up the UI for for chat windows and group windows.
