@@ -764,8 +764,20 @@ namespace Banter
 				Logger.Debug ("    contact id: {0}", handle);
 				
 			Logger.Debug ("  # removed: {0}", removed.Length);
-			foreach (uint handle in removed)
-				Logger.Debug ("    contact id: {0}", handle);
+			foreach (uint handle in removed) {
+				uint[] handles = {handle};
+				string[] names = 
+					tlpConnection.InspectHandles (HandleType.Contact, handles);
+				Logger.Debug ("    contact id: {0} - {1}", handles[0], names[0]);
+			}
+				
+			Logger.Debug ("Remote Pending List");
+			foreach (uint handle in remotePending) {
+				uint[] handles = {handle};
+				string[] names = 
+					tlpConnection.InspectHandles (HandleType.Contact, handles);
+				Logger.Debug ("   {0} - {1}", handle, names[0]);
+			}
 		}
 		
 
@@ -1023,19 +1035,36 @@ namespace Banter
 		/// <summary>
 		/// Method to invite a user to enable chat
 		/// </summary>
-		public void InviteUser (bool authorize, uint id, string message)
+		public void InviteUser (string username)
 		{
+			Logger.Debug ("InviteUser - called");
+			
 			if (this.remoteInvitationGroup == null)
 				throw new ApplicationException ("Group instance unavailable");
+			
+			try {
+				string[] names = {username};
+				uint[] inviteHandles =
+					tlpConnection.RequestHandles (HandleType.Contact, names);
 				
+				remoteInvitationGroup.AddMembers (inviteHandles, String.Empty);
 				
-			/*		
-			uint[] ids = {id};
-			if (authorize == true)
-				localInvitationGroup.AddMembers (ids, message);
-			else
-				localInvitationGroup.RemoveMembers (ids, message);
-			*/
+				string[] normalizedNames = 
+					tlpConnection.InspectHandles (HandleType.Contact, inviteHandles);
+
+				ProviderUser providerUser =				
+					ProviderUserManager.CreateProviderUser (
+						normalizedNames[0], 
+						this.protocol, 
+						ProviderUserRelationship.SentInvitation);
+				providerUser.TlpConnection = tlpConnection;
+				providerUser.AccountName = this.Name;
+				providerUser.ID = inviteHandles[0];
+				
+			} catch (Exception iu ) {
+				Logger.Debug (iu.Message);
+				Logger.Debug (iu.StackTrace);
+			}
 		}
 
 		/// <summary>

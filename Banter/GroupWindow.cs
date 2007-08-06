@@ -937,7 +937,18 @@ Logger.Debug ("GroupWindow.BuildGroupButtonsView adding {0} groups",
 			if (returnCode == (int) Gtk.ResponseType.Ok) {
 				string emailAddress = emailEntry.Text.Trim ();
 				// do stuff to add the new person
-				Logger.Debug("FIXME: Add code to invite the person {0}", emailAddress);
+
+				Account account = null;
+				foreach (Account acc in AccountManagement.GetAccounts())
+				{
+					account = acc;
+					break;
+				}
+				
+				if (account != null)
+					account.InviteUser (emailAddress);
+				
+				//Logger.Debug("FIXME: Add code to invite the person {0}", emailAddress);
 			}
 			
 			dialog.Destroy ();

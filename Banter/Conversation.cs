@@ -296,7 +296,7 @@ namespace Banter
 				MediaChannelClosed (this);
 			*/
 				
-			RemoveMediaChannel ();;
+			RemoveMediaChannel ();
 		}
 		
 		private void OnTextChannelClosed()
