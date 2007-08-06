@@ -1,5 +1,9 @@
 2007-08-06  Calvin Gaisford <calvinrg@gmail.com> 
 
+	* configure.ac: Bumped version for 0.1.10 iteration
+
+2007-08-06  Calvin Gaisford <calvinrg@gmail.com> 
+
 	* Banter/banter.in: Removed mozilla initialization code
 	* NEWS: Updated for the 0.1.9 release
 
