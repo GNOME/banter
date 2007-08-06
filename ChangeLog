@@ -1,5 +1,16 @@
 2007-08-06  Calvin Gaisford <calvinrg@gmail.com> 
 
+	* ChangeLog, Banter/ChatWindow.cs, Banter/PersonCard.cs: Applied patch
+	  from Johnny Jacob <jjohnny@svn.gnome.org>
+
+2007-08-06  Johnny Jacob <jjohnny@svn.gnome.org>
+
+	* Banter/PersonCard.cd : Added a property to set/get TextChat
+	button's visibility.
+	* Banter/ChatWindow.cs : Hide 'TextChat' Button.
+	
+2007-08-06  Calvin Gaisford <calvinrg@gmail.com> 
+
 	* configure.ac: Bumped version for 0.1.10 iteration
 
 2007-08-06  Calvin Gaisford <calvinrg@gmail.com> 

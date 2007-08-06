@@ -202,6 +202,7 @@ namespace Banter
 			card.Size = PersonCardSize.Medium;
 			// Not sure why but we need to call ShowAll on the PersonCard for it to display
 			card.ShowAll();
+			card.ShowTextChatButton = false;
 			personControlVBox.PackStart (card, true, true, 0);
 			
 			HBox hbox = new HBox (false, 0);

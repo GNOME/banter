@@ -31,7 +31,6 @@ using Gdk;
 
 namespace Banter
 {
-	
 	///<summary>
 	///	PersonCardSize enum
 	/// PersonCards can render various sizes of the widget.  This enumerates them.
@@ -102,6 +101,15 @@ namespace Banter
 				showRemoveButton = value;
 				UpdateRemoveButton();
 			}
+		}
+
+ 		///<summary>
+		///	Show or Hide TextChat Button
+		///</summary>			
+		public bool ShowTextChatButton
+		{
+			get { return textButton.Visible; }
+			set { textButton.Visible = value;}
 		}
 		
 		///<summary>
