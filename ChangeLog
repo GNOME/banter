@@ -1,5 +1,11 @@
 2007-08-06  Brady Anderson <brady.anderson@gmail.com> 
 
+	* Banter/Account.cs: Added code to catch when a new contact is
+	  requesting to enable chat with the current user.  the list is
+	  updated
+
+2007-08-06  Brady Anderson <brady.anderson@gmail.com> 
+
 	* Banter/Account.cs, Banter/GroupWindow.cs, Banter/Conversation.cs:
 	  added code to invite someone to the current user's roster
 

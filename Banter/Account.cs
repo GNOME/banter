@@ -761,7 +761,12 @@ namespace Banter
 			Logger.Debug ("  Message: {0}", message);
 			Logger.Debug ("  # added: {0}", added.Length);
 			foreach (uint handle in added)
+			{
 				Logger.Debug ("    contact id: {0}", handle);
+				ProviderUser user =
+					ProviderUserManager.GetProviderUser (handle);
+				user.Relationship = ProviderUserRelationship.Linked;
+			}
 				
 			Logger.Debug ("  # removed: {0}", removed.Length);
 			foreach (uint handle in removed) {
@@ -805,6 +810,25 @@ namespace Banter
 			Logger.Debug ("  # removed: {0}", removed.Length);
 			foreach (uint handle in removed)
 				Logger.Debug ("    contact id: {0}", handle);
+				
+			Logger.Debug ("Local Pending List");
+			foreach (uint handle in localPending) {
+				uint[] handles = {handle};
+				string[] names = 
+					tlpConnection.InspectHandles (HandleType.Contact, handles);
+				Logger.Debug ("   {0} - {1}", handle, names[0]);
+				
+				// Add him to the list	
+				ProviderUser providerUser =				
+					ProviderUserManager.CreateProviderUser (
+						names[0], 
+						this.protocol, 
+						ProviderUserRelationship.ReceivedInvitation);
+				providerUser.TlpConnection = tlpConnection;
+				providerUser.AccountName = this.Name;
+				providerUser.ID = handle;
+				
+			}
 		}
 		
 		/// <summary>
