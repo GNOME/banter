@@ -310,6 +310,11 @@ namespace Banter
 		{
 			// remove the Urgency Hint if it was set
 			this.UrgencyHint = false;
+
+			// when the window gains focus, remove notifications
+			if(this.peerPerson != null) {
+				this.peerPerson.ResetNotifications();
+			}
 		}
 
 		///<summary>

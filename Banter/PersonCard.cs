@@ -70,9 +70,9 @@ namespace Banter
 		private HBox widgetColumns;
 		private HBox removeBox;
 		private HBox actionBox;
-		private Gtk.Button textButton;
-		private Gtk.Button audioButton;
-		private Gtk.Button videoButton;
+		private NotifyButton textButton;
+		private NotifyButton audioButton;
+		private NotifyButton videoButton;
 		private Gtk.Button authorizeButton;
 		private Gtk.Button removeButton;
 		private Gtk.Label statusLabel;
@@ -127,17 +127,18 @@ namespace Banter
 		///<summary>
 		///	Constructs a PersonCard from a Person object
 		///</summary>			
-		public PersonCard(Person person)
+		public PersonCard(Person person) : base()
 		{
 			this.person = person;
 			this.cardSize = PersonCardSize.Small;
 
 			person.PresenceUpdated += OnPersonPresenceUpdated;
 			person.AvatarUpdated += OnPersonAvatarUpdated;
+			person.NotifyUpdated += OnPersonNotifyUpdated;
 			Init();
 		}
 
-		public PersonCard()
+		public PersonCard() : base()
 		{
 			this.person = null;
 			this.cardSize = PersonCardSize.Small;
@@ -246,10 +247,12 @@ namespace Banter
 			if(this.person != null) {
 				this.person.PresenceUpdated -= OnPersonPresenceUpdated;
 				this.person.AvatarUpdated -= OnPersonAvatarUpdated;
+				this.person.NotifyUpdated -= OnPersonNotifyUpdated;
 			}
 			this.person = person;
 			this.person.PresenceUpdated += OnPersonPresenceUpdated;
 			this.person.AvatarUpdated += OnPersonAvatarUpdated;
+			this.person.NotifyUpdated += OnPersonNotifyUpdated;
 
 			if(person.Photo != null)
 				image.Pixbuf = person.Photo.ScaleSimple(32, 32, InterpType.Bilinear);
@@ -355,6 +358,20 @@ namespace Banter
 			statusLabel.Markup = String.Format("<span foreground=\"{0}\" style=\"italic\" size=\"small\">{1}</span>", presenceColor, presenceMessage);
 		}
 
+		///<summary>
+		///	Handles Notify Events on a Person
+		///</summary>
+		public void OnPersonNotifyUpdated (Person person)
+		{
+			if(textButton != null)
+				textButton.NotifyCount = person.TextNotifyCount;
+
+			if(audioButton != null)
+				audioButton.NotifyCount = person.AudioNotifyCount;
+
+			if(videoButton != null)
+				videoButton.NotifyCount = person.VideoNotifyCount;
+		}
 
 		///<summary>
 		///	Handles Avatar Events on a Person
@@ -399,7 +416,7 @@ namespace Banter
 					if(videoButton == null) {
 						Gtk.Image actionImage = new Gtk.Image(Utilities.GetIcon("webcam", 24));
 
-						videoButton = new Gtk.Button();
+						videoButton = new NotifyButton();
 						videoButton.BorderWidth = 0;
 						videoButton.Relief = Gtk.ReliefStyle.None;
 						videoButton.CanFocus = false;
@@ -414,7 +431,7 @@ namespace Banter
 
 					if(audioButton == null) {
 						Gtk.Image actionImage = new Gtk.Image(Utilities.GetIcon("mic", 24));
-						audioButton = new Gtk.Button();
+						audioButton = new NotifyButton();
 						audioButton.BorderWidth = 0;
 						audioButton.Relief = Gtk.ReliefStyle.None;
 						audioButton.CanFocus = false;
@@ -429,7 +446,7 @@ namespace Banter
 					
 					if(textButton == null) {
 						Gtk.Image actionImage = new Gtk.Image(Utilities.GetIcon("text", 24));
-						textButton = new Gtk.Button();
+						textButton = new NotifyButton();
 						textButton.BorderWidth = 0;
 						textButton.Relief = Gtk.ReliefStyle.None;
 						textButton.CanFocus = false;
@@ -516,6 +533,16 @@ namespace Banter
 		#endregion
 
 		#region Overrides
+		protected override void OnUnrealized ()
+		{
+			if(this.person != null) {
+				this.person.PresenceUpdated -= OnPersonPresenceUpdated;
+				this.person.AvatarUpdated -= OnPersonAvatarUpdated;
+				this.person.NotifyUpdated -= OnPersonNotifyUpdated;
+			}
+		}
+
+
 /*		protected override void OnClicked ()
 		{
 			Menu popupMenu = new Menu ();

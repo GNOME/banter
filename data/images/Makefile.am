@@ -1,6 +1,7 @@
 
 pixmapdir = $(datadir)/pixmaps
-pixmap_DATA = 	banter-16.png \
+pixmap_DATA =   badge.png \
+				banter-16.png \
 				banter-22.png \
 				banter-24.png \
 				banter-32.png \

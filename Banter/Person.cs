@@ -30,6 +30,7 @@ using System.Text;
 namespace Banter
 {
 
+	public delegate void PersonNotifyUpdated (Person person);
 	public delegate void PersonPresenceUpdatedHandler (Person person);
 	public delegate void PersonAvatarUpdatedHandler (Person person);
 
@@ -47,9 +48,13 @@ namespace Banter
 		private List<ProviderUser> providerUsers;
 		private Presence presence;
 		private string displayName;
+		private int textNotifyCount;
+		private int audioNotifyCount;
+		private int videoNotifyCount;
 		#endregion
 
 		#region Public Events
+		public event PersonNotifyUpdated NotifyUpdated;
 		public event PersonPresenceUpdatedHandler PresenceUpdated;
 		public event PersonAvatarUpdatedHandler AvatarUpdated;
 		#endregion
@@ -62,6 +67,54 @@ namespace Banter
 		public Presence Presence
 		{
 			get { return presence; }
+		}
+
+
+		/// <summary>
+		/// Updates the number of Text Notifies for this person
+		/// </summary>
+		public int TextNotifyCount
+		{
+			get { return textNotifyCount; }
+			set {
+				textNotifyCount = value;
+				if(NotifyUpdated != null) {
+					NotifyUpdated(this);
+				}
+				Logger.Debug("Text Notify Count for {0} is {1}", this.DisplayName, this.textNotifyCount);
+			}
+		}
+
+
+		/// <summary>
+		/// Updates the number of Audio Notifies for this person
+		/// </summary>
+		public int AudioNotifyCount
+		{
+			get { return audioNotifyCount; }
+			set {
+				audioNotifyCount = value;
+				if(NotifyUpdated != null) {
+					NotifyUpdated(this);
+				}
+				Logger.Debug("Audio Notify Count for {0} is {1}", this.DisplayName, this.audioNotifyCount);
+			}
+		}
+
+
+		/// <summary>
+		/// Updates the number of Text Notifies for this person
+		/// </summary>
+		public int VideoNotifyCount
+		{
+			get { return videoNotifyCount; }
+			set {
+				videoNotifyCount = value;
+				if(NotifyUpdated != null) {
+					NotifyUpdated(this);
+				}
+				Logger.Debug("Video Notify Count for {0} is {1}", this.DisplayName, this.videoNotifyCount);
+			}
 		}
 
 
@@ -215,6 +268,10 @@ namespace Banter
 		{
 			providerUsers = new List<ProviderUser> ();
 
+			textNotifyCount = 0;
+			audioNotifyCount = 0;
+			videoNotifyCount = 0;
+
 			if(user != null) {
 				providerUsers.Add(user);
 				if(user.Presence != null)
@@ -304,6 +361,20 @@ namespace Banter
 		
 		
 		#region Public Methods
+		/// <summary>
+		/// Sets the status for the person if the person IsMe
+		/// </summary>
+		public void ResetNotifications()
+		{
+			textNotifyCount = 0;
+			audioNotifyCount = 0;
+			videoNotifyCount = 0;
+			if(NotifyUpdated != null) {
+				NotifyUpdated(this);
+			}
+		}
+
+
 		/// <summary>
 		/// Sets the status for the person if the person IsMe
 		/// </summary>

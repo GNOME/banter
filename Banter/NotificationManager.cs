@@ -198,6 +198,8 @@ namespace Banter
 				if(peer == null)
 					return;
 
+				peer.TextNotifyCount++;
+
 				String messageTitle = String.Format(Catalog.GetString("Message from {0}"), peer.DisplayName);
 				Message[] messages = conversation.GetReceivedMessages();
 				String messageBody;
@@ -259,6 +261,8 @@ namespace Banter
 				if(peer == null)
 					return;
 
+				peer.AudioNotifyCount++;
+
 				String messageTitle = Catalog.GetString("Incoming Audio Chat");
 				String messageBody = String.Format(Catalog.GetString("{0} is requesting an audio chat"), peer.DisplayName);
 				Message[] messages = conversation.GetReceivedMessages();
@@ -309,6 +313,8 @@ namespace Banter
 				Person peer = PersonManager.GetPerson(conversation.PeerUser);
 				if(peer == null)
 					return;
+
+				peer.VideoNotifyCount++;
 
 				String messageTitle = Catalog.GetString("Incoming Video Chat");
 				String messageBody = String.Format(Catalog.GetString("{0} is requesting a video chat"), peer.DisplayName);
@@ -444,6 +450,8 @@ namespace Banter
 												message.Text,
 												banterIcon);
 			}
+
+			person.TextNotifyCount++;
 
 //			notification.Timeout = 120000;
 //			currentNotification = notification;

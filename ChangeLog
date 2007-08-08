@@ -1,3 +1,15 @@
+2007-08-08  Calvin Gaisford <calvinrg@gmail.com> 
+
+	* Banter.mdp, Banter/NotifyButton.cs, Banter/Makefile.am: Added
+	  NotifyButton
+	* data/images/badge.png: new notification badge for notifications
+	* data/images/Makefile.am: updated for badge image
+	* Banter/NotificationManager.cs: Added notification counts
+	* Banter/Person.cs: Added notification tracking
+	* Banter/ChatWindow.cs: Added code to reset notifications when chat
+	  window gains focus
+	* Banter/PersonCard.cs: Added handling of notifications to user
+
 2007-08-06  Brady Anderson <brady.anderson@gmail.com> 
 
 	* Banter/Account.cs: Added code to catch when a new contact is

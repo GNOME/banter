@@ -43,6 +43,7 @@ CSFILES = \
 	$(srcdir)/NotificationArea.cs \
 	$(srcdir)/NotificationData.cs \
 	$(srcdir)/NotificationManager.cs \
+	$(srcdir)/NotifyButton.cs \
 	$(srcdir)/GConfPreferencesProvider.cs \
 	$(srcdir)/Preferences.cs \
 	$(srcdir)/PreferencesDialog.cs \
@@ -60,6 +61,7 @@ CSFILES = \
 	$(srcdir)/UriList.cs
 
 RESOURCES = \
+	-resource:$(top_srcdir)/data/images/badge.png \
 	-resource:$(top_srcdir)/data/images/banter-16.png \
 	-resource:$(top_srcdir)/data/images/banter-22.png \
 	-resource:$(top_srcdir)/data/images/banter-24.png \
