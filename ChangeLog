@@ -1,5 +1,10 @@
 2007-08-09  Calvin Gaisford <calvinrg@gmail.com> 
 
+	* Banter/PersonCard.cs: Added the base on OnUnrealize to make sure
+	  things were getting deleted correclty
+
+2007-08-09  Calvin Gaisford <calvinrg@gmail.com> 
+
 	* Banter.mdp, Banter/Makefile.am: Added CairoHelper and reference to
 	  mono-cairo
 	* configure.ac: added mono-cairo

@@ -540,6 +540,7 @@ namespace Banter
 				this.person.AvatarUpdated -= OnPersonAvatarUpdated;
 				this.person.NotifyUpdated -= OnPersonNotifyUpdated;
 			}
+			base.OnUnrealized();
 		}
 
 
