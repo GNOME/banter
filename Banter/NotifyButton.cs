@@ -22,6 +22,7 @@
 using System;
 using Gtk;
 using Gdk;
+using Cairo;
 
 namespace Banter
 {
@@ -90,30 +91,50 @@ namespace Banter
 				if (image == null)
 					return;
 
-				Gdk.GC gc = new Gdk.GC(win);
-
 				int wide, high;
 				
 				image.GetSize(out wide, out high);
 
-				gc.RgbFgColor = new Gdk.Color(255, 255, 255);
-				// Draw the background
-				image.DrawRectangle(gc, true, 0, 0, wide, high);
+				Cairo.Context cc = CairoHelper.CreateCairoDrawable(image);
+				//Cairo.Context cc = new Cairo.Context(surface);
 
+				cc.Save();
+//				cc.PaintWithAlpha(1.0);
+				cc.Rectangle(0, 0, wide, high);
+				cc.SetSourceRGBA(1.0, 1.0, 1.0, 1.0);
+				//cc.FillPreserve();
+				cc.Fill();
+				cc.Restore();
+				cc.Stroke();
 
-				Gdk.Pixbuf badge = Utilities.GetIcon("badge", 18);
+				cc.Save();
+//				cc.LineWidth = 0.01;
+				cc.Arc( ((double)wide)/2.0, ((double)high)/2.0, (((double)wide) / 2.0), 0.0, 2.0 * 3.14);
+				if(notifyCount < 10)  // yellow
+					cc.SetSourceRGBA(0.99, 0.91, 0.31, 1.0);
+				else if(notifyCount < 25) // orange
+					cc.SetSourceRGBA(0.99, 0.69, 0.24, 1.0);
+				else // red
+					cc.SetSourceRGBA(0.94, 0.16, 0.16, 1.0);
+//				cc.FillPreserve();
+				cc.Fill();
+				cc.Restore();
+				cc.Stroke();
 
-				if(badge == null)
-					return;
+				string badgeString = String.Format("{0}", notifyCount);
+				cc.Save();
+				cc.SetSourceRGBA(0.0, 0.0, 0.0, 1.0);
+				cc.FontFace("sans", FontSlant.Normal, FontWeight.Bold);
+				cc.FontSize = 12;
+				Cairo.TextExtents extents = cc.TextExtents(badgeString);
+				double xpos, ypos;
+				xpos = ((double)wide)/2.0 - extents.Width/2.0;
+				ypos = (((double)high)/2.0) + (extents.Height/2.0) - 0.5;
+				cc.MoveTo(xpos, ypos);
+				cc.ShowText(badgeString);
+				cc.Restore();
+				cc.Stroke();
 
-				image.DrawPixbuf(gc, badge, 0, 0, 0, 0, 18, 18, RgbDither.None, 0, 0);
-
-				Pango.Layout layout = new Pango.Layout (this.PangoContext);
-				layout.Wrap = Pango.WrapMode.Word;
-				layout.FontDescription = Pango.FontDescription.FromString ("sans 8");
-				layout.SetMarkup (String.Format("{0}", notifyCount));
-				layout.Width = wide;
-				image.DrawLayout(Style.BlackGC, 0, 0, layout);
 				Pixbuf dp = Gdk.Pixbuf.FromDrawable(image, image.Colormap, 0, 0, 0, 0, 18, 18);
 		
 				// Create the composite image

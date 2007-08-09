@@ -33,6 +33,7 @@ CSFILES = \
 	$(srcdir)/Presence.cs \
 	$(srcdir)/ProviderUser.cs \
 	$(srcdir)/ProviderUserManager.cs \
+	$(srcdir)/CairoHelper.cs \
 	$(srcdir)/Conversation.cs \
 	$(srcdir)/ConversationManager.cs \
 	$(srcdir)/ComplexMenuItem.cs \
@@ -61,7 +62,6 @@ CSFILES = \
 	$(srcdir)/UriList.cs
 
 RESOURCES = \
-	-resource:$(top_srcdir)/data/images/badge.png \
 	-resource:$(top_srcdir)/data/images/banter-16.png \
 	-resource:$(top_srcdir)/data/images/banter-22.png \
 	-resource:$(top_srcdir)/data/images/banter-24.png \
@@ -86,7 +86,8 @@ ASSEMBLIES =  \
 	$(GNOME_SHARP_20_LIBS) \
 	$(GTK_DOTNET_20_LIBS) \
 	$(TELEPATHY_SHARP_LIBS) \
-	$(NOTIFY_SHARP_LIBS) 
+	$(NOTIFY_SHARP_LIBS) \
+	$(MONO_CAIRO_LIBS) 
 
 $(TARGET): $(CSFILES) Defines.cs
 	$(CSC) -out:$@ $(CSFLAGS) $^ $(ASSEMBLIES) $(RESOURCES)

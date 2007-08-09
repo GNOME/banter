@@ -1,3 +1,13 @@
+2007-08-09  Calvin Gaisford <calvinrg@gmail.com> 
+
+	* Banter.mdp, Banter/Makefile.am: Added CairoHelper and reference to
+	  mono-cairo
+	* configure.ac: added mono-cairo
+	* data/images/badge.png: removed because badge is now done in cairo
+	* data/images/Makefile.am: removed badge.png
+	* Banter/NotifyButton.cs: updated drawing to use cairo
+	* Banter/CairoHelper.cs: added file
+
 2007-08-09  Brady Anderson <brady.anderson@gmail.com> 
 
 	* Banter/Account.cs: more work to support authorization and rescinding
