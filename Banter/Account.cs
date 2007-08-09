@@ -67,6 +67,7 @@ namespace Banter
 		protected IChannelGroup localInvitationGroup;
 		protected IChannelGroup remoteInvitationGroup;
 		protected IChannelGroup subscribedGroup;
+		protected IChannelGroup blockedGroup;
 
 		// Connected Handlers
 		protected bool aliasConnected = false;
@@ -245,6 +246,7 @@ namespace Banter
 		/// </summary>
 		public Account (IConnection connection)
 		{
+			tlpConnection = connection;
 		}
 		#endregion
 
@@ -298,6 +300,7 @@ namespace Banter
 			
 			string[] pubArgs = {"publish"};
 			string[] subArgs = {"subscribe"};
+			string[] blockedArgs = {"deny"};
 			ObjectPath objectPath;
 			
 			try {
@@ -313,7 +316,41 @@ namespace Banter
 				localInvitationGroup = 
 					Bus.Session.GetObject<IChannelGroup> (connInfo.BusName, objectPath);
 				localInvitationGroup.MembersChanged += OnPublishedMembersChanged;
+			
+				/*
+				public enum ChannelGroupFlag : uint
+				{
+					CanAdd = 1,
+					CanRemove = 2,
+					CanRescind = 4,
+					MessageAdd = 8,
+					MessageRemove = 16,
+					MessageAccept = 32,
+					MessageReject = 64,
+					MessageRescind = 128,
+					SpecificHandles = 256
+				}
+				*/
 				
+				
+				uint groupFlags = localInvitationGroup.GroupFlags;
+				Logger.Debug ("Group Flags: {0}", groupFlags);
+				if ((((uint) groupFlags & (uint) ChannelGroupFlag.CanAdd) == (uint) ChannelGroupFlag.CanAdd))
+					Logger.Debug ("  can add");
+				if (((uint) groupFlags & (uint) ChannelGroupFlag.CanRemove) == (uint) ChannelGroupFlag.CanRemove)
+					Logger.Debug ("  can remove");
+				if (((uint) groupFlags & (uint) ChannelGroupFlag.CanRescind) == (uint) ChannelGroupFlag.CanRescind)
+					Logger.Debug ("  can rescind");
+				if (((uint) groupFlags & (uint) ChannelGroupFlag.MessageAdd) == (uint) ChannelGroupFlag.MessageAdd)
+					Logger.Debug ("  can add messages");
+				if (((uint) groupFlags & (uint) ChannelGroupFlag.MessageRemove) == (uint) ChannelGroupFlag.MessageRemove)
+					Logger.Debug ("  can remove messages");
+				if (((uint) groupFlags & (uint) ChannelGroupFlag.MessageAccept) == (uint) ChannelGroupFlag.MessageAccept)
+					Logger.Debug ("  can accept messages");
+				if (((uint) groupFlags & (uint) ChannelGroupFlag.MessageReject) == (uint) ChannelGroupFlag.MessageReject)
+					Logger.Debug ("  can reject messages");
+				if (((uint) groupFlags & (uint) ChannelGroupFlag.MessageRescind) == (uint) ChannelGroupFlag.MessageRescind)
+					Logger.Debug ("  can rescind messages");
 				// Next setup a channel to the subscribe list
 				uint[] subHandles = tlpConnection.RequestHandles (HandleType.List, subArgs);
 				objectPath = 
@@ -328,6 +365,21 @@ namespace Banter
 					
 				subscribedGroup = remoteInvitationGroup;
 				subscribedGroup.MembersChanged += OnSubscribedMembersChanged;
+				
+				// Next setup a channel to the blocked list
+				uint[] blockedHandles = 
+					tlpConnection.RequestHandles (HandleType.List, blockedArgs);
+				objectPath = 
+					tlpConnection.RequestChannel (
+						org.freedesktop.Telepathy.ChannelType.ContactList, 
+						HandleType.List, 
+						blockedHandles[0], 
+						true);
+						
+				blockedGroup = 
+					Bus.Session.GetObject<IChannelGroup> (connInfo.BusName, objectPath);
+					
+				blockedGroup.MembersChanged += OnBlockedMembersChanged;
 				
 			} catch (Exception sgc) {
 				Logger.Debug ("Failed setting up group channels");
@@ -744,11 +796,11 @@ namespace Banter
 
 		/// <summary>
 		/// Callback method when members are added or removed from
-		/// the subscribed list
+		/// the blocked list
 		/// </summary>
 		private
 		void
-		OnSubscribedMembersChanged(
+		OnBlockedMembersChanged(
 			string message,
 			uint[] added,
 			uint[] removed,
@@ -757,15 +809,18 @@ namespace Banter
 			uint actor,
 			uint reason)
 		{
-			Logger.Debug ("OnSubscribedMembersChanged - called");
+			Logger.Debug ("OnBlockedMembersChanged - called");
 			Logger.Debug ("  Message: {0}", message);
 			Logger.Debug ("  # added: {0}", added.Length);
 			foreach (uint handle in added)
 			{
 				Logger.Debug ("    contact id: {0}", handle);
+				
+				/*
 				ProviderUser user =
 					ProviderUserManager.GetProviderUser (handle);
 				user.Relationship = ProviderUserRelationship.Linked;
+				*/
 			}
 				
 			Logger.Debug ("  # removed: {0}", removed.Length);
@@ -782,6 +837,86 @@ namespace Banter
 				string[] names = 
 					tlpConnection.InspectHandles (HandleType.Contact, handles);
 				Logger.Debug ("   {0} - {1}", handle, names[0]);
+			}
+		}
+		
+		/// <summary>
+		/// Callback method when members are added or removed from
+		/// the subscribed list
+		/// </summary>
+		private
+		void
+		OnSubscribedMembersChanged(
+			string message,
+			uint[] added,
+			uint[] removed,
+			uint[] localPending,
+			uint[] remotePending,
+			uint actor,
+			uint reason)
+		{
+			Logger.Debug ("OnSubscribedMembersChanged - called");
+			if (message != null && message != String.Empty)
+				Logger.Debug ("  Message: {0}", message);
+				
+			try {
+				Logger.Debug ("  # added: {0}", added.Length);
+				
+				if (added.Length > 0) {
+					// Add newly added members
+					string[] aliasNames = null;
+					string[] names = 
+						tlpConnection.InspectHandles (HandleType.Contact, added);
+			
+					for (int i = 0; i < added.Length; i++) {
+						Logger.Debug (
+							" adding contact id: {0}  name: {1}", 
+							added[i], 
+							names[i]);
+					
+						ProviderUser user =
+							ProviderUserManager.GetProviderUser (added[i]);
+						if (user != null) {
+							user.Relationship = ProviderUserRelationship.Linked;
+							if (aliasNames != null && 
+								aliasNames.Length >= i+1 &&
+								aliasNames[i] != null &&
+								aliasNames[i] != String.Empty)
+									user.Alias = aliasNames[i];
+						}	
+					}
+				}
+				
+				Logger.Debug ("  # removed: {0}", removed.Length);
+				if (removed.Length > 0) {
+					for (int i = 0; i < removed.Length; i++) {
+						Logger.Debug ("    contact id: {0}", removed[i]);
+						ProviderUserManager.RemoveProviderUser (removed[i], this.protocol);
+					}
+				}
+
+				Logger.Debug ("Remote Pending List");
+				if (remotePending.Length > 0) {
+					string[] names = 
+						tlpConnection.InspectHandles (HandleType.Contact, remotePending);
+						
+					for (int i = 0; i < names.Length; i++) {
+						Logger.Debug ("    contact id: {0} - {1}", remotePending[i], names[i]);
+					}
+				}
+				
+				/*
+				foreach (uint handle in remotePending) {
+					uint[] handles = {handle};
+					string[] names = 
+						tlpConnection.InspectHandles (HandleType.Contact, handles);
+					Logger.Debug ("   {0} - {1}", handle, names[0]);
+					//this.remoteInvitationGroup.RemoveMembers (handles, String.Empty);
+				}
+				*/
+			} catch (Exception osmc) {
+				Logger.Debug (osmc.Message);
+				Logger.Debug (osmc.StackTrace);
 			}
 		}
 		
@@ -803,13 +938,50 @@ namespace Banter
 		{
 			Logger.Debug ("OnPublishedMembersChanged - called");
 			Logger.Debug ("  Message: {0}", message);
-			Logger.Debug ("  # added: {0}", added.Length);
-			foreach (uint handle in added)
-				Logger.Debug ("    contact id: {0}", handle);
+			
+			try {
+				Logger.Debug ("  # added: {0}", added.Length);
 				
-			Logger.Debug ("  # removed: {0}", removed.Length);
-			foreach (uint handle in removed)
-				Logger.Debug ("    contact id: {0}", handle);
+				if (added.Length > 0) {
+					// Add newly added members
+					string[] aliasNames = null;
+					string[] names = 
+						tlpConnection.InspectHandles (HandleType.Contact, added);
+			
+					for (int i = 0; i < added.Length; i++) {
+						Logger.Debug (
+							" adding contact id: {0}  name: {1}", 
+							added[i], 
+							names[i]);
+					
+						ProviderUser user =
+							ProviderUserManager.GetProviderUser (added[i]);
+						if (user != null) {
+							user.Relationship = ProviderUserRelationship.Linked;
+							if (aliasNames != null && 
+								aliasNames.Length >= i+1 &&
+								aliasNames[i] != null &&
+								aliasNames[i] != String.Empty)
+									user.Alias = aliasNames[i];
+						}	
+					}
+				}
+			} catch (Exception ae) {
+				Logger.Debug (ae.Message);			
+			}
+				
+			if (removed.Length > 0) {
+				try {
+					Logger.Debug ("  # removed: {0}", removed.Length);
+					for (int i = 0; i < removed.Length; i++) {
+						Logger.Debug ("    contact id: {0}", removed[i]);
+						//ProviderUserManager.RemoveProviderUser (removed[i], this.protocol);
+					}
+					
+				} catch (Exception re) {
+					Logger.Debug (re.Message);
+				}
+			}
 				
 			Logger.Debug ("Local Pending List");
 			foreach (uint handle in localPending) {
@@ -828,6 +1000,20 @@ namespace Banter
 				providerUser.AccountName = this.Name;
 				providerUser.ID = handle;
 				
+				if (aliasing == true) {
+					string[] aliasNames = null;
+					aliasNames = tlpConnection.RequestAliases (handles);
+					if (aliasNames != null && aliasNames.Length >= 1)
+						providerUser.Alias = aliasNames[0];
+				}
+			}
+			
+			Logger.Debug ("Remote Pending List");
+			foreach (uint handle in remotePending) {
+				uint[] handles = {handle};
+				string[] names = 
+					tlpConnection.InspectHandles (HandleType.Contact, handles);
+				Logger.Debug ("   {0} - {1}", handle, names[0]);
 			}
 		}
 		
@@ -857,173 +1043,6 @@ namespace Banter
 					suppressHandler);
 				
 			return;
-			
-			/*
-			Conversation conversation = null;
-			switch (channelType)
-			{
-				case org.freedesktop.Telepathy.ChannelType.Text:
-				{
-					if (handle == 0)
-						return;
-						
-					// Check if we have an existing conversation with the peer user
-					ProviderUser pu = null;
-					try {
-						pu = ProviderUserManager.GetProviderUser (handle);
-					} catch{}
-					
-					if (pu == null) return;
-					
-					if (ConversationManager.Exist (pu) == true) {
-						Logger.Debug ("An existing conversation with {0} already exists", pu.Uri);
-						return;
-					}
-					
-					Person peer = PersonManager.GetPersonByJabberId (pu.Uri);
-					ChatWindow cw = null;
-					
-					Logger.Debug ("Peer: {0}", peer.Id);
-					Logger.Debug ("Peer Name: {0}", peer.EDSContact.GivenName);
-					
-//					if (ChatWindow.AlreadyExist (peer.Id) == true) { 
-//						Logger.Debug ("ChatWindow already exists with this peer");
-//						ChatWindow.PresentWindow (peer.Id);
-//					} else {
-						try
-						{
-							Logger.Debug ("creating conversation object");
-							conversation = ConversationManager.Create (this, peer, false);
-							IChannelText txtChannel = 
-								Bus.Session.GetObject<IChannelText> (busName, channelPath);
-							
-							conversation.SetTextChannel (txtChannel);
-							Logger.Debug ("created new conversation object");
-						
-							//cw = new ChatWindow (conversation);
-							//cw.Present();
-						}
-						catch (Exception es)
-						{
-							Logger.Debug (es.Message);
-							Logger.Debug (es.StackTrace);
-						}
-					}
-					break;
-	//			}
-				
-				case org.freedesktop.Telepathy.ChannelType.StreamedMedia:
-				{
-					uint peerHandle;
-					
-					IChannelStreamedMedia ichannel = 
-						Bus.Session.GetObject<IChannelStreamedMedia> (
-							busName,
-							channelPath);
-					
-					if(ichannel.Members.Length > 0) {
-						foreach(uint ch in ichannel.Members) {
-							Logger.Debug("Member in ichannel.Members {0}", ch);
-						}
-
-					}
-					if(ichannel.Members.Length > 0) {
-						peerHandle = ichannel.Members[0];
-					}
-					else
-						return;
-					
-					if (handle == 0) {
-					
-						if (ichannel.LocalPendingMembers.Length > 0) {
-							Logger.Debug ("Incoming media conversation");
-							handle = ichannel.LocalPendingMembers[0];
-						} else if (ichannel.RemotePendingMembers.Length > 0) {
-							handle = ichannel.RemotePendingMembers[0];
-							Logger.Debug ("Pulled the handle from ichannel.RemotePendingMembers");
-							return;
-						} else if (ichannel.Members.Length > 0) {
-							handle = ichannel.Members[0];
-							Logger.Debug ("Pulled the handle from ichannel.Members");
-							return;
-						} else {
-							Logger.Debug ("Could not resolve the remote handle");
-							return;
-						}	
-					} else {
-						Logger.Debug ("Handle was non-zero {0} - returning", handle);
-						return;
-					}
-					
-					if (handle == this.tlpConnection.SelfHandle) {
-						Logger.Debug ("Handle was me - yay");
-						uint[] meHandles = {handle};
-						
-						uint[] ids = {ichannel.Members[0]};
-							
-						// Check if we have an existing conversation with the peer user
-						ProviderUser puMe = null;
-						ProviderUser puPeer = null;
-						
-						try {
-							puMe = ProviderUserManager.GetProviderUser (handle);
-							puPeer = ProviderUserManager.GetProviderUser(peerHandle);
-						} catch{}
-					
-						if (puMe == null) return;
-						if (puPeer == null) return;
-					
-					
-						if (ConversationManager.Exist (puPeer) == true) {
-							Logger.Debug ("An existing conversation with {0} already exists", puPeer.Uri);
-							return;
-						}
-
-						ichannel.AddMembers(meHandles, String.Empty);
-					
-						Person peer = PersonManager.GetPersonByJabberId (puPeer.Uri);
-						ChatWindow cw = null;
-					
-						Logger.Debug ("Peer: {0}", peer.Id);
-						Logger.Debug ("Peer Name: {0}", peer.DisplayName);
-					
-//						if (ChatWindow.AlreadyExist (peer.Id) == true) { 
-//							Logger.Debug ("ChatWindow already exists with this peer");
-//							ChatWindow.PresentWindow (peer.Id);
-//						} else {
-							try
-							{
-								Logger.Debug ("creating conversation object");
-								conversation = ConversationManager.Create (this, peer, false);
-								IChannelText txtChannel = 
-									Bus.Session.GetObject<IChannelText> (busName, channelPath);
-							
-								conversation.SetTextChannel (txtChannel);
-								conversation.SetMediaChannel (ichannel, channelPath);
-								Logger.Debug ("created new conversation object");
-								
-								//cw = new ChatWindow (conversation);
-								//cw.Present();
-								
-								conversation.SetPreviewWindow (cw.PreviewWindowId);
-								conversation.SetPeerWindow (cw.VideoWindowId);
-								conversation.StartVideo (false);
-							}
-							catch (Exception es)
-							{
-								Logger.Debug (es.Message);
-								Logger.Debug (es.StackTrace);
-							}
-//						}
-					}
-					
-					break;
-				}
-				
-				default:
-					break;
-			}
-			*/
 		}
 		
 		/// <summary>
@@ -1050,11 +1069,32 @@ namespace Banter
 				throw new ApplicationException ("Group instance unavailable");
 				
 			uint[] ids = {id};
-			if (authorize == true)
+			if (authorize == true) {
 				localInvitationGroup.AddMembers (ids, message);
+			}	
 			else
 				localInvitationGroup.RemoveMembers (ids, message);
 		}
+
+		/// <summary>
+		/// Method to block an existing user
+		/// block == true blocks the user, false unblocks
+		/// </summary>
+		public void BlockUser (bool block, uint id, string message)
+		{
+			if (this.blockedGroup == null)
+				throw new ApplicationException ("Group instance unavailable");
+				
+			uint[] ids = {id};
+			if (block == true) {
+				subscribedGroup.RemoveMembers (ids, message);
+				blockedGroup.AddMembers (ids, message);
+			} else {
+				blockedGroup.RemoveMembers (ids, message);
+				subscribedGroup.AddMembers (ids, message);
+			}	
+		}
+
 
 		/// <summary>
 		/// Method to invite a user to enable chat
@@ -1096,11 +1136,51 @@ namespace Banter
 		/// </summary>
 		public void RemoveUser (uint id, string message)
 		{
+			Logger.Debug ("Account::RemoveUser - called");
+			Logger.Debug ("  removing: {0}", id);
+
+			if (this.tlpConnection == null)
+				throw new ApplicationException ("Invalid telepathy connection");
+				
+			/*			
 			if (this.subscribedGroup == null)
 				throw new ApplicationException ("Group instance unavailable");
+			*/	
 				
-			uint[] ids = {id};
-			this.subscribedGroup.RemoveMembers (ids, message);	
+//			string[] subArgs = {"subscribe"};
+			string[] subArgs = {"known"};
+			ObjectPath objectPath;
+			IChannelGroup subGroup;
+			
+			try {
+				uint[] subHandles = tlpConnection.RequestHandles (HandleType.List, subArgs);
+				objectPath = 
+					tlpConnection.RequestChannel (
+						org.freedesktop.Telepathy.ChannelType.ContactList, 
+						HandleType.List, 
+						subHandles[0], 
+						true);
+						
+				subGroup = 
+					Bus.Session.GetObject<IChannelGroup> (connInfo.BusName, objectPath);
+
+				Logger.Debug ("Members in \"Known\" group");					
+				string[] names = 
+					tlpConnection.InspectHandles (HandleType.Contact, subGroup.Members);
+				for (int i = 0; i < subGroup.Members.Length; i++) {
+					Logger.Debug ("Handle: {0}  Name: {1}", subGroup.Members[i], names[i]);
+				}
+					
+				subGroup.MembersChanged += OnSubscribedMembersChanged;
+				uint[] ids = {id};
+				subGroup.RemoveMembers (ids, message);				
+				subGroup.MembersChanged -= OnSubscribedMembersChanged;
+				subGroup = null;
+				
+			} catch (Exception ru) {
+				Logger.Debug ("Exception in RemoveUser");
+				Logger.Debug (ru.Message);
+			}
 		}
 
 		/// <summary>

@@ -208,6 +208,49 @@ namespace Banter
 			}
 		}		
 		
+		/// <summary>
+		/// Method to remove a provider user from the list
+		/// using the contact ID
+		/// </summary>	
+		public static void RemoveProviderUser(uint id, string protocol)
+		{
+			ProviderUser user = null;
+
+			lock(locker) {			
+	
+				foreach (ProviderUser cUser in ProviderUserManager.Instance.users.Values) {
+					if (cUser.ID == id) {
+						user = cUser;
+						break;
+					}
+				}
+				
+				if (user != null) {
+					string key = CreateKey (user.Uri, protocol);
+					if (ProviderUserManager.Instance.users.ContainsKey (key) == true) {
+						ProviderUserManager.Instance.users.Remove (key);
+						if(ProviderUserRemoved != null) {
+							ProviderUserRemoved(user.Uri);
+						}
+					}
+				}
+			}
+		
+			/*
+			lock (locker) {
+				string key = CreateKey (uri, protocol);
+				
+				if (ProviderUserManager.Instance.users.ContainsKey (key) == true)
+				{
+					ProviderUserManager.Instance.users.Remove (key);
+					if(ProviderUserRemoved != null) {
+						ProviderUserRemoved(uri);
+					}
+				}
+			}
+			*/
+		}		
+		
 
 
 		/// <summary>
