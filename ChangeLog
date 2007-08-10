@@ -1,5 +1,10 @@
 2007-08-10  Calvin Gaisford <calvinrg@gmail.com> 
 
+	* configure.ac: bumped the version to 0.2.0 in prep for the stable
+	  release next iteration
+
+2007-08-10  Calvin Gaisford <calvinrg@gmail.com> 
+
 	* NEWS: Updated for version 0.1.10 release
 
 2007-08-09  Calvin Gaisford <calvinrg@gmail.com> 
