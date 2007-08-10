@@ -7,6 +7,11 @@ Please send questions and suggestions to
 Please report bugs using http://bugzilla.gnome.org/
 (http://bugzilla.gnome.org/enter_bug.cgi?product=Banter).
 
+Version 0.1.10
+* UI Bling, new notification badges on incoming requests
+* Full support for initing people, accepting invitations, and removing people
+* Many stablizing bugs fixed
+
 Version 0.1.9
 * UI bling, more responsive, windows come up right away
 * Audio chats are now fully supported, initiating and accepting
