@@ -413,7 +413,9 @@ namespace Banter
 				// Add capabilities icons if they have any capabilities
 				// change this later to show their capabilities when we actually have them
 				if(person.Presence.Type != PresenceType.Offline) {
-					if(videoButton == null) {
+					if(videoButton == null && 
+						(person.ProviderUser.MediaCapability & Banter.MediaCapability.Video) ==
+							Banter.MediaCapability.Video) {
 						Gtk.Image actionImage = new Gtk.Image(Utilities.GetIcon("webcam", 24));
 
 						videoButton = new NotifyButton();
@@ -429,7 +431,9 @@ namespace Banter
 							Catalog.GetString("Start a video chat"));
 					}
 
-					if(audioButton == null) {
+					if(audioButton == null &&
+						(person.ProviderUser.MediaCapability & Banter.MediaCapability.Audio) ==
+							Banter.MediaCapability.Audio) {
 						Gtk.Image actionImage = new Gtk.Image(Utilities.GetIcon("mic", 24));
 						audioButton = new NotifyButton();
 						audioButton.BorderWidth = 0;

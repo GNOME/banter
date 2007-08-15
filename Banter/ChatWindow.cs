@@ -685,32 +685,38 @@ namespace Banter
 			
 			SetupConversationEvents();
 
-			switch(chatType) {
-				default:
-				case ChatType.Text:
-					// do nothing, text doesn't need to setup streams
-					break;
-				case ChatType.Audio:
-					Logger.Debug("ChatWindow setting up video windows and calling StartAudioStream");
-					conv.StartAudioStream();
-					break;
-				case ChatType.Video:
-					if(this.videoView != null) {
-						Logger.Debug("ChatWindow setting up video windows and calling StartAudioVideoStreams");
-						conv.StartAudioVideoStreams(videoView.PreviewWindowId, videoView.WindowId);
-					} else {
-						Logger.Debug("ChatWindow didn't have a videoWindow created");
-					}
-					break;
-			}		
+			try {
+				switch(chatType) {
+					default:
+					case ChatType.Text:
+						// do nothing, text doesn't need to setup streams
+						break;
+					case ChatType.Audio:
+						Logger.Debug("ChatWindow setting up video windows and calling StartAudioStream");
+						conv.StartAudioStream();
+						break;
+					case ChatType.Video:
+						if(this.videoView != null) {
+							Logger.Debug("ChatWindow setting up video windows and calling StartAudioVideoStreams");
+							conv.StartAudioVideoStreams(videoView.PreviewWindowId, videoView.WindowId);
+						} else {
+							Logger.Debug("ChatWindow didn't have a videoWindow created");
+						}
+						break;
+				}		
+			
+			} catch (Exception ows) {
+				Logger.Debug ("Exception thrown setting up media channels");
+				Logger.Debug (ows.Message);
+			}
 
 			notifyUser = false;		
 			// Check for any existing messages including previous chat log
 			Message[] messages = conv.GetReceivedMessages();
 			foreach (Message msg in messages)
 				OnTextMessageReceived (conv, msg);
+				
 			notifyUser = true;
-
 			hasBeenShown = true;
 				
 			// Set the default focus to the TextView where users should type

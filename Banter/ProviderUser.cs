@@ -45,16 +45,26 @@ namespace Banter
 	public delegate void ProviderUserAvatarUpdatedHandler (ProviderUser user, string newToken);
 	public delegate void ProviderUserAvatarReceivedHandler (ProviderUser user, string token, string mimeType, byte[] avatarData);
 
-	///<summary>
+	/// <summary>
 	///	ProviderUserRelationship Enum
 	/// represents the relationship of the provider user
-	///</summary>
+	/// </summary>
 	public enum ProviderUserRelationship
 	{
 		Unknown,
 		Linked,
 		SentInvitation,
 		ReceivedInvitation
+	}
+	
+	/// <summary>
+	/// Provider User Media Capability
+	/// </summary>
+	public enum MediaCapability : uint
+	{
+		None = 0,
+		Audio = 1,
+		Video = 2
 	}
 	
 	///<summary>
@@ -70,6 +80,7 @@ namespace Banter
 		private string protocol;
 		private uint id;
 		private Presence presence;
+		private MediaCapability mediaCaps;
 		private string accountName;
 		private bool isMe;
 		private IConnection tlpConnection;
@@ -132,7 +143,15 @@ namespace Banter
 			get { return uri; }
 			set { this.uri = value; }
 		}
-
+		
+		/// <summary>
+		/// The Uri of the ProviderUser from telepathy
+		/// </summary>		
+		public Banter.MediaCapability MediaCapability
+		{
+			get { return mediaCaps; }
+			set { this.mediaCaps = value; }
+		}
 
 		/// <summary>
 		/// The Alias of the ProviderUser from telepathy
@@ -248,6 +267,7 @@ namespace Banter
 			this.isMe = false;
 			this.protocol = String.Empty;
 			this.avatarToken = String.Empty;
+			this.mediaCaps = Banter.MediaCapability.None;
 		}
 		
 		/// <summary>

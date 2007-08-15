@@ -75,6 +75,7 @@ namespace Banter
 		protected bool channelConnected = false;
 		protected bool presenceConnected = false;
 		protected bool messagingConnected = false;
+		protected bool capabilitiesConnected = false;
 		
 		// Supported interfaces
 		protected bool aliasing = false;
@@ -251,6 +252,50 @@ namespace Banter
 		#endregion
 
 		/// <summary>
+		/// Method to add or update a user to the provider list
+		/// </summary>
+		private
+		ProviderUser
+		AddProviderUser (uint id, string jid, ProviderUserRelationship relationship)
+		{
+			string key = ProviderUserManager.CreateKey (jid, this.protocol);
+			ProviderUser providerUser = null;
+			
+			try {
+				providerUser = ProviderUserManager.GetProviderUser (key);
+				if (providerUser != null) {
+					providerUser.TlpConnection = tlpConnection;
+					providerUser.AccountName = this.Name;
+					providerUser.Protocol = this.Protocol;
+					providerUser.ID = id;
+					providerUser.Relationship = relationship;
+				}
+			} 
+			catch (Exception fff) {
+				Logger.Debug ("Failed to get ProviderUser {0}", key);
+				Logger.Debug (fff.Message);
+			}
+				
+			if (providerUser == null) {
+				try {
+					providerUser =
+						ProviderUserManager.CreateProviderUser (
+							jid, 
+							this.protocol, 
+							relationship);
+					providerUser.TlpConnection = tlpConnection;
+					providerUser.AccountName = this.Name;
+					providerUser.ID = id;
+					Logger.Debug ("Member: {0} ID: {1} - object created", jid, id);
+				} catch{}
+			} else {
+				Logger.Debug ("Member: {0} ID: {1} - object updated", jid, id);
+			}
+			
+			return providerUser;
+		}
+
+		/// <summary>
 		/// This method should be called immediately
 		/// after a successful connect as other private
 		/// methods depend on it
@@ -317,22 +362,6 @@ namespace Banter
 					Bus.Session.GetObject<IChannelGroup> (connInfo.BusName, objectPath);
 				localInvitationGroup.MembersChanged += OnPublishedMembersChanged;
 			
-				/*
-				public enum ChannelGroupFlag : uint
-				{
-					CanAdd = 1,
-					CanRemove = 2,
-					CanRescind = 4,
-					MessageAdd = 8,
-					MessageRemove = 16,
-					MessageAccept = 32,
-					MessageReject = 64,
-					MessageRescind = 128,
-					SpecificHandles = 256
-				}
-				*/
-				
-				
 				uint groupFlags = localInvitationGroup.GroupFlags;
 				Logger.Debug ("Group Flags: {0}", groupFlags);
 				if ((((uint) groupFlags & (uint) ChannelGroupFlag.CanAdd) == (uint) ChannelGroupFlag.CanAdd))
@@ -351,6 +380,7 @@ namespace Banter
 					Logger.Debug ("  can reject messages");
 				if (((uint) groupFlags & (uint) ChannelGroupFlag.MessageRescind) == (uint) ChannelGroupFlag.MessageRescind)
 					Logger.Debug ("  can rescind messages");
+					
 				// Next setup a channel to the subscribe list
 				uint[] subHandles = tlpConnection.RequestHandles (HandleType.List, subArgs);
 				objectPath = 
@@ -509,132 +539,85 @@ namespace Banter
 			string key;
 			
 			// First add any sent invitation users
-			Logger.Debug ("Adding SentInvitation users");
 			uint[] invitedHandles = this.SentInvitationHandles;
 			if (invitedHandles != null && invitedHandles.Length > 0) {
+				Logger.Debug ("Adding SentInvitation users");
 				string[] invitedUsers = this.SentInvitations;
-				
-				for (int i = 0; i < invitedUsers.Length; i++) {
-					
-					Logger.Debug ("  {0}", invitedUsers[i]);
-					
-					// update the provider user objects
-					key = ProviderUserManager.CreateKey (invitedUsers[i], protocol);
-					providerUser = null;
-					try {
-						providerUser = ProviderUserManager.GetProviderUser (key);
-						providerUser.TlpConnection = tlpConnection;
-						providerUser.AccountName = this.Name;
-						providerUser.Protocol = this.Protocol;
-						providerUser.ID = invitedHandles[i];
-						providerUser.Relationship = ProviderUserRelationship.SentInvitation;
-					} 
-					catch (Exception fff) {
-						Logger.Debug ("Failed to get ProviderUser {0}", key);
-						Logger.Debug (fff.Message);
-					}
-						
-					if (providerUser == null) {
-						try {
-							providerUser =
-								ProviderUserManager.CreateProviderUser (
-									invitedUsers[i], 
-									this.protocol, 
-									ProviderUserRelationship.SentInvitation);
-							providerUser.TlpConnection = tlpConnection;
-							providerUser.AccountName = this.Name;
-							providerUser.ID = invitedHandles[i];
-						} catch{}
-					}
-				}
+				for (int i = 0; i < invitedUsers.Length; i++)
+					AddProviderUser (
+						invitedHandles[i], 
+						invitedUsers[i],
+						ProviderUserRelationship.SentInvitation);
 			}
 			
 			// Next add received invitation users
 			uint[] inviteHandles = this.ReceivedInvitationHandles;
 			if (inviteHandles != null && inviteHandles.Length > 0) {
+				Logger.Debug ("Adding ReceivedInvitation users");
 				string[] inviteUsers = this.ReceivedInvitations;
-				
-				for (int i = 0; i < inviteUsers.Length; i++) {
-					
-					// update the provider user objects
-					key = ProviderUserManager.CreateKey (inviteUsers[i], protocol);
-							
-					providerUser = null;
-					try {
-						providerUser = ProviderUserManager.GetProviderUser (key);
-						providerUser.TlpConnection = tlpConnection;
-						providerUser.AccountName = this.Name;
-						providerUser.Protocol = this.Protocol;
-						providerUser.ID = inviteHandles[i];
-						providerUser.Relationship = ProviderUserRelationship.ReceivedInvitation;
-					} 
-					catch (Exception fff) {
-						Logger.Debug ("Failed to get ProviderUser {0}", key);
-						Logger.Debug (fff.Message);
-					}
-						
-					if (providerUser == null) {
-						try {
-							providerUser =
-								ProviderUserManager.CreateProviderUser (
-									inviteUsers[i], 
-									this.protocol, 
-									ProviderUserRelationship.ReceivedInvitation);
-							providerUser.AccountName = this.Name;
-							providerUser.TlpConnection = tlpConnection;
-							providerUser.ID = inviteHandles[i];
-						} catch{}
-					}
-				}
+				for (int i = 0; i < inviteUsers.Length; i++)
+					AddProviderUser (
+						inviteHandles[i], 
+						inviteUsers[i],
+						ProviderUserRelationship.ReceivedInvitation);
 			}
 			
-			// Add subscribed members			
-			string[] members = 
-				tlpConnection.InspectHandles (HandleType.Contact, subscribedGroup.Members);
-			
-			string[] aliasNames = null;
-			if (aliasing == true) {
-				aliasNames = tlpConnection.RequestAliases (subscribedGroup.Members);
-				//Logger.Debug ("# returned aliases: {0}", aliasNames.Length);	
-			}	
-
-			//Logger.Debug ("# of known contacts: {0}", members.Length);
-			for (int i = 0; i < members.Length; i++) {
-				//Logger.Debug ("MemberID: {0} Member: {1}", cl.Members[i], members[i]);
+			if (subscribedGroup.Members.Length > 0) {
+				Logger.Debug ("Adding Subscribed users");
+				// Add subscribed members			
+				string[] members = 
+					tlpConnection.InspectHandles (HandleType.Contact, subscribedGroup.Members);
 				
-				// update the provider user objects
-				key = ProviderUserManager.CreateKey (members[i], protocol);
-				providerUser = null;
-				try {
-					providerUser = ProviderUserManager.GetProviderUser (key);
-					providerUser.TlpConnection = tlpConnection;
-					providerUser.AccountName = this.Name;
-					providerUser.Protocol = this.Protocol;
-					providerUser.ID = subscribedGroup.Members[i];
-					providerUser.Relationship = ProviderUserRelationship.Linked;
+				string[] aliasNames = null;
+				if (aliasing == true)
+					aliasNames = tlpConnection.RequestAliases (subscribedGroup.Members);
+				
+				CapabilityInfo[] caps = null;
+				if (this.capabilities == true) {
+					caps = tlpConnection.GetCapabilities (subscribedGroup.Members);
+				}
+
+				//Logger.Debug ("# of known contacts: {0}", members.Length);
+				for (int i = 0; i < members.Length; i++) {
+					providerUser =
+						AddProviderUser(
+							subscribedGroup.Members[i],
+							members[i],
+							ProviderUserRelationship.Linked);
+							
 					if (aliasing == true && aliasNames != null)
 						providerUser.Alias = aliasNames[i];
-				} 
-				catch (Exception fff) {
-					Logger.Debug ("Failed to get ProviderUser {0}", key);
-					Logger.Debug (fff.Message);
-				}
-					
-				if (providerUser == null) {
-					try {
-						providerUser =
-							ProviderUserManager.CreateProviderUser (
-								members[i], 
-								this.protocol, 
-								ProviderUserRelationship.Linked);
-								
-						providerUser.AccountName = this.Name;
-						providerUser.ID = subscribedGroup.Members[i];
-						providerUser.TlpConnection = tlpConnection;
-					
-						if (aliasing == true && aliasNames != null)
-							providerUser.Alias = aliasNames[i];
-					} catch{}
+
+					/*						
+					public struct CapabilityInfo
+					{
+						public uint ContactHandle;
+						public string ChannelType;
+						public CapabilityFlag GenericFlags;
+						public ChannelMediaCapability TypeSpecificFlags;
+					}
+					*/
+						
+					// Setup the remote contact's media capabilities
+					if (capabilities == true && caps != null && caps.Length > 0) {
+						foreach (CapabilityInfo info in caps) {
+							if (info.ContactHandle == subscribedGroup.Members[i]) {
+								if ((info.TypeSpecificFlags & ChannelMediaCapability.Audio) ==
+										ChannelMediaCapability.Audio)
+									providerUser.MediaCapability = 
+										Banter.MediaCapability.Audio;
+
+								if ((info.TypeSpecificFlags & ChannelMediaCapability.Video) ==
+										ChannelMediaCapability.Video)
+										
+									// If video is reported audio is assumed	
+									providerUser.MediaCapability = 
+										Banter.MediaCapability.Video |
+										Banter.MediaCapability.Audio;
+								break;
+							}
+						}
+					}
 				}
 			}
 			
@@ -649,6 +632,11 @@ namespace Banter
 			
 			this.tlpConnection.NewChannel += OnNewChannel;
 			channelConnected = true;
+			
+			if (capabilities == true) {
+				tlpConnection.CapabilitiesChanged += OnCapabilitiesChanged;
+				capabilitiesConnected = true;
+			}
 			
 			if (aliasing == true) {
 				tlpConnection.AliasesChanged += OnAliasesChanged;
@@ -671,6 +659,11 @@ namespace Banter
 			//Logger.Debug ("Account::DisconnectHandlers");
 			
 			try {
+				if (capabilitiesConnected == true) {
+					tlpConnection.CapabilitiesChanged -= OnCapabilitiesChanged;
+					capabilitiesConnected = false;
+				}
+				
 				if (avatarsConnected == true) {
 					tlpConnection.AvatarUpdated -= OnAvatarUpdated;
 					avatarsConnected = false;
@@ -719,6 +712,22 @@ namespace Banter
 			ProviderUser user = ProviderUserManager.GetProviderUser (id);
 			if (user != null)
 				user.AvatarToken = token;
+		}
+		
+		/// <summary>
+		///	Telepathy callback when capabilities change for a contact
+		/// </summary>
+		private void OnCapabilitiesChanged (CapabilitiesChangedInfo[] caps)
+		{
+			ProviderUser user;
+			foreach (CapabilitiesChangedInfo cap in caps) {
+				user = ProviderUserManager.GetProviderUser (cap.ContactHandle);
+				
+				/*
+				if (user != null)
+					user.Alias = info.NewAlias;
+				*/	
+			}
 		}
 		
 		/// <summary>
@@ -1138,15 +1147,38 @@ namespace Banter
 		{
 			Logger.Debug ("Account::RemoveUser - called");
 			Logger.Debug ("  removing: {0}", id);
-
+			
 			if (this.tlpConnection == null)
 				throw new ApplicationException ("Invalid telepathy connection");
 				
-			/*			
-			if (this.subscribedGroup == null)
-				throw new ApplicationException ("Group instance unavailable");
-			*/	
+			try {
+				ProviderUser providerUser =
+					ProviderUserManager.GetProviderUser (id);
+				if (providerUser == null)
+					throw new ApplicationException ("Not a valid user");
+					
+				uint[] ids = {id};
+				if (providerUser.Relationship == ProviderUserRelationship.ReceivedInvitation) {
+					if (this.localInvitationGroup == null)
+						throw new ApplicationException ("Group doesn't exist");
+					Logger.Debug ("  removing member from the local invitation group");
+					localInvitationGroup.RemoveMembers (ids, message);				
+				} else if (providerUser.Relationship == ProviderUserRelationship.Linked ||
+							providerUser.Relationship == ProviderUserRelationship.SentInvitation) {
+					if (this.subscribedGroup == null)
+						throw new ApplicationException ("Group doesn't exist");
+						
+					Logger.Debug ("  removing member from the subscribed group");
+					subscribedGroup.RemoveMembers (ids, message);				
+				}
+			
+			} catch (Exception ru) {
+				Logger.Debug ("Exception in RemoveUser");
+				Logger.Debug (ru.Message);
+			}
 				
+				
+			/*				
 //			string[] subArgs = {"subscribe"};
 			string[] subArgs = {"known"};
 			ObjectPath objectPath;
@@ -1181,6 +1213,7 @@ namespace Banter
 				Logger.Debug ("Exception in RemoveUser");
 				Logger.Debug (ru.Message);
 			}
+			*/
 		}
 
 		/// <summary>

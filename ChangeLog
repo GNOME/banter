@@ -1,3 +1,22 @@
+2007-08-15  Brady Anderson <brady.anderson@gmail.com> 
+
+	* Banter/Account.cs: Added code to discover a remote contact's media
+	  capability on initial setup.
+	
+	  Partially added code for media capability callback for when media
+	  caps change
+	* Banter/ChatWindow.cs: added a try catch around the code thats sets up
+	  audio and video channels to catch cases where a user attempts voice
+	  video chat with a remote user that doesn't support it
+	* Banter/ProviderUser.cs: added privateType for holding media
+	  capabilities
+	
+	  added public Property for exposing media capabilities
+	
+	  added public Enum for defining media capabilities
+	* Banter/PersonCard.cs: added code to check a provider users' media
+	  capabilities and add caps icons accordingly
+
 2007-08-10  Calvin Gaisford <calvinrg@gmail.com> 
 
 	* configure.ac: bumped the version to 0.2.0 in prep for the stable
