@@ -875,15 +875,21 @@ namespace Banter
 					
 					string[] names = 
 						tlpConnection.InspectHandles (HandleType.Contact, added);
-				
+					Logger.Debug ("past getting jid names");
+					
 					string[] aliasNames = null;
+					
+					/*
 					if (aliasing == true)
 						aliasNames = tlpConnection.RequestAliases (added);
-				
+					Logger.Debug ("past getting alias");
+					*/
+					
 					CapabilityInfo[] caps = null;
 					if (this.capabilities == true)
 						caps = tlpConnection.GetCapabilities (added);
-
+					Logger.Debug ("past get caps");
+					
 					for (int i = 0; i < added.Length; i++) {
 						Logger.Debug (
 							" adding contact id: {0}  name: {1}", 

@@ -1,5 +1,13 @@
 2007-08-16  Brady Anderson <brady.anderson@gmail.com> 
 
+	* Banter/Account.cs: removed the code to gather an Alias name in
+	  OnSubscribedMemberChanged.  the case where a contact in the local
+	  pending state is removed, telepathy is temporarily adding and
+	  removing the contact from the subscribed list.  in this flow,
+	  getting the alias name hangs and never returns back to us.
+
+2007-08-16  Brady Anderson <brady.anderson@gmail.com> 
+
 	* Banter/Account.cs: Added code to update full information in
 	  ProviderUser when a contact is moved from local pending to fully
 	  authorized
