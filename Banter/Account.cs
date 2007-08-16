@@ -64,10 +64,11 @@ namespace Banter
 		protected ConnectionInfo connInfo;
 		protected IConnection tlpConnection;
 		protected IConnectionManager connManager;
-		protected IChannelGroup localInvitationGroup;
-		protected IChannelGroup remoteInvitationGroup;
-		protected IChannelGroup subscribedGroup;
-		protected IChannelGroup blockedGroup;
+		
+		// Telepathy Groups
+		protected IChannelGroup publishGroup;
+		protected IChannelGroup subscribeGroup;
+		protected IChannelGroup denyGroup;
 
 		// Connected Handlers
 		protected bool aliasConnected = false;
@@ -193,7 +194,7 @@ namespace Banter
 					return 
 						tlpConnection.InspectHandles (
 							HandleType.Contact,
-							localInvitationGroup.LocalPendingMembers);
+							publishGroup.LocalPendingMembers);
 				} catch{}
 				return null;
 			}
@@ -203,7 +204,7 @@ namespace Banter
 		{
 			get
 			{
-				try {return localInvitationGroup.LocalPendingMembers;} catch{}
+				try {return publishGroup.LocalPendingMembers;} catch{}
 				return null;
 			}
 		}
@@ -216,7 +217,7 @@ namespace Banter
 					return 
 						tlpConnection.InspectHandles (
 							HandleType.Contact,
-							remoteInvitationGroup.RemotePendingMembers);
+							subscribeGroup.RemotePendingMembers);
 				} catch{}
 				return null;
 			}
@@ -226,7 +227,7 @@ namespace Banter
 		{
 			get
 			{
-				try {return remoteInvitationGroup.RemotePendingMembers;} catch{}
+				try {return subscribeGroup.RemotePendingMembers;} catch{}
 				return null;
 			}
 		}
@@ -358,11 +359,11 @@ namespace Banter
 						pubHandles[0], 
 						true);
 						
-				localInvitationGroup = 
+				publishGroup = 
 					Bus.Session.GetObject<IChannelGroup> (connInfo.BusName, objectPath);
-				localInvitationGroup.MembersChanged += OnPublishedMembersChanged;
+				publishGroup.MembersChanged += OnPublishedMembersChanged;
 			
-				uint groupFlags = localInvitationGroup.GroupFlags;
+				uint groupFlags = publishGroup.GroupFlags;
 				Logger.Debug ("Group Flags: {0}", groupFlags);
 				if ((((uint) groupFlags & (uint) ChannelGroupFlag.CanAdd) == (uint) ChannelGroupFlag.CanAdd))
 					Logger.Debug ("  can add");
@@ -390,11 +391,9 @@ namespace Banter
 						subHandles[0], 
 						true);
 						
-				remoteInvitationGroup = 
+				subscribeGroup = 
 					Bus.Session.GetObject<IChannelGroup> (connInfo.BusName, objectPath);
-					
-				subscribedGroup = remoteInvitationGroup;
-				subscribedGroup.MembersChanged += OnSubscribedMembersChanged;
+				subscribeGroup.MembersChanged += OnSubscribedMembersChanged;
 				
 				// Next setup a channel to the blocked list
 				uint[] blockedHandles = 
@@ -406,10 +405,10 @@ namespace Banter
 						blockedHandles[0], 
 						true);
 						
-				blockedGroup = 
+				denyGroup = 
 					Bus.Session.GetObject<IChannelGroup> (connInfo.BusName, objectPath);
 					
-				blockedGroup.MembersChanged += OnBlockedMembersChanged;
+				denyGroup.MembersChanged += OnBlockedMembersChanged;
 				
 			} catch (Exception sgc) {
 				Logger.Debug ("Failed setting up group channels");
@@ -562,26 +561,26 @@ namespace Banter
 						ProviderUserRelationship.ReceivedInvitation);
 			}
 			
-			if (subscribedGroup.Members.Length > 0) {
+			if (subscribeGroup.Members.Length > 0) {
 				Logger.Debug ("Adding Subscribed users");
 				// Add subscribed members			
 				string[] members = 
-					tlpConnection.InspectHandles (HandleType.Contact, subscribedGroup.Members);
+					tlpConnection.InspectHandles (HandleType.Contact, subscribeGroup.Members);
 				
 				string[] aliasNames = null;
 				if (aliasing == true)
-					aliasNames = tlpConnection.RequestAliases (subscribedGroup.Members);
+					aliasNames = tlpConnection.RequestAliases (subscribeGroup.Members);
 				
 				CapabilityInfo[] caps = null;
 				if (this.capabilities == true) {
-					caps = tlpConnection.GetCapabilities (subscribedGroup.Members);
+					caps = tlpConnection.GetCapabilities (subscribeGroup.Members);
 				}
 
 				//Logger.Debug ("# of known contacts: {0}", members.Length);
 				for (int i = 0; i < members.Length; i++) {
 					providerUser =
 						AddProviderUser(
-							subscribedGroup.Members[i],
+							subscribeGroup.Members[i],
 							members[i],
 							ProviderUserRelationship.Linked);
 							
@@ -601,7 +600,7 @@ namespace Banter
 					// Setup the remote contact's media capabilities
 					if (capabilities == true && caps != null && caps.Length > 0) {
 						foreach (CapabilityInfo info in caps) {
-							if (info.ContactHandle == subscribedGroup.Members[i]) {
+							if (info.ContactHandle == subscribeGroup.Members[i]) {
 								if ((info.TypeSpecificFlags & ChannelMediaCapability.Audio) ==
 										ChannelMediaCapability.Audio)
 									providerUser.MediaCapability = 
@@ -623,7 +622,7 @@ namespace Banter
 			
 			ConnectHandlers ();
 			if (presence == true)
-				tlpConnection.RequestPresence (subscribedGroup.Members);
+				tlpConnection.RequestPresence (subscribeGroup.Members);
 		}
 		
 		private void ConnectHandlers ()
@@ -872,26 +871,57 @@ namespace Banter
 				Logger.Debug ("  # added: {0}", added.Length);
 				
 				if (added.Length > 0) {
-					// Add newly added members
-					string[] aliasNames = null;
+					ProviderUser providerUser;
+					
 					string[] names = 
 						tlpConnection.InspectHandles (HandleType.Contact, added);
-			
+				
+					string[] aliasNames = null;
+					if (aliasing == true)
+						aliasNames = tlpConnection.RequestAliases (added);
+				
+					CapabilityInfo[] caps = null;
+					if (this.capabilities == true)
+						caps = tlpConnection.GetCapabilities (added);
+
 					for (int i = 0; i < added.Length; i++) {
 						Logger.Debug (
 							" adding contact id: {0}  name: {1}", 
 							added[i], 
 							names[i]);
 					
-						ProviderUser user =
-							ProviderUserManager.GetProviderUser (added[i]);
-						if (user != null) {
-							user.Relationship = ProviderUserRelationship.Linked;
+						providerUser =
+							AddProviderUser(
+								added[i],
+								names[i],
+								ProviderUserRelationship.Linked);
+						if (providerUser != null) {
 							if (aliasNames != null && 
 								aliasNames.Length >= i+1 &&
 								aliasNames[i] != null &&
 								aliasNames[i] != String.Empty)
-									user.Alias = aliasNames[i];
+									providerUser.Alias = aliasNames[i];
+									
+							// Setup the remote contact's media capabilities
+							if (capabilities == true && caps != null && caps.Length > 0) {
+								foreach (CapabilityInfo info in caps) {
+									if (info.ContactHandle == added[i]) {
+										if ((info.TypeSpecificFlags & ChannelMediaCapability.Audio) ==
+												ChannelMediaCapability.Audio)
+											providerUser.MediaCapability = 
+												Banter.MediaCapability.Audio;
+
+										if ((info.TypeSpecificFlags & ChannelMediaCapability.Video) ==
+												ChannelMediaCapability.Video)
+												
+											// If video is reported audio is assumed	
+											providerUser.MediaCapability = 
+												Banter.MediaCapability.Video |
+												Banter.MediaCapability.Audio;
+										break;
+									}
+								}
+							}
 						}	
 					}
 				}
@@ -1059,11 +1089,11 @@ namespace Banter
 		/// </summary>
 		public void AddMember (uint id, string message)
 		{
-			if (this.localInvitationGroup == null)
+			if (this.publishGroup == null)
 				throw new ApplicationException ("Group instance unavailable");
 				
 			uint[] ids = {id};
-			this.localInvitationGroup.AddMembers (ids, message);	
+			this.publishGroup.AddMembers (ids, message);	
 		}
 
 
@@ -1074,15 +1104,14 @@ namespace Banter
 		/// </summary>
 		public void AuthorizeUser (bool authorize, uint id, string message)
 		{
-			if (this.localInvitationGroup == null)
+			if (this.publishGroup == null)
 				throw new ApplicationException ("Group instance unavailable");
 				
 			uint[] ids = {id};
-			if (authorize == true) {
-				localInvitationGroup.AddMembers (ids, message);
-			}	
+			if (authorize == true)
+				publishGroup.AddMembers (ids, message);
 			else
-				localInvitationGroup.RemoveMembers (ids, message);
+				publishGroup.RemoveMembers (ids, message);
 		}
 
 		/// <summary>
@@ -1091,16 +1120,16 @@ namespace Banter
 		/// </summary>
 		public void BlockUser (bool block, uint id, string message)
 		{
-			if (this.blockedGroup == null)
+			if (this.denyGroup == null)
 				throw new ApplicationException ("Group instance unavailable");
 				
 			uint[] ids = {id};
 			if (block == true) {
-				subscribedGroup.RemoveMembers (ids, message);
-				blockedGroup.AddMembers (ids, message);
+				//subscribeGroup.RemoveMembers (ids, message);
+				denyGroup.AddMembers (ids, message);
 			} else {
-				blockedGroup.RemoveMembers (ids, message);
-				subscribedGroup.AddMembers (ids, message);
+				denyGroup.RemoveMembers (ids, message);
+				//subscribeGroup.AddMembers (ids, message);
 			}	
 		}
 
@@ -1112,7 +1141,7 @@ namespace Banter
 		{
 			Logger.Debug ("InviteUser - called");
 			
-			if (this.remoteInvitationGroup == null)
+			if (this.subscribeGroup == null)
 				throw new ApplicationException ("Group instance unavailable");
 			
 			try {
@@ -1120,7 +1149,7 @@ namespace Banter
 				uint[] inviteHandles =
 					tlpConnection.RequestHandles (HandleType.Contact, names);
 				
-				remoteInvitationGroup.AddMembers (inviteHandles, String.Empty);
+				subscribeGroup.AddMembers (inviteHandles, String.Empty);
 				
 				string[] normalizedNames = 
 					tlpConnection.InspectHandles (HandleType.Contact, inviteHandles);
@@ -1159,17 +1188,17 @@ namespace Banter
 					
 				uint[] ids = {id};
 				if (providerUser.Relationship == ProviderUserRelationship.ReceivedInvitation) {
-					if (this.localInvitationGroup == null)
+					if (this.publishGroup == null)
 						throw new ApplicationException ("Group doesn't exist");
 					Logger.Debug ("  removing member from the local invitation group");
-					localInvitationGroup.RemoveMembers (ids, message);				
+					publishGroup.RemoveMembers (ids, message);				
 				} else if (providerUser.Relationship == ProviderUserRelationship.Linked ||
 							providerUser.Relationship == ProviderUserRelationship.SentInvitation) {
-					if (this.subscribedGroup == null)
+					if (this.subscribeGroup == null)
 						throw new ApplicationException ("Group doesn't exist");
 						
 					Logger.Debug ("  removing member from the subscribed group");
-					subscribedGroup.RemoveMembers (ids, message);				
+					subscribeGroup.RemoveMembers (ids, message);				
 				}
 			
 			} catch (Exception ru) {
