@@ -2,7 +2,16 @@
 # Please keep this file sorted alphabetically.
 Banter/ActionManager.cs
 Banter/Application.cs
+Banter/AudioView.cs
+Banter/AvatarSelector.cs
 Banter/ChatWindow.cs
 Banter/GroupWindow.cs
+Banter/MessagesView.cs
+Banter/NotificationManager.cs
+Banter/PersonCard.cs
 Banter/PreferencesDialog.cs
+Banter/Presence.cs
+Banter/StatusEntry.cs
+Banter/VideoView.cs
+data/banter.desktop.in
 data/banter.schemas.in
