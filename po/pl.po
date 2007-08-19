@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Banter\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-06-26 10:12+0200\n"
-"PO-Revision-Date: 2007-06-25 17:52+0100\n"
+"POT-Creation-Date: 2007-08-19 14:47+0200\n"
+"PO-Revision-Date: 2007-08-10 21:28+0100\n"
 "Last-Translator: Tomasz Dominikowski <dominikowski@gmail.com>\n"
 "Language-Team: Tomasz Dominikowski <dominikowski@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -61,120 +61,239 @@ msgstr "_O programie"
 msgid "About Banter"
 msgstr "O Banter"
 
-#: ../Banter/Application.cs:266
+#: ../Banter/Application.cs:274
 msgid "New Group Window ..."
 msgstr "Nowe okno grupy..."
 
-#: ../Banter/Application.cs:275 ../Banter/PreferencesDialog.cs:70
-msgid "Accounts"
-msgstr "Konta"
-
-#: ../Banter/Application.cs:290
+#: ../Banter/Application.cs:294
 msgid "Quit"
 msgstr "Zakończ"
 
-#: ../Banter/Application.cs:546 ../Banter/GroupWindow.cs:551
+#. Everyone
+#: ../Banter/Application.cs:557 ../Banter/GroupWindow.cs:564
 msgid "Everyone"
 msgstr "Wszyscy"
 
-#: ../Banter/ChatWindow.cs:206
-msgid "Show Contact _Details"
-msgstr "Wyświetl szczegóły _kontaktu"
+#: ../Banter/AudioView.cs:49
+msgid "Audio Chat in progress..."
+msgstr ""
 
-#: ../Banter/GroupWindow.cs:110 ../Banter/GroupWindow.cs:125
+#. Label label = new Label(Catalog.GetString("Video Chat in progress..."));
+#. label.Show();
+#. vbox.PackStart(label, false, true, 0);
+#: ../Banter/AudioView.cs:54 ../Banter/VideoView.cs:103
+msgid "End Call"
+msgstr ""
+
+#: ../Banter/AvatarSelector.cs:91
+msgid "Select an Avatar"
+msgstr ""
+
+#: ../Banter/GroupWindow.cs:113 ../Banter/GroupWindow.cs:129
+#: ../data/banter.desktop.in.h:1
 msgid "Banter"
 msgstr "Banter"
 
-#: ../Banter/GroupWindow.cs:496
+#: ../Banter/GroupWindow.cs:442
+msgid "Change your avatar"
+msgstr "Zmiana awataru"
+
+#: ../Banter/GroupWindow.cs:443
+msgid "Click here to change your avatar"
+msgstr "Kliknij tutaj, aby zmienić awatar"
+
+#: ../Banter/GroupWindow.cs:463 ../Banter/GroupWindow.cs:464
+msgid "Change your online status"
+msgstr "Zmiana statusu"
+
+#: ../Banter/GroupWindow.cs:510
 msgid "Filter"
 msgstr "Filtr"
 
-#: ../Banter/GroupWindow.cs:534
+#: ../Banter/GroupWindow.cs:548
 msgid "Groups"
 msgstr "Grupy"
 
-#: ../Banter/GroupWindow.cs:562
-msgid "New Group..."
-msgstr "Nowa grupa..."
-
-#: ../Banter/GroupWindow.cs:578
+#: ../Banter/GroupWindow.cs:595
 msgid "Actions"
 msgstr "Działania"
 
-#: ../Banter/GroupWindow.cs:595
+#. Settings
+#: ../Banter/GroupWindow.cs:611
 msgid "Settings"
 msgstr "Ustawienia"
 
-#: ../Banter/GroupWindow.cs:601
+#: ../Banter/GroupWindow.cs:618
 msgid "Add Person..."
 msgstr "Dodaj osobę..."
 
-#: ../Banter/GroupWindow.cs:627
+#: ../Banter/GroupWindow.cs:625
+msgid "Remove Person"
+msgstr "Usuń osobę"
+
+#: ../Banter/GroupWindow.cs:652
 msgid "Close Sidebar"
 msgstr "Zamknij pasek boczny"
 
-#: ../Banter/GroupWindow.cs:776 ../Banter/GroupWindow.cs:894
+#: ../Banter/GroupWindow.cs:812 ../Banter/GroupWindow.cs:972
 msgid "Show Sidebar"
 msgstr "Wyświetl pasek boczny"
 
-#: ../Banter/GroupWindow.cs:830
+#: ../Banter/GroupWindow.cs:866
 msgid "Everyone - Banter"
 msgstr "Wszyscy - Banter"
 
-#: ../Banter/GroupWindow.cs:844
-msgid "New group window"
-msgstr "Nowe okno grupy"
+#: ../Banter/GroupWindow.cs:880
+msgid "Banter - New group window"
+msgstr "Banter - Nowe okno grupy"
 
-#: ../Banter/GroupWindow.cs:845
+#: ../Banter/GroupWindow.cs:881
+msgid "Add new group"
+msgstr "Dodaj nową grupę"
+
+#: ../Banter/GroupWindow.cs:882
 msgid "Enter the name of the new group you'd like to create."
 msgstr "Wprowadź nazwę nowej grupy, którą chcesz utworzyć."
 
-#: ../Banter/GroupWindow.cs:899
+#: ../Banter/GroupWindow.cs:916
+msgid "Done Removing"
+msgstr "Usuwanie zakończone"
+
+#: ../Banter/GroupWindow.cs:918
+msgid "Remove People"
+msgstr "Usuń ludzi"
+
+#: ../Banter/GroupWindow.cs:927
+msgid "Banter - Add person"
+msgstr "Banter - Dodawanie osoby"
+
+#: ../Banter/GroupWindow.cs:928
+msgid "Invite a new person"
+msgstr "Zaproś nową osobę"
+
+#: ../Banter/GroupWindow.cs:929
+msgid "Enter the email address of the person you'd like to add."
+msgstr "Wprowadź adres e-mail osoby, którą chcesz dodać."
+
+#: ../Banter/GroupWindow.cs:977
 msgid "Hide Sidebar"
 msgstr "Ukryj pasek boczny"
 
-#: ../Banter/GroupWindow.cs:999
+#: ../Banter/GroupWindow.cs:1077
 #, csharp-format
 msgid "{0} - Banter"
 msgstr "{0} - Banter"
 
-#: ../Banter/GroupWindow.cs:1016
+#: ../Banter/GroupWindow.cs:1093
+msgid "Banter - Delete Group"
+msgstr "Banter - Usuwanie grupy"
+
+#: ../Banter/GroupWindow.cs:1095
 #, csharp-format
 msgid "Delete \"{0}\"?"
 msgstr "Usunąć \"{0}\"?"
 
-#: ../Banter/GroupWindow.cs:1018
+#: ../Banter/GroupWindow.cs:1097
 msgid "This will delete the group and not the contacts inside of the group."
 msgstr ""
 "Zostanie usunięta grupa, kontakty należące do grupy nie zostaną usunięte."
+
+#: ../Banter/MessagesView.cs:121
+msgid "me"
+msgstr ""
+
+#: ../Banter/MessagesView.cs:132
+msgid "sender"
+msgstr ""
+
+#: ../Banter/NotificationManager.cs:203 ../Banter/NotificationManager.cs:439
+#, csharp-format
+msgid "Message from {0}"
+msgstr ""
+
+#: ../Banter/NotificationManager.cs:235 ../Banter/NotificationManager.cs:286
+#: ../Banter/NotificationManager.cs:340
+msgid "Accept"
+msgstr ""
+
+#: ../Banter/NotificationManager.cs:236 ../Banter/NotificationManager.cs:287
+#: ../Banter/NotificationManager.cs:341
+msgid "Decline"
+msgstr ""
+
+#: ../Banter/NotificationManager.cs:266
+msgid "Incoming Audio Chat"
+msgstr ""
+
+#: ../Banter/NotificationManager.cs:267
+#, csharp-format
+msgid "{0} is requesting an audio chat"
+msgstr ""
+
+#: ../Banter/NotificationManager.cs:319
+msgid "Incoming Video Chat"
+msgstr ""
+
+#: ../Banter/NotificationManager.cs:320
+#, csharp-format
+msgid "{0} is requesting a video chat"
+msgstr ""
+
+#: ../Banter/PersonCard.cs:283 ../Banter/PersonCard.cs:284
+#, fuzzy
+msgid "Remove this person"
+msgstr "Usuń osobę"
+
+#: ../Banter/PersonCard.cs:329
+msgid "Invited"
+msgstr ""
+
+#: ../Banter/PersonCard.cs:332
+msgid "Requesting"
+msgstr ""
+
+#: ../Banter/PersonCard.cs:407
+msgid "Authorize this person"
+msgstr ""
+
+#: ../Banter/PersonCard.cs:408
+msgid "Authorize this person to chat with you"
+msgstr ""
+
+#: ../Banter/PersonCard.cs:430 ../Banter/PersonCard.cs:431
+msgid "Start a video chat"
+msgstr ""
+
+#: ../Banter/PersonCard.cs:447 ../Banter/PersonCard.cs:448
+msgid "Start an audio chat"
+msgstr ""
+
+#: ../Banter/PersonCard.cs:462 ../Banter/PersonCard.cs:463
+msgid "Start a text chat"
+msgstr ""
+
+#: ../Banter/PersonCard.cs:616
+msgid "Authorizing..."
+msgstr ""
+
+#: ../Banter/PersonCard.cs:639
+#, fuzzy
+msgid "Removing..."
+msgstr "Usuwanie zakończone"
+
+#: ../Banter/PreferencesDialog.cs:70
+msgid "Accounts"
+msgstr "Konta"
 
 #: ../Banter/PreferencesDialog.cs:72
 msgid "Messages"
 msgstr "Wiadomości"
 
-#.
-#. Message Style Row
-#.
-#: ../Banter/PreferencesDialog.cs:125
-msgid "Message Style:"
-msgstr "Styl wiadomości:"
-
 #: ../Banter/PreferencesDialog.cs:136
-msgid "Style changes take effect for new message windows."
-msgstr "Zmiany styli są wprowadzane po otwarciu nowych okien wiadomości."
-
-#.
-#. Variant Row
-#.
-#: ../Banter/PreferencesDialog.cs:143
-msgid "Variant:"
-msgstr "Wariant:"
-
-#: ../Banter/PreferencesDialog.cs:179
 msgid "GoogleTalk Account Settings"
 msgstr "Ustawienia konta GoogleTalk"
 
-#: ../Banter/PreferencesDialog.cs:186
+#: ../Banter/PreferencesDialog.cs:143
 msgid ""
 "In this alpha-phase of the project, this is the only IM account type we "
 "support (so stop your worryin'!)."
@@ -183,84 +302,72 @@ msgstr ""
 "obsługiwany (więc przestań się martwić!)."
 
 #. Server address
-#: ../Banter/PreferencesDialog.cs:199 ../Banter/PreferencesDialog.cs:283
+#: ../Banter/PreferencesDialog.cs:156
 msgid "Server Address:"
 msgstr "Adres serwera:"
 
 #. Server port
-#: ../Banter/PreferencesDialog.cs:213
+#: ../Banter/PreferencesDialog.cs:170
 msgid "Server Port:"
 msgstr "Port serwera:"
 
 #. Username
-#: ../Banter/PreferencesDialog.cs:227 ../Banter/PreferencesDialog.cs:297
+#: ../Banter/PreferencesDialog.cs:184
 msgid "Username:"
 msgstr "Nazwa użytkownika:"
 
 #. Password
-#: ../Banter/PreferencesDialog.cs:238 ../Banter/PreferencesDialog.cs:308
+#: ../Banter/PreferencesDialog.cs:195
 msgid "Password:"
 msgstr "Hasło:"
 
-#: ../Banter/PreferencesDialog.cs:263
-msgid "SIP Account Settings"
-msgstr "Ustawienia konta SIP"
-
-#: ../Banter/PreferencesDialog.cs:270
-msgid "In this alpha-phase of the project, we only support one SIP account."
-msgstr "W tej fazie projektu (alfa) obsługujemy tylko jedno konto SIP."
-
-#: ../Banter/PreferencesDialog.cs:391
-msgid "<Unknown Style>"
-msgstr "<Nieznany styl>"
-
-#: ../Banter/PreferencesDialog.cs:414
-msgid "So a priest, a rabbi, and a chicken walk into a bar."
-msgstr "No więc ksiądz, rabin i kurczak wchodzą do baru."
-
-#: ../Banter/PreferencesDialog.cs:420
-msgid "I'm pretty sure I've heard this one before"
-msgstr "Jestem pewien, że gdzieś już to słyszałem"
-
-#: ../Banter/PreferencesDialog.cs:424
-msgid "So what happens next?"
-msgstr "Więc co się dalej wydarzy?"
-
-#: ../Banter/PreferencesDialog.cs:429
-msgid "If I remember correctly, they explode outward at the speedof light."
-msgstr "Jeśli dobrze pamiętam, to eksplodują z prędkością światła."
-
-#: ../Banter/PreferencesDialog.cs:434
-msgid "But that might be if you cross the streams..."
-msgstr "Ale gdy skrzyżują się ich strumienie..."
-
-#: ../Banter/PreferencesDialog.cs:439
-msgid "...thus negating all existence!"
-msgstr "...zanegują całkowicie wszelkie istnienie!"
-
-#: ../Banter/PreferencesDialog.cs:448
-msgid ""
-"Precisely!  It's a risk one takes whenever one walks intoa bar, I'm afraid, "
-"especially if one is a chicken."
-msgstr ""
-"Dokładnie! Obawiam się, że to ryzyko, jakie się ponosi, kiedy wchodzi się do "
-"baru, zwłaszcza, jeśli jest się kurczakiem."
-
-#: ../Banter/PreferencesDialog.cs:454
-msgid "Jeff went away"
-msgstr "Jeff poszedł sobie"
-
-#: ../Banter/PreferencesDialog.cs:459
-msgid "Gotta run; catch ya later ;)"
-msgstr "Muszę lecieć. Spotkamy się później ;)"
-
-#: ../Banter/PreferencesDialog.cs:559
+#: ../Banter/PreferencesDialog.cs:381
 msgid "your.username@gmail.com"
 msgstr "nazwa.uzytkownika@gmail.com"
 
-#: ../Banter/PreferencesDialog.cs:566
-msgid "your.username@ekiga.net"
-msgstr "nazwa.użytkownika@ekiga.net"
+#: ../Banter/Presence.cs:143
+msgid "Offline"
+msgstr ""
+
+#. Available messages
+#: ../Banter/Presence.cs:145 ../Banter/StatusEntry.cs:143
+msgid "Available"
+msgstr ""
+
+#. Away messages
+#: ../Banter/Presence.cs:147 ../Banter/StatusEntry.cs:194
+msgid "Away"
+msgstr ""
+
+#: ../Banter/Presence.cs:149
+msgid "XA"
+msgstr ""
+
+#: ../Banter/Presence.cs:151
+msgid "Hidden"
+msgstr ""
+
+#. Busy messages
+#: ../Banter/Presence.cs:153 ../Banter/StatusEntry.cs:168
+msgid "Busy"
+msgstr ""
+
+#: ../Banter/StatusEntry.cs:161 ../Banter/StatusEntry.cs:187
+#: ../Banter/StatusEntry.cs:213
+msgid "Custom message..."
+msgstr ""
+
+#: ../Banter/StatusEntry.cs:229
+msgid "Clear custom messages"
+msgstr ""
+
+#: ../data/banter.desktop.in.h:2
+msgid "Instant Messenger AddressBook"
+msgstr ""
+
+#: ../data/banter.desktop.in.h:3
+msgid "Real Time Collaboration Tool"
+msgstr ""
 
 #: ../data/banter.schemas.in.h:1
 msgid "Auto Login"
@@ -280,7 +387,7 @@ msgstr "Serwer Jabber"
 
 #: ../data/banter.schemas.in.h:5
 msgid "Jabber server port"
-msgstr "Port serwera Jabber\""
+msgstr "Port serwera Jabber"
 
 #: ../data/banter.schemas.in.h:6
 msgid "List containing the GUIDs of the currently saved group windows."
@@ -449,3 +556,61 @@ msgstr "Użycie SSL"
 #: ../data/banter.schemas.in.h:40
 msgid "Use the TLS transport"
 msgstr "Użycie transportu TLS"
+
+#~ msgid "Show Contact _Details"
+#~ msgstr "Wyświetl szczegóły _kontaktu"
+
+#~ msgid "New Group..."
+#~ msgstr "Nowa grupa..."
+
+#~ msgid "Message Style:"
+#~ msgstr "Styl wiadomości:"
+
+#~ msgid "Style changes take effect for new message windows."
+#~ msgstr "Zmiany styli są wprowadzane po otwarciu nowych okien wiadomości."
+
+#~ msgid "Variant:"
+#~ msgstr "Wariant:"
+
+#~ msgid "SIP Account Settings"
+#~ msgstr "Ustawienia konta SIP"
+
+#~ msgid "In this alpha-phase of the project, we only support one SIP account."
+#~ msgstr "W tej fazie projektu (alfa) obsługujemy tylko jedno konto SIP."
+
+#~ msgid "<Unknown Style>"
+#~ msgstr "<Nieznany styl>"
+
+#~ msgid "So a priest, a rabbi, and a chicken walk into a bar."
+#~ msgstr "No więc ksiądz, rabin i kurczak wchodzą do baru."
+
+#~ msgid "I'm pretty sure I've heard this one before"
+#~ msgstr "Jestem pewien, że gdzieś już to słyszałem"
+
+#~ msgid "So what happens next?"
+#~ msgstr "Więc co się dalej wydarzy?"
+
+#~ msgid "If I remember correctly, they explode outward at the speedof light."
+#~ msgstr "Jeśli dobrze pamiętam, to eksplodują z prędkością światła."
+
+#~ msgid "But that might be if you cross the streams..."
+#~ msgstr "Ale gdy skrzyżują się ich strumienie..."
+
+#~ msgid "...thus negating all existence!"
+#~ msgstr "...zanegują całkowicie wszelkie istnienie!"
+
+#~ msgid ""
+#~ "Precisely!  It's a risk one takes whenever one walks intoa bar, I'm "
+#~ "afraid, especially if one is a chicken."
+#~ msgstr ""
+#~ "Dokładnie! Obawiam się, że to ryzyko, jakie się ponosi, kiedy wchodzi się "
+#~ "do baru, zwłaszcza, jeśli jest się kurczakiem."
+
+#~ msgid "Jeff went away"
+#~ msgstr "Jeff poszedł sobie"
+
+#~ msgid "Gotta run; catch ya later ;)"
+#~ msgstr "Muszę lecieć. Spotkamy się później ;)"
+
+#~ msgid "your.username@ekiga.net"
+#~ msgstr "nazwa.użytkownika@ekiga.net"
