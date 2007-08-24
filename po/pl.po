@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Banter\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-08-19 14:47+0200\n"
-"PO-Revision-Date: 2007-08-10 21:28+0100\n"
+"POT-Creation-Date: 2007-08-24 18:26+0200\n"
+"PO-Revision-Date: 2007-08-24 11:13+0100\n"
 "Last-Translator: Tomasz Dominikowski <dominikowski@gmail.com>\n"
 "Language-Team: Tomasz Dominikowski <dominikowski@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -78,18 +78,18 @@ msgstr "Wszyscy"
 
 #: ../Banter/AudioView.cs:49
 msgid "Audio Chat in progress..."
-msgstr ""
+msgstr "Rozmowa głosowa w toku..."
 
 #. Label label = new Label(Catalog.GetString("Video Chat in progress..."));
 #. label.Show();
 #. vbox.PackStart(label, false, true, 0);
 #: ../Banter/AudioView.cs:54 ../Banter/VideoView.cs:103
 msgid "End Call"
-msgstr ""
+msgstr "Zakończ rozmowę"
 
 #: ../Banter/AvatarSelector.cs:91
 msgid "Select an Avatar"
-msgstr ""
+msgstr "Wybierz awatar"
 
 #: ../Banter/GroupWindow.cs:113 ../Banter/GroupWindow.cs:129
 #: ../data/banter.desktop.in.h:1
@@ -202,86 +202,84 @@ msgstr ""
 
 #: ../Banter/MessagesView.cs:121
 msgid "me"
-msgstr ""
+msgstr "ja"
 
 #: ../Banter/MessagesView.cs:132
 msgid "sender"
-msgstr ""
+msgstr "wysyłający"
 
 #: ../Banter/NotificationManager.cs:203 ../Banter/NotificationManager.cs:439
 #, csharp-format
 msgid "Message from {0}"
-msgstr ""
+msgstr "Wiadomość od {0}"
 
 #: ../Banter/NotificationManager.cs:235 ../Banter/NotificationManager.cs:286
 #: ../Banter/NotificationManager.cs:340
 msgid "Accept"
-msgstr ""
+msgstr "Akceptuj"
 
 #: ../Banter/NotificationManager.cs:236 ../Banter/NotificationManager.cs:287
 #: ../Banter/NotificationManager.cs:341
 msgid "Decline"
-msgstr ""
+msgstr "Odmów"
 
 #: ../Banter/NotificationManager.cs:266
 msgid "Incoming Audio Chat"
-msgstr ""
+msgstr "Przychodząca rozmowa głosowa"
 
 #: ../Banter/NotificationManager.cs:267
 #, csharp-format
 msgid "{0} is requesting an audio chat"
-msgstr ""
+msgstr "Kontakt {0} zażądał rozmowy głosowej"
 
 #: ../Banter/NotificationManager.cs:319
 msgid "Incoming Video Chat"
-msgstr ""
+msgstr "Przychodząca rozmowa wideo"
 
 #: ../Banter/NotificationManager.cs:320
 #, csharp-format
 msgid "{0} is requesting a video chat"
-msgstr ""
+msgstr "Kontakt {0} zażądał rozmowy wideo"
 
 #: ../Banter/PersonCard.cs:283 ../Banter/PersonCard.cs:284
-#, fuzzy
 msgid "Remove this person"
-msgstr "Usuń osobę"
+msgstr "Usuń tę osobę"
 
 #: ../Banter/PersonCard.cs:329
 msgid "Invited"
-msgstr ""
+msgstr "Zaproszony"
 
 #: ../Banter/PersonCard.cs:332
 msgid "Requesting"
-msgstr ""
+msgstr "Żądanie"
 
 #: ../Banter/PersonCard.cs:407
 msgid "Authorize this person"
-msgstr ""
+msgstr "Uwierzytelnij tę osobę"
 
 #: ../Banter/PersonCard.cs:408
 msgid "Authorize this person to chat with you"
-msgstr ""
+msgstr "Uwierzytelnij tę osobę do rozmowy"
 
 #: ../Banter/PersonCard.cs:430 ../Banter/PersonCard.cs:431
 msgid "Start a video chat"
-msgstr ""
+msgstr "Rozpocznij rozmowę wideo"
 
 #: ../Banter/PersonCard.cs:447 ../Banter/PersonCard.cs:448
 msgid "Start an audio chat"
-msgstr ""
+msgstr "Rozpocznij rozmowę głosową"
 
 #: ../Banter/PersonCard.cs:462 ../Banter/PersonCard.cs:463
 msgid "Start a text chat"
-msgstr ""
+msgstr "Rozpocznij rozmowę tekstową"
 
 #: ../Banter/PersonCard.cs:616
 msgid "Authorizing..."
-msgstr ""
+msgstr "Uwierzytelnianie..."
 
 #: ../Banter/PersonCard.cs:639
-#, fuzzy
 msgid "Removing..."
-msgstr "Usuwanie zakończone"
+msgstr "Usuwanie..."
 
 #: ../Banter/PreferencesDialog.cs:70
 msgid "Accounts"
@@ -329,47 +327,47 @@ msgstr "nazwa.uzytkownika@gmail.com"
 
 #: ../Banter/Presence.cs:143
 msgid "Offline"
-msgstr ""
+msgstr "Rozłączony"
 
 #. Available messages
 #: ../Banter/Presence.cs:145 ../Banter/StatusEntry.cs:143
 msgid "Available"
-msgstr ""
+msgstr "Dostępny"
 
 #. Away messages
 #: ../Banter/Presence.cs:147 ../Banter/StatusEntry.cs:194
 msgid "Away"
-msgstr ""
+msgstr "Zaraz wracam"
 
 #: ../Banter/Presence.cs:149
 msgid "XA"
-msgstr ""
+msgstr "Niedostępny"
 
 #: ../Banter/Presence.cs:151
 msgid "Hidden"
-msgstr ""
+msgstr "Ukryty"
 
 #. Busy messages
 #: ../Banter/Presence.cs:153 ../Banter/StatusEntry.cs:168
 msgid "Busy"
-msgstr ""
+msgstr "Zajęty"
 
 #: ../Banter/StatusEntry.cs:161 ../Banter/StatusEntry.cs:187
 #: ../Banter/StatusEntry.cs:213
 msgid "Custom message..."
-msgstr ""
+msgstr "Własna wiadomość..."
 
 #: ../Banter/StatusEntry.cs:229
 msgid "Clear custom messages"
-msgstr ""
+msgstr "Wyczyść własne wiadomości"
 
 #: ../data/banter.desktop.in.h:2
 msgid "Instant Messenger AddressBook"
-msgstr ""
+msgstr "Książka adresowa komunikatora"
 
 #: ../data/banter.desktop.in.h:3
 msgid "Real Time Collaboration Tool"
-msgstr ""
+msgstr "Narzędzie do kolaboracji w czasie rzeczywistym"
 
 #: ../data/banter.schemas.in.h:1
 msgid "Auto Login"
