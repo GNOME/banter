@@ -8,10 +8,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: banter.HEAD.es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-08-16 22:00+0100\n"
-"PO-Revision-Date: 2007-08-20 20:50+0200\n"
-"Last-Translator: Urizev <urizev@gmail.com>\n"
-"Language-Team: Español <traductores@es.gnome.org>\n"
+"POT-Creation-Date: 2007-08-21 23:10+0100\n"
+"PO-Revision-Date: 2007-09-20 12:10+0200\n"
+"Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
+"Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -242,9 +242,8 @@ msgid "{0} is requesting a video chat"
 msgstr "{0} solicita una conversación de vídeo"
 
 #: ../Banter/PersonCard.cs:283 ../Banter/PersonCard.cs:284
-#, fuzzy
 msgid "Remove this person"
-msgstr "Eliminar persona"
+msgstr "Eliminar esta persona"
 
 #: ../Banter/PersonCard.cs:329
 msgid "Invited"
@@ -279,9 +278,8 @@ msgid "Authorizing..."
 msgstr "Autorizando..."
 
 #: ../Banter/PersonCard.cs:639
-#, fuzzy
 msgid "Removing..."
-msgstr "Borrado hecho"
+msgstr "Borrando..."
 
 #: ../Banter/PreferencesDialog.cs:70
 msgid "Accounts"
@@ -393,12 +391,10 @@ msgstr "Puerto del servidor Jabber"
 
 #: ../data/banter.schemas.in.h:6
 msgid "List containing the GUIDs of the currently saved group windows."
-msgstr ""
-"Lista que contiene los GUIDs de las ventanas de grupo actualmente guardadas."
+msgstr "Lista que contiene los GUIDs de las ventanas de grupo actualmente guardadas."
 
 #: ../data/banter.schemas.in.h:7
-msgid ""
-"List containing the custom status messages indicating the user is available."
+msgid "List containing the custom status messages indicating the user is available."
 msgstr ""
 "Lista que contiene los mensajes de estado personalizados que indican que el "
 "usuario está disponible."
@@ -511,10 +507,8 @@ msgid "Telepathy connection manager"
 msgstr "Gestión de conexión Telepathy"
 
 #: ../data/banter.schemas.in.h:30
-msgid ""
-"Telepathy connection manager with IM or Text capability for this account"
-msgstr ""
-"Gestor de conexión Telepathy con capacidad de MI o Texto para esta cuenta"
+msgid "Telepathy connection manager with IM or Text capability for this account"
+msgstr "Gestor de conexión Telepathy con capacidad de MI o Texto para esta cuenta"
 
 #: ../data/banter.schemas.in.h:31
 msgid "The name and path of the app style that is currently selected."
@@ -563,3 +557,4 @@ msgstr "Usar SSL"
 #: ../data/banter.schemas.in.h:40
 msgid "Use the TLS transport"
 msgstr "Usar transporte TLS"
+
