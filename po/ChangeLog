@@ -1,3 +1,8 @@
+2007-09-21  Laurent Dhima  <laurenti@alblinux.net>
+
+	* sq.po: Added Albanian translation.
+	* LINGUAS: Added 'sq'.
+
 2007-09-20  Jorge Gonzalez  <jorgegonz@svn.gnome.org>
 
         * es.po: Updated Spanish translation

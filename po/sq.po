@@ -1,0 +1,555 @@
+# Përkthimi i banter në shqip.
+# Copyright (C) 2007 Free Software Foundation, Inc.
+# This file is distributed under the same license as the banter package.
+#
+# Laurent Dhima <laurenti@alblinux.net>, 2007.
+msgid ""
+msgstr ""
+"Project-Id-Version: banter HEAD\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2007-09-21 13:15+0200\n"
+"PO-Revision-Date: 2007-09-21 19:11+0200\n"
+"Last-Translator: Laurent Dhima <laurenti@alblinux.net>\n"
+"Language-Team: albanian <gnome-albanian-perkthyesit@lists.sourceforge.net>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ../Banter/ActionManager.cs:63
+msgid "_File"
+msgstr "_File"
+
+#: ../Banter/ActionManager.cs:66
+msgid "_Quit"
+msgstr "_Dalja"
+
+#: ../Banter/ActionManager.cs:67
+msgid "Quit Banter"
+msgstr "Dil nga Banter"
+
+#: ../Banter/ActionManager.cs:70
+msgid "_Edit"
+msgstr "_Ndrysho"
+
+#: ../Banter/ActionManager.cs:73
+msgid "_Preferences"
+msgstr "_Preferimet"
+
+#: ../Banter/ActionManager.cs:74 ../Banter/PreferencesDialog.cs:56
+msgid "Banter Preferences"
+msgstr "Preferimet e Banter"
+
+#: ../Banter/ActionManager.cs:77
+msgid "_Help"
+msgstr "_Ndihmë"
+
+#: ../Banter/ActionManager.cs:80
+msgid "_Contents"
+msgstr "_Përmbajtja"
+
+#: ../Banter/ActionManager.cs:81
+msgid "Banter Help"
+msgstr "Ndihma e Banter"
+
+#: ../Banter/ActionManager.cs:84
+msgid "_About"
+msgstr "_Informacione"
+
+#: ../Banter/ActionManager.cs:85
+msgid "About Banter"
+msgstr "Informacione mbi Banter"
+
+#: ../Banter/Application.cs:274
+msgid "New Group Window ..."
+msgstr "Grup i ri dritaresh ..."
+
+#: ../Banter/Application.cs:294
+msgid "Quit"
+msgstr "Dalja"
+
+#. Everyone
+#: ../Banter/Application.cs:557 ../Banter/GroupWindow.cs:564
+msgid "Everyone"
+msgstr "Të gjithë"
+
+#: ../Banter/AudioView.cs:49
+msgid "Audio Chat in progress..."
+msgstr "Bisedë audio në kryerje e sipër..."
+
+#. Label label = new Label(Catalog.GetString("Video Chat in progress..."));
+#. label.Show();
+#. vbox.PackStart(label, false, true, 0);
+#: ../Banter/AudioView.cs:54 ../Banter/VideoView.cs:103
+msgid "End Call"
+msgstr "Përfundo thirrjen"
+
+#: ../Banter/AvatarSelector.cs:91
+msgid "Select an Avatar"
+msgstr "Zgjidh një avatar"
+
+#: ../Banter/GroupWindow.cs:113 ../Banter/GroupWindow.cs:129
+#: ../data/banter.desktop.in.h:1
+msgid "Banter"
+msgstr "Banter"
+
+#: ../Banter/GroupWindow.cs:442
+msgid "Change your avatar"
+msgstr "Ndrysho avatar-in tënd"
+
+#: ../Banter/GroupWindow.cs:443
+msgid "Click here to change your avatar"
+msgstr "Kliko këtu për të ndryshuar avatarin"
+
+#: ../Banter/GroupWindow.cs:463 ../Banter/GroupWindow.cs:464
+msgid "Change your online status"
+msgstr "Ndrysho gjendjen në linjë"
+
+#: ../Banter/GroupWindow.cs:510
+msgid "Filter"
+msgstr "Filtro"
+
+#: ../Banter/GroupWindow.cs:548
+msgid "Groups"
+msgstr "Grupet"
+
+#: ../Banter/GroupWindow.cs:595
+msgid "Actions"
+msgstr "Veprimet"
+
+#. Settings
+#: ../Banter/GroupWindow.cs:611
+msgid "Settings"
+msgstr "Rregullimet"
+
+#: ../Banter/GroupWindow.cs:618
+msgid "Add Person..."
+msgstr "Shto person..."
+
+#: ../Banter/GroupWindow.cs:625
+msgid "Remove Person"
+msgstr "Hiq personin"
+
+#: ../Banter/GroupWindow.cs:652
+msgid "Close Sidebar"
+msgstr "Mbyll panelin anësor"
+
+#: ../Banter/GroupWindow.cs:812 ../Banter/GroupWindow.cs:972
+msgid "Show Sidebar"
+msgstr "Shfaq panelin anësor"
+
+#: ../Banter/GroupWindow.cs:866
+msgid "Everyone - Banter"
+msgstr "Për të gjithë - Banter"
+
+#: ../Banter/GroupWindow.cs:880
+msgid "Banter - New group window"
+msgstr "Banter - Grup i ri dritaresh"
+
+#: ../Banter/GroupWindow.cs:881
+msgid "Add new group"
+msgstr "Shto një grup të ri"
+
+#: ../Banter/GroupWindow.cs:882
+msgid "Enter the name of the new group you'd like to create."
+msgstr "Shkruaj emrin për grupin e ri që do të krijoni."
+
+#: ../Banter/GroupWindow.cs:916
+msgid "Done Removing"
+msgstr "Heqja u plotësua"
+
+#: ../Banter/GroupWindow.cs:918
+msgid "Remove People"
+msgstr "Hiq njerëz"
+
+#: ../Banter/GroupWindow.cs:927
+msgid "Banter - Add person"
+msgstr "Banter - Shto person"
+
+#: ../Banter/GroupWindow.cs:928
+msgid "Invite a new person"
+msgstr "Fto një person të ri"
+
+#: ../Banter/GroupWindow.cs:929
+msgid "Enter the email address of the person you'd like to add."
+msgstr "Shkruaj adresën email të personit që dëshiron të shtosh."
+
+#: ../Banter/GroupWindow.cs:977
+msgid "Hide Sidebar"
+msgstr "Fshih panelin anësor"
+
+#: ../Banter/GroupWindow.cs:1077
+#, csharp-format
+msgid "{0} - Banter"
+msgstr "{0} - Banter"
+
+#: ../Banter/GroupWindow.cs:1093
+msgid "Banter - Delete Group"
+msgstr "Banter - Elemino grupin"
+
+#: ../Banter/GroupWindow.cs:1095
+#, csharp-format
+msgid "Delete \"{0}\"?"
+msgstr "Eleminon \"{0}\"?"
+
+#: ../Banter/GroupWindow.cs:1097
+msgid "This will delete the group and not the contacts inside of the group."
+msgstr ""
+"Në këtë menyrë do të eleminohet grupi dhe jo kontaktet në brendësi të "
+"grupit."
+
+#: ../Banter/MessagesView.cs:121
+msgid "me"
+msgstr "unë"
+
+#: ../Banter/MessagesView.cs:132
+msgid "sender"
+msgstr "dërguesi"
+
+#: ../Banter/NotificationManager.cs:203 ../Banter/NotificationManager.cs:439
+#, csharp-format
+msgid "Message from {0}"
+msgstr "Mesazh nga {0}"
+
+#: ../Banter/NotificationManager.cs:235 ../Banter/NotificationManager.cs:286
+#: ../Banter/NotificationManager.cs:340
+msgid "Accept"
+msgstr "Prano"
+
+#: ../Banter/NotificationManager.cs:236 ../Banter/NotificationManager.cs:287
+#: ../Banter/NotificationManager.cs:341
+msgid "Decline"
+msgstr "Refuzo"
+
+#: ../Banter/NotificationManager.cs:266
+msgid "Incoming Audio Chat"
+msgstr "Bisedë audio në ardhje"
+
+#: ../Banter/NotificationManager.cs:267
+#, csharp-format
+msgid "{0} is requesting an audio chat"
+msgstr "{0} po kërkon një bisedë audio"
+
+#: ../Banter/NotificationManager.cs:319
+msgid "Incoming Video Chat"
+msgstr "Bisedë video në ardhje"
+
+#: ../Banter/NotificationManager.cs:320
+#, csharp-format
+msgid "{0} is requesting a video chat"
+msgstr "{0} po kërkon një bisedë video"
+
+#: ../Banter/PersonCard.cs:283 ../Banter/PersonCard.cs:284
+msgid "Remove this person"
+msgstr "Hiq këtë person"
+
+#: ../Banter/PersonCard.cs:329
+msgid "Invited"
+msgstr "Ftuar"
+
+#: ../Banter/PersonCard.cs:332
+msgid "Requesting"
+msgstr "Kërkon"
+
+#: ../Banter/PersonCard.cs:407
+msgid "Authorize this person"
+msgstr "Autorizo këtë person"
+
+#: ../Banter/PersonCard.cs:408
+msgid "Authorize this person to chat with you"
+msgstr "Autorizo bisedimin me këtë person"
+
+#: ../Banter/PersonCard.cs:430 ../Banter/PersonCard.cs:431
+msgid "Start a video chat"
+msgstr "Fillo një bisedë video"
+
+#: ../Banter/PersonCard.cs:447 ../Banter/PersonCard.cs:448
+msgid "Start an audio chat"
+msgstr "Fillo një bisedë audio"
+
+#: ../Banter/PersonCard.cs:462 ../Banter/PersonCard.cs:463
+msgid "Start a text chat"
+msgstr "Fillo një bisedë me shkrim"
+
+#: ../Banter/PersonCard.cs:616
+msgid "Authorizing..."
+msgstr "Autorizimi..."
+
+#: ../Banter/PersonCard.cs:639
+msgid "Removing..."
+msgstr "Heqja..."
+
+#: ../Banter/PreferencesDialog.cs:70
+msgid "Accounts"
+msgstr "Profilet"
+
+#: ../Banter/PreferencesDialog.cs:72
+msgid "Messages"
+msgstr "Mesazhet"
+
+#: ../Banter/PreferencesDialog.cs:136
+msgid "GoogleTalk Account Settings"
+msgstr "Rregullimet e profilit GoogleTalk"
+
+#: ../Banter/PreferencesDialog.cs:143
+msgid ""
+"In this alpha-phase of the project, this is the only IM account type we "
+"support (so stop your worryin'!)."
+msgstr ""
+"Në këtë fazë fillestare të projektit, ky është lloji i vetëm i profilit IM i "
+"suportuar (prandaj mos u hidh përpjetë nga gëzimi!)."
+
+#. Server address
+#: ../Banter/PreferencesDialog.cs:156
+msgid "Server Address:"
+msgstr "Adresa e serverit:"
+
+#. Server port
+#: ../Banter/PreferencesDialog.cs:170
+msgid "Server Port:"
+msgstr "Porta e serverit:"
+
+#. Username
+#: ../Banter/PreferencesDialog.cs:184
+msgid "Username:"
+msgstr "Përdoruesi:"
+
+#. Password
+#: ../Banter/PreferencesDialog.cs:195
+msgid "Password:"
+msgstr "Fjalëkalimi:"
+
+#: ../Banter/PreferencesDialog.cs:381
+msgid "your.username@gmail.com"
+msgstr "përdoruesi.juaj@gmail.com"
+
+#: ../Banter/Presence.cs:143
+msgid "Offline"
+msgstr "Jashtë linje"
+
+#. Available messages
+#: ../Banter/Presence.cs:145 ../Banter/StatusEntry.cs:143
+msgid "Available"
+msgstr "Në dispozicion"
+
+#. Away messages
+#: ../Banter/Presence.cs:147 ../Banter/StatusEntry.cs:194
+msgid "Away"
+msgstr "Nuk jam këtu"
+
+#: ../Banter/Presence.cs:149
+msgid "XA"
+msgstr "XA"
+
+#: ../Banter/Presence.cs:151
+msgid "Hidden"
+msgstr "I padukshëm"
+
+#. Busy messages
+#: ../Banter/Presence.cs:153 ../Banter/StatusEntry.cs:168
+msgid "Busy"
+msgstr "I zënë"
+
+#: ../Banter/StatusEntry.cs:161 ../Banter/StatusEntry.cs:187
+#: ../Banter/StatusEntry.cs:213
+msgid "Custom message..."
+msgstr "Mesazhi i personalizuar..."
+
+#: ../Banter/StatusEntry.cs:229
+msgid "Clear custom messages"
+msgstr "Pastro mesazhet e personalizuar"
+
+#: ../data/banter.desktop.in.h:2
+msgid "Instant Messenger AddressBook"
+msgstr "Rubrika e Instant Messenger"
+
+#: ../data/banter.desktop.in.h:3
+msgid "Real Time Collaboration Tool"
+msgstr "Instrument Real Time Collaboration"
+
+#: ../data/banter.schemas.in.h:1
+msgid "Auto Login"
+msgstr "Fillim automatik i seancës"
+
+#: ../data/banter.schemas.in.h:2
+msgid "Automatically login this account when rtc starts up"
+msgstr "Lidh automatikisht këtë profil kur niset rtc"
+
+#: ../data/banter.schemas.in.h:3
+msgid "Current saved list of Group Windows."
+msgstr "Lista aktuale e grupeve të ruajtur të dritareve."
+
+#: ../data/banter.schemas.in.h:4
+msgid "Jabber server"
+msgstr "Serveri Jabber"
+
+#: ../data/banter.schemas.in.h:5
+msgid "Jabber server port"
+msgstr "Porta e serverit Jabber"
+
+#: ../data/banter.schemas.in.h:6
+msgid "List containing the GUIDs of the currently saved group windows."
+msgstr "Listë me GUID e grupeve aktualë të ruajtur të dritareve."
+
+#: ../data/banter.schemas.in.h:7
+msgid "List containing the custom status messages indicating the user is available."
+msgstr ""
+"Listë me mesazhet e personalizuar të gjëndjes që tregojnë kur përdoruesi "
+"është i lirë."
+
+#: ../data/banter.schemas.in.h:8
+msgid "List containing the custom status messages indicating the user is busy."
+msgstr ""
+"Listë me mesazhet e personalizuar të gjëndjes që tregojnë kur përdoruesi "
+"është i zënë."
+
+#: ../data/banter.schemas.in.h:9
+msgid ""
+"List containing the name and paths of valid app styles that are installed "
+"onto this system. This should never be empty."
+msgstr ""
+"Listë me emrin dhe pozicionin e stileve të vlefshme të aplikativit që janë "
+"të instaluar në sistem. Asnjëherë nuk duhet të jetë bosh."
+
+#: ../data/banter.schemas.in.h:10
+msgid ""
+"List containing the name and paths of valid contact styles that are "
+"installed onto this system. This should never be empty."
+msgstr ""
+"Listë me emrin dhe pozicionin e stileve të vlefshme kontaktesh që janë "
+"të instaluar në sistem. Asnjëherë nuk duhet të jetë bosh."
+
+#: ../data/banter.schemas.in.h:11
+msgid ""
+"List containing the name and paths of valid message styles that are "
+"installed onto this system. This should never be empty."
+msgstr ""
+"Listë me emrin dhe pozicionin e stileve të vlefshme të mesazheve që janë "
+"të instaluar në sistem. Asnjëherë nuk duhet të jetë bosh."
+
+#: ../data/banter.schemas.in.h:12
+msgid ""
+"List containing the name and paths of valid themes that are installed onto "
+"this system. This should never be empty."
+msgstr ""
+"Listë me emrin dhe pozicionin e temave të vlefshme të instaluara në sistem. "
+"Asnjëherë nuk duhet të jetë bosh."
+
+#: ../data/banter.schemas.in.h:13
+msgid "List of custom available status messages"
+msgstr "Lista me mesazhet e personalizuar të gjendjes në dispozicion"
+
+#: ../data/banter.schemas.in.h:14
+msgid "List of custom busy status messages"
+msgstr "Lista me mesazhet e personalizuar të gjendjes i zënë"
+
+#: ../data/banter.schemas.in.h:15
+msgid "List of valid app styles"
+msgstr "Lista me stile të vlefshme aplikativi"
+
+#: ../data/banter.schemas.in.h:16
+msgid "List of valid contact styles"
+msgstr "Lista me stile të vlefshme kontaktesh"
+
+#: ../data/banter.schemas.in.h:17
+msgid "List of valid message styles"
+msgstr "Lista me stile të vlefshme mesazhesh"
+
+#: ../data/banter.schemas.in.h:18
+msgid "List of valid themes"
+msgstr "Lista e temave të vlefshme"
+
+#: ../data/banter.schemas.in.h:19
+msgid "SIP server"
+msgstr "Serveri SIP"
+
+#: ../data/banter.schemas.in.h:20
+msgid "SIP server port"
+msgstr "Porta e serverit SIP"
+
+#: ../data/banter.schemas.in.h:21
+msgid "Selected App Style"
+msgstr "Stili i zgjedhur i aplikativit"
+
+#: ../data/banter.schemas.in.h:22
+msgid "Selected Contact Style"
+msgstr "Stili i zgjedhur i kontakteve"
+
+#: ../data/banter.schemas.in.h:23
+msgid "Selected Message Style"
+msgstr "Stili i zgjedhur i mesazheve"
+
+#: ../data/banter.schemas.in.h:24
+msgid "Selected Message Style Name"
+msgstr "Emri i stilit të zgjedhur të mesazheve"
+
+#: ../data/banter.schemas.in.h:25
+msgid "Selected Message Style Variant"
+msgstr "Varianti i stilit të zgjedhur të mesazheve"
+
+#: ../data/banter.schemas.in.h:26
+msgid "Selected Theme"
+msgstr "Tema e zgjedhur"
+
+#: ../data/banter.schemas.in.h:27
+msgid "Server"
+msgstr "Serveri"
+
+#: ../data/banter.schemas.in.h:28
+msgid "Server Port"
+msgstr "Porta e serverit"
+
+#: ../data/banter.schemas.in.h:29
+msgid "Telepathy connection manager"
+msgstr "Manazhuesi i lidhjes telepatike"
+
+#: ../data/banter.schemas.in.h:30
+msgid "Telepathy connection manager with IM or Text capability for this account"
+msgstr "Manazhuesi i lidhjes telepatike me kapacitet IM ose tekst për këtë profil"
+
+#: ../data/banter.schemas.in.h:31
+msgid "The name and path of the app style that is currently selected."
+msgstr "Emri dhe vendodhja e stilit aplikativ aktualisht të zgjedhur."
+
+#: ../data/banter.schemas.in.h:32
+msgid "The name and path of the contact style that is currently selected."
+msgstr "Emri dhe vendodhja e stilit të kontaktit aktualisht të zgjedhur."
+
+#: ../data/banter.schemas.in.h:33
+msgid "The name and path of the message style that is currently selected."
+msgstr "Emri dhe vendodhja e stilit të mesazhit aktualisht të zgjedhur."
+
+#: ../data/banter.schemas.in.h:34
+msgid "The name and path of the theme that should be used."
+msgstr "Emri dhe vendodhja e temës që duhet përdorur."
+
+#: ../data/banter.schemas.in.h:35
+msgid ""
+"The name of the Message Style Variant that should be used. Set this to an "
+"empty string to not use a variant. The variant name depends on the selected "
+"message style."
+msgstr ""
+"Emri i variantit të stilit të mesazheve që duhet përdorur. Caktoje në një vlerë "
+"boshe për të mos përdorur variante. Emri i variantit varet nga stili i zgjedhur "
+"i mesazheve."
+
+#: ../data/banter.schemas.in.h:36
+msgid "The name of the Message Style that should be used for the chat window."
+msgstr "Emri i stilit të mesazheve që duhet përdorur për dritaren e bisedimeve."
+
+#: ../data/banter.schemas.in.h:37
+msgid "Use TLS"
+msgstr "Përdor TLS"
+
+#: ../data/banter.schemas.in.h:38
+msgid "Use old style ssl"
+msgstr "Përdor stilin e vjetër ssl"
+
+#: ../data/banter.schemas.in.h:39
+msgid "Use ssl"
+msgstr "Përdor ssl"
+
+#: ../data/banter.schemas.in.h:40
+msgid "Use the TLS transport"
+msgstr "Përdor transportin TLS"
+
