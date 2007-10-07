@@ -1,13 +1,12 @@
 #
 # Copyright (C) 2007 Jordi Mas i Hernàndez, jmas@softcatala.org
 # Traducció del Banter al català
-
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-08-03 12:11+0200\n"
-"PO-Revision-Date:  2007-08-03 15:30+0200\n"
+"POT-Creation-Date: 2007-10-04 17:06+0200\n"
+"PO-Revision-Date:  2007-10-07 12:30+0200\n"
 "Last-Translator: Jordi Mas i Hernàndez <jmas@softcatala.org>\n"
 "Language-Team: tradgnome@softcatala.net\n"
 "MIME-Version: 1.0\n"
@@ -58,91 +57,224 @@ msgstr "_Quant a"
 msgid "About Banter"
 msgstr "Quant al Banter"
 
-#: ../Banter/Application.cs:264
+#: ../Banter/Application.cs:274
 msgid "New Group Window ..."
 msgstr "Finestra de grup nova..."
 
-#: ../Banter/Application.cs:284
+#: ../Banter/Application.cs:294
 msgid "Quit"
 msgstr "Surt"
 
-#: ../Banter/Application.cs:547 ../Banter/GroupWindow.cs:552
+#. Everyone
+#: ../Banter/Application.cs:557 ../Banter/GroupWindow.cs:564
 msgid "Everyone"
 msgstr "Tothom"
 
-#: ../Banter/GroupWindow.cs:111 ../Banter/GroupWindow.cs:126
+#: ../Banter/AudioView.cs:49
+msgid "Audio Chat in progress..."
+msgstr ""
+
+#. Label label = new Label(Catalog.GetString("Video Chat in progress..."));
+#. label.Show();
+#. vbox.PackStart(label, false, true, 0);
+#: ../Banter/AudioView.cs:54 ../Banter/VideoView.cs:103
+msgid "End Call"
+msgstr "Finalitza la trucada"
+
+#: ../Banter/AvatarSelector.cs:91
+msgid "Select an Avatar"
+msgstr "Seleccioneu un avatar"
+
+#: ../Banter/GroupWindow.cs:113 ../Banter/GroupWindow.cs:129
+#: ../data/banter.desktop.in.h:1
 msgid "Banter"
 msgstr "Banter"
 
-#: ../Banter/GroupWindow.cs:497
+#: ../Banter/GroupWindow.cs:442
+msgid "Change your avatar"
+msgstr "Canvia l'avatar"
+
+#: ../Banter/GroupWindow.cs:443
+msgid "Click here to change your avatar"
+msgstr "Feu clic aquí per a canviar l'avatar"
+
+#: ../Banter/GroupWindow.cs:463 ../Banter/GroupWindow.cs:464
+msgid "Change your online status"
+msgstr "Canvia l'estat de connexió"
+
+#: ../Banter/GroupWindow.cs:510
 msgid "Filter"
 msgstr "Filtre"
 
-#: ../Banter/GroupWindow.cs:535
+#: ../Banter/GroupWindow.cs:548
 msgid "Groups"
 msgstr "Grups"
 
-#: ../Banter/GroupWindow.cs:558
-msgid "Sent Invitations"
-msgstr "Invitacions enviades"
-
-#: ../Banter/GroupWindow.cs:569
-msgid "New Group..."
-msgstr "Grup nou..."
-
-#: ../Banter/GroupWindow.cs:585
+#: ../Banter/GroupWindow.cs:595
 msgid "Actions"
 msgstr "Accions"
 
-#: ../Banter/GroupWindow.cs:602
+#. Settings
+#: ../Banter/GroupWindow.cs:611
 msgid "Settings"
 msgstr "Configuració"
 
-#: ../Banter/GroupWindow.cs:608
+#: ../Banter/GroupWindow.cs:618
 msgid "Add Person..."
 msgstr "Afegeix una persona..."
 
-#: ../Banter/GroupWindow.cs:634
+#: ../Banter/GroupWindow.cs:625
+msgid "Remove Person"
+msgstr "Suprimeix la persona"
+
+#: ../Banter/GroupWindow.cs:652
 msgid "Close Sidebar"
 msgstr "Tanca la barra lateral"
 
-#: ../Banter/GroupWindow.cs:814 ../Banter/GroupWindow.cs:951
+#: ../Banter/GroupWindow.cs:812 ../Banter/GroupWindow.cs:972
 msgid "Show Sidebar"
 msgstr "Mostra la barra lateral"
 
-#: ../Banter/GroupWindow.cs:868
+#: ../Banter/GroupWindow.cs:866
 msgid "Everyone - Banter"
 msgstr "Tothom - Banter"
 
-#: ../Banter/GroupWindow.cs:886
-msgid "Sent Invitations - Banter"
-msgstr ""
+#: ../Banter/GroupWindow.cs:880
+#
+msgid "Banter - New group window"
+msgstr "Banter - Finestra de grup nova"
 
-#: ../Banter/GroupWindow.cs:901
-msgid "New group window"
-msgstr "Finestra de grup nova"
+#: ../Banter/GroupWindow.cs:881
+msgid "Add new group"
+msgstr "Afegeix grup nou"
 
-#: ../Banter/GroupWindow.cs:902
+#: ../Banter/GroupWindow.cs:882
 msgid "Enter the name of the new group you'd like to create."
-msgstr ""
+msgstr "Introduïu el nom del grup nou que voleu crear."
 
-#: ../Banter/GroupWindow.cs:956
+#: ../Banter/GroupWindow.cs:916
+msgid "Done Removing"
+msgstr "S'ha finalitzat la supressió"
+
+#: ../Banter/GroupWindow.cs:918
+msgid "Remove People"
+msgstr "Suprimeix persones"
+
+#: ../Banter/GroupWindow.cs:927
+msgid "Banter - Add person"
+msgstr "Banter - Afegeix una persona"
+
+#: ../Banter/GroupWindow.cs:928
+msgid "Invite a new person"
+msgstr "Convideu una persona nova"
+
+#: ../Banter/GroupWindow.cs:929
+msgid "Enter the email address of the person you'd like to add."
+msgstr "Introduïu l'adreça de correu electrònic de la persona que voleu afegir."
+
+#: ../Banter/GroupWindow.cs:977
 msgid "Hide Sidebar"
 msgstr "Amaga la barra lateral"
 
-#: ../Banter/GroupWindow.cs:1056
+#: ../Banter/GroupWindow.cs:1077
 #, csharp-format
 msgid "{0} - Banter"
 msgstr "{0} - Banter"
 
-#: ../Banter/GroupWindow.cs:1073
+#: ../Banter/GroupWindow.cs:1093
+#
+msgid "Banter - Delete Group"
+msgstr "Banter - Suprimeix el grup"
+
+#: ../Banter/GroupWindow.cs:1095
 #, csharp-format
 msgid "Delete \"{0}\"?"
 msgstr ""
 
-#: ../Banter/GroupWindow.cs:1075
+#: ../Banter/GroupWindow.cs:1097
 msgid "This will delete the group and not the contacts inside of the group."
-msgstr ""
+msgstr "Aquesta acció suprimirà el grup i no els contactes dins del grup."
+
+#: ../Banter/MessagesView.cs:121
+msgid "me"
+msgstr "jo"
+
+#: ../Banter/MessagesView.cs:132
+msgid "sender"
+msgstr "remitent"
+
+#: ../Banter/NotificationManager.cs:203 ../Banter/NotificationManager.cs:439
+#, csharp-format
+msgid "Message from {0}"
+msgstr "Missatge des de {0}"
+
+#: ../Banter/NotificationManager.cs:235 ../Banter/NotificationManager.cs:286
+#: ../Banter/NotificationManager.cs:340
+msgid "Accept"
+msgstr "Accepta"
+
+#: ../Banter/NotificationManager.cs:236 ../Banter/NotificationManager.cs:287
+#: ../Banter/NotificationManager.cs:341
+msgid "Decline"
+msgstr "Rebutja"
+
+#: ../Banter/NotificationManager.cs:266
+msgid "Incoming Audio Chat"
+msgstr "Xat d'àudio d'entrada"
+
+#: ../Banter/NotificationManager.cs:267
+#, csharp-format
+msgid "{0} is requesting an audio chat"
+msgstr "{0} està sol·licitant un xat d'àudio"
+
+#: ../Banter/NotificationManager.cs:319
+msgid "Incoming Video Chat"
+msgstr "Xat de vídeo d'entrada"
+
+#: ../Banter/NotificationManager.cs:320
+#, csharp-format
+msgid "{0} is requesting a video chat"
+msgstr "{0} està sol·licitant un xat de vídeo"
+
+#: ../Banter/PersonCard.cs:283 ../Banter/PersonCard.cs:284
+msgid "Remove this person"
+msgstr "Suprimeix aquesta persona"
+
+#: ../Banter/PersonCard.cs:329
+msgid "Invited"
+msgstr "Convidat"
+
+#: ../Banter/PersonCard.cs:332
+msgid "Requesting"
+msgstr "S'està sol·licitant"
+
+#: ../Banter/PersonCard.cs:407
+msgid "Authorize this person"
+msgstr "Autoritza aquesta persona"
+
+#: ../Banter/PersonCard.cs:408
+msgid "Authorize this person to chat with you"
+msgstr "Autoritza aquesta persona a xatejar amb tu"
+
+#: ../Banter/PersonCard.cs:430 ../Banter/PersonCard.cs:431
+msgid "Start a video chat"
+msgstr "Inicia un xat de vídeo"
+
+#: ../Banter/PersonCard.cs:447 ../Banter/PersonCard.cs:448
+msgid "Start an audio chat"
+msgstr "Inicia un xat d'àudio"
+
+#: ../Banter/PersonCard.cs:462 ../Banter/PersonCard.cs:463
+msgid "Start a text chat"
+msgstr "Inicia un xat de text"
+
+#: ../Banter/PersonCard.cs:616
+msgid "Authorizing..."
+msgstr "S'està autoritzant..."
+
+#: ../Banter/PersonCard.cs:639
+msgid "Removing..."
+msgstr "S'està suprimint..."
 
 #: ../Banter/PreferencesDialog.cs:70
 msgid "Accounts"
@@ -154,7 +286,7 @@ msgstr "Missatges"
 
 #: ../Banter/PreferencesDialog.cs:136
 msgid "GoogleTalk Account Settings"
-msgstr ""
+msgstr "Paràmetres del compte de GoogleTalk"
 
 #: ../Banter/PreferencesDialog.cs:143
 msgid ""
@@ -186,9 +318,53 @@ msgstr "Contrasenya:"
 msgid "your.username@gmail.com"
 msgstr ""
 
+#: ../Banter/Presence.cs:143
+msgid "Offline"
+msgstr ""
+
+#. Available messages
+#: ../Banter/Presence.cs:145 ../Banter/StatusEntry.cs:143
+msgid "Available"
+msgstr "Disponible"
+
+#. Away messages
+#: ../Banter/Presence.cs:147 ../Banter/StatusEntry.cs:194
+msgid "Away"
+msgstr "Lluny"
+
+#: ../Banter/Presence.cs:149
+msgid "XA"
+msgstr ""
+
+#: ../Banter/Presence.cs:151
+msgid "Hidden"
+msgstr "Amagat"
+
+#. Busy messages
+#: ../Banter/Presence.cs:153 ../Banter/StatusEntry.cs:168
+msgid "Busy"
+msgstr "Ocupat"
+
+#: ../Banter/StatusEntry.cs:161 ../Banter/StatusEntry.cs:187
+#: ../Banter/StatusEntry.cs:213
+msgid "Custom message..."
+msgstr "Missatge personalitzat..."
+
+#: ../Banter/StatusEntry.cs:229
+msgid "Clear custom messages"
+msgstr "Neteja els missatges personalitzats"
+
+#: ../data/banter.desktop.in.h:2
+msgid "Instant Messenger AddressBook"
+msgstr "Llibreta d'adreces de la missatgeria instantània"
+
+#: ../data/banter.desktop.in.h:3
+msgid "Real Time Collaboration Tool"
+msgstr "Eina de col·laboració en temps real"
+
 #: ../data/banter.schemas.in.h:1
 msgid "Auto Login"
-msgstr ""
+msgstr "Entrada automàtica"
 
 #: ../data/banter.schemas.in.h:2
 msgid "Automatically login this account when rtc starts up"
@@ -223,7 +399,9 @@ msgstr ""
 msgid ""
 "List containing the name and paths of valid app styles that are installed "
 "onto this system. This should never be empty."
-msgstr ""
+msgstr "Llista que conté el nom i el camí del estils d'aplicació vàlids que "
+"estan instal·lats en aquest sistema. Aquesta llista mai hauria d'estar buida."
+        
 
 #: ../data/banter.schemas.in.h:10
 msgid ""
@@ -236,80 +414,84 @@ msgid ""
 "List containing the name and paths of valid message styles that are "
 "installed onto this system. This should never be empty."
 msgstr ""
+"Llista que conté el nom i els camins dels estils de missatge vàlids que "
+"estan instal·lats en aquest sistema. Aquesta llista mai hauria d'estar buida."
 
 #: ../data/banter.schemas.in.h:12
 msgid ""
 "List containing the name and paths of valid themes that are installed onto "
 "this system. This should never be empty."
 msgstr ""
+"Llista que conté el nom i els camins de les aparences de missatge vàlids que "
+"estan instal·lats en aquest sistema. Aquesta llista mai hauria d'estar buida."
 
 #: ../data/banter.schemas.in.h:13
 msgid "List of custom available status messages"
-msgstr ""
+msgstr "Llista de missatges d'estat personalitzats disponibles"
 
 #: ../data/banter.schemas.in.h:14
 msgid "List of custom busy status messages"
-msgstr ""
+msgstr "Llista de missatges d'estat ocupats personalitzats disponibles"
 
 #: ../data/banter.schemas.in.h:15
 msgid "List of valid app styles"
-msgstr ""
+msgstr "Llista d'estils d'aplicació vàlids"
 
 #: ../data/banter.schemas.in.h:16
 msgid "List of valid contact styles"
-msgstr ""
+msgstr "Llista d'estils de contacte vàlids"
 
 #: ../data/banter.schemas.in.h:17
 msgid "List of valid message styles"
-msgstr ""
+msgstr "Llista d'estils missatge vàlids"
 
 #: ../data/banter.schemas.in.h:18
 msgid "List of valid themes"
-msgstr ""
+msgstr "Llista d'aparences vàlides"
 
 #: ../data/banter.schemas.in.h:19
 msgid "SIP server"
-msgstr ""
+msgstr "Servidor SIP"
 
 #: ../data/banter.schemas.in.h:20
 msgid "SIP server port"
-msgstr ""
+msgstr "Port del servidor SIP"
 
 #: ../data/banter.schemas.in.h:21
 msgid "Selected App Style"
-msgstr ""
+msgstr "Estil d'aplicació seleccionat"
 
 #: ../data/banter.schemas.in.h:22
 msgid "Selected Contact Style"
-msgstr ""
+msgstr "Estil de contacte seleccionat"
 
 #: ../data/banter.schemas.in.h:23
 msgid "Selected Message Style"
-msgstr ""
+msgstr "Estil de missatge seleccionat"
 
 #: ../data/banter.schemas.in.h:24
 msgid "Selected Message Style Name"
-msgstr ""
+msgstr "Nom de l'estil de missatge seleccionat"
 
 #: ../data/banter.schemas.in.h:25
 msgid "Selected Message Style Variant"
-msgstr ""
+msgstr "Variant de l'estil de missatge seleccionada"
 
 #: ../data/banter.schemas.in.h:26
 msgid "Selected Theme"
-msgstr ""
+msgstr "Aparença seleccionada"
 
 #: ../data/banter.schemas.in.h:27
 msgid "Server"
-msgstr ""
+msgstr "Servidor"
 
 #: ../data/banter.schemas.in.h:28
 msgid "Server Port"
-msgstr ""
+msgstr "Port del servidor"
 
 #: ../data/banter.schemas.in.h:29
 msgid "Telepathy connection manager"
-msgstr ""
+msgstr "Gestor de connexions del Telepathy"
 
 #: ../data/banter.schemas.in.h:30
 msgid ""
@@ -358,5 +540,4 @@ msgstr "Utilitza SSL"
 #: ../data/banter.schemas.in.h:40
 msgid "Use the TLS transport"
 msgstr "Utilitza el transport TLS"
-
 
