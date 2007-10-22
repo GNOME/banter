@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: banter\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-09-10 20:56+0200\n"
-"PO-Revision-Date: 2007-09-10 21:01+0100\n"
+"POT-Creation-Date: 2007-10-22 21:01+0200\n"
+"PO-Revision-Date: 2007-10-22 21:08+0100\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
@@ -375,7 +375,7 @@ msgstr ""
 
 #: ../data/banter.desktop.in.h:3
 msgid "Real Time Collaboration Tool"
-msgstr ""
+msgstr "Verktyg för realtidssamarbete"
 
 #: ../data/banter.schemas.in.h:1
 msgid "Auto Login"
