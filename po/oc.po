@@ -11,14 +11,13 @@ msgstr ""
 "Project-Id-Version: oc\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-08-16 22:00+0100\n"
-"PO-Revision-Date: 2007-11-20 14:29+0100\n"
+"PO-Revision-Date: 2007-11-21 18:17+0100\n"
 "Last-Translator: Yannig Marchegay (Kokoyaya) <yannig@marchegay.org>\n"
 "Language-Team: Occitan <ubuntu-l10n-oci@lists.ubuntu.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);X-Generator: KBabel 1.11.4\n"
-"X-Generator: KBabel 1.11.4\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);X-Generator: KBabel 1.11.4"
 
 #: ../Banter/ActionManager.cs:63
 msgid "_File"
@@ -30,7 +29,7 @@ msgstr "_Sortir"
 
 #: ../Banter/ActionManager.cs:67
 msgid "Quit Banter"
-msgstr ""
+msgstr "Sortir de Banter"
 
 #: ../Banter/ActionManager.cs:70
 msgid "_Edit"
@@ -54,7 +53,7 @@ msgstr "_Somari"
 
 #: ../Banter/ActionManager.cs:81
 msgid "Banter Help"
-msgstr ""
+msgstr "Ajuda de Banter"
 
 #: ../Banter/ActionManager.cs:84
 msgid "_About"
@@ -95,7 +94,7 @@ msgstr ""
 #: ../Banter/GroupWindow.cs:113 ../Banter/GroupWindow.cs:129
 #: ../data/banter.desktop.in.h:1
 msgid "Banter"
-msgstr ""
+msgstr "Banter"
 
 #: ../Banter/GroupWindow.cs:442
 msgid "Change your avatar"
@@ -185,7 +184,7 @@ msgstr ""
 #: ../Banter/GroupWindow.cs:1077
 #, csharp-format
 msgid "{0} - Banter"
-msgstr ""
+msgstr "{0} - Banter"
 
 #: ../Banter/GroupWindow.cs:1093
 msgid "Banter - Delete Group"
@@ -194,7 +193,7 @@ msgstr ""
 #: ../Banter/GroupWindow.cs:1095
 #, csharp-format
 msgid "Delete \"{0}\"?"
-msgstr ""
+msgstr "Suprimir \"{0}\" ?"
 
 #: ../Banter/GroupWindow.cs:1097
 msgid "This will delete the group and not the contacts inside of the group."
@@ -202,7 +201,7 @@ msgstr ""
 
 #: ../Banter/MessagesView.cs:121
 msgid "me"
-msgstr ""
+msgstr "ieu"
 
 #: ../Banter/MessagesView.cs:132
 msgid "sender"
@@ -243,7 +242,7 @@ msgstr ""
 
 #: ../Banter/PersonCard.cs:283 ../Banter/PersonCard.cs:284
 msgid "Remove this person"
-msgstr ""
+msgstr "Suprimir aquesta persona"
 
 #: ../Banter/PersonCard.cs:329
 msgid "Invited"
@@ -321,7 +320,7 @@ msgstr "Mot de pas :"
 
 #: ../Banter/PreferencesDialog.cs:381
 msgid "your.username@gmail.com"
-msgstr ""
+msgstr "vòstre.nom_d_utilizaire@gmail.com"
 
 #: ../Banter/Presence.cs:143
 msgid "Offline"
@@ -353,7 +352,7 @@ msgstr "Ocupat"
 #: ../Banter/StatusEntry.cs:161 ../Banter/StatusEntry.cs:187
 #: ../Banter/StatusEntry.cs:213
 msgid "Custom message..."
-msgstr ""
+msgstr "Messatge personalizat..."
 
 #: ../Banter/StatusEntry.cs:229
 msgid "Clear custom messages"
