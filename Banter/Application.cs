@@ -107,6 +107,7 @@ namespace Banter
 			Logger.Debug ("Banter::Application::Init - called");
 			initialized = false;
 			Gtk.Application.Init ();
+			Catalog.Init ("banter", Defines.GnomeLocaleDir);
 			program = 
 				new Gnome.Program (
 						"banter",
