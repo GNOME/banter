@@ -72,7 +72,7 @@ msgstr "Tothom"
 
 #: ../Banter/AudioView.cs:49
 msgid "Audio Chat in progress..."
-msgstr ""
+msgstr "Xat d'àudio en curs..."
 
 #. Label label = new Label(Catalog.GetString("Video Chat in progress..."));
 #. label.Show();
@@ -189,7 +189,7 @@ msgstr "Banter - Suprimeix el grup"
 #: ../Banter/GroupWindow.cs:1095
 #, csharp-format
 msgid "Delete \"{0}\"?"
-msgstr ""
+msgstr "Suprimeix «{0}»?"
 
 #: ../Banter/GroupWindow.cs:1097
 msgid "This will delete the group and not the contacts inside of the group."
@@ -316,11 +316,11 @@ msgstr "Contrasenya:"
 
 #: ../Banter/PreferencesDialog.cs:381
 msgid "your.username@gmail.com"
-msgstr ""
+msgstr "nom.usuari@gmail.com"
 
 #: ../Banter/Presence.cs:143
 msgid "Offline"
-msgstr ""
+msgstr "Fora de línia"
 
 #. Available messages
 #: ../Banter/Presence.cs:145 ../Banter/StatusEntry.cs:143
@@ -334,7 +334,7 @@ msgstr "Lluny"
 
 #: ../Banter/Presence.cs:149
 msgid "XA"
-msgstr ""
+msgstr "XA"
 
 #: ../Banter/Presence.cs:151
 msgid "Hidden"
@@ -368,11 +368,11 @@ msgstr "Entrada automàtica"
 
 #: ../data/banter.schemas.in.h:2
 msgid "Automatically login this account when rtc starts up"
-msgstr ""
+msgstr "Entra amb aquest compte automàticament que s'inicia el rtc"
 
 #: ../data/banter.schemas.in.h:3
 msgid "Current saved list of Group Windows."
-msgstr ""
+msgstr "Llista de grups de finestres actualment desades."
 
 #: ../data/banter.schemas.in.h:4
 msgid "Jabber server"
@@ -384,22 +384,22 @@ msgstr "Port del servidor Jabber"
 
 #: ../data/banter.schemas.in.h:6
 msgid "List containing the GUIDs of the currently saved group windows."
-msgstr ""
+msgstr "Llista que conté els GUID dels grups de finestres desats actualment."
 
 #: ../data/banter.schemas.in.h:7
 msgid ""
 "List containing the custom status messages indicating the user is available."
-msgstr ""
+msgstr "Llista que conté els missatges d'estat personalitzats que indiquen que l'usuari està disponible."
 
 #: ../data/banter.schemas.in.h:8
 msgid "List containing the custom status messages indicating the user is busy."
-msgstr ""
+msgstr "Llista que conté els missatges d'estat personalitzats que indiquen que l'usuari està ocupat."
 
 #: ../data/banter.schemas.in.h:9
 msgid ""
 "List containing the name and paths of valid app styles that are installed "
 "onto this system. This should never be empty."
-msgstr "Llista que conté el nom i el camí del estils d'aplicació vàlids que "
+msgstr "Llista que conté el nom i els camins dels estils d'aplicació vàlids que "
 "estan instal·lats en aquest sistema. Aquesta llista mai hauria d'estar buida."
         
 
@@ -407,7 +407,8 @@ msgstr "Llista que conté el nom i el camí del estils d'aplicació vàlids que 
 msgid ""
 "List containing the name and paths of valid contact styles that are "
 "installed onto this system. This should never be empty."
-msgstr ""
+msgstr "Llista que conté el nom i els camins dels estils de contacte vàlids que "
+"estan instal·lats en aquest sistema. Aquesta llista mai hauria d'estar buida."
 
 #: ../data/banter.schemas.in.h:11
 msgid ""
@@ -497,22 +498,23 @@ msgstr "Gestor de connexions del Telepathy"
 msgid ""
 "Telepathy connection manager with IM or Text capability for this account"
 msgstr ""
+"Gestor de connexions del Telepathy amb IM or capacitat de text per aquest compte"
 
 #: ../data/banter.schemas.in.h:31
 msgid "The name and path of the app style that is currently selected."
-msgstr ""
+msgstr "El nom i el camí de l'estil d'aplicació que està actualment seleccionat."
 
 #: ../data/banter.schemas.in.h:32
 msgid "The name and path of the contact style that is currently selected."
-msgstr ""
+msgstr "El nom i el camí de l'estil de contacte que està actualment seleccionat."
 
 #: ../data/banter.schemas.in.h:33
 msgid "The name and path of the message style that is currently selected."
-msgstr ""
+msgstr "El nom i el camí de l'estil de missatge que està actualment seleccionat."
 
 #: ../data/banter.schemas.in.h:34
 msgid "The name and path of the theme that should be used."
-msgstr ""
+msgstr "El nom i el camí del tema que s'ha d'utilitzar."
 
 #: ../data/banter.schemas.in.h:35
 msgid ""
@@ -523,7 +525,7 @@ msgstr ""
 
 #: ../data/banter.schemas.in.h:36
 msgid "The name of the Message Style that should be used for the chat window."
-msgstr ""
+msgstr  "El nom de l'estil de missatge que s'ha d'utilitzar a la finestra de xat."
 
 #: ../data/banter.schemas.in.h:37
 msgid "Use TLS"
