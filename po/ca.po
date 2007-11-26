@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-10-04 17:06+0200\n"
-"PO-Revision-Date:  2007-10-07 12:30+0200\n"
+"PO-Revision-Date:  2007-11-26 12:30+0200\n"
 "Last-Translator: Jordi Mas i Hernàndez <jmas@softcatala.org>\n"
 "Language-Team: tradgnome@softcatala.net\n"
 "MIME-Version: 1.0\n"
@@ -23,7 +23,7 @@ msgstr "_Surt"
 
 #: ../Banter/ActionManager.cs:67
 msgid "Quit Banter"
-msgstr "_S&urt del Banter"
+msgstr "_Surt del Banter"
 
 #: ../Banter/ActionManager.cs:70
 msgid "_Edit"
@@ -146,7 +146,7 @@ msgstr "Banter - Finestra de grup nova"
 
 #: ../Banter/GroupWindow.cs:881
 msgid "Add new group"
-msgstr "Afegeix grup nou"
+msgstr "Afegeix un grup nou"
 
 #: ../Banter/GroupWindow.cs:882
 msgid "Enter the name of the new group you'd like to create."
@@ -225,7 +225,7 @@ msgstr "Xat d'àudio d'entrada"
 #: ../Banter/NotificationManager.cs:267
 #, csharp-format
 msgid "{0} is requesting an audio chat"
-msgstr "{0} està sol·licitant un xat d'àudio"
+msgstr "{0} sol·licita un xat d'àudio"
 
 #: ../Banter/NotificationManager.cs:319
 msgid "Incoming Video Chat"
@@ -234,7 +234,7 @@ msgstr "Xat de vídeo d'entrada"
 #: ../Banter/NotificationManager.cs:320
 #, csharp-format
 msgid "{0} is requesting a video chat"
-msgstr "{0} està sol·licitant un xat de vídeo"
+msgstr "{0} sol·licita un xat de vídeo"
 
 #: ../Banter/PersonCard.cs:283 ../Banter/PersonCard.cs:284
 msgid "Remove this person"
@@ -254,7 +254,7 @@ msgstr "Autoritza aquesta persona"
 
 #: ../Banter/PersonCard.cs:408
 msgid "Authorize this person to chat with you"
-msgstr "Autoritza aquesta persona a xatejar amb tu"
+msgstr "Permet que aquesta persona xategi amb tu"
 
 #: ../Banter/PersonCard.cs:430 ../Banter/PersonCard.cs:431
 msgid "Start a video chat"
@@ -368,11 +368,11 @@ msgstr "Entrada automàtica"
 
 #: ../data/banter.schemas.in.h:2
 msgid "Automatically login this account when rtc starts up"
-msgstr "Entra amb aquest compte automàticament que s'inicia el rtc"
+msgstr "Entra amb aquest compte automàticament que s'inicia el RTC"
 
 #: ../data/banter.schemas.in.h:3
 msgid "Current saved list of Group Windows."
-msgstr "Llista de grups de finestres actualment desades."
+msgstr "Llista de grups de finestres desades actualment."
 
 #: ../data/banter.schemas.in.h:4
 msgid "Jabber server"
@@ -400,7 +400,7 @@ msgid ""
 "List containing the name and paths of valid app styles that are installed "
 "onto this system. This should never be empty."
 msgstr "Llista que conté el nom i els camins dels estils d'aplicació vàlids que "
-"estan instal·lats en aquest sistema. Aquesta llista mai hauria d'estar buida."
+"estan instal·lats en el sistema. Aquesta llista mai hauria de ser buida."
         
 
 #: ../data/banter.schemas.in.h:10
@@ -408,7 +408,7 @@ msgid ""
 "List containing the name and paths of valid contact styles that are "
 "installed onto this system. This should never be empty."
 msgstr "Llista que conté el nom i els camins dels estils de contacte vàlids que "
-"estan instal·lats en aquest sistema. Aquesta llista mai hauria d'estar buida."
+"estan instal·lats en el sistema. Aquesta llista mai hauria de ser buida."
 
 #: ../data/banter.schemas.in.h:11
 msgid ""
@@ -416,7 +416,7 @@ msgid ""
 "installed onto this system. This should never be empty."
 msgstr ""
 "Llista que conté el nom i els camins dels estils de missatge vàlids que "
-"estan instal·lats en aquest sistema. Aquesta llista mai hauria d'estar buida."
+"estan instal·lats en el sistema. Aquesta llista mai hauria de ser buida."
 
 #: ../data/banter.schemas.in.h:12
 msgid ""
@@ -424,7 +424,7 @@ msgid ""
 "this system. This should never be empty."
 msgstr ""
 "Llista que conté el nom i els camins de les aparences de missatge vàlids que "
-"estan instal·lats en aquest sistema. Aquesta llista mai hauria d'estar buida."
+"estan instal·lats en el sistema. Aquesta llista mai hauria de ser buida."
 
 #: ../data/banter.schemas.in.h:13
 msgid "List of custom available status messages"
@@ -444,7 +444,7 @@ msgstr "Llista d'estils de contacte vàlids"
 
 #: ../data/banter.schemas.in.h:17
 msgid "List of valid message styles"
-msgstr "Llista d'estils missatge vàlids"
+msgstr "Llista d'estils de missatge vàlids"
 
 #: ../data/banter.schemas.in.h:18
 msgid "List of valid themes"
@@ -498,7 +498,7 @@ msgstr "Gestor de connexions del Telepathy"
 msgid ""
 "Telepathy connection manager with IM or Text capability for this account"
 msgstr ""
-"Gestor de connexions del Telepathy amb IM or capacitat de text per aquest compte"
+"Gestor de connexions del Telepathy amb IM o capacitat de text per aquest compte"
 
 #: ../data/banter.schemas.in.h:31
 msgid "The name and path of the app style that is currently selected."
@@ -533,7 +533,7 @@ msgstr "Utilitza TLS"
 
 #: ../data/banter.schemas.in.h:38
 msgid "Use old style ssl"
-msgstr "Utilitza l'antic SSL"
+msgstr "Utilitza l'estil antic de SSL"
 
 #: ../data/banter.schemas.in.h:39
 msgid "Use ssl"
