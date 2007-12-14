@@ -356,17 +356,24 @@ namespace Banter
 			if (!connection.SupportAvatars)
 				return;
 			*/
+			
 				
 			uint[] ids = {id};
 			string[] tokens = tlpConnection.GetAvatarTokens(ids);
 			if (tokens == null || tokens[0].Length <= 0)
 				return;
-				
-			org.freedesktop.Telepathy.Avatar avatarData	= 
+			org.freedesktop.Telepathy.Avatar avatarData;
+			try{
+				avatarData= 
 				tlpConnection.RequestAvatar (id);
+				if (AvatarReceived != null)				
+					AvatarReceived (this, tokens[0], avatarData.MimeType, avatarData.Data);
+			}catch(Exception e){
+				Logger.Error("{0}",e);
+				//avatarData = tlpConnection.RequestAvatar (id);
 				
-			if (AvatarReceived != null)				
-				AvatarReceived (this, tokens[0], avatarData.MimeType, avatarData.Data);
+			}
+			
 		}
 
 		public void SetStatus (Presence myPresence)

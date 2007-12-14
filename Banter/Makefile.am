@@ -59,6 +59,7 @@ CSFILES = \
 	$(srcdir)/HIGMessageDialog.cs \
 	$(srcdir)/StatusEntry.cs \
 	$(srcdir)/SidebarTextButton.cs \
+	$(srcdir)/SerializableDictionary.cs \
 	$(srcdir)/UriList.cs
 
 RESOURCES = \

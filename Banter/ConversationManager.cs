@@ -163,7 +163,7 @@ namespace Banter
 			
 			switch (channelType)
 			{
-				case org.freedesktop.Telepathy.ChannelType.Text:
+				case "org.freedesktop.Telepathy.Channel.Type.Text":
 				{
 					IChannelText txtChannel = null;
 					if (handle == 0) return;
@@ -206,7 +206,7 @@ namespace Banter
 					break;
 				}
 				
-				case org.freedesktop.Telepathy.ChannelType.StreamedMedia:
+				case "org.freedesktop.Telepathy.ChannelType.StreamedMedia":
 				{
 					// Check if we have an existing conversation with the peer user
 					IChannelStreamedMedia mediaChannel = null;

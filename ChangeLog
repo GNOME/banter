@@ -1,3 +1,10 @@
+2007-12-13  Kevin Kubasik <Kevin@Kubasik.net> 
+
+	* Banter.mdp, configure.ac, Banter/StatusEntry.cs,
+	  Banter/ConversationManager.cs, Banter/GroupWindow.cs,
+	  Banter/ProviderUser.cs, Banter/SerializableDictionary.cs,
+	  Banter/Makefile.am: Save status' to the disk so custom status' persist.
+
 2007-11-25  Jordi Mas <jmas@softcatala.org>
 
 	* Banter/Application.cs: Call Catalog.Init to init the catalog and

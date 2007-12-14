@@ -457,6 +457,7 @@ namespace Banter
 			
 			statusEntry = new StatusEntry ();
 			statusEntry.PresenceChanged += OnStatusEntryChanged;
+			statusEntry.LoadStatus ();
 			statusEntry.Show ();
 			vbox.PackStart (statusEntry, false, false, 0);
 			dialogTips.SetTip (statusEntry,

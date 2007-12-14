@@ -23,7 +23,9 @@ using System;
 using System.Collections.Generic;
 using Gtk;
 using Mono.Unix;
-
+using System.IO;
+using System.Xml;
+using System.Xml.Serialization;
 namespace Banter
 {
 	public delegate void StatusEntryChangedHandler (Presence presence);
@@ -31,14 +33,14 @@ namespace Banter
 	public class StatusEntry : Gtk.EventBox 
 	{
 		Notebook notebook; 
-
+		public string banter_dir = System.IO.Path.Combine(Environment.GetEnvironmentVariable("HOME") ,".banter");
 		Label statusLabel;
 		Button statusDownButton;
 		Entry statusEntry;
 		
-		Dictionary<string, string> customAvailableMessages;
-		Dictionary<string, string> customBusyMessages;
-		Dictionary<string, string> customAwayMessages;
+		SerializableDictionary<string, string> customAvailableMessages;
+		SerializableDictionary<string, string> customBusyMessages;
+		SerializableDictionary<string, string> customAwayMessages;
 		
 		Presence presence;
 		PresenceType potentialPresenceType;
@@ -48,9 +50,9 @@ namespace Banter
 			ModifyBg (StateType.Normal, Style.Background (StateType.Active));
 			BorderWidth = 0;
 
-			customAvailableMessages = new Dictionary<string,string> ();
-			customBusyMessages = new Dictionary<string,string> ();
-			customAwayMessages = new Dictionary<string,string> ();
+			customAvailableMessages = new SerializableDictionary<string,string> ();
+			customBusyMessages = new SerializableDictionary<string,string> ();
+			customAwayMessages = new SerializableDictionary<string,string> ();
 			
 			presence = null;
 			potentialPresenceType = PresenceType.Offline;
@@ -117,6 +119,59 @@ namespace Banter
 			notebook.Page = 1;
 		}
 		
+		public void SaveStatus()
+		{
+			if(!Directory.Exists(banter_dir)){
+				Directory.CreateDirectory(banter_dir);
+			}
+			Logger.Debug("Serializing");
+			XmlSerializer xser = new XmlSerializer((customAvailableMessages.GetType()));
+			File.Delete(System.IO.Path.Combine(banter_dir,"statusavailable.xml"));
+			File.Delete(System.IO.Path.Combine(banter_dir,"statusaway.xml"));
+			File.Delete(System.IO.Path.Combine(banter_dir,"statusbusy.xml"));
+			Stream s =File.OpenWrite(System.IO.Path.Combine(banter_dir,"statusavailable.xml"));
+			xser.Serialize(s,this.customAvailableMessages);
+			s.Close();
+			xser =  new XmlSerializer((customAwayMessages.GetType()));
+			s = File.OpenWrite(System.IO.Path.Combine(banter_dir,"statusaway.xml"));
+			xser.Serialize(s,this.customAwayMessages);
+			s.Close();
+			xser =  new XmlSerializer((customBusyMessages.GetType()));
+			s = File.OpenWrite(System.IO.Path.Combine(banter_dir,"statusbusy.xml"));
+			xser.Serialize(s,this.customBusyMessages);
+			s.Close();
+		}
+		
+		public void LoadStatus()
+		{
+			try{
+			if(!Directory.Exists(banter_dir)){
+				Directory.CreateDirectory(banter_dir);
+			}
+			XmlSerializer xser = new XmlSerializer((customAvailableMessages.GetType()));
+			XmlReader xread = new XmlTextReader(File.OpenRead(System.IO.Path.Combine(banter_dir,"statusavailable.xml")));
+			if(xser.CanDeserialize(xread)){
+				customAvailableMessages =(SerializableDictionary<string,string>) xser.Deserialize(xread);
+			}
+			xread.Close();
+			
+			xser = new XmlSerializer((customAwayMessages.GetType()));
+			xread = new XmlTextReader(File.OpenRead(System.IO.Path.Combine(banter_dir,"statusaway.xml")));
+			if(xser.CanDeserialize(xread)){
+				this.customAwayMessages =(SerializableDictionary<string,string>) xser.Deserialize(xread);
+			}
+			xread.Close();
+			
+			xser = new XmlSerializer((customBusyMessages.GetType()));
+			xread = new XmlTextReader(File.OpenRead(System.IO.Path.Combine(banter_dir,"statusbusy.xml")));
+			if(xser.CanDeserialize(xread)){
+				this.customBusyMessages =(SerializableDictionary<string,string>) xser.Deserialize(xread);
+			}
+			xread.Close();
+			}catch(Exception e){
+				Logger.Error("{0}",e);
+			}
+		}
 		private void SwitchToEditMode (PresenceType type)
 		{
 			this.potentialPresenceType = type;
@@ -287,7 +342,7 @@ namespace Banter
 				else
 					Presence = new Presence (presence.Type, potentialMessage);
 			}
-
+			this.SaveStatus ();
 			SwitchToViewMode ();
 		}
 		
