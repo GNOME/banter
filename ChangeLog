@@ -1,3 +1,8 @@
+2007-12-14  Kevin Kubasik <Kevin@Kubasik.net> 
+
+	* Banter.mdp, configure.ac, Banter/ChatType.cs, Banter/ChatWindow.cs,
+	  Banter/Makefile.am: Add SpellCheck support to the chat window.
+
 2007-12-13  Kevin Kubasik <Kevin@Kubasik.net> 
 
 	* Banter.mdp, configure.ac, Banter/StatusEntry.cs,

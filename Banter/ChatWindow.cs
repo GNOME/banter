@@ -23,6 +23,7 @@ using System;
 using System.Collections.Generic;
 using Gtk;
 using Mono.Unix;
+using GtkSpell;
 
 namespace Banter
 {
@@ -36,7 +37,7 @@ namespace Banter
 		private Conversation conv;
 		private bool everShown;
 		private bool shiftKeyPressed;
-		
+		private GtkSpell.SpellCheck spell_check;
 		// Widgets
 		private HPaned hpaned;
 		private VBox leftPaneVBox;
@@ -287,7 +288,7 @@ namespace Banter
 			typingTextView.KeyReleaseEvent += OnTypingTextViewKeyReleaseEvent;
 			typingTextView.Show ();
 			typingScrolledWindow.Add (typingTextView);
-			
+			spell_check = new SpellCheck(typingTextView,"en-us");
 			Shown += OnWindowShown;
 			DeleteEvent += WindowDeleted;
 			this.FocusInEvent += FocusInEventHandler;

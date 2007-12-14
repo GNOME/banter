@@ -31,7 +31,8 @@ namespace Banter
 	{
 		Text = 1,
 		Audio,
-		Video
+		Video,
+		File
 	}
 
 		
@@ -45,6 +46,7 @@ namespace Banter
 	{
 		None,
 		Audio,
-		Video
+		Video,
+		File
 	}
 }
