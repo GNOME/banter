@@ -88,28 +88,44 @@ namespace Banter
 		}
 		private void OnEditPicture (object sender, EventArgs args)
 		{
-			FileSelection fs = new FileSelection(Catalog.GetString("Select an Avatar"));
-			int fsreturn = fs.Run();
-			fs.Hide();
+//			FileSelection fs = new FileSelection(Catalog.GetString("Select an Avatar"));
+//			int fsreturn = fs.Run();
+//			fs.Hide();
+			FileChooserDialog fc = new FileChooserDialog(Catalog.GetString("Select an Avatar"),null, FileChooserAction.Open,
+														 "Cancel",ResponseType.Cancel,
+														 "Open",ResponseType.Accept);
 			
-			if(fsreturn == -5) {
+														
+			FileFilter filter = new FileFilter();
+			filter.Name = Catalog.GetString("PNG and JPEG images");
+			filter.AddMimeType("image/png");
+			filter.AddPattern("*.png");
+			filter.AddMimeType("image/jpeg");
+			filter.AddPattern("*.jpg");
+			fc.AddFilter(filter);
+			int fcreturn = fc.Run();
+			string filename = fc.Filename;
+			fc.Destroy();
+			if(fcreturn == (int)ResponseType.Accept) {
 				Gdk.Pixbuf avatar;
 				try {
-					avatar = new Gdk.Pixbuf(fs.Filename);
+					avatar = new Gdk.Pixbuf(filename);
 					this.Pixbuf = avatar;
 					AvatarManager.AddAvatar(avatar);
+					if(PersonManager.Me != null) {
+						Logger.Debug("Setting Avatar");
+						PersonManager.Me.SetAvatar(avatar);
+					}
 				} catch(Exception ex) {
-					Logger.Debug("Exception loading image from file: {0}", fs.Filename);
+					Logger.Debug("Exception loading image from file: {0}", filename);
 					Logger.Debug(ex.Message);
 					return;
 				}
 				
-				Logger.Debug("FIXME: This should set the avatar but telepathy is broken!");
+				//Logger.Debug("FIXME: This should set the avatar but telepathy is broken!");
 				// The following lines eventually call down into telepathy connection to set an avatar
 				// and it crashes the app with an error that Avatars method doesn't exist
-				//if(PersonManager.Me != null) {
-				//	PersonManager.Me.SetAvatar(avatar);
-				//}
+				
 			}
 		}
 
