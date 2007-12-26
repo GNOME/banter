@@ -1,0 +1,575 @@
+# Arabic translations for PACKAGE package.
+# Copyright (C) 2007 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Automatically generated, 2007.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Banter HEAD\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2007-12-26 10:37+0000\n"
+"PO-Revision-Date: 2007-12-26 10:50+0100\n"
+"Last-Translator: Djihed Afifi <djihed@gmail.com>\n"
+"Language-Team: Arabic <doc@arabeyes.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Arabic\n"
+
+#: ../Banter/ActionManager.cs:63
+msgid "_File"
+msgstr "_ملف"
+
+#: ../Banter/ActionManager.cs:66
+msgid "_Quit"
+msgstr "ا_خرج"
+
+#: ../Banter/ActionManager.cs:67
+msgid "Quit Banter"
+msgstr "_اخرج من بانتر"
+
+#: ../Banter/ActionManager.cs:70
+msgid "_Edit"
+msgstr "_حرّر"
+
+#: ../Banter/ActionManager.cs:73
+msgid "_Preferences"
+msgstr "ت_فضيلات"
+
+#: ../Banter/ActionManager.cs:74
+#: ../Banter/PreferencesDialog.cs:56
+msgid "Banter Preferences"
+msgstr "تفضيلات بانتر"
+
+#: ../Banter/ActionManager.cs:77
+msgid "_Help"
+msgstr "م_ساعدة"
+
+#: ../Banter/ActionManager.cs:80
+msgid "_Contents"
+msgstr "_المحتويات"
+
+#: ../Banter/ActionManager.cs:81
+msgid "Banter Help"
+msgstr "مساعدة بانتر"
+
+#: ../Banter/ActionManager.cs:84
+msgid "_About"
+msgstr "_حول"
+
+#: ../Banter/ActionManager.cs:85
+msgid "About Banter"
+msgstr "حول بانتر"
+
+#: ../Banter/Application.cs:275
+msgid "New Group Window ..."
+msgstr "نافذة مجموعة جديدة..."
+
+#: ../Banter/Application.cs:295
+msgid "Quit"
+msgstr "اخرج"
+
+#. Everyone
+#: ../Banter/Application.cs:558
+#: ../Banter/GroupWindow.cs:565
+msgid "Everyone"
+msgstr "كلّ شخص"
+
+#: ../Banter/AudioView.cs:49
+#, fuzzy
+msgid "Audio Chat in progress..."
+msgstr "تجري إعادة التّشغيل الآليّة."
+
+#. Label label = new Label(Catalog.GetString("Video Chat in progress..."));
+#. label.Show();
+#. vbox.PackStart(label, false, true, 0);
+#: ../Banter/AudioView.cs:54
+#: ../Banter/VideoView.cs:103
+msgid "End Call"
+msgstr "إنه المكالمة"
+
+#. FileSelection fs = new FileSelection(Catalog.GetString("Select an Avatar"));
+#. int fsreturn = fs.Run();
+#. fs.Hide();
+#: ../Banter/AvatarSelector.cs:94
+msgid "Select an Avatar"
+msgstr "إنتق أفاتارا"
+
+#: ../Banter/AvatarSelector.cs:100
+msgid "PNG and JPEG images"
+msgstr "صور PNG و JPEG "
+
+#: ../Banter/GroupWindow.cs:113
+#: ../Banter/GroupWindow.cs:129
+#: ../data/banter.desktop.in.h:1
+msgid "Banter"
+msgstr "بانتر"
+
+#: ../Banter/GroupWindow.cs:442
+msgid "Change your avatar"
+msgstr "غيّر الأفاتار"
+
+#: ../Banter/GroupWindow.cs:443
+msgid "Click here to change your avatar"
+msgstr "انقر هنا لتغيير الأفاتار"
+
+#: ../Banter/GroupWindow.cs:464
+#: ../Banter/GroupWindow.cs:465
+msgid "Change your online status"
+msgstr "غيّر الحالة"
+
+#: ../Banter/GroupWindow.cs:511
+msgid "Filter"
+msgstr "رشِّح"
+
+#: ../Banter/GroupWindow.cs:549
+msgid "Groups"
+msgstr "المجموعات"
+
+#: ../Banter/GroupWindow.cs:596
+msgid "Actions"
+msgstr "الأفعال"
+
+#. Settings
+#: ../Banter/GroupWindow.cs:612
+msgid "Settings"
+msgstr "التعيينات"
+
+#: ../Banter/GroupWindow.cs:619
+msgid "Add Person..."
+msgstr "ضف شخصا"
+
+#: ../Banter/GroupWindow.cs:626
+msgid "Remove Person"
+msgstr "احذف شخصا"
+
+#: ../Banter/GroupWindow.cs:653
+msgid "Close Sidebar"
+msgstr "اغلق العمود الجانبي"
+
+#: ../Banter/GroupWindow.cs:813
+#: ../Banter/GroupWindow.cs:973
+msgid "Show Sidebar"
+msgstr "اعرض العمود الجانبي"
+
+# اسم_ح بالوصول للجميع
+#: ../Banter/GroupWindow.cs:867
+msgid "Everyone - Banter"
+msgstr "الجميع - بانتر"
+
+#: ../Banter/GroupWindow.cs:881
+msgid "Banter - New group window"
+msgstr "بانتر - نافذة مجموعة جديدة"
+
+#: ../Banter/GroupWindow.cs:882
+msgid "Add new group"
+msgstr "ضف مجموعة جديدة"
+
+#: ../Banter/GroupWindow.cs:883
+msgid "Enter the name of the new group you'd like to create."
+msgstr ""
+
+#: ../Banter/GroupWindow.cs:917
+msgid "Done Removing"
+msgstr "تم الحذف"
+
+#: ../Banter/GroupWindow.cs:919
+#, fuzzy
+msgid "Remove People"
+msgstr "الأشخاص ال_ضروريون"
+
+#: ../Banter/GroupWindow.cs:928
+#, fuzzy
+msgid "Banter - Add person"
+msgstr "أضف دفتر عناوين"
+
+#: ../Banter/GroupWindow.cs:929
+#, fuzzy
+msgid "Invite a new person"
+msgstr "خواتم وقت للملفات الجديدة"
+
+#: ../Banter/GroupWindow.cs:930
+msgid "Enter the email address of the person you'd like to add."
+msgstr ""
+
+#: ../Banter/GroupWindow.cs:978
+msgid "Hide Sidebar"
+msgstr "اخف الشريط الجانبي"
+
+#: ../Banter/GroupWindow.cs:1078
+#, csharp-format
+msgid "{0} - Banter"
+msgstr "{0} - بانتر"
+
+#: ../Banter/GroupWindow.cs:1094
+#, fuzzy
+msgid "Banter - Delete Group"
+msgstr "محو المجموعة %1 فعلاً ؟"
+
+#: ../Banter/GroupWindow.cs:1096
+#, fuzzy, csharp-format
+msgid "Delete \"{0}\"?"
+msgstr "إح_ذف"
+
+#: ../Banter/GroupWindow.cs:1098
+msgid "This will delete the group and not the contacts inside of the group."
+msgstr ""
+
+#: ../Banter/MessagesView.cs:121
+#, fuzzy
+msgid "me"
+msgstr "أنا:"
+
+#: ../Banter/MessagesView.cs:132
+#, fuzzy
+msgid "sender"
+msgstr "مرسِل"
+
+#: ../Banter/NotificationManager.cs:203
+#: ../Banter/NotificationManager.cs:439
+#, fuzzy, csharp-format
+msgid "Message from {0}"
+msgstr "رسالة جديدة من %s"
+
+#: ../Banter/NotificationManager.cs:235
+#: ../Banter/NotificationManager.cs:286
+#: ../Banter/NotificationManager.cs:340
+#, fuzzy
+msgid "Accept"
+msgstr "إقبل"
+
+#: ../Banter/NotificationManager.cs:236
+#: ../Banter/NotificationManager.cs:287
+#: ../Banter/NotificationManager.cs:341
+#, fuzzy
+msgid "Decline"
+msgstr "ارفض"
+
+#: ../Banter/NotificationManager.cs:266
+#, fuzzy
+msgid "Incoming Audio Chat"
+msgstr "حجم نافذة المحادثة"
+
+#: ../Banter/NotificationManager.cs:267
+#, csharp-format
+msgid "{0} is requesting an audio chat"
+msgstr ""
+
+#: ../Banter/NotificationManager.cs:319
+#, fuzzy
+msgid "Incoming Video Chat"
+msgstr "حجم نافذة المحادثة"
+
+#: ../Banter/NotificationManager.cs:320
+#, fuzzy, csharp-format
+msgid "{0} is requesting a video chat"
+msgstr "لا يمكن معالجة كودِك الفيديو."
+
+#: ../Banter/PersonCard.cs:283
+#: ../Banter/PersonCard.cs:284
+msgid "Remove this person"
+msgstr "احذف هذا الشخص"
+
+#: ../Banter/PersonCard.cs:329
+msgid "Invited"
+msgstr "مدعو"
+
+#: ../Banter/PersonCard.cs:332
+msgid "Requesting"
+msgstr "يجري الطلب"
+
+#: ../Banter/PersonCard.cs:407
+#, fuzzy
+msgid "Authorize this person"
+msgstr "على هذا الحاسوب"
+
+#: ../Banter/PersonCard.cs:408
+msgid "Authorize this person to chat with you"
+msgstr ""
+
+#: ../Banter/PersonCard.cs:430
+#: ../Banter/PersonCard.cs:431
+msgid "Start a video chat"
+msgstr "ابدأ محادثة مرئية"
+
+#: ../Banter/PersonCard.cs:447
+#: ../Banter/PersonCard.cs:448
+msgid "Start an audio chat"
+msgstr "ابدأ محادثة صوتية"
+
+#: ../Banter/PersonCard.cs:462
+#: ../Banter/PersonCard.cs:463
+msgid "Start a text chat"
+msgstr "ابدأ محادثة نصية"
+
+#: ../Banter/PersonCard.cs:616
+msgid "Authorizing..."
+msgstr "يجري التّوكيل..."
+
+#: ../Banter/PersonCard.cs:639
+msgid "Removing..."
+msgstr "يجري الحذف..."
+
+#: ../Banter/PreferencesDialog.cs:70
+msgid "Accounts"
+msgstr "حسابات"
+
+#: ../Banter/PreferencesDialog.cs:72
+msgid "Messages"
+msgstr "رسائل"
+
+#: ../Banter/PreferencesDialog.cs:136
+#, fuzzy
+msgid "GoogleTalk Account Settings"
+msgstr "ابق الإعدادات الحالية"
+
+#: ../Banter/PreferencesDialog.cs:143
+msgid "In this alpha-phase of the project, this is the only IM account type we support (so stop your worryin'!)."
+msgstr ""
+
+#. Server address
+#: ../Banter/PreferencesDialog.cs:156
+msgid "Server Address:"
+msgstr "عنوان الخادم:"
+
+#. Server port
+#: ../Banter/PreferencesDialog.cs:170
+msgid "Server Port:"
+msgstr "منفذ الخادم:"
+
+#. Username
+#: ../Banter/PreferencesDialog.cs:184
+msgid "Username:"
+msgstr "اسم المستخدم:"
+
+#. Password
+#: ../Banter/PreferencesDialog.cs:195
+msgid "Password:"
+msgstr "كلمة السّر:"
+
+#: ../Banter/PreferencesDialog.cs:381
+msgid "your.username@gmail.com"
+msgstr "your.username@gmail.com"
+
+#: ../Banter/Presence.cs:143
+msgid "Offline"
+msgstr "غير متّصل"
+
+#. Available messages
+#: ../Banter/Presence.cs:145
+#: ../Banter/StatusEntry.cs:198
+msgid "Available"
+msgstr "موجود"
+
+#. Away messages
+#: ../Banter/Presence.cs:147
+#: ../Banter/StatusEntry.cs:249
+msgid "Away"
+msgstr "بعيد"
+
+#: ../Banter/Presence.cs:149
+msgid "XA"
+msgstr ""
+
+#: ../Banter/Presence.cs:151
+msgid "Hidden"
+msgstr "مخفي"
+
+#. Busy messages
+#: ../Banter/Presence.cs:153
+#: ../Banter/StatusEntry.cs:223
+msgid "Busy"
+msgstr "مشغول"
+
+#: ../Banter/StatusEntry.cs:216
+#: ../Banter/StatusEntry.cs:242
+#: ../Banter/StatusEntry.cs:268
+msgid "Custom message..."
+msgstr "رسالة مخصّصة..."
+
+#: ../Banter/StatusEntry.cs:284
+msgid "Clear custom messages"
+msgstr "احذف الرسائل المخصصة"
+
+#: ../data/banter.desktop.in.h:2
+#, fuzzy
+msgid "Instant Messenger AddressBook"
+msgstr "مرسال أمريكا أون لاين"
+
+#: ../data/banter.desktop.in.h:3
+#, fuzzy
+msgid "Real Time Collaboration Tool"
+msgstr "تحليل بنيوي فوري"
+
+#: ../data/banter.schemas.in.h:1
+msgid "Auto Login"
+msgstr "تسجيل تلقائي"
+
+#: ../data/banter.schemas.in.h:2
+msgid "Automatically login this account when rtc starts up"
+msgstr ""
+
+#: ../data/banter.schemas.in.h:3
+msgid "Current saved list of Group Windows."
+msgstr ""
+
+#: ../data/banter.schemas.in.h:4
+msgid "Jabber server"
+msgstr "خادم جابر Jabber"
+
+#: ../data/banter.schemas.in.h:5
+msgid "Jabber server port"
+msgstr "منفذ خادم جابر Jabber"
+
+#: ../data/banter.schemas.in.h:6
+msgid "List containing the GUIDs of the currently saved group windows."
+msgstr ""
+
+#: ../data/banter.schemas.in.h:7
+msgid "List containing the custom status messages indicating the user is available."
+msgstr ""
+
+#: ../data/banter.schemas.in.h:8
+msgid "List containing the custom status messages indicating the user is busy."
+msgstr ""
+
+#: ../data/banter.schemas.in.h:9
+msgid "List containing the name and paths of valid app styles that are installed onto this system. This should never be empty."
+msgstr ""
+
+#: ../data/banter.schemas.in.h:10
+msgid "List containing the name and paths of valid contact styles that are installed onto this system. This should never be empty."
+msgstr ""
+
+#: ../data/banter.schemas.in.h:11
+msgid "List containing the name and paths of valid message styles that are installed onto this system. This should never be empty."
+msgstr ""
+
+#: ../data/banter.schemas.in.h:12
+msgid "List containing the name and paths of valid themes that are installed onto this system. This should never be empty."
+msgstr ""
+
+#: ../data/banter.schemas.in.h:13
+msgid "List of custom available status messages"
+msgstr ""
+
+#: ../data/banter.schemas.in.h:14
+msgid "List of custom busy status messages"
+msgstr ""
+
+#: ../data/banter.schemas.in.h:15
+msgid "List of valid app styles"
+msgstr ""
+
+#: ../data/banter.schemas.in.h:16
+#, fuzzy
+msgid "List of valid contact styles"
+msgstr "أنشيء قائمة مراسَلين جديدة"
+
+#: ../data/banter.schemas.in.h:17
+#, fuzzy
+msgid "List of valid message styles"
+msgstr "أرسِل _رسالة للقائمة"
+
+#: ../data/banter.schemas.in.h:18
+#, fuzzy
+msgid "List of valid themes"
+msgstr "لم تُنتقى أيّة سِمات!"
+
+#: ../data/banter.schemas.in.h:19
+msgid "SIP server"
+msgstr "خادم SIP"
+
+#: ../data/banter.schemas.in.h:20
+msgid "SIP server port"
+msgstr "منفذ خادم SIP"
+
+#: ../data/banter.schemas.in.h:21
+#, fuzzy
+msgid "Selected App Style"
+msgstr "إفتراضي"
+
+#: ../data/banter.schemas.in.h:22
+#, fuzzy
+msgid "Selected Contact Style"
+msgstr "إختبار محرّر أسلوب طباعة المراسَل"
+
+#: ../data/banter.schemas.in.h:23
+#, fuzzy
+msgid "Selected Message Style"
+msgstr "أرسِل رسالة للمراسَلين المنتقين."
+
+#: ../data/banter.schemas.in.h:24
+#, fuzzy
+msgid "Selected Message Style Name"
+msgstr "انسخ اسم المفتاح المنتقى"
+
+#: ../data/banter.schemas.in.h:25
+#, fuzzy
+msgid "Selected Message Style Variant"
+msgstr "أرسِل رسالة للمراسَلين المنتقين."
+
+#: ../data/banter.schemas.in.h:26
+#, fuzzy
+msgid "Selected Theme"
+msgstr "هل أحذف السمة \"%s\" ؟"
+
+#: ../data/banter.schemas.in.h:27
+msgid "Server"
+msgstr "الخادم"
+
+#: ../data/banter.schemas.in.h:28
+msgid "Server Port"
+msgstr "منفذ الخادم"
+
+#: ../data/banter.schemas.in.h:29
+msgid "Telepathy connection manager"
+msgstr "مدير اتصالات تيليباثي"
+
+#: ../data/banter.schemas.in.h:30
+msgid "Telepathy connection manager with IM or Text capability for this account"
+msgstr ""
+
+#: ../data/banter.schemas.in.h:31
+msgid "The name and path of the app style that is currently selected."
+msgstr ""
+
+#: ../data/banter.schemas.in.h:32
+msgid "The name and path of the contact style that is currently selected."
+msgstr ""
+
+#: ../data/banter.schemas.in.h:33
+msgid "The name and path of the message style that is currently selected."
+msgstr ""
+
+#: ../data/banter.schemas.in.h:34
+msgid "The name and path of the theme that should be used."
+msgstr ""
+
+#: ../data/banter.schemas.in.h:35
+msgid "The name of the Message Style Variant that should be used. Set this to an empty string to not use a variant. The variant name depends on the selected message style."
+msgstr ""
+
+#: ../data/banter.schemas.in.h:36
+msgid "The name of the Message Style that should be used for the chat window."
+msgstr ""
+
+#: ../data/banter.schemas.in.h:37
+#, fuzzy
+msgid "Use TLS"
+msgstr "استخدم TLS"
+
+#: ../data/banter.schemas.in.h:38
+#, fuzzy
+msgid "Use old style ssl"
+msgstr "استعمال SSL للاتصال"
+
+#: ../data/banter.schemas.in.h:39
+msgid "Use ssl"
+msgstr "استخدم ssl"
+
+#: ../data/banter.schemas.in.h:40
+#, fuzzy
+msgid "Use the TLS transport"
+msgstr "استخدم ا_ستطلاعات TLS"
+
