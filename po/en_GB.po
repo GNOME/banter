@@ -6,14 +6,370 @@ msgid ""
 msgstr ""
 "Project-Id-Version: banter\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-05-16 07:24+0100\n"
-"PO-Revision-Date: 2007-05-16 07:24-0000\n"
+"POT-Creation-Date: 2008-03-09 15:53+0000\n"
+"PO-Revision-Date: 2008-03-09 15:53+0000\n"
 "Last-Translator: David Lodge <dave@cirt.net>\n"
 "Language-Team: en_GB <en@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ../Banter/ActionManager.cs:63
+msgid "_File"
+msgstr "_File"
+
+#: ../Banter/ActionManager.cs:66
+msgid "_Quit"
+msgstr "_Quit"
+
+#: ../Banter/ActionManager.cs:67
+msgid "Quit Banter"
+msgstr "Quit Banter"
+
+#: ../Banter/ActionManager.cs:70
+msgid "_Edit"
+msgstr "_Edit"
+
+#: ../Banter/ActionManager.cs:73
+msgid "_Preferences"
+msgstr "_Preferences"
+
+#: ../Banter/ActionManager.cs:74 ../Banter/PreferencesDialog.cs:56
+msgid "Banter Preferences"
+msgstr "Banter Preferences"
+
+#: ../Banter/ActionManager.cs:77
+msgid "_Help"
+msgstr "_Help"
+
+#: ../Banter/ActionManager.cs:80
+msgid "_Contents"
+msgstr "_Contents"
+
+#: ../Banter/ActionManager.cs:81
+msgid "Banter Help"
+msgstr "Banter Help"
+
+#: ../Banter/ActionManager.cs:84
+msgid "_About"
+msgstr "_About"
+
+#: ../Banter/ActionManager.cs:85
+msgid "About Banter"
+msgstr "About Banter"
+
+#: ../Banter/Application.cs:275
+msgid "New Group Window ..."
+msgstr "New Group Window ..."
+
+#: ../Banter/Application.cs:295
+msgid "Quit"
+msgstr "Quit"
+
+#. Everyone
+#: ../Banter/Application.cs:558 ../Banter/GroupWindow.cs:565
+msgid "Everyone"
+msgstr "Everyone"
+
+#: ../Banter/AudioView.cs:49
+msgid "Audio Chat in progress..."
+msgstr "Audio Chat in progress..."
+
+#. Label label = new Label(Catalog.GetString("Video Chat in progress..."));
+#. label.Show();
+#. vbox.PackStart(label, false, true, 0);
+#: ../Banter/AudioView.cs:54 ../Banter/VideoView.cs:103
+msgid "End Call"
+msgstr "End Call"
+
+#. FileSelection fs = new FileSelection(Catalog.GetString("Select an Avatar"));
+#. int fsreturn = fs.Run();
+#. fs.Hide();
+#: ../Banter/AvatarSelector.cs:94
+msgid "Select an Avatar"
+msgstr "Select an Avatar"
+
+#: ../Banter/AvatarSelector.cs:100
+msgid "PNG and JPEG images"
+msgstr "PNG and JPEG images"
+
+#: ../Banter/GroupWindow.cs:113 ../Banter/GroupWindow.cs:129
+#: ../data/banter.desktop.in.h:1
+msgid "Banter"
+msgstr "Banter"
+
+#: ../Banter/GroupWindow.cs:442
+msgid "Change your avatar"
+msgstr "Change your avatar"
+
+#: ../Banter/GroupWindow.cs:443
+msgid "Click here to change your avatar"
+msgstr "Click here to change your avatar"
+
+#: ../Banter/GroupWindow.cs:464 ../Banter/GroupWindow.cs:465
+msgid "Change your online status"
+msgstr "Change your online status"
+
+#: ../Banter/GroupWindow.cs:511
+msgid "Filter"
+msgstr "Filter"
+
+#: ../Banter/GroupWindow.cs:549
+msgid "Groups"
+msgstr "Groups"
+
+#: ../Banter/GroupWindow.cs:596
+msgid "Actions"
+msgstr "Actions"
+
+#. Settings
+#: ../Banter/GroupWindow.cs:612
+msgid "Settings"
+msgstr "Settings"
+
+#: ../Banter/GroupWindow.cs:619
+msgid "Add Person..."
+msgstr "Add Person..."
+
+#: ../Banter/GroupWindow.cs:626
+msgid "Remove Person"
+msgstr "Remove Person"
+
+#: ../Banter/GroupWindow.cs:653
+msgid "Close Sidebar"
+msgstr "Close Sidebar"
+
+#: ../Banter/GroupWindow.cs:813 ../Banter/GroupWindow.cs:973
+msgid "Show Sidebar"
+msgstr "Show Sidebar"
+
+#: ../Banter/GroupWindow.cs:867
+msgid "Everyone - Banter"
+msgstr "Everyone - Banter"
+
+#: ../Banter/GroupWindow.cs:881
+msgid "Banter - New group window"
+msgstr "Banter - New group window"
+
+#: ../Banter/GroupWindow.cs:882
+msgid "Add new group"
+msgstr "Add new group"
+
+#: ../Banter/GroupWindow.cs:883
+msgid "Enter the name of the new group you'd like to create."
+msgstr "Enter the name of the new group you'd like to create."
+
+#: ../Banter/GroupWindow.cs:917
+msgid "Done Removing"
+msgstr "Done Removing"
+
+#: ../Banter/GroupWindow.cs:919
+msgid "Remove People"
+msgstr "Remove People"
+
+#: ../Banter/GroupWindow.cs:928
+msgid "Banter - Add person"
+msgstr "Banter - Add person"
+
+#: ../Banter/GroupWindow.cs:929
+msgid "Invite a new person"
+msgstr "Invite a new person"
+
+#: ../Banter/GroupWindow.cs:930
+msgid "Enter the email address of the person you'd like to add."
+msgstr "Enter the e-mail address of the person you'd like to add."
+
+#: ../Banter/GroupWindow.cs:978
+msgid "Hide Sidebar"
+msgstr "Hide Sidebar"
+
+#: ../Banter/GroupWindow.cs:1078
+#, csharp-format
+msgid "{0} - Banter"
+msgstr "{0} - Banter"
+
+#: ../Banter/GroupWindow.cs:1094
+msgid "Banter - Delete Group"
+msgstr "Banter - Delete Group"
+
+#: ../Banter/GroupWindow.cs:1096
+#, csharp-format
+msgid "Delete \"{0}\"?"
+msgstr "Delete \"{0}\"?"
+
+#: ../Banter/GroupWindow.cs:1098
+msgid "This will delete the group and not the contacts inside of the group."
+msgstr "This will delete the group and not the contacts inside the group."
+
+#: ../Banter/MessagesView.cs:121
+msgid "me"
+msgstr "me"
+
+#: ../Banter/MessagesView.cs:132
+msgid "sender"
+msgstr "sender"
+
+#: ../Banter/NotificationManager.cs:203 ../Banter/NotificationManager.cs:439
+#, csharp-format
+msgid "Message from {0}"
+msgstr "Message from {0}"
+
+#: ../Banter/NotificationManager.cs:235 ../Banter/NotificationManager.cs:286
+#: ../Banter/NotificationManager.cs:340
+msgid "Accept"
+msgstr "Accept"
+
+#: ../Banter/NotificationManager.cs:236 ../Banter/NotificationManager.cs:287
+#: ../Banter/NotificationManager.cs:341
+msgid "Decline"
+msgstr "Decline"
+
+#: ../Banter/NotificationManager.cs:266
+msgid "Incoming Audio Chat"
+msgstr "Incoming Audio Chat"
+
+#: ../Banter/NotificationManager.cs:267
+#, csharp-format
+msgid "{0} is requesting an audio chat"
+msgstr "{0} is requesting an audio chat"
+
+#: ../Banter/NotificationManager.cs:319
+msgid "Incoming Video Chat"
+msgstr "Incoming Video Chat"
+
+#: ../Banter/NotificationManager.cs:320
+#, csharp-format
+msgid "{0} is requesting a video chat"
+msgstr "{0} is requesting a video chat"
+
+#: ../Banter/PersonCard.cs:283 ../Banter/PersonCard.cs:284
+msgid "Remove this person"
+msgstr "Remove this person"
+
+#: ../Banter/PersonCard.cs:329
+msgid "Invited"
+msgstr "Invited"
+
+#: ../Banter/PersonCard.cs:332
+msgid "Requesting"
+msgstr "Requesting"
+
+#: ../Banter/PersonCard.cs:407
+msgid "Authorize this person"
+msgstr "Authorise this person"
+
+#: ../Banter/PersonCard.cs:408
+msgid "Authorize this person to chat with you"
+msgstr "Authorise this person to chat with you"
+
+#: ../Banter/PersonCard.cs:430 ../Banter/PersonCard.cs:431
+msgid "Start a video chat"
+msgstr "Start a video chat"
+
+#: ../Banter/PersonCard.cs:447 ../Banter/PersonCard.cs:448
+msgid "Start an audio chat"
+msgstr "Start an audio chat"
+
+#: ../Banter/PersonCard.cs:462 ../Banter/PersonCard.cs:463
+msgid "Start a text chat"
+msgstr "Start a text chat"
+
+#: ../Banter/PersonCard.cs:616
+msgid "Authorizing..."
+msgstr "Authorising..."
+
+#: ../Banter/PersonCard.cs:639
+msgid "Removing..."
+msgstr "Removing..."
+
+#: ../Banter/PreferencesDialog.cs:70
+msgid "Accounts"
+msgstr "Accounts"
+
+#: ../Banter/PreferencesDialog.cs:72
+msgid "Messages"
+msgstr "Messages"
+
+#: ../Banter/PreferencesDialog.cs:136
+msgid "GoogleTalk Account Settings"
+msgstr "GoogleTalk Account Settings"
+
+#: ../Banter/PreferencesDialog.cs:143
+msgid ""
+"In this alpha-phase of the project, this is the only IM account type we "
+"support (so stop your worryin'!)."
+msgstr ""
+"In this alpha-phase of the project, this is the only IM account type we "
+"support (so stop your worrying!)."
+
+#. Server address
+#: ../Banter/PreferencesDialog.cs:156
+msgid "Server Address:"
+msgstr "Server Address:"
+
+#. Server port
+#: ../Banter/PreferencesDialog.cs:170
+msgid "Server Port:"
+msgstr "Server Port:"
+
+#. Username
+#: ../Banter/PreferencesDialog.cs:184
+msgid "Username:"
+msgstr "Username:"
+
+#. Password
+#: ../Banter/PreferencesDialog.cs:195
+msgid "Password:"
+msgstr "Password:"
+
+#: ../Banter/PreferencesDialog.cs:381
+msgid "your.username@gmail.com"
+msgstr "your.username@gmail.com"
+
+#: ../Banter/Presence.cs:143
+msgid "Offline"
+msgstr "Offline"
+
+#. Available messages
+#: ../Banter/Presence.cs:145 ../Banter/StatusEntry.cs:198
+msgid "Available"
+msgstr "Available"
+
+#. Away messages
+#: ../Banter/Presence.cs:147 ../Banter/StatusEntry.cs:249
+msgid "Away"
+msgstr "Away"
+
+#: ../Banter/Presence.cs:149
+msgid "XA"
+msgstr "XA"
+
+#: ../Banter/Presence.cs:151
+msgid "Hidden"
+msgstr "Hidden"
+
+#. Busy messages
+#: ../Banter/Presence.cs:153 ../Banter/StatusEntry.cs:223
+msgid "Busy"
+msgstr "Busy"
+
+#: ../Banter/StatusEntry.cs:216 ../Banter/StatusEntry.cs:242
+#: ../Banter/StatusEntry.cs:268
+msgid "Custom message..."
+msgstr "Custom message..."
+
+#: ../Banter/StatusEntry.cs:284
+msgid "Clear custom messages"
+msgstr "Clear custom messages"
+
+#: ../data/banter.desktop.in.h:2
+msgid "Instant Messenger AddressBook"
+msgstr "Instant Messenger AddressBook"
+
+#: ../data/banter.desktop.in.h:3
+msgid "Real Time Collaboration Tool"
+msgstr "Real Time Collaboration Tool"
 
 #: ../data/banter.schemas.in.h:1
 msgid "Auto Login"
@@ -36,48 +392,143 @@ msgid "Jabber server port"
 msgstr "Jabber server port"
 
 #: ../data/banter.schemas.in.h:6
-msgid ""
-"List containing the GUIDs of the currently saved group windows. Please do "
-"not remove the ****Placeholder**** item."
-msgstr ""
-"List containing the GUIDs of the currently saved group windows. Please do "
-"not remove the ****Placeholder**** item."
+msgid "List containing the GUIDs of the currently saved group windows."
+msgstr "List containing the GUIDs of the currently saved group windows."
 
 #: ../data/banter.schemas.in.h:7
+msgid ""
+"List containing the custom status messages indicating the user is available."
+msgstr ""
+"List containing the custom status messages indicating the user is available."
+
+#: ../data/banter.schemas.in.h:8
+msgid "List containing the custom status messages indicating the user is busy."
+msgstr ""
+"List containing the custom status messages indicating the user is busy."
+
+#: ../data/banter.schemas.in.h:9
+msgid ""
+"List containing the name and paths of valid app styles that are installed "
+"onto this system. This should never be empty."
+msgstr ""
+"List containing the name and paths of valid app styles that are installed on "
+"this system. This should never be empty."
+
+#: ../data/banter.schemas.in.h:10
+msgid ""
+"List containing the name and paths of valid contact styles that are "
+"installed onto this system. This should never be empty."
+msgstr ""
+"List containing the name and paths of valid contact styles that are "
+"installed on this system. This should never be empty."
+
+#: ../data/banter.schemas.in.h:11
+msgid ""
+"List containing the name and paths of valid message styles that are "
+"installed onto this system. This should never be empty."
+msgstr ""
+"List containing the name and paths of valid message styles that are "
+"installed on this system. This should never be empty."
+
+#: ../data/banter.schemas.in.h:12
+msgid ""
+"List containing the name and paths of valid themes that are installed onto "
+"this system. This should never be empty."
+msgstr ""
+"List containing the name and paths of valid themes that are installed on "
+"this system. This should never be empty."
+
+#: ../data/banter.schemas.in.h:13
+msgid "List of custom available status messages"
+msgstr "List of custom available status messages"
+
+#: ../data/banter.schemas.in.h:14
+msgid "List of custom busy status messages"
+msgstr "List of custom busy status messages"
+
+#: ../data/banter.schemas.in.h:15
+msgid "List of valid app styles"
+msgstr "List of valid app styles"
+
+#: ../data/banter.schemas.in.h:16
+msgid "List of valid contact styles"
+msgstr "List of valid contact styles"
+
+#: ../data/banter.schemas.in.h:17
+msgid "List of valid message styles"
+msgstr "List of valid message styles"
+
+#: ../data/banter.schemas.in.h:18
+msgid "List of valid themes"
+msgstr "List of valid themes"
+
+#: ../data/banter.schemas.in.h:19
 msgid "SIP server"
 msgstr "SIP server"
 
-#: ../data/banter.schemas.in.h:8
+#: ../data/banter.schemas.in.h:20
 msgid "SIP server port"
 msgstr "SIP server port"
 
-#: ../data/banter.schemas.in.h:9
+#: ../data/banter.schemas.in.h:21
+msgid "Selected App Style"
+msgstr "Selected App Style"
+
+#: ../data/banter.schemas.in.h:22
+msgid "Selected Contact Style"
+msgstr "Selected Contact Style"
+
+#: ../data/banter.schemas.in.h:23
+msgid "Selected Message Style"
+msgstr "Selected Message Style"
+
+#: ../data/banter.schemas.in.h:24
 msgid "Selected Message Style Name"
 msgstr "Selected Message Style Name"
 
-#: ../data/banter.schemas.in.h:10
+#: ../data/banter.schemas.in.h:25
 msgid "Selected Message Style Variant"
 msgstr "Selected Message Style Variant"
 
-#: ../data/banter.schemas.in.h:11
+#: ../data/banter.schemas.in.h:26
+msgid "Selected Theme"
+msgstr "Selected Theme"
+
+#: ../data/banter.schemas.in.h:27
 msgid "Server"
 msgstr "Server"
 
-#: ../data/banter.schemas.in.h:12
+#: ../data/banter.schemas.in.h:28
 msgid "Server Port"
 msgstr "Server Port"
 
-#: ../data/banter.schemas.in.h:13
+#: ../data/banter.schemas.in.h:29
 msgid "Telepathy connection manager"
 msgstr "Telepathy connection manager"
 
-#: ../data/banter.schemas.in.h:14
+#: ../data/banter.schemas.in.h:30
 msgid ""
 "Telepathy connection manager with IM or Text capability for this account"
 msgstr ""
 "Telepathy connection manager with IM or Text capability for this account"
 
-#: ../data/banter.schemas.in.h:15
+#: ../data/banter.schemas.in.h:31
+msgid "The name and path of the app style that is currently selected."
+msgstr "The name and path of the app style that is currently selected."
+
+#: ../data/banter.schemas.in.h:32
+msgid "The name and path of the contact style that is currently selected."
+msgstr "The name and path of the contact style that is currently selected."
+
+#: ../data/banter.schemas.in.h:33
+msgid "The name and path of the message style that is currently selected."
+msgstr "The name and path of the message style that is currently selected."
+
+#: ../data/banter.schemas.in.h:34
+msgid "The name and path of the theme that should be used."
+msgstr "The name and path of the theme that should be used."
+
+#: ../data/banter.schemas.in.h:35
 msgid ""
 "The name of the Message Style Variant that should be used. Set this to an "
 "empty string to not use a variant. The variant name depends on the selected "
@@ -87,22 +538,22 @@ msgstr ""
 "empty string to not use a variant. The variant name depends on the selected "
 "message style."
 
-#: ../data/banter.schemas.in.h:16
+#: ../data/banter.schemas.in.h:36
 msgid "The name of the Message Style that should be used for the chat window."
 msgstr "The name of the Message Style that should be used for the chat window."
 
-#: ../data/banter.schemas.in.h:17
+#: ../data/banter.schemas.in.h:37
 msgid "Use TLS"
 msgstr "Use TLS"
 
-#: ../data/banter.schemas.in.h:18
+#: ../data/banter.schemas.in.h:38
 msgid "Use old style ssl"
 msgstr "Use old style ssl"
 
-#: ../data/banter.schemas.in.h:19
+#: ../data/banter.schemas.in.h:39
 msgid "Use ssl"
 msgstr "Use ssl"
 
-#: ../data/banter.schemas.in.h:20
+#: ../data/banter.schemas.in.h:40
 msgid "Use the TLS transport"
 msgstr "Use the TLS transport"
