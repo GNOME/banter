@@ -1,0 +1,564 @@
+# Danish translation for banter
+# Copyright (C) 2006 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same licence as the banter package.
+# Kris Hansen <mumien@yahoo.dk>, 2008
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Banter\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2008-11-09 22:04+0100\n"
+"PO-Revision-Date: 2008-11-07 13:31+0100\n"
+"Last-Translator: Kris Hansen <mumien@yahoo.dk>\n"
+"Language-Team: Dansk Gruppen <dansk@dansk-gruppen.dk>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Danish\n"
+"X-Poedit-Country: Denmark\n"
+
+#: ../Banter/ActionManager.cs:63
+msgid "_File"
+msgstr "_Fil"
+
+#: ../Banter/ActionManager.cs:66
+msgid "_Quit"
+msgstr "_Afslut"
+
+#: ../Banter/ActionManager.cs:67
+msgid "Quit Banter"
+msgstr "Afslut Banter"
+
+#: ../Banter/ActionManager.cs:70
+msgid "_Edit"
+msgstr "_Rediger"
+
+#: ../Banter/ActionManager.cs:73
+msgid "_Preferences"
+msgstr "_Indstillinger"
+
+#: ../Banter/ActionManager.cs:74 ../Banter/PreferencesDialog.cs:56
+msgid "Banter Preferences"
+msgstr "Banter indstillinger"
+
+#: ../Banter/ActionManager.cs:77
+msgid "_Help"
+msgstr "_Hjælp"
+
+#: ../Banter/ActionManager.cs:80
+msgid "_Contents"
+msgstr "_Indhold"
+
+#: ../Banter/ActionManager.cs:81
+msgid "Banter Help"
+msgstr "Banter hjælp"
+
+#: ../Banter/ActionManager.cs:84
+msgid "_About"
+msgstr "_Om"
+
+#: ../Banter/ActionManager.cs:85
+msgid "About Banter"
+msgstr "Om Banter"
+
+#: ../Banter/Application.cs:275
+msgid "New Group Window ..."
+msgstr "Nyt gruppevindue ..."
+
+#: ../Banter/Application.cs:295
+msgid "Quit"
+msgstr "Afslut"
+
+#. Everyone
+#: ../Banter/Application.cs:558 ../Banter/GroupWindow.cs:565
+msgid "Everyone"
+msgstr "Enhver"
+
+#: ../Banter/AudioView.cs:49
+msgid "Audio Chat in progress..."
+msgstr "Lydchat i gang..."
+
+#. Label label = new Label(Catalog.GetString("Video Chat in progress..."));
+#. label.Show();
+#. vbox.PackStart(label, false, true, 0);
+#: ../Banter/AudioView.cs:54 ../Banter/VideoView.cs:103
+msgid "End Call"
+msgstr "Afslut opkald"
+
+#. FileSelection fs = new FileSelection(Catalog.GetString("Select an Avatar"));
+#. int fsreturn = fs.Run();
+#. fs.Hide();
+#: ../Banter/AvatarSelector.cs:94
+msgid "Select an Avatar"
+msgstr "Vælg et avatar"
+
+#: ../Banter/AvatarSelector.cs:100
+msgid "PNG and JPEG images"
+msgstr "PNG- og JPEG-billeder"
+
+#: ../Banter/GroupWindow.cs:113 ../Banter/GroupWindow.cs:129
+#: ../data/banter.desktop.in.h:1
+msgid "Banter"
+msgstr "Banter"
+
+#: ../Banter/GroupWindow.cs:442
+msgid "Change your avatar"
+msgstr "Skift dit billede"
+
+#: ../Banter/GroupWindow.cs:443
+msgid "Click here to change your avatar"
+msgstr "Klik her for at skifte dit billede"
+
+#: ../Banter/GroupWindow.cs:464 ../Banter/GroupWindow.cs:465
+msgid "Change your online status"
+msgstr "Skift din online status"
+
+#: ../Banter/GroupWindow.cs:511
+msgid "Filter"
+msgstr "Filter"
+
+#: ../Banter/GroupWindow.cs:549
+msgid "Groups"
+msgstr "Grupper"
+
+#: ../Banter/GroupWindow.cs:596
+msgid "Actions"
+msgstr "Handlinger"
+
+#. Settings
+#: ../Banter/GroupWindow.cs:612
+msgid "Settings"
+msgstr "Opsætning"
+
+#: ../Banter/GroupWindow.cs:619
+msgid "Add Person..."
+msgstr "Tilføj person..."
+
+#: ../Banter/GroupWindow.cs:626
+msgid "Remove Person"
+msgstr "Fjern person"
+
+#: ../Banter/GroupWindow.cs:653
+msgid "Close Sidebar"
+msgstr "Luk sidepanel"
+
+#: ../Banter/GroupWindow.cs:813 ../Banter/GroupWindow.cs:973
+msgid "Show Sidebar"
+msgstr "Vis sidepanel"
+
+#: ../Banter/GroupWindow.cs:867
+msgid "Everyone - Banter"
+msgstr "Enhver - Banter"
+
+#: ../Banter/GroupWindow.cs:881
+msgid "Banter - New group window"
+msgstr "Banter - Nyt gruppevindue"
+
+#: ../Banter/GroupWindow.cs:882
+msgid "Add new group"
+msgstr "Tilføj ny gruppe"
+
+#: ../Banter/GroupWindow.cs:883
+msgid "Enter the name of the new group you'd like to create."
+msgstr "Indtast navnet på den gruppe du ønsker at oprette."
+
+#: ../Banter/GroupWindow.cs:917
+msgid "Done Removing"
+msgstr "Færdig med at fjerne"
+
+#: ../Banter/GroupWindow.cs:919
+msgid "Remove People"
+msgstr "Fjern personer"
+
+#: ../Banter/GroupWindow.cs:928
+msgid "Banter - Add person"
+msgstr "Banter - Tilføj person"
+
+#: ../Banter/GroupWindow.cs:929
+msgid "Invite a new person"
+msgstr "Inviter en ny person"
+
+#: ../Banter/GroupWindow.cs:930
+msgid "Enter the email address of the person you'd like to add."
+msgstr "Indtast e-post-adressen til den person du ønsker at tilføje."
+
+#: ../Banter/GroupWindow.cs:978
+msgid "Hide Sidebar"
+msgstr "Skjul sidepanel"
+
+#: ../Banter/GroupWindow.cs:1078
+#, csharp-format
+msgid "{0} - Banter"
+msgstr "{0} - Banter"
+
+#: ../Banter/GroupWindow.cs:1094
+msgid "Banter - Delete Group"
+msgstr "Banter - Slet gruppe"
+
+#: ../Banter/GroupWindow.cs:1096
+#, csharp-format
+msgid "Delete \"{0}\"?"
+msgstr "Slet \"{0}\"?"
+
+#: ../Banter/GroupWindow.cs:1098
+msgid "This will delete the group and not the contacts inside of the group."
+msgstr "Dette vil slette gruppen men ikke kontakterne inde i gruppen."
+
+#: ../Banter/MessagesView.cs:121
+msgid "me"
+msgstr "mig"
+
+#: ../Banter/MessagesView.cs:132
+msgid "sender"
+msgstr "afsender"
+
+#: ../Banter/NotificationManager.cs:203 ../Banter/NotificationManager.cs:439
+#, csharp-format
+msgid "Message from {0}"
+msgstr "Besked fra {0}"
+
+#: ../Banter/NotificationManager.cs:235 ../Banter/NotificationManager.cs:286
+#: ../Banter/NotificationManager.cs:340
+msgid "Accept"
+msgstr "Godkend"
+
+#: ../Banter/NotificationManager.cs:236 ../Banter/NotificationManager.cs:287
+#: ../Banter/NotificationManager.cs:341
+msgid "Decline"
+msgstr "Afvis"
+
+#: ../Banter/NotificationManager.cs:266
+msgid "Incoming Audio Chat"
+msgstr "Indgående lydchat"
+
+#: ../Banter/NotificationManager.cs:267
+#, csharp-format
+msgid "{0} is requesting an audio chat"
+msgstr "{0} anmoder om en lydchat"
+
+#: ../Banter/NotificationManager.cs:319
+msgid "Incoming Video Chat"
+msgstr "Indgående videochat"
+
+#: ../Banter/NotificationManager.cs:320
+#, csharp-format
+msgid "{0} is requesting a video chat"
+msgstr "{0} anmoder om en video-chat"
+
+#: ../Banter/PersonCard.cs:283 ../Banter/PersonCard.cs:284
+msgid "Remove this person"
+msgstr "Fjern denne person"
+
+#: ../Banter/PersonCard.cs:329
+msgid "Invited"
+msgstr "Inviteret"
+
+#: ../Banter/PersonCard.cs:332
+msgid "Requesting"
+msgstr "Anmoder"
+
+#: ../Banter/PersonCard.cs:407
+msgid "Authorize this person"
+msgstr "Tillad denne person"
+
+#: ../Banter/PersonCard.cs:408
+msgid "Authorize this person to chat with you"
+msgstr "Tillad denne person at chatte med dig"
+
+#: ../Banter/PersonCard.cs:430 ../Banter/PersonCard.cs:431
+msgid "Start a video chat"
+msgstr "Start en video-chat"
+
+#: ../Banter/PersonCard.cs:447 ../Banter/PersonCard.cs:448
+msgid "Start an audio chat"
+msgstr "Start en lydchat"
+
+#: ../Banter/PersonCard.cs:462 ../Banter/PersonCard.cs:463
+msgid "Start a text chat"
+msgstr "Start en tekstchat"
+
+#: ../Banter/PersonCard.cs:616
+msgid "Authorizing..."
+msgstr "Tillader..."
+
+#: ../Banter/PersonCard.cs:639
+msgid "Removing..."
+msgstr "Fjerner..."
+
+#: ../Banter/PreferencesDialog.cs:70
+msgid "Accounts"
+msgstr "Konti"
+
+#: ../Banter/PreferencesDialog.cs:72
+msgid "Messages"
+msgstr "Beskeder"
+
+#: ../Banter/PreferencesDialog.cs:136
+msgid "GoogleTalk Account Settings"
+msgstr "Kontoopsætning for Google Talk"
+
+#: ../Banter/PreferencesDialog.cs:143
+msgid ""
+"In this alpha-phase of the project, this is the only IM account type we "
+"support (so stop your worryin'!)."
+msgstr ""
+"I denne alpha-fase af projektet, er dette den eneste IM-konto type vi "
+"understøtter (så stop din bekymring!)."
+
+#. Server address
+#: ../Banter/PreferencesDialog.cs:156
+msgid "Server Address:"
+msgstr "Serveradresse:"
+
+#. Server port
+#: ../Banter/PreferencesDialog.cs:170
+msgid "Server Port:"
+msgstr "Serverport:"
+
+#. Username
+#: ../Banter/PreferencesDialog.cs:184
+msgid "Username:"
+msgstr "Brugernavn:"
+
+#. Password
+#: ../Banter/PreferencesDialog.cs:195
+msgid "Password:"
+msgstr "Kodeord:"
+
+#: ../Banter/PreferencesDialog.cs:381
+msgid "your.username@gmail.com"
+msgstr "dit.brugernavn@gmail.com"
+
+#: ../Banter/Presence.cs:143
+msgid "Offline"
+msgstr "Afkoblet"
+
+#. Available messages
+#: ../Banter/Presence.cs:145 ../Banter/StatusEntry.cs:198
+msgid "Available"
+msgstr "Tilgængelig"
+
+#. Away messages
+#: ../Banter/Presence.cs:147 ../Banter/StatusEntry.cs:249
+msgid "Away"
+msgstr "Ikke til stede"
+
+#: ../Banter/Presence.cs:149
+msgid "XA"
+msgstr "XA"
+
+#: ../Banter/Presence.cs:151
+msgid "Hidden"
+msgstr "Skjult"
+
+#. Busy messages
+#: ../Banter/Presence.cs:153 ../Banter/StatusEntry.cs:223
+msgid "Busy"
+msgstr "Optaget"
+
+#: ../Banter/StatusEntry.cs:216 ../Banter/StatusEntry.cs:242
+#: ../Banter/StatusEntry.cs:268
+msgid "Custom message..."
+msgstr "Tilpasset besked..."
+
+#: ../Banter/StatusEntry.cs:284
+msgid "Clear custom messages"
+msgstr "Ryd tilpassede beskeder"
+
+#: ../data/banter.desktop.in.h:2
+msgid "Instant Messenger AddressBook"
+msgstr "Adressekartotek for Instant Messenger"
+
+#: ../data/banter.desktop.in.h:3
+msgid "Real Time Collaboration Tool"
+msgstr "Realtid samarbejdsværktøj"
+
+#: ../data/banter.schemas.in.h:1
+msgid "Auto Login"
+msgstr "Automatisk logind"
+
+#: ../data/banter.schemas.in.h:2
+msgid "Automatically login this account when rtc starts up"
+msgstr "Log automatisk ind på denne konto når rtc starter op"
+
+#: ../data/banter.schemas.in.h:3
+msgid "Current saved list of Group Windows."
+msgstr "Nuværende gemte liste af gruppevinduer."
+
+#: ../data/banter.schemas.in.h:4
+msgid "Jabber server"
+msgstr "Jabber-server"
+
+#: ../data/banter.schemas.in.h:5
+msgid "Jabber server port"
+msgstr "Jabber server-port"
+
+#: ../data/banter.schemas.in.h:6
+msgid "List containing the GUIDs of the currently saved group windows."
+msgstr "Liste der indeholder GUID'er af de nuværende gemte gruppe vinduer."
+
+#: ../data/banter.schemas.in.h:7
+msgid ""
+"List containing the custom status messages indicating the user is available."
+msgstr ""
+"Liste der indeholder de brugerdefinerede status beskeder, der angiver at "
+"brugeren er tilgængelig."
+
+#: ../data/banter.schemas.in.h:8
+msgid "List containing the custom status messages indicating the user is busy."
+msgstr ""
+"Liste der indeholder de brugerdefinerede status beskeder, der angiver at "
+"brugeren er optaget."
+
+#: ../data/banter.schemas.in.h:9
+msgid ""
+"List containing the name and paths of valid app styles that are installed "
+"onto this system. This should never be empty."
+msgstr ""
+"Liste der indeholder navnet og stier på gyldige app-typografier, der er "
+"installeret på dette system. Den bør aldrig være tom."
+
+#: ../data/banter.schemas.in.h:10
+msgid ""
+"List containing the name and paths of valid contact styles that are "
+"installed onto this system. This should never be empty."
+msgstr ""
+"Liste der indeholder navnet og stier på gyldige kontakttypografier, der er "
+"installeret på dette system. Den bør aldrig være tom."
+
+#: ../data/banter.schemas.in.h:11
+msgid ""
+"List containing the name and paths of valid message styles that are "
+"installed onto this system. This should never be empty."
+msgstr ""
+"Liste der indeholder navnet og stier på gyldige beskedtypografier, der er "
+"installeret på dette system. Den bør aldrig være tom."
+
+#: ../data/banter.schemas.in.h:12
+msgid ""
+"List containing the name and paths of valid themes that are installed onto "
+"this system. This should never be empty."
+msgstr ""
+"Liste der indeholder navnet og stier på gyldige temaer, der er installeret "
+"på dette system. Den bør aldrig være tom."
+
+#: ../data/banter.schemas.in.h:13
+msgid "List of custom available status messages"
+msgstr "Liste over brugertilpassede tilgængelig statusbeskeder"
+
+#: ../data/banter.schemas.in.h:14
+msgid "List of custom busy status messages"
+msgstr "Liste over brugertilpassede optaget statusbeskeder"
+
+#: ../data/banter.schemas.in.h:15
+msgid "List of valid app styles"
+msgstr "Liste over gyldige app-typografier"
+
+#: ../data/banter.schemas.in.h:16
+msgid "List of valid contact styles"
+msgstr "Liste over gyldige kontakttypografier"
+
+#: ../data/banter.schemas.in.h:17
+msgid "List of valid message styles"
+msgstr "Liste over gyldige beskedtypografier"
+
+#: ../data/banter.schemas.in.h:18
+msgid "List of valid themes"
+msgstr "Liste over gyldige temaer"
+
+#: ../data/banter.schemas.in.h:19
+msgid "SIP server"
+msgstr "SIP-server"
+
+#: ../data/banter.schemas.in.h:20
+msgid "SIP server port"
+msgstr "SIP serverport"
+
+#: ../data/banter.schemas.in.h:21
+msgid "Selected App Style"
+msgstr "Valgt app-stilart"
+
+#: ../data/banter.schemas.in.h:22
+msgid "Selected Contact Style"
+msgstr "Valgt kontaktstilart"
+
+#: ../data/banter.schemas.in.h:23
+msgid "Selected Message Style"
+msgstr "Valgt beskedstilart"
+
+#: ../data/banter.schemas.in.h:24
+msgid "Selected Message Style Name"
+msgstr "Valgt beskedstilartnavn"
+
+#: ../data/banter.schemas.in.h:25
+msgid "Selected Message Style Variant"
+msgstr "Valgt beskedstilart variant"
+
+#: ../data/banter.schemas.in.h:26
+msgid "Selected Theme"
+msgstr "Valgt tema"
+
+#: ../data/banter.schemas.in.h:27
+msgid "Server"
+msgstr "Server"
+
+#: ../data/banter.schemas.in.h:28
+msgid "Server Port"
+msgstr "Server port"
+
+#: ../data/banter.schemas.in.h:29
+msgid "Telepathy connection manager"
+msgstr "Forbindelseshåndtering for Telepathy"
+
+#: ../data/banter.schemas.in.h:30
+msgid ""
+"Telepathy connection manager with IM or Text capability for this account"
+msgstr ""
+"Forbindelseshåndtering for Telepathy med IM eller Tekst-kapacitet til denne "
+"konto"
+
+#: ../data/banter.schemas.in.h:31
+msgid "The name and path of the app style that is currently selected."
+msgstr "Navnet og stien til den app-typografi, der pt er valgt."
+
+#: ../data/banter.schemas.in.h:32
+msgid "The name and path of the contact style that is currently selected."
+msgstr "Navnet og stien til den kontakttypografi, der p.t. er valgt."
+
+#: ../data/banter.schemas.in.h:33
+msgid "The name and path of the message style that is currently selected."
+msgstr "Navnet og stien til den beskedtypografi, der p.t. er valgt."
+
+#: ../data/banter.schemas.in.h:34
+msgid "The name and path of the theme that should be used."
+msgstr "Navnet og stien til det tema, der bør anvendes."
+
+#: ../data/banter.schemas.in.h:35
+msgid ""
+"The name of the Message Style Variant that should be used. Set this to an "
+"empty string to not use a variant. The variant name depends on the selected "
+"message style."
+msgstr ""
+"Navnet på den beskedstilartvariant, der bør anvendes. Indstil denne til en "
+"tom streng for ikke at bruge en variant. Variantnavnet afhænger af den "
+"valgte beskedtypografi."
+
+#: ../data/banter.schemas.in.h:36
+msgid "The name of the Message Style that should be used for the chat window."
+msgstr "Navnet på den beskedtypografi, der bør anvendes til chat-vinduet."
+
+#: ../data/banter.schemas.in.h:37
+msgid "Use TLS"
+msgstr "Brug TLS"
+
+#: ../data/banter.schemas.in.h:38
+msgid "Use old style ssl"
+msgstr "Brug gammeldags ssl"
+
+#: ../data/banter.schemas.in.h:39
+msgid "Use ssl"
+msgstr "Brug ssl"
+
+#: ../data/banter.schemas.in.h:40
+msgid "Use the TLS transport"
+msgstr "Brug TLS-transporten"
