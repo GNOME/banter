@@ -3,17 +3,17 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # Urizev <urizev@gmail.com>, 2007.
-# Jorge González <jorgegonz@svn.gnome.org>, 200, 2008.
+# Jorge González <jorgegonz@svn.gnome.org>, 200, 200, 2009.
 msgid ""
 msgstr ""
 "Project-Id-Version: banter.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-12-16 12:32+0000\n"
-"PO-Revision-Date: 2008-08-29 10:07+0200\n"
+"POT-Creation-Date: 2008-11-07 00:26+0100\n"
+"PO-Revision-Date: 2009-04-12 17:09+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type:  text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.11.4\n"
 "Plural-Forms:  nplurals=2; plural=(n != 1);\n"
@@ -48,7 +48,7 @@ msgstr "Ay_uda"
 
 #: ../Banter/ActionManager.cs:80
 msgid "_Contents"
-msgstr "_Índice"
+msgstr "Índ_ice"
 
 #: ../Banter/ActionManager.cs:81
 msgid "Banter Help"
@@ -64,7 +64,7 @@ msgstr "Acerca de Banter"
 
 #: ../Banter/Application.cs:275
 msgid "New Group Window ..."
-msgstr "Nuevo ventana de grupo..."
+msgstr "Nuevo ventana de grupo…"
 
 #: ../Banter/Application.cs:295
 msgid "Quit"
@@ -77,7 +77,7 @@ msgstr "Todos"
 
 #: ../Banter/AudioView.cs:49
 msgid "Audio Chat in progress..."
-msgstr "Conversación de voz en curso..."
+msgstr "Conversación de voz en curso…"
 
 #. Label label = new Label(Catalog.GetString("Video Chat in progress..."));
 #. label.Show();
@@ -133,7 +133,7 @@ msgstr "Ajustes"
 
 #: ../Banter/GroupWindow.cs:619
 msgid "Add Person..."
-msgstr "Añadir persona..."
+msgstr "Añadir persona…"
 
 #: ../Banter/GroupWindow.cs:626
 msgid "Remove Person"
@@ -282,11 +282,11 @@ msgstr "Comenzar una conversación de texto"
 
 #: ../Banter/PersonCard.cs:616
 msgid "Authorizing..."
-msgstr "Autorizando..."
+msgstr "Autorizando…"
 
 #: ../Banter/PersonCard.cs:639
 msgid "Removing..."
-msgstr "Borrando..."
+msgstr "Borrando…"
 
 #: ../Banter/PreferencesDialog.cs:70
 msgid "Accounts"
@@ -362,7 +362,7 @@ msgstr "Ocupado"
 #: ../Banter/StatusEntry.cs:216 ../Banter/StatusEntry.cs:242
 #: ../Banter/StatusEntry.cs:268
 msgid "Custom message..."
-msgstr "Mensaje personalizado..."
+msgstr "Mensaje personalizado…"
 
 #: ../Banter/StatusEntry.cs:284
 msgid "Clear custom messages"
