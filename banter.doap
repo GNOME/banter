@@ -13,21 +13,21 @@
   <maintainer>
     <foaf:Person>
       <foaf:name>oyd Timothy</foaf:name>
-      <foaf:mbox rdf:resource="btimothy@gmail.com" />
+      <foaf:mbox rdf:resource="mailto:btimothy@gmail.com" />
       <gnome:userid>btimothy</gnome:userid>
     </foaf:Person>
   </maintainer>
   <maintainer>
     <foaf:Person>
       <foaf:name>Brady Anderson</foaf:name>
-      <foaf:mbox rdf:resource="brady.anderson@gmail.com" />
+      <foaf:mbox rdf:resource="mailto:brady.anderson@gmail.com" />
       <gnome:userid>bradya</gnome:userid>
     </foaf:Person>
   </maintainer>
   <maintainer>
     <foaf:Person>
       <foaf:name>Calvin Gaisford</foaf:name>
-      <foaf:mbox rdf:resource="calvinrg@gmail.com" />
+      <foaf:mbox rdf:resource="mailto:calvinrg@gmail.com" />
       <gnome:userid>calvinrg</gnome:userid>
     </foaf:Person>
   </maintainer>
