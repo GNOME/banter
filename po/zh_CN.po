@@ -1,0 +1,547 @@
+# Chinese (China) translation for banter.
+# Copyright (C) 2010 Free Software Foundation, Inc.
+# This file is distributed under the same license as the banter package.
+# Yvonne Ye <chuanjiabao@gmail.com>, 2010.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: banter master\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
+"product=banter&component=general\n"
+"POT-Creation-Date: 2009-12-14 15:43+0000\n"
+"PO-Revision-Date: 2010-07-24 16:24+0800\n"
+"Last-Translator: Yvonne Ye <chuanjiabao@gmail.com>\n"
+"Language-Team: Chinese (China) <i18n-zh@googlegroups.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../Banter/ActionManager.cs:63
+msgid "_File"
+msgstr "文件(_F)"
+
+#: ../Banter/ActionManager.cs:66
+msgid "_Quit"
+msgstr "退出(_Q)"
+
+#: ../Banter/ActionManager.cs:67
+msgid "Quit Banter"
+msgstr "退出 Banter"
+
+#: ../Banter/ActionManager.cs:70
+msgid "_Edit"
+msgstr "编辑(_E)"
+
+#: ../Banter/ActionManager.cs:73
+msgid "_Preferences"
+msgstr "首选项(_P)"
+
+#: ../Banter/ActionManager.cs:74 ../Banter/PreferencesDialog.cs:56
+msgid "Banter Preferences"
+msgstr "Banter 首选项"
+
+#: ../Banter/ActionManager.cs:77
+msgid "_Help"
+msgstr "帮助(_H)"
+
+#: ../Banter/ActionManager.cs:80
+msgid "_Contents"
+msgstr "内容(_C)"
+
+#: ../Banter/ActionManager.cs:81
+msgid "Banter Help"
+msgstr "Banter 帮助"
+
+#: ../Banter/ActionManager.cs:84
+msgid "_About"
+msgstr "关于(_A)"
+
+#: ../Banter/ActionManager.cs:85
+msgid "About Banter"
+msgstr "关于 Banter"
+
+#: ../Banter/Application.cs:275
+msgid "New Group Window ..."
+msgstr "新建组窗口..."
+
+#: ../Banter/Application.cs:295
+msgid "Quit"
+msgstr "退出"
+
+#. Everyone
+#: ../Banter/Application.cs:558 ../Banter/GroupWindow.cs:565
+msgid "Everyone"
+msgstr ""
+
+#: ../Banter/AudioView.cs:49
+msgid "Audio Chat in progress..."
+msgstr "音频聊天中..."
+
+#. Label label = new Label(Catalog.GetString("Video Chat in progress..."));
+#. label.Show();
+#. vbox.PackStart(label, false, true, 0);
+#: ../Banter/AudioView.cs:54 ../Banter/VideoView.cs:103
+msgid "End Call"
+msgstr "结束通话"
+
+#. FileSelection fs = new FileSelection(Catalog.GetString("Select an Avatar"));
+#. int fsreturn = fs.Run();
+#. fs.Hide();
+#: ../Banter/AvatarSelector.cs:94
+msgid "Select an Avatar"
+msgstr "选择头像"
+
+#: ../Banter/AvatarSelector.cs:100
+msgid "PNG and JPEG images"
+msgstr "PNG 或 JPEG 图像"
+
+#: ../Banter/GroupWindow.cs:113 ../Banter/GroupWindow.cs:129
+#: ../data/banter.desktop.in.h:1
+msgid "Banter"
+msgstr "Banter"
+
+#: ../Banter/GroupWindow.cs:442
+msgid "Change your avatar"
+msgstr "更改头像"
+
+#: ../Banter/GroupWindow.cs:443
+msgid "Click here to change your avatar"
+msgstr "点击更改头像"
+
+#: ../Banter/GroupWindow.cs:464 ../Banter/GroupWindow.cs:465
+msgid "Change your online status"
+msgstr "更改在线状态"
+
+#: ../Banter/GroupWindow.cs:511
+msgid "Filter"
+msgstr "查找"
+
+#: ../Banter/GroupWindow.cs:549
+msgid "Groups"
+msgstr "分组"
+
+#: ../Banter/GroupWindow.cs:596
+msgid "Actions"
+msgstr "动作"
+
+#. Settings
+#: ../Banter/GroupWindow.cs:612
+msgid "Settings"
+msgstr "设置"
+
+#: ../Banter/GroupWindow.cs:619
+msgid "Add Person..."
+msgstr "添加联系人..."
+
+#: ../Banter/GroupWindow.cs:626
+msgid "Remove Person"
+msgstr "移除联系人"
+
+#: ../Banter/GroupWindow.cs:653
+msgid "Close Sidebar"
+msgstr "关闭侧栏"
+
+#: ../Banter/GroupWindow.cs:813 ../Banter/GroupWindow.cs:973
+msgid "Show Sidebar"
+msgstr "显示侧栏"
+
+#: ../Banter/GroupWindow.cs:867
+msgid "Everyone - Banter"
+msgstr "所有人 - Banter"
+
+#: ../Banter/GroupWindow.cs:881
+msgid "Banter - New group window"
+msgstr "Banter - 新建组窗口"
+
+#: ../Banter/GroupWindow.cs:882
+msgid "Add new group"
+msgstr "添加新组"
+
+#: ../Banter/GroupWindow.cs:883
+msgid "Enter the name of the new group you'd like to create."
+msgstr "输入新组名"
+
+#: ../Banter/GroupWindow.cs:917
+msgid "Done Removing"
+msgstr "执行移除操作"
+
+#: ../Banter/GroupWindow.cs:919
+msgid "Remove People"
+msgstr "移除联系人"
+
+#: ../Banter/GroupWindow.cs:928
+msgid "Banter - Add person"
+msgstr "Banter - 添加联系人"
+
+#: ../Banter/GroupWindow.cs:929
+msgid "Invite a new person"
+msgstr "邀请新联系人"
+
+#: ../Banter/GroupWindow.cs:930
+msgid "Enter the email address of the person you'd like to add."
+msgstr "输入新联系人的邮箱地址"
+
+#: ../Banter/GroupWindow.cs:978
+msgid "Hide Sidebar"
+msgstr "隐藏侧边条"
+
+#: ../Banter/GroupWindow.cs:1078
+#, csharp-format
+msgid "{0} - Banter"
+msgstr "{0} - Banter"
+
+#: ../Banter/GroupWindow.cs:1094
+msgid "Banter - Delete Group"
+msgstr "Banter - 删除分组"
+
+#: ../Banter/GroupWindow.cs:1096
+#, csharp-format
+msgid "Delete \"{0}\"?"
+msgstr "确定删除 \"{0}\" 吗？"
+
+#: ../Banter/GroupWindow.cs:1098
+msgid "This will delete the group and not the contacts inside of the group."
+msgstr "此操作将删除该组，但保留组内内容"
+
+#: ../Banter/MessagesView.cs:121
+msgid "me"
+msgstr "本人"
+
+#: ../Banter/MessagesView.cs:132
+msgid "sender"
+msgstr "发送人"
+
+#: ../Banter/NotificationManager.cs:203 ../Banter/NotificationManager.cs:439
+#, csharp-format
+msgid "Message from {0}"
+msgstr "来自 {0} 的消息"
+
+#: ../Banter/NotificationManager.cs:235 ../Banter/NotificationManager.cs:286
+#: ../Banter/NotificationManager.cs:340
+msgid "Accept"
+msgstr "接受"
+
+#: ../Banter/NotificationManager.cs:236 ../Banter/NotificationManager.cs:287
+#: ../Banter/NotificationManager.cs:341
+msgid "Decline"
+msgstr "拒接"
+
+#: ../Banter/NotificationManager.cs:266
+msgid "Incoming Audio Chat"
+msgstr "到达的语音聊天"
+
+#: ../Banter/NotificationManager.cs:267
+#, csharp-format
+msgid "{0} is requesting an audio chat"
+msgstr "{0} 请求音频聊天"
+
+#: ../Banter/NotificationManager.cs:319
+msgid "Incoming Video Chat"
+msgstr "到达的视频聊天"
+
+#: ../Banter/NotificationManager.cs:320
+#, csharp-format
+msgid "{0} is requesting a video chat"
+msgstr "{0} 正在请求视频聊天"
+
+#: ../Banter/PersonCard.cs:283 ../Banter/PersonCard.cs:284
+msgid "Remove this person"
+msgstr "移除此联系人"
+
+#: ../Banter/PersonCard.cs:329
+msgid "Invited"
+msgstr "已邀请"
+
+#: ../Banter/PersonCard.cs:332
+msgid "Requesting"
+msgstr "请求添加"
+
+#: ../Banter/PersonCard.cs:407
+msgid "Authorize this person"
+msgstr "授权此人"
+
+#: ../Banter/PersonCard.cs:408
+msgid "Authorize this person to chat with you"
+msgstr "授权此人与您聊天"
+
+#: ../Banter/PersonCard.cs:430 ../Banter/PersonCard.cs:431
+msgid "Start a video chat"
+msgstr "开始视频聊天"
+
+#: ../Banter/PersonCard.cs:447 ../Banter/PersonCard.cs:448
+msgid "Start an audio chat"
+msgstr "开始语音聊天"
+
+#: ../Banter/PersonCard.cs:462 ../Banter/PersonCard.cs:463
+msgid "Start a text chat"
+msgstr "开始文字聊天"
+
+#: ../Banter/PersonCard.cs:616
+msgid "Authorizing..."
+msgstr "授权中..."
+
+#: ../Banter/PersonCard.cs:639
+msgid "Removing..."
+msgstr "移除中..."
+
+#: ../Banter/PreferencesDialog.cs:70
+msgid "Accounts"
+msgstr "账号"
+
+#: ../Banter/PreferencesDialog.cs:72
+msgid "Messages"
+msgstr "消息"
+
+#: ../Banter/PreferencesDialog.cs:136
+msgid "GoogleTalk Account Settings"
+msgstr "GoogleTalk 账号设置"
+
+#: ../Banter/PreferencesDialog.cs:143
+msgid ""
+"In this alpha-phase of the project, this is the only IM account type we "
+"support (so stop your worryin'!)."
+msgstr ""
+"此项目在初级阶段只提供对这一即时聊天账号类型的支持(所以不要再做无用功!)。"
+
+#. Server address
+#: ../Banter/PreferencesDialog.cs:156
+msgid "Server Address:"
+msgstr "服务器地址："
+
+#. Server port
+#: ../Banter/PreferencesDialog.cs:170
+msgid "Server Port:"
+msgstr "服务器端口："
+
+#. Username
+#: ../Banter/PreferencesDialog.cs:184
+msgid "Username:"
+msgstr "用户名："
+
+#. Password
+#: ../Banter/PreferencesDialog.cs:195
+msgid "Password:"
+msgstr "口令："
+
+#: ../Banter/PreferencesDialog.cs:381
+msgid "your.username@gmail.com"
+msgstr "your.username@gmail.com"
+
+#: ../Banter/Presence.cs:143
+msgid "Offline"
+msgstr "下线"
+
+#. Available messages
+#: ../Banter/Presence.cs:145 ../Banter/StatusEntry.cs:198
+msgid "Available"
+msgstr "进入"
+
+#. Away messages
+#: ../Banter/Presence.cs:147 ../Banter/StatusEntry.cs:249
+msgid "Away"
+msgstr "退出"
+
+#: ../Banter/Presence.cs:149
+msgid "XA"
+msgstr "XA"
+
+#: ../Banter/Presence.cs:151
+msgid "Hidden"
+msgstr "隐身"
+
+#. Busy messages
+#: ../Banter/Presence.cs:153 ../Banter/StatusEntry.cs:223
+msgid "Busy"
+msgstr "忙碌"
+
+#: ../Banter/StatusEntry.cs:216 ../Banter/StatusEntry.cs:242
+#: ../Banter/StatusEntry.cs:268
+msgid "Custom message..."
+msgstr "自定义消息..."
+
+#: ../Banter/StatusEntry.cs:284
+msgid "Clear custom messages"
+msgstr "清楚自定义消息"
+
+#: ../data/banter.desktop.in.h:2
+msgid "Instant Messenger AddressBook"
+msgstr "即时消息通讯簿"
+
+#: ../data/banter.desktop.in.h:3
+msgid "Real Time Collaboration Tool"
+msgstr "实时协作工具"
+
+#: ../data/banter.schemas.in.h:1
+msgid "Auto Login"
+msgstr "自动登录"
+
+#: ../data/banter.schemas.in.h:2
+msgid "Automatically login this account when rtc starts up"
+msgstr "启动 rtc 时自动登录此账号"
+
+#: ../data/banter.schemas.in.h:3
+msgid "Current saved list of Group Windows."
+msgstr "已保存的组列表"
+
+#: ../data/banter.schemas.in.h:4
+msgid "Jabber server"
+msgstr "Jabber 服务器"
+
+#: ../data/banter.schemas.in.h:5
+msgid "Jabber server port"
+msgstr "Jabber 服务器端口"
+
+#: ../data/banter.schemas.in.h:6
+msgid "List containing the GUIDs of the currently saved group windows."
+msgstr "列表中保存了当前保存组所有窗口的 GUID。"
+
+#: ../data/banter.schemas.in.h:7
+msgid ""
+"List containing the custom status messages indicating the user is available."
+msgstr "列表中包含了自定义状态消息提示当前用户处于可联系状态。"
+
+#: ../data/banter.schemas.in.h:8
+msgid "List containing the custom status messages indicating the user is busy."
+msgstr "列表中包含了自定义状态消息提示当前用户处于忙碌状态。"
+
+#: ../data/banter.schemas.in.h:9
+msgid ""
+"List containing the name and paths of valid app styles that are installed "
+"onto this system. This should never be empty."
+msgstr "列表中包含了本系统上安装的有效应用程序名称和路径。此项非空。"
+
+#: ../data/banter.schemas.in.h:10
+msgid ""
+"List containing the name and paths of valid contact styles that are "
+"installed onto this system. This should never be empty."
+msgstr "列表中包含了本系统上安装的可用联系风格的名称和路径。此项非空。"
+
+#: ../data/banter.schemas.in.h:11
+msgid ""
+"List containing the name and paths of valid message styles that are "
+"installed onto this system. This should never be empty."
+msgstr "列表中包含了本系统上安装的可用消息风格的名称和路径。此项非空。"
+
+#: ../data/banter.schemas.in.h:12
+msgid ""
+"List containing the name and paths of valid themes that are installed onto "
+"this system. This should never be empty."
+msgstr "列表中包含了本系统上安装的可用主题的名称和路径。此项非空。"
+
+#: ../data/banter.schemas.in.h:13
+msgid "List of custom available status messages"
+msgstr "自定义的在线状态消息列表"
+
+#: ../data/banter.schemas.in.h:14
+msgid "List of custom busy status messages"
+msgstr "自定义忙碌状态消息列表"
+
+#: ../data/banter.schemas.in.h:15
+msgid "List of valid app styles"
+msgstr "可用的应用风格列表"
+
+#: ../data/banter.schemas.in.h:16
+msgid "List of valid contact styles"
+msgstr "可用的联系方式列表"
+
+#: ../data/banter.schemas.in.h:17
+msgid "List of valid message styles"
+msgstr "可用的消息风格列表"
+
+#: ../data/banter.schemas.in.h:18
+msgid "List of valid themes"
+msgstr "可用主题列表"
+
+#: ../data/banter.schemas.in.h:19
+msgid "SIP server"
+msgstr "SIP 服务器"
+
+#: ../data/banter.schemas.in.h:20
+msgid "SIP server port"
+msgstr "SIP 服务器端口"
+
+#: ../data/banter.schemas.in.h:21
+msgid "Selected App Style"
+msgstr "选择的应用风格"
+
+#: ../data/banter.schemas.in.h:22
+msgid "Selected Contact Style"
+msgstr "选择的联系风格"
+
+#: ../data/banter.schemas.in.h:23
+msgid "Selected Message Style"
+msgstr "选择的消息风格"
+
+#: ../data/banter.schemas.in.h:24
+msgid "Selected Message Style Name"
+msgstr "选择的消息风格名"
+
+#: ../data/banter.schemas.in.h:25
+msgid "Selected Message Style Variant"
+msgstr "选择的消息风格变种"
+
+#: ../data/banter.schemas.in.h:26
+msgid "Selected Theme"
+msgstr "选择的主题"
+
+#: ../data/banter.schemas.in.h:27
+msgid "Server"
+msgstr "服务器"
+
+#: ../data/banter.schemas.in.h:28
+msgid "Server Port"
+msgstr "服务器端口"
+
+#: ../data/banter.schemas.in.h:29
+msgid "Telepathy connection manager"
+msgstr "Telepathy 连接管理器"
+
+#: ../data/banter.schemas.in.h:30
+msgid ""
+"Telepathy connection manager with IM or Text capability for this account"
+msgstr "带有对此账户 IM 或文本支持的 Telepathy 连接管理器"
+
+#: ../data/banter.schemas.in.h:31
+msgid "The name and path of the app style that is currently selected."
+msgstr "当前选择的应用类型的名称和路径。"
+
+#: ../data/banter.schemas.in.h:32
+msgid "The name and path of the contact style that is currently selected."
+msgstr "当前选择的联系风格的名称和路径。"
+
+#: ../data/banter.schemas.in.h:33
+msgid "The name and path of the message style that is currently selected."
+msgstr "当前选择的消息风格的名称和路径。"
+
+#: ../data/banter.schemas.in.h:34
+msgid "The name and path of the theme that should be used."
+msgstr "当前所用主题的名称和路径。"
+
+#: ../data/banter.schemas.in.h:35
+msgid ""
+"The name of the Message Style Variant that should be used. Set this to an "
+"empty string to not use a variant. The variant name depends on the selected "
+"message style."
+msgstr ""
+"要使用的消息风格变种的名称。设置此项为空字符串即不使用变种。变种名依赖于选择"
+"的消息风格。"
+
+#: ../data/banter.schemas.in.h:36
+msgid "The name of the Message Style that should be used for the chat window."
+msgstr "聊天窗口要使用的消息风格的名称。"
+
+#: ../data/banter.schemas.in.h:37
+msgid "Use TLS"
+msgstr "使用 TLS"
+
+#: ../data/banter.schemas.in.h:38
+msgid "Use old style ssl"
+msgstr "使用旧版本 ssl"
+
+#: ../data/banter.schemas.in.h:39
+msgid "Use ssl"
+msgstr "使用 ssl"
+
+#: ../data/banter.schemas.in.h:40
+msgid "Use the TLS transport"
+msgstr "使用 TLS 传送"
