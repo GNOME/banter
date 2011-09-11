@@ -1,0 +1,547 @@
+# Greek translation for banter.
+# Copyright (C) 2011 banter's COPYRIGHT HOLDER
+# This file is distributed under the same license as the banter package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: banter master\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=banter&component=general\n"
+"POT-Creation-Date: 2010-07-24 08:25+0000\n"
+"PO-Revision-Date: 2011-09-11 14:56+0200\n"
+"Last-Translator: Panos Kottaridis <pankottaridis@hotmail.com>\n"
+"Language-Team: Greek <team@lists.gnome.gr>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ../Banter/ActionManager.cs:63
+msgid "_File"
+msgstr "_Αρχείο"
+
+#: ../Banter/ActionManager.cs:66
+msgid "_Quit"
+msgstr "_Έξοδος"
+
+#: ../Banter/ActionManager.cs:67
+msgid "Quit Banter"
+msgstr "Εγκαταλείψτε τον αστεϊσμό"
+
+#: ../Banter/ActionManager.cs:70
+msgid "_Edit"
+msgstr "_Επεξεργασία"
+
+#: ../Banter/ActionManager.cs:73
+msgid "_Preferences"
+msgstr "_Προτιμήσεις"
+
+#: ../Banter/ActionManager.cs:74
+#: ../Banter/PreferencesDialog.cs:56
+msgid "Banter Preferences"
+msgstr ""
+
+#: ../Banter/ActionManager.cs:77
+msgid "_Help"
+msgstr "_Βοήθεια"
+
+#: ../Banter/ActionManager.cs:80
+msgid "_Contents"
+msgstr "_περιεχόμενα"
+
+#: ../Banter/ActionManager.cs:81
+msgid "Banter Help"
+msgstr ""
+
+#: ../Banter/ActionManager.cs:84
+msgid "_About"
+msgstr "_σχετικά με"
+
+#: ../Banter/ActionManager.cs:85
+msgid "About Banter"
+msgstr ""
+
+#: ../Banter/Application.cs:275
+msgid "New Group Window ..."
+msgstr "Νέο ομαδικό παράθυρο"
+
+#: ../Banter/Application.cs:295
+msgid "Quit"
+msgstr "Έξοδος"
+
+#. Everyone
+#: ../Banter/Application.cs:558
+#: ../Banter/GroupWindow.cs:565
+msgid "Everyone"
+msgstr "όλοι"
+
+#: ../Banter/AudioView.cs:49
+msgid "Audio Chat in progress..."
+msgstr "Ακουστική συνομιλία υπό εξέλιξη…"
+
+#. Label label = new Label(Catalog.GetString("Video Chat in progress..."));
+#. label.Show();
+#. vbox.PackStart(label, false, true, 0);
+#: ../Banter/AudioView.cs:54
+#: ../Banter/VideoView.cs:103
+msgid "End Call"
+msgstr "Τερματισμός κλήσης"
+
+#. FileSelection fs = new FileSelection(Catalog.GetString("Select an Avatar"));
+#. int fsreturn = fs.Run();
+#. fs.Hide();
+#: ../Banter/AvatarSelector.cs:94
+msgid "Select an Avatar"
+msgstr "Επιλέξτε ένα είδωλο"
+
+#: ../Banter/AvatarSelector.cs:100
+msgid "PNG and JPEG images"
+msgstr "PNG και JPEG εικόνες"
+
+#: ../Banter/GroupWindow.cs:113
+#: ../Banter/GroupWindow.cs:129
+#: ../data/banter.desktop.in.h:1
+msgid "Banter"
+msgstr "Αστεϊσμός"
+
+#: ../Banter/GroupWindow.cs:442
+msgid "Change your avatar"
+msgstr "Αλλάξτε το είδωλό σας"
+
+#: ../Banter/GroupWindow.cs:443
+msgid "Click here to change your avatar"
+msgstr "Κάντε κλικ εδώ για να αλλάξετε το avatar σας"
+
+#: ../Banter/GroupWindow.cs:464
+#: ../Banter/GroupWindow.cs:465
+msgid "Change your online status"
+msgstr "Αλλαγή της κατάστασης σύνδεσής σας"
+
+#: ../Banter/GroupWindow.cs:511
+msgid "Filter"
+msgstr "Φίλτρο"
+
+#: ../Banter/GroupWindow.cs:549
+msgid "Groups"
+msgstr "Ομάδες"
+
+#: ../Banter/GroupWindow.cs:596
+msgid "Actions"
+msgstr "Ενέργειες"
+
+#. Settings
+#: ../Banter/GroupWindow.cs:612
+msgid "Settings"
+msgstr "Ρυθμίσεις"
+
+#: ../Banter/GroupWindow.cs:619
+msgid "Add Person..."
+msgstr "Προσθήκη ατόμου"
+
+#: ../Banter/GroupWindow.cs:626
+msgid "Remove Person"
+msgstr "Απομάκρυνση ατόμου"
+
+#: ../Banter/GroupWindow.cs:653
+msgid "Close Sidebar"
+msgstr "Κλείσιμο πλαϊνλης μπάρας"
+
+#: ../Banter/GroupWindow.cs:813
+#: ../Banter/GroupWindow.cs:973
+msgid "Show Sidebar"
+msgstr "Εμφάνιση πλαϊνής μπάρας"
+
+#: ../Banter/GroupWindow.cs:867
+msgid "Everyone - Banter"
+msgstr ""
+
+#: ../Banter/GroupWindow.cs:881
+msgid "Banter - New group window"
+msgstr ""
+
+#: ../Banter/GroupWindow.cs:882
+msgid "Add new group"
+msgstr "Προσθήκη νέας ομάδας"
+
+#: ../Banter/GroupWindow.cs:883
+msgid "Enter the name of the new group you'd like to create."
+msgstr "Πληκτρολογήστε το όνομα της νέας ομάδας που θέλετε να δημιουργήσετε."
+
+#: ../Banter/GroupWindow.cs:917
+msgid "Done Removing"
+msgstr "Έγινε Αφαίρεση"
+
+#: ../Banter/GroupWindow.cs:919
+msgid "Remove People"
+msgstr "Αφαίρεση άνθρωπων"
+
+#: ../Banter/GroupWindow.cs:928
+msgid "Banter - Add person"
+msgstr ""
+
+#: ../Banter/GroupWindow.cs:929
+msgid "Invite a new person"
+msgstr "Προσκαλέστε ένα νέο άτομο"
+
+#: ../Banter/GroupWindow.cs:930
+msgid "Enter the email address of the person you'd like to add."
+msgstr "Εισάγετε τη διεύθυνση ηλεκτρονικού ταχυδρομείου του προσώπου που θα θέλατε να προσθέσετε."
+
+#: ../Banter/GroupWindow.cs:978
+msgid "Hide Sidebar"
+msgstr "Απόκρυψη πλαϊνής μπάρας"
+
+#: ../Banter/GroupWindow.cs:1078
+#, csharp-format
+msgid "{0} - Banter"
+msgstr ""
+
+#: ../Banter/GroupWindow.cs:1094
+msgid "Banter - Delete Group"
+msgstr ""
+
+#: ../Banter/GroupWindow.cs:1096
+#, csharp-format
+msgid "Delete \"{0}\"?"
+msgstr ""
+
+#: ../Banter/GroupWindow.cs:1098
+msgid "This will delete the group and not the contacts inside of the group."
+msgstr "Αυτό θα διαγράψει την ομάδα και όχι τις επαφές στο εσωτερικό της ομάδας."
+
+#: ../Banter/MessagesView.cs:121
+msgid "me"
+msgstr "Εγώ"
+
+#: ../Banter/MessagesView.cs:132
+msgid "sender"
+msgstr "αποστολέας"
+
+#: ../Banter/NotificationManager.cs:203
+#: ../Banter/NotificationManager.cs:439
+#, csharp-format
+msgid "Message from {0}"
+msgstr "Μήνυμα από {0}"
+
+#: ../Banter/NotificationManager.cs:235
+#: ../Banter/NotificationManager.cs:286
+#: ../Banter/NotificationManager.cs:340
+msgid "Accept"
+msgstr "Δέχομαι"
+
+#: ../Banter/NotificationManager.cs:236
+#: ../Banter/NotificationManager.cs:287
+#: ../Banter/NotificationManager.cs:341
+msgid "Decline"
+msgstr "Δεν αποδέχομαι"
+
+#: ../Banter/NotificationManager.cs:266
+msgid "Incoming Audio Chat"
+msgstr "Εισερχόμενη ακουστική συνομιλία"
+
+#: ../Banter/NotificationManager.cs:267
+#, csharp-format
+msgid "{0} is requesting an audio chat"
+msgstr "{0} ζητά μια ακουστική συνομιλία"
+
+#: ../Banter/NotificationManager.cs:319
+msgid "Incoming Video Chat"
+msgstr "Εισερχόμενη τηλεοπτική συνομιλία"
+
+#: ../Banter/NotificationManager.cs:320
+#, csharp-format
+msgid "{0} is requesting a video chat"
+msgstr "{0}  ζητά μια τηλεοπτική συνομιλία"
+
+#: ../Banter/PersonCard.cs:283
+#: ../Banter/PersonCard.cs:284
+msgid "Remove this person"
+msgstr "Απομακρύνετε αυτό το πρόσωπο"
+
+#: ../Banter/PersonCard.cs:329
+msgid "Invited"
+msgstr "Προσκεκλημένος"
+
+#: ../Banter/PersonCard.cs:332
+msgid "Requesting"
+msgstr "Αίτηση"
+
+#: ../Banter/PersonCard.cs:407
+msgid "Authorize this person"
+msgstr "Εξουσιοδοτήστε αυτό το άτομο"
+
+#: ../Banter/PersonCard.cs:408
+msgid "Authorize this person to chat with you"
+msgstr "Εξουσιοδοτήστε αυτό το άτομο αυτό να συνομιλήσει μαζί σας"
+
+#: ../Banter/PersonCard.cs:430
+#: ../Banter/PersonCard.cs:431
+msgid "Start a video chat"
+msgstr "Ξεκινήστε μια συνομιλία μέσω βίντεο"
+
+#: ../Banter/PersonCard.cs:447
+#: ../Banter/PersonCard.cs:448
+msgid "Start an audio chat"
+msgstr "Έναρξη  συνομιλίας ήχου"
+
+#: ../Banter/PersonCard.cs:462
+#: ../Banter/PersonCard.cs:463
+msgid "Start a text chat"
+msgstr "Ξεκινήστε μια συνομιλία κειμένου"
+
+#: ../Banter/PersonCard.cs:616
+msgid "Authorizing..."
+msgstr "Έγκριση…"
+
+#: ../Banter/PersonCard.cs:639
+msgid "Removing..."
+msgstr "Αφαίρεση ..."
+
+#: ../Banter/PreferencesDialog.cs:70
+msgid "Accounts"
+msgstr "Λογαριασμοί"
+
+#: ../Banter/PreferencesDialog.cs:72
+msgid "Messages"
+msgstr "Μηνύματα"
+
+#: ../Banter/PreferencesDialog.cs:136
+msgid "GoogleTalk Account Settings"
+msgstr "GoogleTalk Ρυθμίσεις λογαριασμού"
+
+#: ../Banter/PreferencesDialog.cs:143
+msgid "In this alpha-phase of the project, this is the only IM account type we support (so stop your worryin'!)."
+msgstr "Σε αυτή την πρώτη-φάση του έργου, αυτός είναι ο μόνος τύπος λογαριασμού IM που υποστηρίζουμε (οπότε σταματήστε να ανησυχείτε!)."
+
+#. Server address
+#: ../Banter/PreferencesDialog.cs:156
+msgid "Server Address:"
+msgstr "Διεύθυνση διακομιστή:"
+
+#. Server port
+#: ../Banter/PreferencesDialog.cs:170
+msgid "Server Port:"
+msgstr "Θύρα διακομιστή:"
+
+#. Username
+#: ../Banter/PreferencesDialog.cs:184
+msgid "Username:"
+msgstr "Όνομα Χρήστη:"
+
+#. Password
+#: ../Banter/PreferencesDialog.cs:195
+msgid "Password:"
+msgstr "Κωδικός:"
+
+#: ../Banter/PreferencesDialog.cs:381
+msgid "your.username@gmail.com"
+msgstr ""
+
+#: ../Banter/Presence.cs:143
+msgid "Offline"
+msgstr "Αποσυνδεδεμένος"
+
+#. Available messages
+#: ../Banter/Presence.cs:145
+#: ../Banter/StatusEntry.cs:198
+msgid "Available"
+msgstr "διαθέσιμος"
+
+#. Away messages
+#: ../Banter/Presence.cs:147
+#: ../Banter/StatusEntry.cs:249
+msgid "Away"
+msgstr "Απών"
+
+#: ../Banter/Presence.cs:149
+msgid "XA"
+msgstr ""
+
+#: ../Banter/Presence.cs:151
+msgid "Hidden"
+msgstr "κρυμμένος"
+
+#. Busy messages
+#: ../Banter/Presence.cs:153
+#: ../Banter/StatusEntry.cs:223
+msgid "Busy"
+msgstr "Απασχολειμένος"
+
+#: ../Banter/StatusEntry.cs:216
+#: ../Banter/StatusEntry.cs:242
+#: ../Banter/StatusEntry.cs:268
+msgid "Custom message..."
+msgstr "Προσαρμοσμένο μήνυμα .."
+
+#: ../Banter/StatusEntry.cs:284
+msgid "Clear custom messages"
+msgstr "Διαγραφή προσαρμοσμένων μηνυμάτων"
+
+#: ../data/banter.desktop.in.h:2
+msgid "Instant Messenger AddressBook"
+msgstr "Instant Messenger ατζέντα διευθύνσεων"
+
+#: ../data/banter.desktop.in.h:3
+msgid "Real Time Collaboration Tool"
+msgstr ""
+
+#: ../data/banter.schemas.in.h:1
+msgid "Auto Login"
+msgstr "αυτόματη είσοδος"
+
+#: ../data/banter.schemas.in.h:2
+msgid "Automatically login this account when rtc starts up"
+msgstr "Αυτόματη σύνδεση αυτού του λογαριασμού, όταν το RTC ξεκινάει"
+
+#: ../data/banter.schemas.in.h:3
+msgid "Current saved list of Group Windows."
+msgstr "Τρέχουσα αποθηκευμένη λίστα των Ομάδων Windows."
+
+#: ../data/banter.schemas.in.h:4
+msgid "Jabber server"
+msgstr ""
+
+#: ../data/banter.schemas.in.h:5
+msgid "Jabber server port"
+msgstr ""
+
+#: ../data/banter.schemas.in.h:6
+msgid "List containing the GUIDs of the currently saved group windows."
+msgstr ""
+
+#: ../data/banter.schemas.in.h:7
+msgid "List containing the custom status messages indicating the user is available."
+msgstr "Κατάλογος με τα προσαρμοσμένα μηνύματα κατάστασης που υποδεικνύει ο χρήστης είναι διαθέσιμος"
+
+#: ../data/banter.schemas.in.h:8
+msgid "List containing the custom status messages indicating the user is busy."
+msgstr "Κατάλογος με τα προσαρμοσμένα μηνύματα κατάστασης που υποδεικνύει ο χρήστης είναι απασχολημένος."
+
+#: ../data/banter.schemas.in.h:9
+msgid "List containing the name and paths of valid app styles that are installed onto this system. This should never be empty."
+msgstr "Λίστα που περιέχει το ονοματεπώνυμο και μονοπάτια των έγκυρων στυλ app που είναι εγκατεστημένα σε αυτό το σύστημα. Αυτό δεν πρέπει ποτέ να είναι κενό."
+
+#: ../data/banter.schemas.in.h:10
+msgid "List containing the name and paths of valid contact styles that are installed onto this system. This should never be empty."
+msgstr "Λίστα που περιέχει το όνομα και τα μονοπάτια των έγκυρων μορφών επικοινωνίας που είναι εγκατεστημένα σε αυτό το σύστημα. Αυτό δεν πρέπει ποτέ να είναι κενό."
+
+#: ../data/banter.schemas.in.h:11
+msgid "List containing the name and paths of valid message styles that are installed onto this system. This should never be empty."
+msgstr "Λίστα που περιέχει το όνομα και τα μονοπάτια των έγκυρων στυλ μήνυμα που είναι εγκατεστημένα σε αυτό το σύστημα. Αυτό δεν πρέπει ποτέ να είναι κενό."
+
+#: ../data/banter.schemas.in.h:12
+msgid "List containing the name and paths of valid themes that are installed onto this system. This should never be empty."
+msgstr "Λίστα που περιέχει το όνομα και τα μονοπάτια των έγκυρων θέματα που είναι εγκατεστημένα σε αυτό το σύστημα. Αυτό δεν πρέπει ποτέ να είναι κενό."
+
+#: ../data/banter.schemas.in.h:13
+msgid "List of custom available status messages"
+msgstr "Κατάλογος προσαρμοσμένων διαθέσιμων μηνυμάτων κατάστασης"
+
+#: ../data/banter.schemas.in.h:14
+msgid "List of custom busy status messages"
+msgstr ""
+
+#: ../data/banter.schemas.in.h:15
+msgid "List of valid app styles"
+msgstr "Κατάλογος έγκυρων app μορφών"
+
+#: ../data/banter.schemas.in.h:16
+msgid "List of valid contact styles"
+msgstr "Κατάλογος έγκυρων μορφών επαφών"
+
+#: ../data/banter.schemas.in.h:17
+msgid "List of valid message styles"
+msgstr "Κατάλογος έγκυρων μορφών μηνυμάτων"
+
+#: ../data/banter.schemas.in.h:18
+msgid "List of valid themes"
+msgstr "Κατάλογος έγκυρων θεμάτων"
+
+#: ../data/banter.schemas.in.h:19
+msgid "SIP server"
+msgstr ""
+
+#: ../data/banter.schemas.in.h:20
+msgid "SIP server port"
+msgstr ""
+
+#: ../data/banter.schemas.in.h:21
+msgid "Selected App Style"
+msgstr "Επιλεγμένο App ύφος"
+
+#: ../data/banter.schemas.in.h:22
+msgid "Selected Contact Style"
+msgstr "Επιλεγμένο ύφος επαφών"
+
+#: ../data/banter.schemas.in.h:23
+msgid "Selected Message Style"
+msgstr "Επιλεγμένο ύφος μηνυμάτων"
+
+#: ../data/banter.schemas.in.h:24
+msgid "Selected Message Style Name"
+msgstr ""
+
+#: ../data/banter.schemas.in.h:25
+msgid "Selected Message Style Variant"
+msgstr "Επιλεγμένη παραλλαγή ύφους μηνυμάτων"
+
+#: ../data/banter.schemas.in.h:26
+msgid "Selected Theme"
+msgstr "επιλεγμένο θέμα"
+
+#: ../data/banter.schemas.in.h:27
+msgid "Server"
+msgstr "διακομιστής"
+
+#: ../data/banter.schemas.in.h:28
+msgid "Server Port"
+msgstr "Θύρα διακομιστή"
+
+#: ../data/banter.schemas.in.h:29
+msgid "Telepathy connection manager"
+msgstr "Τηλεπαθητικά διαχειριστής σύνδεσης"
+
+#: ../data/banter.schemas.in.h:30
+msgid "Telepathy connection manager with IM or Text capability for this account"
+msgstr ""
+
+#: ../data/banter.schemas.in.h:31
+msgid "The name and path of the app style that is currently selected."
+msgstr "Το όνομα και η διαδρομή του στυλ app που είναι επιλεγμένο."
+
+#: ../data/banter.schemas.in.h:32
+msgid "The name and path of the contact style that is currently selected."
+msgstr "Το όνομα και η διαδρομή του στυλ επαφής που έχει επιλεχθεί."
+
+#: ../data/banter.schemas.in.h:33
+msgid "The name and path of the message style that is currently selected."
+msgstr "Το όνομα και η διαδρομή του στυλ μηνύματος που είναι επιλεγμένο."
+
+#: ../data/banter.schemas.in.h:34
+msgid "The name and path of the theme that should be used."
+msgstr "Το όνομα και η πορεία του θέματος που πρέπει να χρησιμοποιείται."
+
+#: ../data/banter.schemas.in.h:35
+msgid "The name of the Message Style Variant that should be used. Set this to an empty string to not use a variant. The variant name depends on the selected message style."
+msgstr ""
+
+#: ../data/banter.schemas.in.h:36
+msgid "The name of the Message Style that should be used for the chat window."
+msgstr ""
+
+#: ../data/banter.schemas.in.h:37
+msgid "Use TLS"
+msgstr ""
+
+#: ../data/banter.schemas.in.h:38
+msgid "Use old style ssl"
+msgstr ""
+
+#: ../data/banter.schemas.in.h:39
+msgid "Use ssl"
+msgstr ""
+
+#: ../data/banter.schemas.in.h:40
+msgid "Use the TLS transport"
+msgstr ""
+
