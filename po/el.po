@@ -26,7 +26,7 @@ msgstr "_Έξοδος"
 
 #: ../Banter/ActionManager.cs:67
 msgid "Quit Banter"
-msgstr "Εγκαταλείψτε τον αστεϊσμό"
+msgstr "Κλείσιμο του Banter"
 
 #: ../Banter/ActionManager.cs:70
 msgid "_Edit"
@@ -39,7 +39,7 @@ msgstr "_Προτιμήσεις"
 #: ../Banter/ActionManager.cs:74
 #: ../Banter/PreferencesDialog.cs:56
 msgid "Banter Preferences"
-msgstr ""
+msgstr "Προτιμήσεις του Banter"
 
 #: ../Banter/ActionManager.cs:77
 msgid "_Help"
@@ -47,23 +47,23 @@ msgstr "_Βοήθεια"
 
 #: ../Banter/ActionManager.cs:80
 msgid "_Contents"
-msgstr "_περιεχόμενα"
+msgstr "_Περιεχόμενα"
 
 #: ../Banter/ActionManager.cs:81
 msgid "Banter Help"
-msgstr ""
+msgstr "Βοήθεια του Banter"
 
 #: ../Banter/ActionManager.cs:84
 msgid "_About"
-msgstr "_σχετικά με"
+msgstr "_Περί"
 
 #: ../Banter/ActionManager.cs:85
 msgid "About Banter"
-msgstr ""
+msgstr "Περί του Banter"
 
 #: ../Banter/Application.cs:275
 msgid "New Group Window ..."
-msgstr "Νέο ομαδικό παράθυρο"
+msgstr "Νέο ομαδικό παράθυρο…"
 
 #: ../Banter/Application.cs:295
 msgid "Quit"
@@ -73,11 +73,11 @@ msgstr "Έξοδος"
 #: ../Banter/Application.cs:558
 #: ../Banter/GroupWindow.cs:565
 msgid "Everyone"
-msgstr "όλοι"
+msgstr "Όλοι"
 
 #: ../Banter/AudioView.cs:49
 msgid "Audio Chat in progress..."
-msgstr "Ακουστική συνομιλία υπό εξέλιξη…"
+msgstr "Συνομιλία με φωνή υπό εξέλιξη…"
 
 #. Label label = new Label(Catalog.GetString("Video Chat in progress..."));
 #. label.Show();
@@ -92,25 +92,25 @@ msgstr "Τερματισμός κλήσης"
 #. fs.Hide();
 #: ../Banter/AvatarSelector.cs:94
 msgid "Select an Avatar"
-msgstr "Επιλέξτε ένα είδωλο"
+msgstr "Επιλέξτε ένα αβατάρ"
 
 #: ../Banter/AvatarSelector.cs:100
 msgid "PNG and JPEG images"
-msgstr "PNG και JPEG εικόνες"
+msgstr "Εικόνες PNG και JPEG"
 
 #: ../Banter/GroupWindow.cs:113
 #: ../Banter/GroupWindow.cs:129
 #: ../data/banter.desktop.in.h:1
 msgid "Banter"
-msgstr "Αστεϊσμός"
+msgstr "Banter"
 
 #: ../Banter/GroupWindow.cs:442
 msgid "Change your avatar"
-msgstr "Αλλάξτε το είδωλό σας"
+msgstr "Αλλάξτε το αβατάρ σας"
 
 #: ../Banter/GroupWindow.cs:443
 msgid "Click here to change your avatar"
-msgstr "Κάντε κλικ εδώ για να αλλάξετε το avatar σας"
+msgstr "Κάντε κλικ εδώ για να αλλάξετε το αβατάρ σας"
 
 #: ../Banter/GroupWindow.cs:464
 #: ../Banter/GroupWindow.cs:465
@@ -136,7 +136,7 @@ msgstr "Ρυθμίσεις"
 
 #: ../Banter/GroupWindow.cs:619
 msgid "Add Person..."
-msgstr "Προσθήκη ατόμου"
+msgstr "Προσθήκη ατόμου…"
 
 #: ../Banter/GroupWindow.cs:626
 msgid "Remove Person"
@@ -144,20 +144,20 @@ msgstr "Απομάκρυνση ατόμου"
 
 #: ../Banter/GroupWindow.cs:653
 msgid "Close Sidebar"
-msgstr "Κλείσιμο πλαϊνλης μπάρας"
+msgstr "Κλείσιμο πλευρικής μπάρας"
 
 #: ../Banter/GroupWindow.cs:813
 #: ../Banter/GroupWindow.cs:973
 msgid "Show Sidebar"
-msgstr "Εμφάνιση πλαϊνής μπάρας"
+msgstr "Εμφάνιση πλευρικής μπάρας"
 
 #: ../Banter/GroupWindow.cs:867
 msgid "Everyone - Banter"
-msgstr ""
+msgstr "Όλοι - Banter"
 
 #: ../Banter/GroupWindow.cs:881
 msgid "Banter - New group window"
-msgstr ""
+msgstr "Banter - Νέο ομαδικό παράθυρο"
 
 #: ../Banter/GroupWindow.cs:882
 msgid "Add new group"
@@ -169,15 +169,15 @@ msgstr "Πληκτρολογήστε το όνομα της νέας ομάδα�
 
 #: ../Banter/GroupWindow.cs:917
 msgid "Done Removing"
-msgstr "Έγινε Αφαίρεση"
+msgstr "Η αφαίρεση έγινε"
 
 #: ../Banter/GroupWindow.cs:919
 msgid "Remove People"
-msgstr "Αφαίρεση άνθρωπων"
+msgstr "Αφαίρεση ατόμων"
 
 #: ../Banter/GroupWindow.cs:928
 msgid "Banter - Add person"
-msgstr ""
+msgstr "Banter - Πρόσθεση ατόμου"
 
 #: ../Banter/GroupWindow.cs:929
 msgid "Invite a new person"
@@ -189,21 +189,21 @@ msgstr "Εισάγετε τη διεύθυνση ηλεκτρονικού ταχ
 
 #: ../Banter/GroupWindow.cs:978
 msgid "Hide Sidebar"
-msgstr "Απόκρυψη πλαϊνής μπάρας"
+msgstr "Απόκρυψη πλευρικής μπάρας"
 
 #: ../Banter/GroupWindow.cs:1078
 #, csharp-format
 msgid "{0} - Banter"
-msgstr ""
+msgstr "{0} - Banter"
 
 #: ../Banter/GroupWindow.cs:1094
 msgid "Banter - Delete Group"
-msgstr ""
+msgstr "Banter - Διαγραφή ομάδας"
 
 #: ../Banter/GroupWindow.cs:1096
 #, csharp-format
 msgid "Delete \"{0}\"?"
-msgstr ""
+msgstr "Διαγραφή \"{0}\";"
 
 #: ../Banter/GroupWindow.cs:1098
 msgid "This will delete the group and not the contacts inside of the group."
@@ -211,7 +211,7 @@ msgstr "Αυτό θα διαγράψει την ομάδα και όχι τις 
 
 #: ../Banter/MessagesView.cs:121
 msgid "me"
-msgstr "Εγώ"
+msgstr "εγώ"
 
 #: ../Banter/MessagesView.cs:132
 msgid "sender"
@@ -237,21 +237,21 @@ msgstr "Δεν αποδέχομαι"
 
 #: ../Banter/NotificationManager.cs:266
 msgid "Incoming Audio Chat"
-msgstr "Εισερχόμενη ακουστική συνομιλία"
+msgstr "Εισερχόμενη συνομιλία με φωνή"
 
 #: ../Banter/NotificationManager.cs:267
 #, csharp-format
 msgid "{0} is requesting an audio chat"
-msgstr "{0} ζητά μια ακουστική συνομιλία"
+msgstr "{0} ζητά μια συνομιλία με φωνή"
 
 #: ../Banter/NotificationManager.cs:319
 msgid "Incoming Video Chat"
-msgstr "Εισερχόμενη τηλεοπτική συνομιλία"
+msgstr "Εισερχόμενη συνομιλία με βίντεο"
 
 #: ../Banter/NotificationManager.cs:320
 #, csharp-format
 msgid "{0} is requesting a video chat"
-msgstr "{0}  ζητά μια τηλεοπτική συνομιλία"
+msgstr "{0} ζητά μια συνομιλία με βίντεο"
 
 #: ../Banter/PersonCard.cs:283
 #: ../Banter/PersonCard.cs:284
@@ -282,7 +282,7 @@ msgstr "Ξεκινήστε μια συνομιλία μέσω βίντεο"
 #: ../Banter/PersonCard.cs:447
 #: ../Banter/PersonCard.cs:448
 msgid "Start an audio chat"
-msgstr "Έναρξη  συνομιλίας ήχου"
+msgstr "Έναρξη συνομιλίας φωνής"
 
 #: ../Banter/PersonCard.cs:462
 #: ../Banter/PersonCard.cs:463
@@ -295,7 +295,7 @@ msgstr "Έγκριση…"
 
 #: ../Banter/PersonCard.cs:639
 msgid "Removing..."
-msgstr "Αφαίρεση ..."
+msgstr "Αφαίρεση…"
 
 #: ../Banter/PreferencesDialog.cs:70
 msgid "Accounts"
@@ -307,7 +307,7 @@ msgstr "Μηνύματα"
 
 #: ../Banter/PreferencesDialog.cs:136
 msgid "GoogleTalk Account Settings"
-msgstr "GoogleTalk Ρυθμίσεις λογαριασμού"
+msgstr "Ρυθμίσεις λογαριασμού GoogleTalk"
 
 #: ../Banter/PreferencesDialog.cs:143
 msgid "In this alpha-phase of the project, this is the only IM account type we support (so stop your worryin'!)."
@@ -335,7 +335,7 @@ msgstr "Κωδικός:"
 
 #: ../Banter/PreferencesDialog.cs:381
 msgid "your.username@gmail.com"
-msgstr ""
+msgstr "your.username@gmail.com"
 
 #: ../Banter/Presence.cs:143
 msgid "Offline"
@@ -345,7 +345,7 @@ msgstr "Αποσυνδεδεμένος"
 #: ../Banter/Presence.cs:145
 #: ../Banter/StatusEntry.cs:198
 msgid "Available"
-msgstr "διαθέσιμος"
+msgstr "Διαθέσιμος"
 
 #. Away messages
 #: ../Banter/Presence.cs:147
@@ -359,19 +359,19 @@ msgstr ""
 
 #: ../Banter/Presence.cs:151
 msgid "Hidden"
-msgstr "κρυμμένος"
+msgstr "Κρυμμένος"
 
 #. Busy messages
 #: ../Banter/Presence.cs:153
 #: ../Banter/StatusEntry.cs:223
 msgid "Busy"
-msgstr "Απασχολειμένος"
+msgstr "Απασχολημένος"
 
 #: ../Banter/StatusEntry.cs:216
 #: ../Banter/StatusEntry.cs:242
 #: ../Banter/StatusEntry.cs:268
 msgid "Custom message..."
-msgstr "Προσαρμοσμένο μήνυμα .."
+msgstr "Προσαρμοσμένο μήνυμα…"
 
 #: ../Banter/StatusEntry.cs:284
 msgid "Clear custom messages"
@@ -379,15 +379,15 @@ msgstr "Διαγραφή προσαρμοσμένων μηνυμάτων"
 
 #: ../data/banter.desktop.in.h:2
 msgid "Instant Messenger AddressBook"
-msgstr "Instant Messenger ατζέντα διευθύνσεων"
+msgstr "Διευθυνσιολόγιο άμεσων μηνυμάτων"
 
 #: ../data/banter.desktop.in.h:3
 msgid "Real Time Collaboration Tool"
-msgstr ""
+msgstr "Εργαλείο συνεργασίας σε πραγματικό χρόνο"
 
 #: ../data/banter.schemas.in.h:1
 msgid "Auto Login"
-msgstr "αυτόματη είσοδος"
+msgstr "Αυτόματη είσοδος"
 
 #: ../data/banter.schemas.in.h:2
 msgid "Automatically login this account when rtc starts up"
@@ -395,15 +395,15 @@ msgstr "Αυτόματη σύνδεση αυτού του λογαριασμού
 
 #: ../data/banter.schemas.in.h:3
 msgid "Current saved list of Group Windows."
-msgstr "Τρέχουσα αποθηκευμένη λίστα των Ομάδων Windows."
+msgstr "Τρέχουσα αποθηκευμένη λίστα των παραθύρων με ομάδες."
 
 #: ../data/banter.schemas.in.h:4
 msgid "Jabber server"
-msgstr ""
+msgstr "Εξυπηρετητής Jabber"
 
 #: ../data/banter.schemas.in.h:5
 msgid "Jabber server port"
-msgstr ""
+msgstr "Θύρα εξυπηρετητή Jabber"
 
 #: ../data/banter.schemas.in.h:6
 msgid "List containing the GUIDs of the currently saved group windows."
@@ -443,7 +443,7 @@ msgstr ""
 
 #: ../data/banter.schemas.in.h:15
 msgid "List of valid app styles"
-msgstr "Κατάλογος έγκυρων app μορφών"
+msgstr "Κατάλογος έγκυρων μορφών app"
 
 #: ../data/banter.schemas.in.h:16
 msgid "List of valid contact styles"
@@ -487,11 +487,11 @@ msgstr "Επιλεγμένη παραλλαγή ύφους μηνυμάτων"
 
 #: ../data/banter.schemas.in.h:26
 msgid "Selected Theme"
-msgstr "επιλεγμένο θέμα"
+msgstr "Επιλεγμένο θέμα"
 
 #: ../data/banter.schemas.in.h:27
 msgid "Server"
-msgstr "διακομιστής"
+msgstr "Διακομιστής"
 
 #: ../data/banter.schemas.in.h:28
 msgid "Server Port"
@@ -499,7 +499,7 @@ msgstr "Θύρα διακομιστή"
 
 #: ../data/banter.schemas.in.h:29
 msgid "Telepathy connection manager"
-msgstr "Τηλεπαθητικά διαχειριστής σύνδεσης"
+msgstr "Διαχειριστής σύνδεσης Telepathy"
 
 #: ../data/banter.schemas.in.h:30
 msgid "Telepathy connection manager with IM or Text capability for this account"
