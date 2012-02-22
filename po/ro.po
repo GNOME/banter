@@ -1,0 +1,568 @@
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Robert Roventa <rov_93@yahoo.com>, 2010.
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
+"product=banter&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2011-09-11 12:48+0000\n"
+"PO-Revision-Date: 2010-12-28 12:51+0200\n"
+"Last-Translator: \n"
+"Language-Team: Romanian <kde-i18n-doc@kde.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Lokalize 1.1\n"
+"Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
+"20)) ? 1 : 2;\n"
+
+#: ../Banter/ActionManager.cs:63
+msgid "_File"
+msgstr "_Fișier"
+
+#: ../Banter/ActionManager.cs:66
+msgid "_Quit"
+msgstr "_Ieșire"
+
+#: ../Banter/ActionManager.cs:67
+msgid "Quit Banter"
+msgstr "Ieși din Banter"
+
+#: ../Banter/ActionManager.cs:70
+msgid "_Edit"
+msgstr "_Editare"
+
+#: ../Banter/ActionManager.cs:73
+msgid "_Preferences"
+msgstr "_Preferințe"
+
+#: ../Banter/ActionManager.cs:74 ../Banter/PreferencesDialog.cs:56
+msgid "Banter Preferences"
+msgstr "Preferințe Banter"
+
+#: ../Banter/ActionManager.cs:77
+msgid "_Help"
+msgstr "_Ajutor"
+
+#: ../Banter/ActionManager.cs:80
+msgid "_Contents"
+msgstr "_Conținut"
+
+#: ../Banter/ActionManager.cs:81
+msgid "Banter Help"
+msgstr "Ajutor Banter"
+
+#: ../Banter/ActionManager.cs:84
+msgid "_About"
+msgstr "_Despre"
+
+#: ../Banter/ActionManager.cs:85
+msgid "About Banter"
+msgstr "Despre Banter"
+
+#: ../Banter/Application.cs:275
+msgid "New Group Window ..."
+msgstr "Fereastră cu un nou Grup ..."
+
+#: ../Banter/Application.cs:295
+msgid "Quit"
+msgstr "Ieși"
+
+#. Everyone
+#: ../Banter/Application.cs:558 ../Banter/GroupWindow.cs:565
+msgid "Everyone"
+msgstr "Toți"
+
+#: ../Banter/AudioView.cs:49
+msgid "Audio Chat in progress..."
+msgstr "Discuție audio în desfășurare"
+
+#. Label label = new Label(Catalog.GetString("Video Chat in progress..."));
+#. label.Show();
+#. vbox.PackStart(label, false, true, 0);
+#: ../Banter/AudioView.cs:54 ../Banter/VideoView.cs:103
+msgid "End Call"
+msgstr "Sfârșitul apelului"
+
+#. FileSelection fs = new FileSelection(Catalog.GetString("Select an Avatar"));
+#. int fsreturn = fs.Run();
+#. fs.Hide();
+#: ../Banter/AvatarSelector.cs:94
+msgid "Select an Avatar"
+msgstr "Alege un avatar"
+
+#: ../Banter/AvatarSelector.cs:100
+msgid "PNG and JPEG images"
+msgstr "Imagini PNG și JPEG"
+
+#: ../Banter/GroupWindow.cs:113 ../Banter/GroupWindow.cs:129
+#: ../data/banter.desktop.in.h:1
+msgid "Banter"
+msgstr "Banter"
+
+#: ../Banter/GroupWindow.cs:442
+msgid "Change your avatar"
+msgstr "Schimbarea avatarului"
+
+#: ../Banter/GroupWindow.cs:443
+msgid "Click here to change your avatar"
+msgstr "Apasă aici pentru a-ți schimba avatarul"
+
+#: ../Banter/GroupWindow.cs:464 ../Banter/GroupWindow.cs:465
+msgid "Change your online status"
+msgstr "Schimbați-vă starea online"
+
+#: ../Banter/GroupWindow.cs:511
+msgid "Filter"
+msgstr "Filtru"
+
+#: ../Banter/GroupWindow.cs:549
+msgid "Groups"
+msgstr "Grupuri"
+
+#: ../Banter/GroupWindow.cs:596
+msgid "Actions"
+msgstr "Actiuni"
+
+#. Settings
+#: ../Banter/GroupWindow.cs:612
+msgid "Settings"
+msgstr "Configurări"
+
+#: ../Banter/GroupWindow.cs:619
+msgid "Add Person..."
+msgstr "Adaugă persoana..."
+
+#: ../Banter/GroupWindow.cs:626
+msgid "Remove Person"
+msgstr "Elimină persoana"
+
+#: ../Banter/GroupWindow.cs:653
+msgid "Close Sidebar"
+msgstr "Închide bara laterală"
+
+#: ../Banter/GroupWindow.cs:813 ../Banter/GroupWindow.cs:973
+msgid "Show Sidebar"
+msgstr "Arată bara laterală"
+
+#: ../Banter/GroupWindow.cs:867
+msgid "Everyone - Banter"
+msgstr "Toți - Banter"
+
+#: ../Banter/GroupWindow.cs:881
+msgid "Banter - New group window"
+msgstr "Banter - Fereastră cu un nou Grup"
+
+#: ../Banter/GroupWindow.cs:882
+msgid "Add new group"
+msgstr "Adaugă un nou grup"
+
+#: ../Banter/GroupWindow.cs:883
+msgid "Enter the name of the new group you'd like to create."
+msgstr "introduceți numele noului grup pe care doriți să îl creeați."
+
+#: ../Banter/GroupWindow.cs:917
+msgid "Done Removing"
+msgstr "Eliminare finalizată"
+
+#: ../Banter/GroupWindow.cs:919
+msgid "Remove People"
+msgstr "Elimină oameni"
+
+#: ../Banter/GroupWindow.cs:928
+msgid "Banter - Add person"
+msgstr "Banter-Adaugă o persoană"
+
+#: ../Banter/GroupWindow.cs:929
+msgid "Invite a new person"
+msgstr "Invită o nouă persoană"
+
+#: ../Banter/GroupWindow.cs:930
+msgid "Enter the email address of the person you'd like to add."
+msgstr "Introduceți emailul persoanei pe care doriți să o adăugați"
+
+#: ../Banter/GroupWindow.cs:978
+msgid "Hide Sidebar"
+msgstr "Ascunde bara laterală"
+
+#: ../Banter/GroupWindow.cs:1078
+#, csharp-format
+msgid "{0} - Banter"
+msgstr "{0} - Banter"
+
+#: ../Banter/GroupWindow.cs:1094
+msgid "Banter - Delete Group"
+msgstr "Banter - șterge grupul"
+
+#: ../Banter/GroupWindow.cs:1096
+#, csharp-format
+msgid "Delete \"{0}\"?"
+msgstr "Ștergeți „{0}”?"
+
+#: ../Banter/GroupWindow.cs:1098
+msgid "This will delete the group and not the contacts inside of the group."
+msgstr "Aceasta va șterge grupul si contactele din interiorul grupului."
+
+#: ../Banter/MessagesView.cs:121
+msgid "me"
+msgstr "eu"
+
+#: ../Banter/MessagesView.cs:132
+msgid "sender"
+msgstr "expeditor"
+
+#: ../Banter/NotificationManager.cs:203 ../Banter/NotificationManager.cs:439
+#, csharp-format
+msgid "Message from {0}"
+msgstr "Mesaj de la {0}"
+
+#: ../Banter/NotificationManager.cs:235 ../Banter/NotificationManager.cs:286
+#: ../Banter/NotificationManager.cs:340
+msgid "Accept"
+msgstr "Accepta"
+
+#: ../Banter/NotificationManager.cs:236 ../Banter/NotificationManager.cs:287
+#: ../Banter/NotificationManager.cs:341
+msgid "Decline"
+msgstr "Refuză"
+
+#: ../Banter/NotificationManager.cs:266
+msgid "Incoming Audio Chat"
+msgstr "Se recepționează o discuție audio"
+
+#: ../Banter/NotificationManager.cs:267
+#, csharp-format
+msgid "{0} is requesting an audio chat"
+msgstr "{0} cere un chat audio"
+
+#: ../Banter/NotificationManager.cs:319
+msgid "Incoming Video Chat"
+msgstr "Se recepționează o discuție video"
+
+#: ../Banter/NotificationManager.cs:320
+#, csharp-format
+msgid "{0} is requesting a video chat"
+msgstr "{0} cere un chat video"
+
+#: ../Banter/PersonCard.cs:283 ../Banter/PersonCard.cs:284
+msgid "Remove this person"
+msgstr "Elimină această persoană"
+
+#: ../Banter/PersonCard.cs:329
+msgid "Invited"
+msgstr "Invitat"
+
+#: ../Banter/PersonCard.cs:332
+msgid "Requesting"
+msgstr "Solicitant"
+
+#: ../Banter/PersonCard.cs:407
+msgid "Authorize this person"
+msgstr "Autorizează această persoană"
+
+#: ../Banter/PersonCard.cs:408
+msgid "Authorize this person to chat with you"
+msgstr "Autorizează această persoană să converseze cu tine"
+
+#: ../Banter/PersonCard.cs:430 ../Banter/PersonCard.cs:431
+msgid "Start a video chat"
+msgstr "Începe o conversație video"
+
+#: ../Banter/PersonCard.cs:447 ../Banter/PersonCard.cs:448
+msgid "Start an audio chat"
+msgstr "Începe o conversație audio"
+
+#: ../Banter/PersonCard.cs:462 ../Banter/PersonCard.cs:463
+msgid "Start a text chat"
+msgstr "Începe o conversație prin mesaje"
+
+#: ../Banter/PersonCard.cs:616
+msgid "Authorizing..."
+msgstr "Se autorizează..."
+
+#: ../Banter/PersonCard.cs:639
+msgid "Removing..."
+msgstr "Se elimină..."
+
+#: ../Banter/PreferencesDialog.cs:70
+msgid "Accounts"
+msgstr "Conturi"
+
+#: ../Banter/PreferencesDialog.cs:72
+msgid "Messages"
+msgstr "Mesaje"
+
+#: ../Banter/PreferencesDialog.cs:136
+msgid "GoogleTalk Account Settings"
+msgstr "Setări ale contului GoogleTalk"
+
+#: ../Banter/PreferencesDialog.cs:143
+msgid ""
+"In this alpha-phase of the project, this is the only IM account type we "
+"support (so stop your worryin'!)."
+msgstr ""
+"În acest alfa-fază a proiectului, acesta este singurul cont IM pe care il "
+"suportăm (așa că nu vă mai îngrijorați!)."
+
+#. Server address
+#: ../Banter/PreferencesDialog.cs:156
+msgid "Server Address:"
+msgstr "Adresa serverului:"
+
+#. Server port
+#: ../Banter/PreferencesDialog.cs:170
+msgid "Server Port:"
+msgstr "Server Port:"
+
+#. Username
+#: ../Banter/PreferencesDialog.cs:184
+msgid "Username:"
+msgstr "Nume utilizator:"
+
+#. Password
+#: ../Banter/PreferencesDialog.cs:195
+msgid "Password:"
+msgstr "Parolă:"
+
+#: ../Banter/PreferencesDialog.cs:381
+msgid "your.username@gmail.com"
+msgstr "numele.tăudeutilizator@gmail.com"
+
+#: ../Banter/Presence.cs:143
+msgid "Offline"
+msgstr "Deconectat"
+
+#. Available messages
+#: ../Banter/Presence.cs:145 ../Banter/StatusEntry.cs:198
+msgid "Available"
+msgstr "Disponibil"
+
+#. Away messages
+#: ../Banter/Presence.cs:147 ../Banter/StatusEntry.cs:249
+msgid "Away"
+msgstr "Plecat"
+
+#: ../Banter/Presence.cs:149
+msgid "XA"
+msgstr "XA"
+
+#: ../Banter/Presence.cs:151
+msgid "Hidden"
+msgstr "Ascuns"
+
+#. Busy messages
+#: ../Banter/Presence.cs:153 ../Banter/StatusEntry.cs:223
+msgid "Busy"
+msgstr "Ocupat"
+
+#: ../Banter/StatusEntry.cs:216 ../Banter/StatusEntry.cs:242
+#: ../Banter/StatusEntry.cs:268
+msgid "Custom message..."
+msgstr "Mesaj personalizat..."
+
+#: ../Banter/StatusEntry.cs:284
+msgid "Clear custom messages"
+msgstr "Șterge mesaje personalizate"
+
+#: ../data/banter.desktop.in.h:2
+msgid "Instant Messenger AddressBook"
+msgstr "Carte de adrese pentru Messenger Instant"
+
+#: ../data/banter.desktop.in.h:3
+msgid "Real Time Collaboration Tool"
+msgstr "Instrumentul de colaborare în timp real"
+
+#: ../data/banter.schemas.in.h:1
+msgid "Auto Login"
+msgstr "Autentificare automată"
+
+#: ../data/banter.schemas.in.h:2
+msgid "Automatically login this account when rtc starts up"
+msgstr "Autentifică automat acest cont când rtc se pornește"
+
+#: ../data/banter.schemas.in.h:3
+msgid "Current saved list of Group Windows."
+msgstr "Lista salvată curent a Grupului Windows."
+
+#: ../data/banter.schemas.in.h:4
+msgid "Jabber server"
+msgstr "Server Jabber "
+
+#: ../data/banter.schemas.in.h:5
+msgid "Jabber server port"
+msgstr "Port server Jabber "
+
+#: ../data/banter.schemas.in.h:6
+msgid "List containing the GUIDs of the currently saved group windows."
+msgstr ""
+"Lista care conține GUID-urile ale salvărilor curente ale grupului windows."
+
+#: ../data/banter.schemas.in.h:7
+msgid ""
+"List containing the custom status messages indicating the user is available."
+msgstr ""
+"Lista care conține mesajele statusurilor personalizate care indică dacă "
+"utilizatorul este disponibil."
+
+#: ../data/banter.schemas.in.h:8
+msgid "List containing the custom status messages indicating the user is busy."
+msgstr ""
+"Lista care conține mesajele statusurilor personalizate care indică dacă "
+"utilizatorul este ocupat. "
+
+#: ../data/banter.schemas.in.h:9
+msgid ""
+"List containing the name and paths of valid app styles that are installed "
+"onto this system. This should never be empty."
+msgstr ""
+"Lista care conține numele și căile stilurilor de aplicații valabile care "
+"sunt instalate în sistem. Aceasta nu ar trebui să fie niciodată goală."
+
+#: ../data/banter.schemas.in.h:10
+msgid ""
+"List containing the name and paths of valid contact styles that are "
+"installed onto this system. This should never be empty."
+msgstr ""
+"Lista care conține numele și căile stilurilor contactului valabile care sunt "
+"instalate în sistem. Aceasta nu ar trebui să fie niciodată goală."
+
+#: ../data/banter.schemas.in.h:11
+msgid ""
+"List containing the name and paths of valid message styles that are "
+"installed onto this system. This should never be empty."
+msgstr ""
+"Lista care conține numele și căile stilurilor de mesaje valabile care sunt "
+"instalate în sistem. Aceasta nu ar trebui să fie niciodată goală."
+
+#: ../data/banter.schemas.in.h:12
+msgid ""
+"List containing the name and paths of valid themes that are installed onto "
+"this system. This should never be empty."
+msgstr ""
+"Lista care conține numele și căile temelor valabile care sunt instalate în "
+"sistem. Aceasta nu ar trebui să fie niciodată goală."
+
+#: ../data/banter.schemas.in.h:13
+msgid "List of custom available status messages"
+msgstr "Lista de mesaje de stare disponibile și personalizate"
+
+#: ../data/banter.schemas.in.h:14
+msgid "List of custom busy status messages"
+msgstr "Lista de mesaje de stare ocupată disponibile"
+
+#: ../data/banter.schemas.in.h:15
+msgid "List of valid app styles"
+msgstr "Lista de stiluri ale aplicațiilor valide"
+
+#: ../data/banter.schemas.in.h:16
+msgid "List of valid contact styles"
+msgstr "Lista de stiluri ale contactelor valide"
+
+#: ../data/banter.schemas.in.h:17
+msgid "List of valid message styles"
+msgstr "Lista de stiluri ale mesajelor valide"
+
+#: ../data/banter.schemas.in.h:18
+msgid "List of valid themes"
+msgstr "Lista de teme valide"
+
+#: ../data/banter.schemas.in.h:19
+msgid "SIP server"
+msgstr "Server SIP"
+
+#: ../data/banter.schemas.in.h:20
+msgid "SIP server port"
+msgstr "Port al serverului SIP"
+
+#: ../data/banter.schemas.in.h:21
+msgid "Selected App Style"
+msgstr "Stilul ales al aplicației"
+
+#: ../data/banter.schemas.in.h:22
+msgid "Selected Contact Style"
+msgstr "Stilul contactului ales"
+
+#: ../data/banter.schemas.in.h:23
+msgid "Selected Message Style"
+msgstr "Stilul mesajului ales"
+
+#: ../data/banter.schemas.in.h:24
+msgid "Selected Message Style Name"
+msgstr "Stilul numelui mesajului ales"
+
+#: ../data/banter.schemas.in.h:25
+msgid "Selected Message Style Variant"
+msgstr "Varianta stilul mesajului ales"
+
+#: ../data/banter.schemas.in.h:26
+msgid "Selected Theme"
+msgstr "Temă aleasă"
+
+#: ../data/banter.schemas.in.h:27
+msgid "Server"
+msgstr "Server"
+
+#: ../data/banter.schemas.in.h:28
+msgid "Server Port"
+msgstr "Port al Serverului"
+
+#: ../data/banter.schemas.in.h:29
+msgid "Telepathy connection manager"
+msgstr "Manager de conexiune telepatică"
+
+#: ../data/banter.schemas.in.h:30
+msgid ""
+"Telepathy connection manager with IM or Text capability for this account"
+msgstr ""
+"Managerul de conexiune telepatică cu capabilități IM sau Text pentru acest "
+"cont"
+
+#: ../data/banter.schemas.in.h:31
+msgid "The name and path of the app style that is currently selected."
+msgstr "Numele și calea stilului aplicației care e aleasă în acest moment."
+
+#: ../data/banter.schemas.in.h:32
+msgid "The name and path of the contact style that is currently selected."
+msgstr "Numele și calea stilului contactului care e ales în acest moment."
+
+#: ../data/banter.schemas.in.h:33
+msgid "The name and path of the message style that is currently selected."
+msgstr "Numele și calea stilului mesajului care e ales în acest moment."
+
+#: ../data/banter.schemas.in.h:34
+msgid "The name and path of the theme that should be used."
+msgstr "Numele si calea temei care ar trebui folosită."
+
+#: ../data/banter.schemas.in.h:35
+msgid ""
+"The name of the Message Style Variant that should be used. Set this to an "
+"empty string to not use a variant. The variant name depends on the selected "
+"message style."
+msgstr ""
+"Numele variantei stilului mesajului care ar trebui folosit.Stabilește "
+"aceasta intr-un șir gol ca să nu folosească o variantă. Numele variantei "
+"depinde de stilul mesajului ales."
+
+#: ../data/banter.schemas.in.h:36
+msgid "The name of the Message Style that should be used for the chat window."
+msgstr ""
+"Numele stilului mesajului care ar trebui să fie folosit pentru fereastra de "
+"discuție."
+
+#: ../data/banter.schemas.in.h:37
+msgid "Use TLS"
+msgstr "Folosește TLS"
+
+#: ../data/banter.schemas.in.h:38
+msgid "Use old style ssl"
+msgstr "Folosește vechiul stil ssl"
+
+#: ../data/banter.schemas.in.h:39
+msgid "Use ssl"
+msgstr "Folosește ssl"
+
+#: ../data/banter.schemas.in.h:40
+msgid "Use the TLS transport"
+msgstr "Folosește transportul TLS"
