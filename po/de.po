@@ -4,17 +4,18 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: banter\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-06-09 21:35+0200\n"
-"PO-Revision-Date: 2009-06-09 22:05+0200\n"
-"Last-Translator: Mario Blättermann <mariobl@gnome.org>\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
+"product=banter&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2014-08-08 02:50+0000\n"
+"PO-Revision-Date: 2014-08-09 00:18+0100\n"
+"Last-Translator: Christian Kirbach <christian.kirbach@gmail.com>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
+"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"X-Poedit-Language: German\n"
-"X-Poedit-Country: GERMANY\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 1.5.4\n"
 
 #: ../Banter/ActionManager.cs:63
 msgid "_File"
@@ -365,183 +366,194 @@ msgid "Clear custom messages"
 msgstr "Benutzerdefinierte Meldungen löschen"
 
 #: ../data/banter.desktop.in.h:2
-msgid "Instant Messenger AddressBook"
-msgstr "Sofortnachrichten-Adressbuch"
-
-#: ../data/banter.desktop.in.h:3
 msgid "Real Time Collaboration Tool"
 msgstr "»Real Time Collaboration«-Werkzeug"
 
+#: ../data/banter.desktop.in.h:3
+msgid "Instant Messenger AddressBook"
+msgstr "Sofortnachrichten-Adressbuch"
+
 #: ../data/banter.schemas.in.h:1
-msgid "Auto Login"
-msgstr "Automatische Anmeldung"
-
-#: ../data/banter.schemas.in.h:2
-msgid "Automatically login this account when rtc starts up"
-msgstr "Dieses Konto beim RTC-Start automatisch anmelden"
-
-#: ../data/banter.schemas.in.h:3
-msgid "Current saved list of Group Windows."
-msgstr "Aktuell gespeicherte Liste der Gruppenfenster."
-
-#: ../data/banter.schemas.in.h:4
-msgid "Jabber server"
-msgstr "Jabber-Server"
-
-#: ../data/banter.schemas.in.h:5
-msgid "Jabber server port"
-msgstr "Port des Jabber-Servers"
-
-#: ../data/banter.schemas.in.h:6
-msgid "List containing the GUIDs of the currently saved group windows."
-msgstr "Liste der GUIDs der aktuell gespeicherten Gruppenfenster."
-
-#: ../data/banter.schemas.in.h:7
-msgid ""
-"List containing the custom status messages indicating the user is available."
-msgstr ""
-
-#: ../data/banter.schemas.in.h:8
-msgid "List containing the custom status messages indicating the user is busy."
-msgstr ""
-
-#: ../data/banter.schemas.in.h:9
-msgid ""
-"List containing the name and paths of valid app styles that are installed "
-"onto this system. This should never be empty."
-msgstr ""
-
-#: ../data/banter.schemas.in.h:10
-msgid ""
-"List containing the name and paths of valid contact styles that are installed "
-"onto this system. This should never be empty."
-msgstr ""
-
-#: ../data/banter.schemas.in.h:11
-msgid ""
-"List containing the name and paths of valid message styles that are installed "
-"onto this system. This should never be empty."
-msgstr ""
-
-#: ../data/banter.schemas.in.h:12
-msgid ""
-"List containing the name and paths of valid themes that are installed onto "
-"this system. This should never be empty."
-msgstr ""
-
-#: ../data/banter.schemas.in.h:13
-msgid "List of custom available status messages"
-msgstr "Liste der aktuell verfügbaren benutzerdefinierten Statusmeldungen"
-
-#: ../data/banter.schemas.in.h:14
-msgid "List of custom busy status messages"
-msgstr ""
-
-#: ../data/banter.schemas.in.h:15
-msgid "List of valid app styles"
-msgstr "Liste der gültigen Anwendungsstile"
-
-#: ../data/banter.schemas.in.h:16
-msgid "List of valid contact styles"
-msgstr "Liste der gültigen Kontaktstile"
-
-#: ../data/banter.schemas.in.h:17
-msgid "List of valid message styles"
-msgstr "Liste der gültigen Nachrichtenstile"
-
-#: ../data/banter.schemas.in.h:18
-msgid "List of valid themes"
-msgstr "Liste der gültigen Themen"
-
-#: ../data/banter.schemas.in.h:19
-msgid "SIP server"
-msgstr "SIP-Server"
-
-#: ../data/banter.schemas.in.h:20
-msgid "SIP server port"
-msgstr "Port des SIP-Servers"
-
-#: ../data/banter.schemas.in.h:21
-msgid "Selected App Style"
-msgstr "Gewählter Anwendungsstil"
-
-#: ../data/banter.schemas.in.h:22
-msgid "Selected Contact Style"
-msgstr "Gewählter Kontaktstil"
-
-#: ../data/banter.schemas.in.h:23
-msgid "Selected Message Style"
-msgstr "Gewählter Nachrichtenstil"
-
-#: ../data/banter.schemas.in.h:24
-msgid "Selected Message Style Name"
-msgstr "Name des gewählten Nachrichtenstils"
-
-#: ../data/banter.schemas.in.h:25
-msgid "Selected Message Style Variant"
-msgstr "Variante des gewählten Nachrichtenstils"
-
-#: ../data/banter.schemas.in.h:26
-msgid "Selected Theme"
-msgstr "Gewähltes Thema"
-
-#: ../data/banter.schemas.in.h:27
 msgid "Server"
 msgstr "Server"
 
-#: ../data/banter.schemas.in.h:28
+#: ../data/banter.schemas.in.h:2
+msgid "Jabber server"
+msgstr "Jabber-Server"
+
+#: ../data/banter.schemas.in.h:3
 msgid "Server Port"
 msgstr "Server-Port"
 
-#: ../data/banter.schemas.in.h:29
+#: ../data/banter.schemas.in.h:4
+msgid "Jabber server port"
+msgstr "Port des Jabber-Servers"
+
+#: ../data/banter.schemas.in.h:5
+msgid "Use TLS"
+msgstr "TLS verwenden"
+
+#: ../data/banter.schemas.in.h:6
+msgid "Use the TLS transport"
+msgstr "TLS-Übertragung verwenden"
+
+#: ../data/banter.schemas.in.h:7
+msgid "Use ssl"
+msgstr "SSL verwenden"
+
+#: ../data/banter.schemas.in.h:8
+msgid "Use old style ssl"
+msgstr "SSL-Übertragung verwenden"
+
+#: ../data/banter.schemas.in.h:9
+msgid "Auto Login"
+msgstr "Automatische Anmeldung"
+
+#: ../data/banter.schemas.in.h:10
+msgid "Automatically login this account when rtc starts up"
+msgstr "Dieses Konto beim RTC-Start automatisch anmelden"
+
+#: ../data/banter.schemas.in.h:11
 msgid "Telepathy connection manager"
 msgstr "Telepathy-Verbindungsverwaltung"
 
-#: ../data/banter.schemas.in.h:30
-msgid "Telepathy connection manager with IM or Text capability for this account"
+#: ../data/banter.schemas.in.h:12
+msgid ""
+"Telepathy connection manager with IM or Text capability for this account"
 msgstr ""
 "Telepathy-Verbindungsverwaltung mit Sofortnachrichten- oder Textfähigkeiten "
 "für dieses Konto"
 
-#: ../data/banter.schemas.in.h:31
-msgid "The name and path of the app style that is currently selected."
-msgstr "Der Name des und der Pfad zum aktuell ausgewählten Anwendungsstils."
+#: ../data/banter.schemas.in.h:13
+msgid "SIP server"
+msgstr "SIP-Server"
 
-#: ../data/banter.schemas.in.h:32
-msgid "The name and path of the contact style that is currently selected."
-msgstr "Der Name des und der Pfad zum aktuell ausgewählten Kontaktstils."
+#: ../data/banter.schemas.in.h:14
+msgid "SIP server port"
+msgstr "Port des SIP-Servers"
 
-#: ../data/banter.schemas.in.h:33
-msgid "The name and path of the message style that is currently selected."
-msgstr "Der Name des und der Pfad zum aktuell ausgewählten Nachrichtenstils."
+#: ../data/banter.schemas.in.h:15
+msgid "Selected Message Style Name"
+msgstr "Name des gewählten Nachrichtenstils"
 
-#: ../data/banter.schemas.in.h:34
-msgid "The name and path of the theme that should be used."
-msgstr "Der Name des und der Pfad zum zu verwendenden Thema."
+#: ../data/banter.schemas.in.h:16
+msgid "The name of the Message Style that should be used for the chat window."
+msgstr "Der Name des Nachrichtenstils für das Unterhaltungsfenster"
 
-#: ../data/banter.schemas.in.h:35
+#: ../data/banter.schemas.in.h:17
+msgid "Selected Message Style Variant"
+msgstr "Variante des gewählten Nachrichtenstils"
+
+#: ../data/banter.schemas.in.h:18
 msgid ""
 "The name of the Message Style Variant that should be used. Set this to an "
 "empty string to not use a variant. The variant name depends on the selected "
 "message style."
 msgstr ""
+"Der Name der Variante des Nachrichtenstils, der verwendet werden soll.  Die "
+"Variante hängt vom gewählten Nachrichtenstil ab."
+
+#: ../data/banter.schemas.in.h:19
+msgid "Current saved list of Group Windows."
+msgstr "Aktuell gespeicherte Liste der Gruppenfenster."
+
+#: ../data/banter.schemas.in.h:20
+msgid "List containing the GUIDs of the currently saved group windows."
+msgstr "Liste der GUIDs der aktuell gespeicherten Gruppenfenster."
+
+#: ../data/banter.schemas.in.h:21
+msgid "Selected Theme"
+msgstr "Gewähltes Thema"
+
+#: ../data/banter.schemas.in.h:22
+msgid "The name and path of the theme that should be used."
+msgstr "Der Name des und der Pfad zum zu verwendenden Thema."
+
+#: ../data/banter.schemas.in.h:23
+msgid "List of valid themes"
+msgstr "Liste der gültigen Themen"
+
+#: ../data/banter.schemas.in.h:24
+msgid ""
+"List containing the name and paths of valid themes that are installed onto "
+"this system. This should never be empty."
+msgstr ""
+"Liste aller Namen und Pfade gültiger Themen, die auf diesem System "
+"installiert sind. Diese Liste sollte nie leer sein."
+
+#: ../data/banter.schemas.in.h:25
+msgid "Selected App Style"
+msgstr "Gewählter Anwendungsstil"
+
+#: ../data/banter.schemas.in.h:26
+msgid "The name and path of the app style that is currently selected."
+msgstr "Der Name des und der Pfad zum aktuell ausgewählten Anwendungsstils."
+
+#: ../data/banter.schemas.in.h:27
+msgid "List of valid app styles"
+msgstr "Liste der gültigen Anwendungsstile"
+
+#: ../data/banter.schemas.in.h:28
+msgid ""
+"List containing the name and paths of valid app styles that are installed "
+"onto this system. This should never be empty."
+msgstr ""
+"Liste aller Namen und Pfade gültiger Anwendungsstile, die auf diesem System "
+"installiert sind. Diese Liste sollte nie leer sein."
+
+#: ../data/banter.schemas.in.h:29
+msgid "Selected Contact Style"
+msgstr "Gewählter Kontaktstil"
+
+#: ../data/banter.schemas.in.h:30
+msgid "The name and path of the contact style that is currently selected."
+msgstr "Der Name des und der Pfad zum aktuell ausgewählten Kontaktstils."
+
+#: ../data/banter.schemas.in.h:31
+msgid "List of valid contact styles"
+msgstr "Liste der gültigen Kontaktstile"
+
+#: ../data/banter.schemas.in.h:32
+msgid ""
+"List containing the name and paths of valid contact styles that are "
+"installed onto this system. This should never be empty."
+msgstr ""
+"Liste aller Namen und Pfade gültiger Kontaktstile, die auf diesem System "
+"installiert sind. Diese Liste sollte nie leer sein."
+
+#: ../data/banter.schemas.in.h:33
+msgid "Selected Message Style"
+msgstr "Gewählter Nachrichtenstil"
+
+#: ../data/banter.schemas.in.h:34
+msgid "The name and path of the message style that is currently selected."
+msgstr "Der Name des und der Pfad zum aktuell ausgewählten Nachrichtenstils."
+
+#: ../data/banter.schemas.in.h:35
+msgid "List of valid message styles"
+msgstr "Liste der gültigen Nachrichtenstile"
 
 #: ../data/banter.schemas.in.h:36
-msgid "The name of the Message Style that should be used for the chat window."
+msgid ""
+"List containing the name and paths of valid message styles that are "
+"installed onto this system. This should never be empty."
 msgstr ""
+"Liste aller Namen und Pfade gültiger Nachrichtenstile, die auf diesem System "
+"installiert sind. Diese Liste sollte nie leer sein."
 
 #: ../data/banter.schemas.in.h:37
-msgid "Use TLS"
-msgstr "TLS verwenden"
+msgid "List of custom available status messages"
+msgstr "Liste der aktuell verfügbaren benutzerdefinierten Statusmeldungen"
 
 #: ../data/banter.schemas.in.h:38
-msgid "Use old style ssl"
-msgstr "SSL-Übertragung verwenden"
+msgid ""
+"List containing the custom status messages indicating the user is available."
+msgstr "Liste aller benutzerdefinierten Statusmeldungen für »verfügbar«"
 
 #: ../data/banter.schemas.in.h:39
-msgid "Use ssl"
-msgstr "SSL verwenden"
+msgid "List of custom busy status messages"
+msgstr "Liste benutzerdefinierter Statusmeldungen für »beschäftigt«"
 
 #: ../data/banter.schemas.in.h:40
-msgid "Use the TLS transport"
-msgstr "TLS-Übertragung verwenden"
+msgid "List containing the custom status messages indicating the user is busy."
+msgstr "Liste aller benutzerdefinierten Statusmeldungen für »beschäftigt«"
