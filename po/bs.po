@@ -1,0 +1,562 @@
+# Bosnian translation for bosnianuniversetranslation
+# Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
+# This file is distributed under the same license as the bosnianuniversetranslation package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: bosnianuniversetranslation\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
+"product=banter&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2015-02-27 03:53+0000\n"
+"PO-Revision-Date: 2015-02-05 00:17+0000\n"
+"Last-Translator: Kenan Dervišević <kenan@dkenan.com>\n"
+"Language-Team: Bosnian <bs@li.org>\n"
+"Language: bs\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2015-02-05 06:51+0000\n"
+"X-Generator: Launchpad (build 17331)\n"
+
+#: ../Banter/ActionManager.cs:63
+msgid "_File"
+msgstr "_Datoteka"
+
+#: ../Banter/ActionManager.cs:66
+msgid "_Quit"
+msgstr "_Izađi"
+
+#: ../Banter/ActionManager.cs:67
+msgid "Quit Banter"
+msgstr "Zatvori Banter"
+
+#: ../Banter/ActionManager.cs:70
+msgid "_Edit"
+msgstr "_Izmijeni"
+
+#: ../Banter/ActionManager.cs:73
+msgid "_Preferences"
+msgstr "_Postavke"
+
+#: ../Banter/ActionManager.cs:74 ../Banter/PreferencesDialog.cs:56
+msgid "Banter Preferences"
+msgstr "Postavke Bantera"
+
+#: ../Banter/ActionManager.cs:77
+msgid "_Help"
+msgstr "_Pomoć"
+
+#: ../Banter/ActionManager.cs:80
+msgid "_Contents"
+msgstr "_Sadržaj"
+
+#: ../Banter/ActionManager.cs:81
+msgid "Banter Help"
+msgstr "Banter pomoć"
+
+#: ../Banter/ActionManager.cs:84
+msgid "_About"
+msgstr "_O programu"
+
+#: ../Banter/ActionManager.cs:85
+msgid "About Banter"
+msgstr "O Banteru"
+
+#: ../Banter/Application.cs:275
+msgid "New Group Window ..."
+msgstr "Novi prozor grupe ..."
+
+#: ../Banter/Application.cs:295
+msgid "Quit"
+msgstr "Izlaz"
+
+#. Everyone
+#: ../Banter/Application.cs:558 ../Banter/GroupWindow.cs:565
+msgid "Everyone"
+msgstr "Svi"
+
+#: ../Banter/AudioView.cs:49
+msgid "Audio Chat in progress..."
+msgstr "Zvučno dopisivanje u toku..."
+
+#. Label label = new Label(Catalog.GetString("Video Chat in progress..."));
+#. label.Show();
+#. vbox.PackStart(label, false, true, 0);
+#: ../Banter/AudioView.cs:54 ../Banter/VideoView.cs:103
+msgid "End Call"
+msgstr "Završi poziv"
+
+#. FileSelection fs = new FileSelection(Catalog.GetString("Select an Avatar"));
+#. int fsreturn = fs.Run();
+#. fs.Hide();
+#: ../Banter/AvatarSelector.cs:94
+msgid "Select an Avatar"
+msgstr "Odaberi avatar"
+
+#: ../Banter/AvatarSelector.cs:100
+msgid "PNG and JPEG images"
+msgstr "PNG ili JPEG slike"
+
+#: ../Banter/GroupWindow.cs:113 ../Banter/GroupWindow.cs:129
+#: ../data/banter.desktop.in.h:1
+msgid "Banter"
+msgstr "Banter"
+
+#: ../Banter/GroupWindow.cs:442
+msgid "Change your avatar"
+msgstr "Promijenite vaš avatar"
+
+#: ../Banter/GroupWindow.cs:443
+msgid "Click here to change your avatar"
+msgstr "Kliknite ovdje da promijenite vaš avatar"
+
+#: ../Banter/GroupWindow.cs:464 ../Banter/GroupWindow.cs:465
+msgid "Change your online status"
+msgstr "Promijeni online status"
+
+#: ../Banter/GroupWindow.cs:511
+msgid "Filter"
+msgstr "Filter"
+
+#: ../Banter/GroupWindow.cs:549
+msgid "Groups"
+msgstr "Grupe"
+
+#: ../Banter/GroupWindow.cs:596
+msgid "Actions"
+msgstr "Akcije"
+
+#. Settings
+#: ../Banter/GroupWindow.cs:612
+msgid "Settings"
+msgstr "Postavke"
+
+#: ../Banter/GroupWindow.cs:619
+msgid "Add Person..."
+msgstr "Dodaj osobu..."
+
+#: ../Banter/GroupWindow.cs:626
+msgid "Remove Person"
+msgstr "Ukloni osobu"
+
+#: ../Banter/GroupWindow.cs:653
+msgid "Close Sidebar"
+msgstr "Zatvori bočnu traku"
+
+#: ../Banter/GroupWindow.cs:813 ../Banter/GroupWindow.cs:973
+msgid "Show Sidebar"
+msgstr "Prikaži bočnu traku"
+
+#: ../Banter/GroupWindow.cs:867
+msgid "Everyone - Banter"
+msgstr "Svi - Banter"
+
+#: ../Banter/GroupWindow.cs:881
+msgid "Banter - New group window"
+msgstr "Banter - Novi prozor za grupu"
+
+#: ../Banter/GroupWindow.cs:882
+msgid "Add new group"
+msgstr "Dodaj novu grupu"
+
+#: ../Banter/GroupWindow.cs:883
+msgid "Enter the name of the new group you'd like to create."
+msgstr "Upišite ime nove grupe koju želite kreirati."
+
+#: ../Banter/GroupWindow.cs:917
+msgid "Done Removing"
+msgstr "Uklanjanje završeno"
+
+#: ../Banter/GroupWindow.cs:919
+msgid "Remove People"
+msgstr "Ukloni osobe"
+
+#: ../Banter/GroupWindow.cs:928
+msgid "Banter - Add person"
+msgstr "Banter - dodaj osobu"
+
+#: ../Banter/GroupWindow.cs:929
+msgid "Invite a new person"
+msgstr "Pozovi novu osobu"
+
+#: ../Banter/GroupWindow.cs:930
+msgid "Enter the email address of the person you'd like to add."
+msgstr "Upišite email adresu osobe koju želite da dodate."
+
+#: ../Banter/GroupWindow.cs:978
+msgid "Hide Sidebar"
+msgstr "Sakrij bočnu traku"
+
+#: ../Banter/GroupWindow.cs:1078
+#, csharp-format
+msgid "{0} - Banter"
+msgstr "{0} - Banter"
+
+#: ../Banter/GroupWindow.cs:1094
+msgid "Banter - Delete Group"
+msgstr "Banter - Obriši grupu"
+
+#: ../Banter/GroupWindow.cs:1096
+#, csharp-format
+msgid "Delete \"{0}\"?"
+msgstr "Obrisati \"{0}\"?"
+
+#: ../Banter/GroupWindow.cs:1098
+msgid "This will delete the group and not the contacts inside of the group."
+msgstr "Ovo će obrisati grupu, ali ne i kontakte unutar nje."
+
+#: ../Banter/MessagesView.cs:121
+msgid "me"
+msgstr "ja"
+
+#: ../Banter/MessagesView.cs:132
+msgid "sender"
+msgstr "pošiljalac"
+
+#: ../Banter/NotificationManager.cs:203 ../Banter/NotificationManager.cs:439
+#, csharp-format
+msgid "Message from {0}"
+msgstr "Poruka od {0}"
+
+#: ../Banter/NotificationManager.cs:235 ../Banter/NotificationManager.cs:286
+#: ../Banter/NotificationManager.cs:340
+msgid "Accept"
+msgstr "Prihvati"
+
+#: ../Banter/NotificationManager.cs:236 ../Banter/NotificationManager.cs:287
+#: ../Banter/NotificationManager.cs:341
+msgid "Decline"
+msgstr "Odbij"
+
+#: ../Banter/NotificationManager.cs:266
+msgid "Incoming Audio Chat"
+msgstr "Dolazno zvučno dopisivanje"
+
+#: ../Banter/NotificationManager.cs:267
+#, csharp-format
+msgid "{0} is requesting an audio chat"
+msgstr "{0} zahtjev zvučno dopisivanje"
+
+#: ../Banter/NotificationManager.cs:319
+msgid "Incoming Video Chat"
+msgstr "Dolazno video dopisivanje"
+
+#: ../Banter/NotificationManager.cs:320
+#, csharp-format
+msgid "{0} is requesting a video chat"
+msgstr "{0} zahtjeva video dopisivanje"
+
+#: ../Banter/PersonCard.cs:283 ../Banter/PersonCard.cs:284
+msgid "Remove this person"
+msgstr "Ukloni ovu osobu"
+
+#: ../Banter/PersonCard.cs:329
+msgid "Invited"
+msgstr "Pozvan"
+
+#: ../Banter/PersonCard.cs:332
+msgid "Requesting"
+msgstr "Zahtijevam"
+
+#: ../Banter/PersonCard.cs:407
+msgid "Authorize this person"
+msgstr "Odobri ovu osobu"
+
+#: ../Banter/PersonCard.cs:408
+msgid "Authorize this person to chat with you"
+msgstr "Odobrite ovoj osobi da se dopisuje sa vama"
+
+#: ../Banter/PersonCard.cs:430 ../Banter/PersonCard.cs:431
+msgid "Start a video chat"
+msgstr "Započni video dopisivanje"
+
+#: ../Banter/PersonCard.cs:447 ../Banter/PersonCard.cs:448
+msgid "Start an audio chat"
+msgstr "Započni zvučno dopisivanje"
+
+#: ../Banter/PersonCard.cs:462 ../Banter/PersonCard.cs:463
+msgid "Start a text chat"
+msgstr "Započni tekstualno dopisivanje"
+
+#: ../Banter/PersonCard.cs:616
+msgid "Authorizing..."
+msgstr "Odobravam..."
+
+#: ../Banter/PersonCard.cs:639
+msgid "Removing..."
+msgstr "Uklanjam..."
+
+#: ../Banter/PreferencesDialog.cs:70
+msgid "Accounts"
+msgstr "Nalozi"
+
+#: ../Banter/PreferencesDialog.cs:72
+msgid "Messages"
+msgstr "Poruke"
+
+#: ../Banter/PreferencesDialog.cs:136
+msgid "GoogleTalk Account Settings"
+msgstr "Postavke Google Talk računa"
+
+#: ../Banter/PreferencesDialog.cs:143
+msgid ""
+"In this alpha-phase of the project, this is the only IM account type we "
+"support (so stop your worryin'!)."
+msgstr ""
+"U alfa fazi projekta ovo je jedina vrsta IM računa koju podržavamo "
+"(prestanite se brinuti!)."
+
+#. Server address
+#: ../Banter/PreferencesDialog.cs:156
+msgid "Server Address:"
+msgstr "Adresa servera:"
+
+#. Server port
+#: ../Banter/PreferencesDialog.cs:170
+msgid "Server Port:"
+msgstr "Port servera:"
+
+#. Username
+#: ../Banter/PreferencesDialog.cs:184
+msgid "Username:"
+msgstr "Korisničko ime:"
+
+#. Password
+#: ../Banter/PreferencesDialog.cs:195
+msgid "Password:"
+msgstr "Lozinka:"
+
+#: ../Banter/PreferencesDialog.cs:381
+msgid "your.username@gmail.com"
+msgstr "vaše.ime@gmail.com"
+
+#: ../Banter/Presence.cs:143
+msgid "Offline"
+msgstr "Van mreže"
+
+#. Available messages
+#: ../Banter/Presence.cs:145 ../Banter/StatusEntry.cs:198
+msgid "Available"
+msgstr "Dostupan"
+
+#. Away messages
+#: ../Banter/Presence.cs:147 ../Banter/StatusEntry.cs:249
+msgid "Away"
+msgstr "Odsutan"
+
+#: ../Banter/Presence.cs:149
+msgid "XA"
+msgstr "XA"
+
+#: ../Banter/Presence.cs:151
+msgid "Hidden"
+msgstr "Sakriven"
+
+#. Busy messages
+#: ../Banter/Presence.cs:153 ../Banter/StatusEntry.cs:223
+msgid "Busy"
+msgstr "Zauzet"
+
+#: ../Banter/StatusEntry.cs:216 ../Banter/StatusEntry.cs:242
+#: ../Banter/StatusEntry.cs:268
+msgid "Custom message..."
+msgstr "Prilagođena poruka..."
+
+#: ../Banter/StatusEntry.cs:284
+msgid "Clear custom messages"
+msgstr "Izbriši prilagođene poruke"
+
+#: ../data/banter.desktop.in.h:2
+msgid "Real Time Collaboration Tool"
+msgstr "Alat za saradnju u realnom vremenu"
+
+#: ../data/banter.desktop.in.h:3
+msgid "Instant Messenger AddressBook"
+msgstr "Adresar Instant poruka"
+
+#: ../data/banter.schemas.in.h:1
+msgid "Server"
+msgstr "Server"
+
+#: ../data/banter.schemas.in.h:2
+msgid "Jabber server"
+msgstr "Jabber server"
+
+#: ../data/banter.schemas.in.h:3
+msgid "Server Port"
+msgstr "Port servera"
+
+#: ../data/banter.schemas.in.h:4
+msgid "Jabber server port"
+msgstr "Port Jabber servera"
+
+#: ../data/banter.schemas.in.h:5
+msgid "Use TLS"
+msgstr "Koristi TLS"
+
+#: ../data/banter.schemas.in.h:6
+msgid "Use the TLS transport"
+msgstr "Koristi TLS prenos"
+
+#: ../data/banter.schemas.in.h:7
+msgid "Use ssl"
+msgstr "Koristi SSL"
+
+#: ../data/banter.schemas.in.h:8
+msgid "Use old style ssl"
+msgstr "Koristi stari SSL"
+
+#: ../data/banter.schemas.in.h:9
+msgid "Auto Login"
+msgstr "Automatska prijava"
+
+#: ../data/banter.schemas.in.h:10
+msgid "Automatically login this account when rtc starts up"
+msgstr "Autmatski se prijavi na ovaj račun prilikom pokretanja rtc-a"
+
+#: ../data/banter.schemas.in.h:11
+msgid "Telepathy connection manager"
+msgstr "Telepathy menadžer veze"
+
+#: ../data/banter.schemas.in.h:12
+msgid ""
+"Telepathy connection manager with IM or Text capability for this account"
+msgstr ""
+"Telepathy menadžer veze sa IM ili tekstualnim mogućnostima za ovaj račun"
+
+#: ../data/banter.schemas.in.h:13
+msgid "SIP server"
+msgstr "SIP server"
+
+#: ../data/banter.schemas.in.h:14
+msgid "SIP server port"
+msgstr "Port SIP servera"
+
+#: ../data/banter.schemas.in.h:15
+msgid "Selected Message Style Name"
+msgstr "Naziv odabranog stila poruka"
+
+#: ../data/banter.schemas.in.h:16
+msgid "The name of the Message Style that should be used for the chat window."
+msgstr ""
+"Naziv odabranog stila poruka koji će se koristiti u prozoru za dopisivanje."
+
+#: ../data/banter.schemas.in.h:17
+msgid "Selected Message Style Variant"
+msgstr "Varijanta odabranog stila poruka"
+
+#: ../data/banter.schemas.in.h:18
+msgid ""
+"The name of the Message Style Variant that should be used. Set this to an "
+"empty string to not use a variant. The variant name depends on the selected "
+"message style."
+msgstr ""
+"Varijanta odabranog stila poruka koji će biti korišten. Ostavite ovo prazno "
+"ako ne želite koristiti ovu opciju. Naziv varijante zavisi od odabranog "
+"stila poruka."
+
+#: ../data/banter.schemas.in.h:19
+msgid "Current saved list of Group Windows."
+msgstr "Trenutna sačuvana lista prozora grupe."
+
+#: ../data/banter.schemas.in.h:20
+msgid "List containing the GUIDs of the currently saved group windows."
+msgstr "Lista sadrži GIUD-ove trenutno sačuvanih prozora grupe."
+
+#: ../data/banter.schemas.in.h:21
+msgid "Selected Theme"
+msgstr "Odabrana tema"
+
+#: ../data/banter.schemas.in.h:22
+msgid "The name and path of the theme that should be used."
+msgstr "Naziv i putanja teme koja će biti korištena."
+
+#: ../data/banter.schemas.in.h:23
+msgid "List of valid themes"
+msgstr "Lista ispravnih tema"
+
+#: ../data/banter.schemas.in.h:24
+msgid ""
+"List containing the name and paths of valid themes that are installed onto "
+"this system. This should never be empty."
+msgstr ""
+"Lista koja sadrži nazive i putanje ispravnih tema instaliranih na vašem "
+"sistemu. Ovo nikada ne bi trebalo biti prazno."
+
+#: ../data/banter.schemas.in.h:25
+msgid "Selected App Style"
+msgstr "Odabrani stil aplikacije"
+
+#: ../data/banter.schemas.in.h:26
+msgid "The name and path of the app style that is currently selected."
+msgstr "Naziv i putanja trenutno odabranog stila aplikacije."
+
+#: ../data/banter.schemas.in.h:27
+msgid "List of valid app styles"
+msgstr "Lista ispravnih stilova aplikacije"
+
+#: ../data/banter.schemas.in.h:28
+msgid ""
+"List containing the name and paths of valid app styles that are installed "
+"onto this system. This should never be empty."
+msgstr ""
+"Lista koja sadrži nazive i putanje ispravnih stilova aplikacije instaliranih "
+"na vašem sistemu. Ovo nikada ne bi trebalo biti prazno."
+
+#: ../data/banter.schemas.in.h:29
+msgid "Selected Contact Style"
+msgstr "Odabrani stil kontakata"
+
+#: ../data/banter.schemas.in.h:30
+msgid "The name and path of the contact style that is currently selected."
+msgstr "Naziv i putanja trenutno odabranog stila za kontakte."
+
+#: ../data/banter.schemas.in.h:31
+msgid "List of valid contact styles"
+msgstr "Lista ispravnih stilova za kontakte"
+
+#: ../data/banter.schemas.in.h:32
+msgid ""
+"List containing the name and paths of valid contact styles that are "
+"installed onto this system. This should never be empty."
+msgstr ""
+"Lista koja sadrži nazive i putanje ispravnih stilova za kontakte "
+"instaliranih na vašem sistemu. Ovo nikada ne bi trebalo biti prazno."
+
+#: ../data/banter.schemas.in.h:33
+msgid "Selected Message Style"
+msgstr "Odabrani stil poruka"
+
+#: ../data/banter.schemas.in.h:34
+msgid "The name and path of the message style that is currently selected."
+msgstr "Naziv i putanja trenutno odabranog stila poruka."
+
+#: ../data/banter.schemas.in.h:35
+msgid "List of valid message styles"
+msgstr "Lista ispravnih stilova za poruke"
+
+#: ../data/banter.schemas.in.h:36
+msgid ""
+"List containing the name and paths of valid message styles that are "
+"installed onto this system. This should never be empty."
+msgstr ""
+"Lista koja sadrži nazive i putanje ispravnih stilova za poruke instaliranih "
+"na vašem sistemu. Ovo nikada ne bi trebalo biti prazno."
+
+#: ../data/banter.schemas.in.h:37
+msgid "List of custom available status messages"
+msgstr "Lista prilagođenih statusnih poruka o dostupnosti"
+
+#: ../data/banter.schemas.in.h:38
+msgid ""
+"List containing the custom status messages indicating the user is available."
+msgstr "Lista koja sadrži prilagođene statusne poruke o dostupnosti korisnika."
+
+#: ../data/banter.schemas.in.h:39
+msgid "List of custom busy status messages"
+msgstr "Lista prilagođenih statusnih poruka o zauzetosti"
+
+#: ../data/banter.schemas.in.h:40
+msgid "List containing the custom status messages indicating the user is busy."
+msgstr "Lista koja sadrži prilagođene poruke o zauzetosti korisnika."
