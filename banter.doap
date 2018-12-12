@@ -8,7 +8,7 @@
   <shortdesc xml:lang="en">Real Time Collaboration Client</shortdesc>
   <homepage rdf:resource="http://live.gnome.org/Banter" />
   <download-page rdf:resource="http://download.gnome.org/sources/banter/" />
-  <bug-database rdf:resource="http://bugzilla.gnome.org/browse.cgi?product=banter" />
+  <bug-database rdf:resource="https://gitlab.gnome.org/GNOME/banter/issues/" />
 
   <maintainer>
     <foaf:Person>
